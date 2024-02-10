@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:webview_windows/webview_windows.dart';
 
 class WebViewPopup extends StatefulWidget {
@@ -18,11 +17,7 @@ class _WebViewPopupState extends State<WebViewPopup> {
   @override
   void initState() {
     super.initState();
-
-    SharedPreferences.getInstance().then((prefs) {
-      _twitchChannel = prefs.getString('twitchChannel') ?? '';
-      initPlatformState();
-    });
+    initPlatformState();
   }
 
   @override
@@ -38,8 +33,16 @@ class _WebViewPopupState extends State<WebViewPopup> {
       await _controller.setBackgroundColor(Colors.transparent);
       await _controller.setPopupWindowPolicy(WebviewPopupWindowPolicy.deny);
       await _controller.loadUrl(
-          ' https://id.twitch.tv/oauth2/authorize?client_id=CLIENT_ID&redirect_uri=http://localhost&response_type=token&scope=channel:read:subscriptions&force_verify=true');
-
+          'https://auth.riotgames.com/authorize?redirect_uri=https%3A%2F%2Fplayvalorant.com%2Fopt_in&client_id=play-valorant-web-prod&response_type=token%20id_token&nonce=1&scope=account%20openid');
+      //listen for url changes and get the token
+      _controller.url.listen((url) {
+        if (url.contains('access_token')) {
+          final uri = Uri.parse(url);
+          final accessToken = uri.fragment.split('&')[0].split('=')[1];
+          print(accessToken);
+          Navigator.pop(context, accessToken);
+        }
+      });
       if (!mounted) {
         return;
       }
