@@ -1,43 +1,54 @@
-// Don't forget to make the changes mentioned in
-// https://github.com/bitsdojo/bitsdojo_window#getting-started
+import 'dart:convert';
+import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:valoralysis/consts/theme.dart';
-import 'package:valoralysis/widgets/ui/titleBar/titleBar.dart';
+import 'package:dio/dio.dart';
+import 'package:valorant_client/valorant_client.dart';
 
-void main() {
-  appWindow.size = const Size(600, 450);
-  runApp(const MyApp());
-  appWindow.show();
-  doWhenWindowReady(() {
-    final win = appWindow;
-    const initialSize = Size(600, 450);
-    win.minSize = initialSize;
-    win.size = initialSize;
-    win.alignment = Alignment.center;
-    win.title = "Custom window with Flutter";
-    win.show();
-  });
-}
+void main() async {
+  ValorantClient client = ValorantClient(
+    UserDetails(
+      userName: 'CocaineCoffee',
+      password: 'Furokthefierce@300',
+      region: Region.na, // Available regions: na, eu, ap, ko
+    ),
+    shouldPersistSession: false,
+    callback: Callback(
+      onError: (String error) {
+        print(error);
+      },
+      onRequestError: (DioError error) {
+        print(error.message);
+      },
+    ),
+  );
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  await client.init(true);
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      home: Scaffold(
-        body: Column(children: [
-          const TitleBar(),
-          TextButton(
-              onPressed: () => print("Clicked!"),
-              child: const Text("Sign in with Riot Games"))
-        ]),
-      ),
-    );
+  print('Player PUUID => ${client.userPuuid}');
+
+  // TODO: To implement \lib\src\authentication\rso_handler.dart
+  // for (var item in client.decodedAccessTokenFields.entries) {
+  //  print('${item.key} -> ${item.value}');
+  // }
+
+  var balance = await client.playerInterface.getBalance();
+  print('${balance?.valorantPoints} valorant points');
+  print('${balance?.radianitePoints} radianite points');
+/*
+  await Future<void>.delayed(const Duration(seconds: 1));
+
+  final assets = await client.assetInterface.getAssets();
+
+  if (assets == null) {
+    print('error with assets request');
+    return;
   }
+
+  final storefront = await client.playerInterface.getStorefront();
+
+  if (storefront != null && storefront.skinsPanelLayout != null) {
+    for (var item in storefront.skinsPanelLayout!.singleItemOffers) {
+      print('${item.parseAsRiotAssetId(assets.storefrontItems)}');
+    }
+  }*/
 }
