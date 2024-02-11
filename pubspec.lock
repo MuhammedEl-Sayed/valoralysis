@@ -82,13 +82,13 @@ packages:
     source: hosted
     version: "1.18.0"
   cookie_jar:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cookie_jar
-      sha256: d1cc6516a190ba667941f722b6365d202caff3dacb38de24268b8d6ff1ec8a1d
+      sha256: a6ac027d3ed6ed756bfce8f3ff60cb479e266f3b0fdabd6242b804b6765e52de
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "4.0.8"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -105,14 +105,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.6"
-  dio_cookie_manager:
-    dependency: transitive
-    description:
-      name: dio_cookie_manager
-      sha256: ed7ee3ba6cdb54599c8984d5a4ce09675c553ead6c28608eb54e38eec5b4f954
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -203,6 +195,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -219,6 +219,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  provider:
+    dependency: "direct main"
+    description:
+      name: provider
+      sha256: "9a96a0a19b594dbc5bf0f1f27d2bc67d5f95957359b461cd9feb44ed6ae75096"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -280,14 +288,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
-  valorant_client:
-    dependency: "direct main"
+  universal_io:
+    dependency: transitive
     description:
-      name: valorant_client
-      sha256: "7157c84cef6454c90c403ba33fbb1aad880aaf99dcd0b1584362b22fa9031326"
+      name: universal_io
+      sha256: "1722b2dcc462b4b2f3ee7d188dad008b6eb4c40bbd03a3de451d82c78bba9aad"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.4"
+    version: "2.2.2"
   vector_math:
     dependency: transitive
     description:
@@ -307,10 +315,9 @@ packages:
   webview_windows:
     dependency: "direct main"
     description:
-      name: webview_windows
-      sha256: "7572089e5d6fe09e790093c499fcb6d76a552250187dbcb89790987b1fb723db"
-      url: "https://pub.dev"
-    source: hosted
+      path: "webview_windows-0.3.0"
+      relative: true
+    source: path
     version: "0.3.0"
   win32:
     dependency: transitive

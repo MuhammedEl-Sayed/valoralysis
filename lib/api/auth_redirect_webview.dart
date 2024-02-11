@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:valoralysis/providers/account_data_provider.dart';
 import 'package:webview_windows/webview_windows.dart';
 
 class WebViewPopup extends StatefulWidget {
@@ -12,7 +14,6 @@ class WebViewPopup extends StatefulWidget {
 
 class _WebViewPopupState extends State<WebViewPopup> {
   final _controller = WebviewController();
-  String _twitchChannel = '';
 
   @override
   void initState() {
@@ -40,8 +41,24 @@ class _WebViewPopupState extends State<WebViewPopup> {
           final uri = Uri.parse(url);
           final accessToken = uri.fragment.split('&')[0].split('=')[1];
           print(accessToken);
-          Navigator.pop(context, accessToken);
+          Provider.of<UserProvider>(context, listen: false)
+              .updateUserToken(accessToken);
+          Navigator.pop(context);
         }
+        _controller.getCookies(url).then((cookies) {
+          String cookiesString = cookies ?? '';
+          List<String> cookiesList = cookiesString.split(';');
+          for (var cookie in cookiesList) {
+            List<String> cookieParts = cookie.split('=');
+            String cookieName = cookieParts[0].trim();
+            String cookieValue =
+                cookieParts.length > 1 ? cookieParts[1].trim() : '';
+            if (cookieName == 'ssid') {
+              print('SSID: $cookieValue');
+              break;
+            }
+          }
+        });
       });
       if (!mounted) {
         return;

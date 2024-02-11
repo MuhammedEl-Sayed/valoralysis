@@ -14,3 +14,19 @@ class TitleBar extends StatelessWidget {
     );
   }
 }
+
+class PageWithBar extends StatelessWidget {
+  final Widget child;
+
+  const PageWithBar({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const TitleBar(),
+        Expanded(child: child),
+      ],
+    );
+  }
+}
