@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/providers/account_data_provider.dart';
 import 'package:webview_windows/webview_windows.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class WebViewPopup extends StatefulWidget {
   WebViewPopup({Key? key}) : super(key: key);
@@ -30,35 +31,36 @@ class _WebViewPopupState extends State<WebViewPopup> {
   Future<void> initPlatformState() async {
     try {
       await _controller.initialize();
-
+      await _controller.openDevTools();
       await _controller.setBackgroundColor(Colors.transparent);
       await _controller.setPopupWindowPolicy(WebviewPopupWindowPolicy.deny);
       await _controller.loadUrl(
-          'https://auth.riotgames.com/authorize?redirect_uri=https%3A%2F%2Fplayvalorant.com%2Fopt_in&client_id=play-valorant-web-prod&response_type=token%20id_token&nonce=1&scope=account%20openid');
+          'https://auth.riotgames.com/authorize?redirect_uri=https%3A%2F%2Fplayvalorant.com%2Fopt_in&client_id=play-valorant-web-prod&response_type=token%20id_token&nonce=\'1\'&scope=account%20openid'); //listen for url changes and get the token
+
       //listen for url changes and get the token
       _controller.url.listen((url) {
         if (url.contains('access_token')) {
           final uri = Uri.parse(url);
           final accessToken = uri.fragment.split('&')[0].split('=')[1];
-          print(accessToken);
-          Provider.of<UserProvider>(context, listen: false)
-              .updateUserToken(accessToken);
-          Navigator.pop(context);
-        }
-        _controller.getCookies(url).then((cookies) {
-          String cookiesString = cookies ?? '';
-          List<String> cookiesList = cookiesString.split(';');
-          for (var cookie in cookiesList) {
-            List<String> cookieParts = cookie.split('=');
-            String cookieName = cookieParts[0].trim();
-            String cookieValue =
-                cookieParts.length > 1 ? cookieParts[1].trim() : '';
-            if (cookieName == 'ssid') {
-              print('SSID: $cookieValue');
-              break;
-            }
+          try {
+            //We decode the token and pull out the puuid
+            final decodedToken = JwtDecoder.decode(accessToken);
+            final puuid = decodedToken['sub'];
+            final userProvider =
+                Provider.of<UserProvider>(context, listen: false);
+
+            userProvider.updateUserPUUID(puuid);
+
+            List<String>? puuids =
+                userProvider.prefs.getStringList('puuids') ?? [];
+            puuids.add(puuid);
+            userProvider.prefs.setStringList('puuids', puuids);
+            userProvider.prefs.setInt('preferredPUUIDS', puuids.length - 1);
+            Navigator.pop(context);
+          } catch (e) {
+            throw Exception('Error decoding token');
           }
-        });
+        }
       });
       if (!mounted) {
         return;

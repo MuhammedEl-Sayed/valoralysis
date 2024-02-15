@@ -1,5 +1,5 @@
 class User {
-  String token;
+  String puuid;
 
-  User({required this.token});
+  User({required this.puuid});
 }

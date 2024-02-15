@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valoralysis/api/auth_redirect_webview.dart';
 import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/providers/account_data_provider.dart';
 import 'package:valoralysis/widgets/screens/initialSignIn.dart';
-import 'package:valoralysis/widgets/ui/titleBar/titleBar.dart';
+import 'package:valoralysis/widgets/ui/title_bar/title_bar.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensure that you have bindings for your app.
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
   runApp(
     ChangeNotifierProvider(
-      create: (context) => UserProvider(),
+      create: (context) =>
+          UserProvider(prefs), // Pass the prefs to your provider.
       child: const MyApp(),
     ),
   );
@@ -35,10 +42,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,
+      themeMode: ThemeMode.system, // device controls theme
       initialRoute: '/',
       routes: {
         '/': (context) => const PageWithBar(child: InitialSignIn()),
         '/auth': (context) => PageWithBar(child: WebViewPopup()),
+        '/home': (context) => const PageWithBar(child: Text('Home')),
       },
     );
   }

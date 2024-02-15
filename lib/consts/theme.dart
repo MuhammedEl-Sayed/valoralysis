@@ -14,6 +14,7 @@ final ThemeData lightTheme = FlexThemeData.light(
     appBarColor: Color(0xffffdbcf),
     error: Color(0xffb00020),
   ),
+  usedColors: 1,
   subThemesData: const FlexSubThemesData(
     interactionEffects: false,
     tintedDisabledControls: false,
@@ -50,22 +51,26 @@ final ThemeData lightTheme = FlexThemeData.light(
   keyColors: const FlexKeyColors(
     useSecondary: true,
   ),
+  tones: FlexTones.ultraContrast(Brightness.light),
   visualDensity: FlexColorScheme.comfortablePlatformDensity,
   useMaterial3: true,
   swapLegacyOnMaterial3: true,
+  // To use the Playground font, add GoogleFonts package and uncomment
+  // fontFamily: GoogleFonts.notoSans().fontFamily,
 );
 
 final ThemeData darkTheme = FlexThemeData.dark(
   colors: const FlexSchemeColor(
-    primary: Color(0xff7e1d5f),
-    primaryContainer: Color(0xff00325b),
-    secondary: Color(0xff0b3c49),
+    primary: Color(0xffff897d),
+    primaryContainer: Color(0xff542344),
+    secondary: Color(0xffe7bdb6),
     secondaryContainer: Color(0xff872100),
     tertiary: Color(0xff86d2e1),
     tertiaryContainer: Color(0xff004e59),
     appBarColor: Color(0xff872100),
     error: Color(0xffcf6679),
   ),
+  usedColors: 1,
   subThemesData: const FlexSubThemesData(
     interactionEffects: false,
     tintedDisabledControls: false,
@@ -100,10 +105,14 @@ final ThemeData darkTheme = FlexThemeData.dark(
   ),
   keyColors: const FlexKeyColors(
     useSecondary: true,
+    keepPrimary: true,
   ),
+  tones: FlexTones.ultraContrast(Brightness.dark),
   visualDensity: FlexColorScheme.comfortablePlatformDensity,
   useMaterial3: true,
   swapLegacyOnMaterial3: true,
+  // To use the Playground font, add GoogleFonts package and uncomment
+  // fontFamily: GoogleFonts.notoSans().fontFamily,
 );
 
 // If you do not have a themeMode switch, uncomment this line
