@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:valoralysis/consts/images.dart';
 import 'package:valoralysis/models/user.dart';
 import 'package:valoralysis/providers/account_data_provider.dart';
+import 'package:valoralysis/utils/pick_random.dart';
+import 'package:valoralysis/widgets/ui/flashing_text/flashing_text.dart';
 
 class InitialSignIn extends StatefulWidget {
   const InitialSignIn({Key? key}) : super(key: key);
@@ -32,35 +35,51 @@ class _InitialSignInState extends State<InitialSignIn> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Valoralysis', style: TextStyle(fontSize: 30)),
-            const SizedBox(
-              height: 20,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            HelperFunctions.pickRandom(signInBackgrounds),
+            fit: BoxFit.cover,
+            // Animation<double>?
+            opacity: const AlwaysStoppedAnimation(0.2),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/valoralysis_transparent.png',
+                  width: 200,
+                ),
+                BlinkingText(),
+                const Text('Valoralysis', style: TextStyle(fontSize: 45)),
+                const SizedBox(
+                  height: 20,
+                ),
+                FilledButton(
+                  onPressed: () async {
+                    await Navigator.pushNamed(context, '/auth');
+                    // Perform action when you come back to this page
+                    // For example, you can call initUserState() again
+                    initUserState();
+                  },
+                  child: const Text('Sign in with Riot Games'),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    userProvider.prefs.clear();
+                    userProvider.setUser(User(puuid: ''));
+                  },
+                  child: const Text('Delete User Data'),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () async {
-                await Navigator.pushNamed(context, '/auth');
-                // Perform action when you come back to this page
-                // For example, you can call initUserState() again
-                initUserState();
-              },
-              child: const Text('Sign in with Riot Games'),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                userProvider.prefs.clear();
-                userProvider.setUser(User(puuid: ''));
-              },
-              child: const Text('Delete User Data'),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

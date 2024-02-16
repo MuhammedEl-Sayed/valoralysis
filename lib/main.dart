@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valoralysis/api/auth_redirect_webview.dart';
 import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/providers/account_data_provider.dart';
-import 'package:valoralysis/widgets/screens/initialSignIn.dart';
+import 'package:valoralysis/widgets/screens/initial_sign_in.dart';
 import 'package:valoralysis/widgets/ui/title_bar/title_bar.dart';
 
 void main() async {

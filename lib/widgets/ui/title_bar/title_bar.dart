@@ -1,6 +1,6 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
-import 'package:valoralysis/widgets/ui/title_bar/windowsButtons.dart';
+import 'package:valoralysis/widgets/ui/title_bar/windows_buttons.dart';
 
 class TitleBar extends StatelessWidget {
   const TitleBar({super.key});
@@ -18,7 +18,7 @@ class TitleBar extends StatelessWidget {
                     child: Container(
                         child: Image.asset(
                             'assets/images/logo/Square44x44Logo.targetsize-32.png'),
-                        padding: const EdgeInsets.only(left: 10, top: 10)))),
+                        padding: const EdgeInsets.only(left: 5, top: 2)))),
             const WindowButtons()
           ],
         ),
