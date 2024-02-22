@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valoralysis/api/auth_redirect_webview.dart';
 import 'package:valoralysis/consts/theme.dart';
-import 'package:valoralysis/providers/account_data_provider.dart';
+import 'package:valoralysis/providers/user_data_provider.dart';
+import 'package:valoralysis/widgets/screens/home.dart';
 import 'package:valoralysis/widgets/screens/initial_sign_in.dart';
 import 'package:valoralysis/widgets/ui/title_bar/title_bar.dart';
 
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const PageWithBar(child: InitialSignIn()),
         '/auth': (context) => PageWithBar(child: WebViewPopup()),
-        '/home': (context) => const PageWithBar(child: Text('Home')),
+        '/home': (context) => PageWithBar(child: HomeScreen()),
       },
     );
   }

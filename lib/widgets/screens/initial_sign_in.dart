@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/images.dart';
 import 'package:valoralysis/models/user.dart';
-import 'package:valoralysis/providers/account_data_provider.dart';
+import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/pick_random.dart';
 import 'package:valoralysis/widgets/ui/flashing_text/flashing_text.dart';
+import 'package:valoralysis/widgets/ui/sidebar/sidebar.dart';
 
 class InitialSignIn extends StatefulWidget {
   const InitialSignIn({Key? key}) : super(key: key);
@@ -18,16 +19,26 @@ class _InitialSignInState extends State<InitialSignIn> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      initUserState();
+      _initUserState();
     });
   }
 
-  void initUserState() {
+  void _initUserState() {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final puuids = userProvider.prefs.getStringList('puuids');
     final preferredPUUID = userProvider.prefs.getInt('preferredPUUIDS');
+
+    //We are using -1 to say they logged out but don't want to remove their data
+    if (preferredPUUID == -1) {
+      userProvider.setUser(User(puuid: ''));
+      return;
+    }
+
     userProvider.setUser(User(puuid: puuids?[preferredPUUID ?? 0] ?? ''));
     //check if the user is already signed in, then nav to the next page
+    if (userProvider.user.puuid != '') {
+      Navigator.pushNamed(context, '/home');
+    }
     print(userProvider.user.puuid);
   }
 
@@ -35,9 +46,8 @@ class _InitialSignInState extends State<InitialSignIn> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: Stack(fit: StackFit.expand, children: [
           Image.asset(
             HelperFunctions.pickRandom(signInBackgrounds),
             fit: BoxFit.cover,
@@ -45,6 +55,7 @@ class _InitialSignInState extends State<InitialSignIn> {
             opacity: const AlwaysStoppedAnimation(0.2),
           ),
           Center(
+            widthFactor: 2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -62,7 +73,7 @@ class _InitialSignInState extends State<InitialSignIn> {
                     await Navigator.pushNamed(context, '/auth');
                     // Perform action when you come back to this page
                     // For example, you can call initUserState() again
-                    initUserState();
+                    _initUserState();
                   },
                   child: const Text('Sign in with Riot Games'),
                 ),
@@ -79,8 +90,6 @@ class _InitialSignInState extends State<InitialSignIn> {
               ],
             ),
           ),
-        ],
-      ),
-    );
+        ]));
   }
 }

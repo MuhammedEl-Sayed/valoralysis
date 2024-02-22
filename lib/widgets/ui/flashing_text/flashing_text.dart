@@ -8,37 +8,18 @@ class BlinkingText extends StatefulWidget {
 
 class _BlinkingTextState extends State<BlinkingText>
     with TickerProviderStateMixin {
-  List<String> words = [
-    "Welcome to",
-    "Добро пожаловать в",
-    "Welkom bij",
-    "Bienvenue à",
-    "Willkommen bei",
-    "Benvenuti a",
-    "Bienvenido a",
-    "Bem-vindo ao",
-    "Välkommen till",
-    "Hoş geldiniz",
-    "환영합니다",
-    "歡迎來到",
-    "ようこそ",
-    "欢迎来到",
-    "स्वागत है",
-    "ยินดีต้อนรับสู่",
-    "خوش آمدید به",
-    "مرحبًا بك إلا",
-  ];
+  List<String> words = ["Welcome", "Bienvenue", "Willkommen", "أهلا بك"];
   int currentWordIndex = 0;
   int currentCharIndex = 0;
   bool deleting = true;
   bool pause = false;
   String displayWord = "";
   String cursor = "|";
-  Duration pauseDuration = Duration(seconds: 1); // Customize this value
 
   @override
   void initState() {
     Timer.periodic(Duration(milliseconds: 100), (Timer t) => _animateCursor());
+    Timer.periodic(Duration(milliseconds: 150), (Timer t) => _animateText());
     super.initState();
   }
 
@@ -50,11 +31,7 @@ class _BlinkingTextState extends State<BlinkingText>
 
   void _animateText() {
     if (pause) {
-      Future.delayed(pauseDuration, () {
-        setState(() {
-          pause = false;
-        });
-      });
+      pause = false;
       return;
     }
 
@@ -89,7 +66,7 @@ class _BlinkingTextState extends State<BlinkingText>
     return RichText(
       text: TextSpan(
         text: displayWord,
-        style: TextStyle(fontSize: 47, fontFamily: 'valorant'),
+        style: TextStyle(fontSize: 45, fontFamily: 'valorant'),
         children: <TextSpan>[
           TextSpan(text: cursor, style: TextStyle(fontSize: 45)),
         ],

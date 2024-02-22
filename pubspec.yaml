@@ -44,6 +44,7 @@ dependencies:
   valorant_client: ^1.1.4
   jwt_decoder: ^2.0.1
   shared_preferences: ^2.2.2
+  dio_cookie_manager: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,8 @@ flutter:
     - assets/
     - assets/images/
     - assets/images/logo/
+    - assets/images/misc/
+    - assets/images/agent_icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

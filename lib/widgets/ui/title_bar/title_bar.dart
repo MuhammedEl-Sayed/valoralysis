@@ -8,19 +8,10 @@ class TitleBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context)
-          .scaffoldBackgroundColor, // Set the background color here
+      color: ColorScheme.dark().background,
       child: WindowTitleBarBox(
         child: Row(
-          children: [
-            Expanded(
-                child: MoveWindow(
-                    child: Container(
-                        child: Image.asset(
-                            'assets/images/logo/Square44x44Logo.targetsize-32.png'),
-                        padding: const EdgeInsets.only(left: 5, top: 2)))),
-            const WindowButtons()
-          ],
+          children: [Expanded(child: MoveWindow()), const WindowButtons()],
         ),
       ),
     );
@@ -39,7 +30,6 @@ class PageWithBar extends StatelessWidget {
         const TitleBar(),
         Expanded(
             child: Container(
-          color: Theme.of(context).scaffoldBackgroundColor,
           child: child,
         ))
       ],

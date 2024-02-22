@@ -9,7 +9,9 @@ class UserProvider with ChangeNotifier {
 
   UserProvider(this.prefs) {
     List<String>? puuids = prefs.getStringList('puuids');
-    _user.puuid = (puuids != null && puuids.isNotEmpty)
+    _user.puuid = (puuids != null &&
+            puuids.isNotEmpty &&
+            prefs.getInt('preferredPUUIDS') != -1)
         ? puuids[prefs.getInt('preferredPUUIDS') ?? 0]
         : '';
   }
@@ -23,4 +25,15 @@ class UserProvider with ChangeNotifier {
     _user.puuid = newPUUID;
     notifyListeners();
   }
+
+  void logout(BuildContext context) {
+    _user.puuid = '';
+    //update prefs so that preferredPUUIDS is -1
+    prefs.setInt('preferredPUUIDS', -1);
+    Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+    setUser(User(puuid: ''));
+  }
+
+  void login(BuildContext context, List<Cookie> cookies, String acessToken,
+      String entitlementToken) {}
 }

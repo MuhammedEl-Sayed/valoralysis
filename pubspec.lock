@@ -106,7 +106,7 @@ packages:
     source: hosted
     version: "4.0.6"
   dio_cookie_manager:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dio_cookie_manager
       sha256: ed7ee3ba6cdb54599c8984d5a4ce09675c553ead6c28608eb54e38eec5b4f954
