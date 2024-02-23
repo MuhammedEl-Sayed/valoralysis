@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:valoralysis/models/auth_info.dart';
 import 'package:valoralysis/models/user.dart';
 
 class UserProvider with ChangeNotifier {
-  User _user = User(puuid: '');
+  User _user = User(
+      puuid: '',
+      authInfo: AuthInfo(
+        cookies: [],
+        entitlementToken: '',
+        accessToken: '',
+      ));
   final SharedPreferences prefs;
   User get user => _user;
 
