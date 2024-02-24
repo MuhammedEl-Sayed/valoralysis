@@ -4,10 +4,9 @@ import 'package:dio/dio.dart';
 
 class AuthService {
   // Next step is to save the cookies to the user and then use them to refresh the token every time the user logs in
-  static Future<String> refreshToken(List<Cookie> cookies) async {
+  static Future<String> refreshToken(String cookies) async {
     var dio = Dio();
-    dio.options.headers['cookie'] =
-        cookies.map((c) => '${c.name}=${c.value}').join('; ');
+    dio.options.headers['cookie'] = cookies;
     dio.options.validateStatus = (status) {
       return status != null && status >= 200 && status < 400;
     };

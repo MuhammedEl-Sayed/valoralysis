@@ -53,13 +53,11 @@ class _WebViewPopupState extends State<WebViewPopup> {
             //Now we copy the cookies from the webview to the cookiejar
 
             final cookies =
-                await _controller.getCookies('https://auth.riotgames.com');
-            List<Cookie> cookiesList =
-                CookieUtils.getCookiesFromString(cookies ?? '');
-
+                await _controller.getCookies('https://auth.riotgames.com') ??
+                    '';
             //We decode the token and pull out the puuid
             final loginSuccessful = userProvider.setLoginData(
-                cookiesList, accessToken, entitlementToken);
+                cookies, accessToken, entitlementToken);
             if (loginSuccessful) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (Navigator.canPop(context)) {

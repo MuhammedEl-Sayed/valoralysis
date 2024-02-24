@@ -12,7 +12,7 @@ class UserProvider with ChangeNotifier {
   User _user = User(
       puuid: '',
       authInfo: AuthInfo(
-        cookies: [],
+        cookies: '',
         entitlementToken: '',
         accessToken: '',
       ));
@@ -37,7 +37,7 @@ class UserProvider with ChangeNotifier {
     setUser(User(
         puuid: '',
         authInfo: AuthInfo(
-          cookies: [],
+          cookies: '',
           entitlementToken: '',
           accessToken: '',
         )));
@@ -48,10 +48,10 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateCookies(List<Cookie> cookies) {
+  void updateCookies(String cookies) {
     if (cookies.isEmpty) throw Exception('Empty Cookies list.');
     _user.authInfo.cookies = cookies;
-    prefs.setString('cookies', CookieUtils.getStringFromCookies(cookies));
+    prefs.setString('cookies', cookies);
     notifyListeners();
   }
 
@@ -79,7 +79,7 @@ class UserProvider with ChangeNotifier {
   }
 
   bool setLoginData(
-      List<Cookie> cookies, String accessToken, String entitlementToken) {
+      String cookies, String accessToken, String entitlementToken) {
     try {
       final decodedToken = JwtDecoder.decode(accessToken);
       final puuid = decodedToken['sub'];

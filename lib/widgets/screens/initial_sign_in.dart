@@ -34,8 +34,7 @@ class _InitialSignInState extends State<InitialSignIn> {
     final preferredPUUID = userPrefs.getInt('preferredPUUIDS');
     String accessToken = userPrefs.getString('accessToken') ?? '';
     String entitlementToken = userPrefs.getString('entitlementToken') ?? '';
-    final cookies =
-        CookieUtils.getCookiesFromString(userPrefs.getString('cookies') ?? '');
+    final cookies = userPrefs.getString('cookies') ?? '';
     // We are using -1 to say they logged out but don't want to remove their data
     if (preferredPUUID == -1) {
       userProvider.resetUser();
@@ -45,19 +44,19 @@ class _InitialSignInState extends State<InitialSignIn> {
         puuid: puuids?[preferredPUUID ?? 0] ?? '',
         authInfo: AuthInfo(
             cookies: cookies,
-            accessToken: accessToken ?? '',
-            entitlementToken: entitlementToken ?? '')));
+            accessToken: accessToken,
+            entitlementToken: entitlementToken)));
     // Now I want to see if their tokens are expired and update them if so.
     // The way im doing this should refetch them if they didn't have them for whatever reason
     // as well.
     print(entitlementToken);
-    final accessTokenExpired = JwtDecoder.isExpired(accessToken ?? '');
+    final accessTokenExpired = JwtDecoder.isExpired(accessToken);
 
     if (accessTokenExpired && cookies.isNotEmpty) {
       accessToken = await AuthService.refreshToken(cookies);
       entitlementToken = await AuthService.fetchEntitlementToken(accessToken);
-      userProvider.updateAccessToken(accessToken ?? '');
-      userProvider.updateEntitlementToken(entitlementToken ?? '');
+      userProvider.updateAccessToken(accessToken);
+      userProvider.updateEntitlementToken(entitlementToken);
     }
 
     // Check if the user is already signed in, then nav to the next page
@@ -110,13 +109,7 @@ class _InitialSignInState extends State<InitialSignIn> {
                 ElevatedButton(
                   onPressed: () {
                     userProvider.prefs.clear();
-                    userProvider.setUser(User(
-                        puuid: '',
-                        authInfo: AuthInfo(
-                          cookies: [],
-                          entitlementToken: '',
-                          accessToken: '',
-                        )));
+                    userProvider.resetUser();
                   },
                   child: const Text('Delete User Data'),
                 ),

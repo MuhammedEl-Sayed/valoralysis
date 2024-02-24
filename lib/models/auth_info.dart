@@ -1,7 +1,5 @@
-import 'dart:io';
-
 class AuthInfo {
-  List<Cookie> cookies;
+  String cookies;
   String accessToken;
   String entitlementToken;
 
