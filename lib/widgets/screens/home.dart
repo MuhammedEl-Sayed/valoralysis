@@ -11,17 +11,22 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
-      backgroundColor: ColorScheme.dark().background,
+      backgroundColor: const ColorScheme.dark().background,
       body: Row(children: [
         Sidebar(),
         Expanded(
             child: Center(
                 child: FilledButton(
           onPressed: () async {
-            HistoryService.fetchMatchHistory(
+            print(userProvider.user.authInfo.accessToken);
+            print(userProvider.user.authInfo.entitlementToken);
+            print(userProvider.user.authInfo.cookies);
+            print(userProvider.user.puuid);
+
+            HistoryService.fetchMatchHistoryInIncrements(
                 ShardsHelper.getValue(Shards.NA),
                 0,
-                200000000,
+                25,
                 QueueTypesHelper.getValue(QueueTypes.COMPETITIVE),
                 userProvider.user.authInfo,
                 userProvider.user.puuid);
