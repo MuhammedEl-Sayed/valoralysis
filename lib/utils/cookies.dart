@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class CookieUtils {
-  static List<Cookie> getCookies(String cookies) {
+  static List<Cookie> getCookiesFromString(String cookies) {
     return cookies.split(';').map((cookie) {
       if (cookie.isEmpty) {
         return Cookie('', '');
@@ -16,5 +16,9 @@ class CookieUtils {
     for (var cookie in cookies) {
       print(cookie.name + " " + cookie.value);
     }
+  }
+
+  static String getStringFromCookies(List<Cookie> cookies) {
+    return cookies.map((c) => '${c.name}=${c.value}').join('; ');
   }
 }

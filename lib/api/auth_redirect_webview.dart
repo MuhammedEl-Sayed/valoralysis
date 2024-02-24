@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:valoralysis/api/services/auth_service.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/cookies.dart';
 import 'package:webview_windows/webview_windows.dart';
@@ -31,60 +32,8 @@ class _WebViewPopupState extends State<WebViewPopup> {
     super.dispose();
   }
 
-// Next step is to save the cookies to the user and then use them to refresh the token every time the user logs in
-  Future<String> refreshToken(String cookies) async {
-    List<Cookie> cookiesList = CookieUtils.getCookies(cookies);
-
-    var dio = Dio();
-    dio.options.headers['cookie'] =
-        cookiesList.map((c) => '${c.name}=${c.value}').join('; ');
-    dio.options.validateStatus = (status) {
-      return status != null && status >= 200 && status < 400;
-    };
-    try {
-      var response = await dio.get(
-        'https://auth.riotgames.com/authorize?redirect_uri=https%3A%2F%2Fplayvalorant.com%2Fopt_in&client_id=play-valorant-web-prod&response_type=token%20id_token&nonce=1',
-        options: Options(
-          followRedirects: false,
-        ),
-      );
-
-      if (response.headers.value('location')?.contains('access_token=') ??
-          false) {
-        print('Reauth successful');
-        // access token is in the url, still needs to be parsed
-        return response.headers
-            .value('location')
-            ?.split('access_token=')[1]
-            .split('&')[0] as String;
-      } else {
-        print('Reauth failed');
-      }
-    } catch (e) {
-      print('Request error: $e');
-    }
-    return '';
-  }
-
-  Future<String> fetchEntitlementToken(String accessToken) async {
-    var dio = Dio();
-    try {
-      var response = await dio.post(
-        'https://entitlements.auth.riotgames.com/api/token/v1',
-        options: Options(headers: {"Authorization": 'Bearer $accessToken'}),
-      );
-      if (response != null &&
-          response.data != null &&
-          response.data['entitlements_token'] != null) {
-        return response.data['entitlements_token'];
-      }
-    } catch (e) {
-      print('Request error: $e');
-    }
-    return '';
-  }
-
   Future<void> initPlatformState() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
       await _controller.initialize();
       await _controller.openDevTools();
@@ -98,27 +47,26 @@ class _WebViewPopupState extends State<WebViewPopup> {
         if (url.contains('access_token')) {
           final uri = Uri.parse(url);
           final accessToken = uri.fragment.split('&')[0].split('=')[1];
-          await fetchEntitlementToken(accessToken);
+          final entitlementToken =
+              await AuthService.fetchEntitlementToken(accessToken);
           try {
             //Now we copy the cookies from the webview to the cookiejar
 
             final cookies =
                 await _controller.getCookies('https://auth.riotgames.com');
-            await refreshToken(cookies as String);
+            List<Cookie> cookiesList =
+                CookieUtils.getCookiesFromString(cookies ?? '');
+
             //We decode the token and pull out the puuid
-            final decodedToken = JwtDecoder.decode(accessToken);
-            final puuid = decodedToken['sub'];
-            final userProvider =
-                Provider.of<UserProvider>(context, listen: false);
-
-            userProvider.updateUserPUUID(puuid);
-
-            List<String>? puuids =
-                userProvider.prefs.getStringList('puuids') ?? [];
-            puuids.add(puuid);
-            userProvider.prefs.setStringList('puuids', puuids);
-            userProvider.prefs.setInt('preferredPUUIDS', puuids.length - 1);
-            Navigator.pop(context);
+            final loginSuccessful = userProvider.setLoginData(
+                cookiesList, accessToken, entitlementToken);
+            if (loginSuccessful) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+              });
+            }
           } catch (e) {
             throw Exception('Error decoding token');
           }
