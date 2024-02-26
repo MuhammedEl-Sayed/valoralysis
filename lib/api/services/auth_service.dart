@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:valoralysis/models/auth_info.dart';
 
 class AuthService {
   // Next step is to save the cookies to the user and then use them to refresh the token every time the user logs in
@@ -50,5 +51,14 @@ class AuthService {
       print('Request error: $e');
     }
     return '';
+  }
+
+  static Dio prepareDio(AuthInfo authInfo) {
+    Dio dio = Dio(BaseOptions(headers: {
+      "Authorization": 'Bearer ${authInfo.accessToken}',
+      "X-Riot-Entitlements-JWT": authInfo.entitlementToken
+    }));
+    dio.options.headers['cookie'] = authInfo.cookies;
+    return dio;
   }
 }
