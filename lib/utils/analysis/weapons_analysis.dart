@@ -1,5 +1,4 @@
 import 'package:valoralysis/api/services/weapons_service.dart';
-import 'package:valoralysis/models/match_details.dart';
 
 class WeaponsAnalysis {
   static Map<String, String>? weaponMap;

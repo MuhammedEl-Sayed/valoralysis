@@ -23,31 +23,8 @@ class HomeScreen extends StatelessWidget {
             child: Center(
                 child: FilledButton(
           onPressed: () async {
-            await WeaponsService.fetchWeaponData();
-            final matchHistory =
-                await HistoryService.fetchMatchHistoryInIncrements(
-                    ShardsHelper.getValue(Shards.NA),
-                    0,
-                    25,
-                    QueueTypesHelper.getValue(QueueTypes.COMPETITIVE),
-                    userProvider.user.authInfo,
-                    userProvider.user.puuid);
-            final matchDetails = await HistoryService.fetchAllMatchDetails(
-                ShardsHelper.getValue(Shards.NA),
-                HistoryUtils.extractMatchIDs(matchHistory),
-                userProvider.user.authInfo);
-            print('Length match details: + ${matchDetails.length}');
-
-            final headshotAccuracyAnalysis =
-                await WeaponsAnalysis.weaponsHeadshotAccuracyAnaylsis(
-                    matchDetails, userProvider.user.puuid);
-
-            print('Headshot accuracy: $headshotAccuracyAnalysis');
-
-            final weaponsKillsFrequencyAnalysis =
-                await WeaponsAnalysis.weaponsKillsFrequencyAnalysis(
-                    matchDetails, userProvider.user.puuid);
-            print('Weapon frequency: $weaponsKillsFrequencyAnalysis');
+            print(await HistoryService.getMatchListByPuuid(
+                userProvider.user.puuid));
           },
           child: const Text('Match History'),
         )))

@@ -47,27 +47,9 @@ class _WebViewPopupState extends State<WebViewPopup> {
         if (url.contains('access_token')) {
           final uri = Uri.parse(url);
           final accessToken = uri.fragment.split('&')[0].split('=')[1];
-          final entitlementToken =
-              await AuthService.fetchEntitlementToken(accessToken);
-          try {
-            //Now we copy the cookies from the webview to the cookiejar
 
-            final cookies =
-                await _controller.getCookies('https://auth.riotgames.com') ??
-                    '';
-            //We decode the token and pull out the puuid
-            final loginSuccessful = userProvider.setLoginData(
-                cookies, accessToken, entitlementToken);
-            if (loginSuccessful) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
-              });
-            }
-          } catch (e) {
-            throw Exception('Error decoding token');
-          }
+          final puuid = JwtDecoder.decode(accessToken)['sub'];
+          print(puuid);
         }
       });
       if (!mounted) {

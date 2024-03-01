@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:valoralysis/api/auth_redirect_webview.dart';
 import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
@@ -10,6 +11,8 @@ import 'package:valoralysis/widgets/screens/initial_sign_in.dart';
 import 'package:valoralysis/widgets/ui/title_bar/title_bar.dart';
 
 void main() async {
+  await dotenv.load();
+
   WidgetsFlutterBinding
       .ensureInitialized(); // Ensure that you have bindings for your app.
 
