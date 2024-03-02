@@ -1,19 +1,16 @@
-// ignore_for_file: non_constant_identifier_names
-import 'dart:ffi';
-
 class MatchHistory {
-  String MatchID;
-  int GameStartTime;
-  String QueueID;
+  String matchID;
+  int gameStartTime;
+  String queueID;
   MatchHistory(
-      {required this.MatchID,
-      required this.GameStartTime,
-      required this.QueueID});
+      {required this.matchID,
+      required this.gameStartTime,
+      required this.queueID});
   factory MatchHistory.fromJson(Map<String, dynamic> json) {
     return MatchHistory(
-      MatchID: json['MatchID'] as String,
-      GameStartTime: json['GameStartTime'] as int,
-      QueueID: json['QueueID'] as String,
+      matchID: json['matchId'] as String,
+      gameStartTime: json['gameStartTimeMillis'] as int,
+      queueID: json['queueId'] as String,
     );
   }
 }

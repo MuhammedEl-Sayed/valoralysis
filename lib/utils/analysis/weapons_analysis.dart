@@ -13,7 +13,7 @@ class WeaponsAnalysis {
         for (Map<String, dynamic> round in matchDetails['roundResults']) {
           if (round['playerStats'] != null) {
             for (Map<String, dynamic> playerStat in round['playerStats']) {
-              if (playerStat['subject'] == puuid &&
+              if (playerStat['puuid'] == puuid &&
                   playerStat['damage'] != null) {
                 playerDamage.addAll(playerStat['damage']);
               }
@@ -28,6 +28,7 @@ class WeaponsAnalysis {
     double totalLegshots = 0;
 
     for (Map<String, dynamic> pd in playerDamage) {
+      print(pd);
       totalHeadshots += pd['headshots'];
       totalBodyshots += pd['bodyshots'];
       totalLegshots += pd['legshots'];
@@ -51,8 +52,7 @@ class WeaponsAnalysis {
         for (Map<String, dynamic> round in matchDetails['roundResults']) {
           if (round['playerStats'] != null) {
             for (Map<String, dynamic> playerStat in round['playerStats']) {
-              if (playerStat['subject'] == puuid &&
-                  playerStat['kills'] != null) {
+              if (playerStat['puuid'] == puuid && playerStat['kills'] != null) {
                 playerKills.addAll(playerStat['kills']);
               }
             }
