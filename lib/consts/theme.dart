@@ -112,7 +112,7 @@ final ThemeData darkTheme = FlexThemeData.dark(
     useMaterial3: true,
     swapLegacyOnMaterial3: true,
     // To use the Playground font, add GoogleFonts package and uncomment
-    fontFamily: 'Valorant');
+    fontFamily: 'Lato');
 
 // If you do not have a themeMode switch, uncomment this line
 // to let the device system mode control the theme mode:
