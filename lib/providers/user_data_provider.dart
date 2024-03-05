@@ -4,7 +4,7 @@ import 'package:valoralysis/models/user.dart';
 import 'package:provider/provider.dart';
 
 class UserProvider with ChangeNotifier {
-  User _user = User(puuid: '', consentGiven: false);
+  User _user = User(puuid: '', consentGiven: false, name: '');
   final SharedPreferences prefs;
   User get user => _user;
 
@@ -16,6 +16,7 @@ class UserProvider with ChangeNotifier {
         ? puuids[prefs.getInt('preferredPUUIDS') ?? 0]
         : '';
     _user.consentGiven = prefs.getBool('consentGiven') ?? false;
+    _user.name = prefs.getString('name') ?? '';
   }
 
   void setUser(User value) {
@@ -24,11 +25,17 @@ class UserProvider with ChangeNotifier {
   }
 
   void resetUser() {
-    setUser(User(puuid: '', consentGiven: false));
+    setUser(User(puuid: '', consentGiven: false, name: ''));
   }
 
   void updatePuuid(String puuid) {
     _user.puuid = puuid;
+    notifyListeners();
+  }
+
+  void updateName(String name) {
+    _user.name = name;
+    prefs.setString('name', name);
     notifyListeners();
   }
 

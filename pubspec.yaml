@@ -47,6 +47,7 @@ dependencies:
   dio_cookie_manager: ^2.0.0
   pool: ^1.5.1
   flutter_dotenv: ^5.1.0
+  flutter_screenutil: ^5.9.0
 
 dev_dependencies:
   flutter_test:

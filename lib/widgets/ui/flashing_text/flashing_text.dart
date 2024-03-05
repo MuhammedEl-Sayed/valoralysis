@@ -68,7 +68,7 @@ class _BlinkingTextState extends State<BlinkingText>
         text: displayWord,
         style: TextStyle(fontSize: 45, fontFamily: 'valorant'),
         children: <TextSpan>[
-          TextSpan(text: cursor, style: TextStyle(fontSize: 45)),
+          TextSpan(text: cursor, style: const TextStyle(fontSize: 45)),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 class User {
   String puuid = '';
   bool consentGiven = false;
-  User({required this.puuid, required this.consentGiven});
+  String name = '';
+  User({required this.puuid, required this.consentGiven, required this.name});
 }

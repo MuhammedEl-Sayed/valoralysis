@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:valoralysis/api/services/auth_service.dart';
 import 'package:valoralysis/models/match_history.dart';
+import 'package:valoralysis/utils/history.dart';
 import 'package:valoralysis/utils/rate_limiter.dart';
 import 'package:valoralysis/utils/riot_api_builder.dart';
 
@@ -32,8 +33,9 @@ class HistoryService {
   }
 
   static Future<List<Map<String, dynamic>>> getAllMatchDetails(
-      List<String> matchIDs) async {
-    var trimmedMatches = matchIDs.getRange(0, 15);
+      List<MatchHistory> matchHistory) async {
+    var trimmedMatches =
+        HistoryUtils.extractMatchIDs(matchHistory).getRange(0, 15);
     var futures =
         trimmedMatches.map((matchID) => getMatchDetailsByMatchID(matchID));
     return await Future.wait(futures);

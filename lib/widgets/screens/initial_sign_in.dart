@@ -45,6 +45,7 @@ class _InitialSignInState extends State<InitialSignIn> {
       puuid:
           'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
       consentGiven: true,
+      name: userProvider.user.name,
     ));
     print(userProvider.user.puuid);
     print(userProvider.user.consentGiven);

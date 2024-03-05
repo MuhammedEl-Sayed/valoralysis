@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:valoralysis/api/auth_redirect_webview.dart';
 import 'package:valoralysis/consts/theme.dart';
+import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
-import 'package:valoralysis/providers/queue_type_provider.dart'; // Import the QueueTypeProvider
+import 'package:valoralysis/providers/category_provider.dart'; // Import the CategoryTypeProvider
 import 'package:valoralysis/widgets/screens/home.dart';
 import 'package:valoralysis/widgets/screens/initial_sign_in.dart';
 import 'package:valoralysis/widgets/ui/title_bar/title_bar.dart';
@@ -27,8 +29,10 @@ void main() async {
               UserProvider(prefs), // Pass the prefs to your provider.
         ),
         ChangeNotifierProvider(
-          create: (context) => QueueTypeProvider(), // Add the QueueTypeProvider
+          create: (context) =>
+              CategoryTypeProvider(), // Add the CategoryTypeProvider
         ),
+        ChangeNotifierProvider(create: (context) => ContentProvider())
       ],
       child: const MyApp(),
     ),
@@ -50,17 +54,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: ThemeMode.system, // device controls theme
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const PageWithBar(child: InitialSignIn()),
-        '/auth': (context) => PageWithBar(child: WebViewPopup()),
-        '/home': (context) => PageWithBar(child: HomeScreen()),
+    return ScreenUtilInit(
+      designSize: Size(1200, 800),
+      builder: (BuildContext context, Widget? child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: ThemeMode.system, // device controls theme
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const PageWithBar(child: InitialSignIn()),
+            '/auth': (context) => PageWithBar(child: WebViewPopup()),
+            '/home': (context) => PageWithBar(child: HomeScreen()),
+          },
+        );
       },
+      child: const PageWithBar(child: InitialSignIn()),
     );
   }
 }
