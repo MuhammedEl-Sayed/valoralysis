@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:valoralysis/api/auth_redirect_webview.dart';
 import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/providers/content_provider.dart';
+import 'package:valoralysis/providers/mode_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/providers/category_provider.dart'; // Import the CategoryTypeProvider
 import 'package:valoralysis/widgets/screens/home.dart';
@@ -32,7 +33,8 @@ void main() async {
           create: (context) =>
               CategoryTypeProvider(), // Add the CategoryTypeProvider
         ),
-        ChangeNotifierProvider(create: (context) => ContentProvider())
+        ChangeNotifierProvider(create: (context) => ContentProvider()),
+        ChangeNotifierProvider(create: (context) => ModeProvider())
       ],
       child: const MyApp(),
     ),
@@ -55,18 +57,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(1200, 800),
+      designSize: const Size(1200, 800),
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: lightTheme,
-          darkTheme: darkTheme,
+          theme: darkTheme,
           themeMode: ThemeMode.system, // device controls theme
           initialRoute: '/',
           routes: {
             '/': (context) => const PageWithBar(child: InitialSignIn()),
             '/auth': (context) => PageWithBar(child: WebViewPopup()),
-            '/home': (context) => PageWithBar(child: HomeScreen()),
+            '/home': (context) => PageWithSidebar(child: HomeScreen()),
           },
         );
       },

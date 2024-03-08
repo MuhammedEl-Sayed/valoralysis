@@ -1,119 +1,50 @@
-// theme.dart
-
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 
-final ThemeData lightTheme = FlexThemeData.light(
-  colors: const FlexSchemeColor(
-    primary: Color(0xff004881),
-    primaryContainer: Color(0xffd0e4ff),
-    secondary: Color(0xffac3306),
-    secondaryContainer: Color(0xffffdbcf),
-    tertiary: Color(0xff006875),
-    tertiaryContainer: Color(0xff95f0ff),
-    appBarColor: Color(0xffffdbcf),
-    error: Color(0xffb00020),
+class ThemeColors {
+  static const darkPrimary = Color(0xffff897d);
+  static const darkPrimaryContainer = Color(0xff542344);
+  static const darkSecondary = Color(0xffe7bdb6);
+  static const darkSecondaryContainer = Color(0xff872100);
+  static const darkTertiary = Color(0xff86d2e1);
+  static const darkTertiaryContainer = Color(0xff004e59);
+  static const darkAppBarColor = Color(0xff872100);
+  static const darkError = Color(0xffcf6679);
+  static const darkErrorContainer = Color(0xff93000a);
+  static const darkBackground = Color(0xff161314);
+  static const darkSurfaceVariant = Color(0xff1F1A1C);
+  static const darkOnSurfaceVariant = Color(0xffffedea);
+  static const altSurface = Color(0xffac9e9c);
+  Color fadedText = const Color(0xffffedea).withAlpha(120);
+}
+
+final ThemeData darkTheme = ThemeData(
+  colorScheme: const ColorScheme.dark(
+    primary: ThemeColors.darkPrimary,
+    secondary: ThemeColors.darkSecondary,
+    background: ThemeColors.darkBackground,
+    error: ThemeColors.darkError,
+    surfaceVariant: ThemeColors.darkSurfaceVariant,
+    onSurfaceVariant: ThemeColors.darkOnSurfaceVariant,
+    onPrimary: ThemeColors.darkOnSurfaceVariant,
+    onSecondary: ThemeColors.darkOnSurfaceVariant,
+    onBackground: ThemeColors.darkOnSurfaceVariant,
+    onError: ThemeColors.darkErrorContainer,
   ),
-  usedColors: 1,
-  subThemesData: const FlexSubThemesData(
-    interactionEffects: false,
-    tintedDisabledControls: false,
-    blendOnColors: false,
-    useTextTheme: true,
-    inputDecoratorBorderType: FlexInputBorderType.underline,
-    inputDecoratorUnfocusedBorderIsColored: false,
-    alignedDropdown: true,
-    tooltipRadius: 4,
-    tooltipSchemeColor: SchemeColor.inverseSurface,
-    tooltipOpacity: 0.9,
-    useInputDecoratorThemeInDialogs: true,
-    snackBarElevation: 6,
-    snackBarBackgroundSchemeColor: SchemeColor.inverseSurface,
-    navigationBarSelectedLabelSchemeColor: SchemeColor.onSurface,
-    navigationBarUnselectedLabelSchemeColor: SchemeColor.onSurface,
-    navigationBarMutedUnselectedLabel: false,
-    navigationBarSelectedIconSchemeColor: SchemeColor.onSurface,
-    navigationBarUnselectedIconSchemeColor: SchemeColor.onSurface,
-    navigationBarMutedUnselectedIcon: false,
-    navigationBarIndicatorSchemeColor: SchemeColor.secondaryContainer,
-    navigationBarIndicatorOpacity: 1.00,
-    navigationRailSelectedLabelSchemeColor: SchemeColor.onSurface,
-    navigationRailUnselectedLabelSchemeColor: SchemeColor.onSurface,
-    navigationRailMutedUnselectedLabel: false,
-    navigationRailSelectedIconSchemeColor: SchemeColor.onSurface,
-    navigationRailUnselectedIconSchemeColor: SchemeColor.onSurface,
-    navigationRailMutedUnselectedIcon: false,
-    navigationRailIndicatorSchemeColor: SchemeColor.secondaryContainer,
-    navigationRailIndicatorOpacity: 1.00,
-    navigationRailBackgroundSchemeColor: SchemeColor.surface,
-    navigationRailLabelType: NavigationRailLabelType.none,
+  appBarTheme: const AppBarTheme(
+    color: ThemeColors.darkAppBarColor,
   ),
-  keyColors: const FlexKeyColors(
-    useSecondary: true,
+  cardTheme: const CardTheme(
+    color: ThemeColors.darkPrimaryContainer,
   ),
-  tones: FlexTones.ultraContrast(Brightness.light),
-  visualDensity: FlexColorScheme.comfortablePlatformDensity,
-  useMaterial3: true,
-  swapLegacyOnMaterial3: true,
-  // To use the Playground font, add GoogleFonts package and uncomment
-  // fontFamily: GoogleFonts.notoSans().fontFamily,
+  dialogBackgroundColor: ThemeColors.darkSecondaryContainer,
+  scaffoldBackgroundColor: ThemeColors.darkBackground,
+  buttonTheme: const ButtonThemeData(
+    buttonColor: ThemeColors.darkTertiary,
+  ),
+  textTheme: const TextTheme(
+    bodyLarge: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
+    bodyMedium: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
+  ),
 );
-
-final ThemeData darkTheme = FlexThemeData.dark(
-    colors: const FlexSchemeColor(
-      primary: Color(0xffff897d),
-      primaryContainer: Color(0xff542344),
-      secondary: Color(0xffe7bdb6),
-      secondaryContainer: Color(0xff872100),
-      tertiary: Color(0xff86d2e1),
-      tertiaryContainer: Color(0xff004e59),
-      appBarColor: Color(0xff872100),
-      error: Color(0xffcf6679),
-    ),
-    usedColors: 1,
-    subThemesData: const FlexSubThemesData(
-      interactionEffects: false,
-      tintedDisabledControls: false,
-      useTextTheme: true,
-      inputDecoratorBorderType: FlexInputBorderType.underline,
-      inputDecoratorUnfocusedBorderIsColored: false,
-      alignedDropdown: true,
-      tooltipRadius: 4,
-      tooltipSchemeColor: SchemeColor.inverseSurface,
-      tooltipOpacity: 0.9,
-      useInputDecoratorThemeInDialogs: true,
-      snackBarElevation: 6,
-      snackBarBackgroundSchemeColor: SchemeColor.inverseSurface,
-      navigationBarSelectedLabelSchemeColor: SchemeColor.onSurface,
-      navigationBarUnselectedLabelSchemeColor: SchemeColor.onSurface,
-      navigationBarMutedUnselectedLabel: false,
-      navigationBarSelectedIconSchemeColor: SchemeColor.onSurface,
-      navigationBarUnselectedIconSchemeColor: SchemeColor.onSurface,
-      navigationBarMutedUnselectedIcon: false,
-      navigationBarIndicatorSchemeColor: SchemeColor.secondaryContainer,
-      navigationBarIndicatorOpacity: 1.00,
-      navigationRailSelectedLabelSchemeColor: SchemeColor.onSurface,
-      navigationRailUnselectedLabelSchemeColor: SchemeColor.onSurface,
-      navigationRailMutedUnselectedLabel: false,
-      navigationRailSelectedIconSchemeColor: SchemeColor.onSurface,
-      navigationRailUnselectedIconSchemeColor: SchemeColor.onSurface,
-      navigationRailMutedUnselectedIcon: false,
-      navigationRailIndicatorSchemeColor: SchemeColor.secondaryContainer,
-      navigationRailIndicatorOpacity: 1.00,
-      navigationRailBackgroundSchemeColor: SchemeColor.surface,
-      navigationRailLabelType: NavigationRailLabelType.none,
-    ),
-    keyColors: const FlexKeyColors(
-      useSecondary: true,
-      keepPrimary: true,
-    ),
-    tones: FlexTones.ultraContrast(Brightness.dark),
-    visualDensity: FlexColorScheme.comfortablePlatformDensity,
-    useMaterial3: true,
-    swapLegacyOnMaterial3: true,
-    // To use the Playground font, add GoogleFonts package and uncomment
-    fontFamily: 'Lato');
-
-// If you do not have a themeMode switch, uncomment this line
-// to let the device system mode control the theme mode:
-// themeMode: ThemeMode.system,

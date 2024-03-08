@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/providers/category_provider.dart';
 
@@ -44,7 +45,7 @@ class CategoryTypeSelector extends StatelessWidget {
         fontSize: 20,
         color: isSelected
             ? Theme.of(context).colorScheme.onSurface
-            : Theme.of(context).colorScheme.onSurface.withAlpha(120),
+            : ThemeColors().fadedText,
       ),
       duration: const Duration(milliseconds: 200),
       child: Text(item.displayValue),
@@ -57,7 +58,9 @@ class CategoryTypeSelector extends StatelessWidget {
       duration: const Duration(milliseconds: 200),
       height: 2,
       width: isSelected ? item.displayValue.length.toDouble() * 9 : 0.0,
-      color: isSelected ? Theme.of(context).primaryColor : Colors.transparent,
+      color: isSelected
+          ? Theme.of(context).colorScheme.primary
+          : Colors.transparent,
     );
   }
 }

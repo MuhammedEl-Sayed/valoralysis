@@ -35,7 +35,7 @@ class _AgentTagState extends State<AgentTag> {
             snapshot.data == null) {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text('Error22: ${snapshot.error}');
         } else {
           return Row(children: [
             ClipOval(
@@ -51,7 +51,13 @@ class _AgentTagState extends State<AgentTag> {
                 iconUrl: snapshot.data,
               ),
             )),
-            Text(userName)
+            const Padding(
+              padding: EdgeInsets.only(left: 17),
+            ),
+            Text(
+              userName,
+              style: const TextStyle(fontSize: 20),
+            )
           ]);
         }
       },

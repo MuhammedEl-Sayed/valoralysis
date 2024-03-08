@@ -15,6 +15,7 @@ class HistoryService {
   static Future<List<MatchHistory>> _getMatchListByPuuid(String puuid) async {
     Dio dio = AuthService.prepareDio(PlatformId.NA);
     var response = await dio.get('/val/match/v1/matchlists/by-puuid/$puuid');
+    print((response.data['history'] as List)[0]);
     return (response.data['history'] as List)
         .map((match) => MatchHistory.fromJson(match))
         .toList();
@@ -35,7 +36,7 @@ class HistoryService {
   static Future<List<Map<String, dynamic>>> getAllMatchDetails(
       List<MatchHistory> matchHistory) async {
     var trimmedMatches =
-        HistoryUtils.extractMatchIDs(matchHistory).getRange(0, 15);
+        HistoryUtils.extractMatchIDs(matchHistory).getRange(0, 20);
     var futures =
         trimmedMatches.map((matchID) => getMatchDetailsByMatchID(matchID));
     return await Future.wait(futures);

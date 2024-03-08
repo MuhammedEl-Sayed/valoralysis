@@ -47,8 +47,7 @@ class _InitialSignInState extends State<InitialSignIn> {
       consentGiven: true,
       name: userProvider.user.name,
     ));
-    print(userProvider.user.puuid);
-    print(userProvider.user.consentGiven);
+
     // Check if the user is already signed in, then nav to the next page
     if (userProvider.user.puuid != '' && userProvider.user.consentGiven) {
       Navigator.pushNamed(context, '/home');

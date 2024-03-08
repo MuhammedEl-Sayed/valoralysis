@@ -107,7 +107,6 @@ class Webview {
   typedef std::function<void(bool, const std::string&)>
       AddScriptToExecuteOnDocumentCreatedCallback;
   typedef std::function<void(bool, const std::string&)> ScriptExecutedCallback;
-    typedef std::function<void(bool, const std::string&)> GetCookiesCallback;
   typedef std::function<void(const std::string&)> WebMessageReceivedCallback;
   typedef std::function<void(WebviewPermissionState state)>
       WebviewPermissionRequestedCompleter;
@@ -117,7 +116,7 @@ class Webview {
       PermissionRequestedCallback;
   typedef std::function<void(bool contains_fullscreen_element)>
       ContainsFullScreenElementChangedCallback;
-
+ typedef std::function<void(bool, const std::string&)> GetCookiesCallback;
   ~Webview();
 
   ABI::Windows::UI::Composition::IVisual* const surface() {
@@ -144,10 +143,10 @@ class Webview {
   void RemoveScriptToExecuteOnDocumentCreated(const std::string& script_id);
   void ExecuteScript(const std::string& script,
                      ScriptExecutedCallback callback);
+                      void GetCookies(const std::string& url,
+                            GetCookiesCallback callback);
   bool PostWebMessage(const std::string& json);
   bool ClearCookies();
-  void GetCookies(const std::string& url,
-                            GetCookiesCallback callback);
   bool ClearCache();
   bool SetCacheDisabled(bool disabled);
   void SetPopupWindowPolicy(WebviewPopupWindowPolicy policy);

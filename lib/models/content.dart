@@ -1,5 +1,6 @@
 import 'package:valoralysis/api/services/agent_service.dart';
 import 'package:valoralysis/models/agent.dart';
+import 'package:valoralysis/models/rank.dart';
 
 class ContentItem {
   String name;
@@ -21,16 +22,19 @@ class Content {
   List<ContentItem> equips;
   List<ContentItem> gameModes;
   List<ContentItem> acts;
+  List<Rank> ranks;
 
   Content(
       {required this.maps,
       required this.agents,
       required this.equips,
       required this.gameModes,
-      required this.acts});
+      required this.acts,
+      required this.ranks});
 
   static Future<Content> fromJson(Map<String, dynamic> json,
-      {required List<AgentIconMap> agentIcons}) async {
+      {required List<AgentIconMap> agentIcons,
+      required List<Rank> ranks}) async {
     return Content(
         maps:
             (json['maps'] as List).map((i) => ContentItem.fromJson(i)).toList(),
@@ -46,8 +50,8 @@ class Content {
         gameModes: (json['gameModes'] as List)
             .map((i) => ContentItem.fromJson(i))
             .toList(),
-        acts: (json['acts'] as List)
-            .map((i) => ContentItem.fromJson(i))
-            .toList());
+        acts:
+            (json['acts'] as List).map((i) => ContentItem.fromJson(i)).toList(),
+        ranks: ranks);
   }
 }

@@ -12,10 +12,11 @@ class Sidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: ColorScheme.dark().background,
+      color: Theme.of(context).colorScheme.surfaceVariant,
       width: 75,
       child: Column(children: [
-        Image.asset('assets/images/logo/Square71x71Logo.scale-100.png'),
+        const Padding(padding: EdgeInsets.only(top: 10)),
+        Image.asset('assets/images/logo/StoreLogo.scale-300.png'),
         const SizedBox(height: 80),
         SidebarIcons(),
         Expanded(child: Container()),

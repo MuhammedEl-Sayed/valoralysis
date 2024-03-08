@@ -8,9 +8,7 @@ class AgentIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isValidUrl = Uri.tryParse(iconUrl ?? '')?.hasAbsolutePath ?? false;
-    print('isValuidUrl: $isValidUrl');
     if (isValidUrl) {
-      print('iconUrl: $iconUrl');
       return Image(
         image: NetworkImage(iconUrl!),
         width: 60,

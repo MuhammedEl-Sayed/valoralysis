@@ -22,6 +22,7 @@ constexpr auto kMethodGoBack = "goBack";
 constexpr auto kMethodGoForward = "goForward";
 constexpr auto kMethodAddScriptToExecuteOnDocumentCreated =
     "addScriptToExecuteOnDocumentCreated";
+    constexpr auto kMethodGetCookies = "getCookies";
 constexpr auto kMethodRemoveScriptToExecuteOnDocumentCreated =
     "removeScriptToExecuteOnDocumentCreated";
 constexpr auto kMethodExecuteScript = "executeScript";
@@ -33,7 +34,6 @@ constexpr auto kMethodSetPointerButton = "setPointerButton";
 constexpr auto kMethodSetScrollDelta = "setScrollDelta";
 constexpr auto kMethodSetUserAgent = "setUserAgent";
 constexpr auto kMethodSetBackgroundColor = "setBackgroundColor";
-constexpr auto kMethodGetCookies = "getCookies";
 constexpr auto kMethodSetZoomFactor = "setZoomFactor";
 constexpr auto kMethodOpenDevTools = "openDevTools";
 constexpr auto kMethodSuspend = "suspend";
@@ -642,15 +642,8 @@ void WebviewBridge::HandleMethodCall(
     }
     return result->Error(kMethodFailed);
   }
-
-  // clearCache
-  if (method_name.compare(kMethodClearCache) == 0) {
-    if (webview_->ClearCache()) {
-      return result->Success();
-    }
-    return result->Error(kMethodFailed);
-  }
- if (method_name.compare(kMethodGetCookies) == 0) {
+  // getCookies
+  if (method_name.compare(kMethodGetCookies) == 0) {
     if (const auto url = std::get_if<std::string>(method_call.arguments())) {
       std::shared_ptr<flutter::MethodResult<flutter::EncodableValue>>
           shared_result = std::move(result);
@@ -666,6 +659,14 @@ void WebviewBridge::HandleMethodCall(
     }
     return result->Error(kErrorInvalidArgs);
   }
+  // clearCache
+  if (method_name.compare(kMethodClearCache) == 0) {
+    if (webview_->ClearCache()) {
+      return result->Success();
+    }
+    return result->Error(kMethodFailed);
+  }
+
   // setCacheDisabled: bool
   if (method_name.compare(kMethodSetCacheDisabled) == 0) {
     if (const auto disabled = std::get_if<bool>(method_call.arguments())) {

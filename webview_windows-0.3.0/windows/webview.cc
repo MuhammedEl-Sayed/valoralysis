@@ -416,7 +416,6 @@ bool Webview::ClearCookies() {
   return webview_->CallDevToolsProtocolMethod(L"Network.clearBrowserCookies",
                                               L"{}", nullptr) == S_OK;
 }
-
 void Webview::GetCookies(const std::string& url, GetCookiesCallback callback) {
   if (IsValid()) {
     wil::com_ptr<ICoreWebView2CookieManager> cookieManager;
@@ -454,6 +453,7 @@ void Webview::GetCookies(const std::string& url, GetCookiesCallback callback) {
   }
   callback(false, std::string());
 }
+
 bool Webview::ClearCache() {
   if (!IsValid()) {
     return false;

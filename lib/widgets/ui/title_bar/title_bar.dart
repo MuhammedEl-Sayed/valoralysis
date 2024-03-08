@@ -1,5 +1,6 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
+import 'package:valoralysis/widgets/ui/sidebar/sidebar.dart';
 import 'package:valoralysis/widgets/ui/title_bar/windows_buttons.dart';
 
 class TitleBar extends StatelessWidget {
@@ -8,7 +9,7 @@ class TitleBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: ColorScheme.dark().background,
+      color: Theme.of(context).colorScheme.background,
       child: WindowTitleBarBox(
         child: Row(
           children: [Expanded(child: MoveWindow()), const WindowButtons()],
@@ -32,6 +33,26 @@ class PageWithBar extends StatelessWidget {
             child: Container(
           child: child,
         ))
+      ],
+    );
+  }
+}
+
+class PageWithSidebar extends StatelessWidget {
+  final Widget child;
+
+  const PageWithSidebar({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Expanded(
+            child: Container(
+          child: child,
+        )),
+        const TitleBar(),
+        Sidebar(),
       ],
     );
   }
