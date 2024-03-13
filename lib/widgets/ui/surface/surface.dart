@@ -13,7 +13,7 @@ class Surface extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(3)),
             color: Theme.of(context).colorScheme.surfaceVariant),
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: children,

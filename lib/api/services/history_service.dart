@@ -15,7 +15,6 @@ class HistoryService {
   static Future<List<MatchHistory>> _getMatchListByPuuid(String puuid) async {
     Dio dio = AuthService.prepareDio(PlatformId.NA);
     var response = await dio.get('/val/match/v1/matchlists/by-puuid/$puuid');
-    print((response.data['history'] as List)[0]);
     return (response.data['history'] as List)
         .map((match) => MatchHistory.fromJson(match))
         .toList();

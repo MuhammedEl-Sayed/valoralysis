@@ -5,7 +5,13 @@ import 'package:valoralysis/models/rank.dart';
 
 class ContentProvider with ChangeNotifier {
   Content _content = Content(
-      maps: [], agents: [], equips: [], gameModes: [], acts: [], ranks: []);
+      maps: [],
+      agents: [],
+      equips: [],
+      gameModes: [],
+      acts: [],
+      ranks: [],
+      weapons: []);
   List<MatchHistory> _matchHistory = [];
   List<Map<String, dynamic>> _matchDetails = [];
 
@@ -14,6 +20,7 @@ class ContentProvider with ChangeNotifier {
   List<ContentItem> get equips => _content.equips;
   List<ContentItem> get gameModes => _content.gameModes;
   List<ContentItem> get acts => _content.acts;
+  List<WeaponItem> get weapons => _content.weapons;
   List<Rank> get ranks => _content.ranks;
   List<MatchHistory> get matchHistory => _matchHistory;
   List<Map<String, dynamic>> get matchDetails => _matchDetails;
@@ -24,6 +31,7 @@ class ContentProvider with ChangeNotifier {
     _content.equips = <ContentItem>[];
     _content.gameModes = <ContentItem>[];
     _content.acts = <ContentItem>[];
+    _content.weapons = <WeaponItem>[];
     _content.ranks = <Rank>[];
     _matchHistory = <MatchHistory>[];
     _matchDetails = <Map<String, dynamic>>[];

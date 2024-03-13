@@ -1,12 +1,8 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:valoralysis/api/services/auth_service.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
-import 'package:valoralysis/utils/cookies.dart';
 import 'package:webview_windows/webview_windows.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 

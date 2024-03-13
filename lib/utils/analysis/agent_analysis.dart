@@ -26,12 +26,11 @@ class AgentAnalysis {
           mostFrequentValue = value;
         }
       });
-      print(matches);
       return agentContent
           .firstWhere((agent) => agent.id.toLowerCase() == mostFrequentAgent)
           .name;
     } catch (e) {
-      print('Error22: $e');
+      print('Error: $e');
       return 'Pheonix';
     }
   }

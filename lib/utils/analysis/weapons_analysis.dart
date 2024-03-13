@@ -1,11 +1,9 @@
 import 'package:valoralysis/api/services/weapons_service.dart';
+import 'package:valoralysis/models/content.dart';
 
 class WeaponsAnalysis {
-  static Map<String, String>? weaponMap;
-
-  static Future<Map<String, double>> weaponsHeadshotAccuracyAnaylsis(
-      List<Map<String, dynamic>> matches, String puuid) async {
-    weaponMap ??= await WeaponsService.fetchWeaponData();
+  static Map<String, double> weaponsHeadshotAccuracyAnaylsis(
+      List<Map<String, dynamic>> matches, String puuid) {
     List<dynamic> playerDamage = [];
     //located in matches[x]['roundResults'][y]['playerStats'][z]['damage'] and each might be null
     for (Map<String, dynamic> matchDetails in matches) {
@@ -28,7 +26,6 @@ class WeaponsAnalysis {
     double totalLegshots = 0;
 
     for (Map<String, dynamic> pd in playerDamage) {
-      print(pd);
       totalHeadshots += pd['headshots'];
       totalBodyshots += pd['bodyshots'];
       totalLegshots += pd['legshots'];
@@ -43,9 +40,9 @@ class WeaponsAnalysis {
   }
 
   static Future<Map<String, int>> weaponsKillsFrequencyAnalysis(
-      List<Map<String, dynamic>> matches, String puuid) async {
-    weaponMap ??= await WeaponsService.fetchWeaponData();
-
+      List<Map<String, dynamic>> matches,
+      String puuid,
+      List<WeaponItem> weapnList) async {
     List<dynamic> playerKills = [];
     for (Map<String, dynamic> matchDetails in matches) {
       if (matchDetails['roundResults'] != null) {
@@ -64,11 +61,12 @@ class WeaponsAnalysis {
     for (Map<String, dynamic> kill in playerKills) {
       if (kill['finishingDamage']['damageType'] == 'Weapon' &&
           kill['finishingDamage']['damageItem'].isNotEmpty) {
-        String? weapon = weaponMap?[
-            kill['finishingDamage']['damageItem'].toString().toLowerCase()];
-        if (weapon != null) {
-          weaponFrequency[weapon] = (weaponFrequency[weapon] ?? 0) + 1;
-        }
+        String weaponInKill =
+            kill['finishingDamage']['damageItem'].toString().toLowerCase();
+        String? weapon =
+            weapnList.firstWhere((weapon) => weapon.uuid == weaponInKill).name;
+
+        weaponFrequency[weapon] = (weaponFrequency[weapon] ?? 0) + 1;
       }
     }
     return weaponFrequency;

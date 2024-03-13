@@ -12,6 +12,7 @@ import 'package:valoralysis/utils/user_utils.dart';
 import 'package:valoralysis/widgets/ui/agent_tag/agent_tag.dart';
 
 import 'package:valoralysis/widgets/ui/category_selector/category_selector.dart';
+import 'package:valoralysis/widgets/ui/headshot_tile/headshot_tile.dart';
 import 'package:valoralysis/widgets/ui/mode_selector/mode_selector.dart';
 import 'package:valoralysis/widgets/ui/rank_tile/rank_tile.dart';
 import 'package:valoralysis/widgets/ui/sidebar/sidebar.dart';
@@ -79,7 +80,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             const Padding(padding: EdgeInsets.only(top: 35)),
                             ModeSelector(),
                             const Padding(padding: EdgeInsets.only(top: 35)),
-                            RankTile(),
+                            Row(
+                              children: [
+                                RankTile(),
+                                const Padding(
+                                    padding: EdgeInsets.only(left: 8)),
+                                HeadshotTile()
+                              ],
+                            ),
                             const Padding(padding: EdgeInsets.only(top: 300)),
                             FilledButton(
                               onPressed: () async {},
