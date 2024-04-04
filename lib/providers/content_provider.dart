@@ -43,18 +43,15 @@ class ContentProvider with ChangeNotifier {
   }
 
   void updateMatchHistory(List<MatchHistory> matchHistory) {
-    print("does this even get called?");
     try {
       _matchHistory = matchHistory;
-      print(matchHistory);
       notifyListeners();
-    } catch (e) {
-      print('here??');
-    }
+    } catch (e) {}
   }
 
   void updateMatchDetails(List<Map<String, dynamic>> matchDetails) {
     _matchDetails = matchDetails;
+    print('Collected ${matchDetails.length} matches');
     notifyListeners();
   }
 }

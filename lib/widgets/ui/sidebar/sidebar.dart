@@ -19,11 +19,11 @@ class Sidebar extends StatelessWidget {
         Image.asset('assets/images/logo/StoreLogo.scale-300.png'),
         const SizedBox(height: 80),
         SidebarIcons(),
-        Expanded(child: Container()),
+        const SizedBox(height: 80),
+
         //logout
         Padding(
-            padding: const EdgeInsets.only(
-                bottom: 20.0), // Add your desired padding here
+            padding: const EdgeInsets.only(bottom: 20.0),
             child: IconButton(
               icon: const Icon(
                 Icons.logout,

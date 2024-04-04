@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:valoralysis/api/services/auth_service.dart';
 import 'package:valoralysis/models/match_history.dart';
-import 'package:valoralysis/utils/history.dart';
+import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/rate_limiter.dart';
 import 'package:valoralysis/utils/riot_api_builder.dart';
 

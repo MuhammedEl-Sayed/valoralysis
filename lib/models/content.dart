@@ -9,7 +9,15 @@ class ContentItem {
   factory ContentItem.fromJson(Map<String, dynamic> json, {String? iconUrl}) {
     return ContentItem(
       json['name'],
-      json['id'],
+      json['id'].toString().toLowerCase(),
+      iconUrl: iconUrl ?? json['iconUrl'],
+    );
+  }
+  factory ContentItem.fromJsonWithMapUrl(Map<String, dynamic> json,
+      {String? iconUrl}) {
+    return ContentItem(
+      json['name'],
+      json['assetPath'] ?? json['id'],
       iconUrl: iconUrl ?? json['iconUrl'],
     );
   }
@@ -22,7 +30,7 @@ class WeaponItem {
   WeaponItem(this.uuid, this.name, {this.iconUrl});
   factory WeaponItem.fromJson(Map<String, dynamic> json, {String? iconUrl}) {
     return WeaponItem(
-      json['uuid'],
+      json['uuid'].toString().toLowerCase(),
       json['displayName'],
       iconUrl: iconUrl ?? json['displayIcon'],
     );
@@ -52,8 +60,9 @@ class Content {
       required List<Rank> ranks,
       required List<WeaponItem> weapons}) async {
     return Content(
-        maps:
-            (json['maps'] as List).map((i) => ContentItem.fromJson(i)).toList(),
+        maps: (json['maps'] as List)
+            .map((i) => ContentItem.fromJsonWithMapUrl(i))
+            .toList(),
         agents: (json['characters'] as List).map((i) {
           var icon = agentIcons.firstWhere(
               (icon) => icon.uuid == i['id'].toString().toLowerCase(),

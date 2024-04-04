@@ -16,7 +16,6 @@ class RankService {
           }
         }
       }
-      print(ranks);
       return ranks;
     } catch (e) {
       return [];

@@ -1,12 +1,11 @@
 import 'package:valoralysis/models/content.dart';
+import 'package:valoralysis/utils/analysis/winrate_analysis.dart';
+import 'package:valoralysis/utils/formatting.dart';
 
 class AgentAnalysis {
-  static findTopAgent(List<Map<String, dynamic>> matches, String puuid,
+  static String findTopAgent(List<Map<String, dynamic>> matches, String puuid,
       List<ContentItem> agentContent) {
     try {
-      //Need to find top agent
-      //Go through matches, go through the player part, and then add to a map as a key/increment value
-      //Decode only at end, dont need to earlier
       Map<String, int> agentFrequency = {};
 
       for (Map<String, dynamic> matchDetails in matches) {
@@ -32,6 +31,35 @@ class AgentAnalysis {
     } catch (e) {
       print('Error: $e');
       return 'Pheonix';
+    }
+  }
+
+  static Map<String, double> findAgentWR(List<Map<String, dynamic>> matches,
+      String puuid, List<ContentItem> agentContent) {
+    try {
+      // So we want to find WR per agent. So we can use agentContent to map the matches to agents, then call the WR on them. Love the modularized approach!!
+      Map<String, List<Map<String, dynamic>>> agentMatchMap = {};
+      Map<String, double> agentWR = {};
+      for (Map<String, dynamic> matchDetails in matches) {
+        for (Map<String, dynamic> player in matchDetails['players']) {
+          if (player['puuid'] == puuid) {
+            agentMatchMap.update(
+                FormattingUtils.convertContentIdToName(
+                    agentContent, player['characterId']), (value) {
+              value.add(matchDetails);
+              return value;
+            }, ifAbsent: () => [matchDetails]);
+          }
+        }
+      }
+
+      agentMatchMap.forEach((characterId, matches) {
+        agentWR[characterId] = WinrateAnalysis.getWR(matches, puuid);
+      });
+      return agentWR;
+    } catch (e) {
+      print('Error: $e');
+      return {};
     }
   }
 }

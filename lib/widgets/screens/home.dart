@@ -7,6 +7,8 @@ import 'package:valoralysis/api/services/rank_service.dart';
 import 'package:valoralysis/providers/category_provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
+import 'package:valoralysis/utils/analysis/agent_analysis.dart';
+import 'package:valoralysis/utils/analysis/map_analysis.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
 import 'package:valoralysis/utils/user_utils.dart';
 import 'package:valoralysis/widgets/ui/agent_tag/agent_tag.dart';
@@ -16,6 +18,7 @@ import 'package:valoralysis/widgets/ui/headshot_tile/headshot_tile.dart';
 import 'package:valoralysis/widgets/ui/mode_selector/mode_selector.dart';
 import 'package:valoralysis/widgets/ui/rank_tile/rank_tile.dart';
 import 'package:valoralysis/widgets/ui/sidebar/sidebar.dart';
+import 'package:valoralysis/widgets/ui/tile/tile.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -67,34 +70,50 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Theme.of(context).colorScheme.background,
             body: Consumer2<CategoryTypeProvider, ContentProvider>(
               builder: (context, categoryTypeProvider, contentProvider, child) {
-                return Row(children: [
-                  Sidebar(),
-                  Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.only(left: 30),
-                          child: Column(children: [
-                            const Padding(padding: EdgeInsets.only(top: 40)),
-                            const AgentTag(),
-                            const Padding(padding: EdgeInsets.only(top: 40)),
-                            CategoryTypeSelector(),
-                            const Padding(padding: EdgeInsets.only(top: 35)),
-                            ModeSelector(),
-                            const Padding(padding: EdgeInsets.only(top: 35)),
-                            Row(
-                              children: [
-                                RankTile(),
-                                const Padding(
-                                    padding: EdgeInsets.only(left: 8)),
-                                HeadshotTile()
-                              ],
-                            ),
-                            const Padding(padding: EdgeInsets.only(top: 300)),
-                            FilledButton(
-                              onPressed: () async {},
-                              child: const Text('Match History'),
-                            )
-                          ])))
-                ]);
+                return SingleChildScrollView(
+                    // Add this
+                    child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height),
+                        child: Padding(
+                            padding: const EdgeInsets.only(left: 30),
+                            child: Column(children: [
+                              const Padding(padding: EdgeInsets.only(top: 40)),
+                              const AgentTag(),
+                              const Padding(padding: EdgeInsets.only(top: 40)),
+                              CategoryTypeSelector(),
+                              const Padding(padding: EdgeInsets.only(top: 35)),
+                              ModeSelector(),
+                              const Padding(padding: EdgeInsets.only(top: 35)),
+                              Column(
+                                textDirection: TextDirection.ltr,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(children: [
+                                    RankTile(),
+                                  ]),
+                                  const Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 8, top: 8)),
+                                  const Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 8, top: 8)),
+                                  HeadshotTile(),
+                                  const Padding(
+                                      padding: EdgeInsets.only(top: 8)),
+                                ],
+                              ),
+                              const Padding(padding: EdgeInsets.only(top: 1)),
+                              FilledButton(
+                                onPressed: () async {
+                                  print(AgentAnalysis.findAgentWR(
+                                      contentProvider.matchDetails,
+                                      userProvider.user.puuid,
+                                      contentProvider.agents));
+                                },
+                                child: const Text('Match History'),
+                              )
+                            ]))));
               },
             ),
           );

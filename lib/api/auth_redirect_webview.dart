@@ -45,7 +45,6 @@ class _WebViewPopupState extends State<WebViewPopup> {
           final accessToken = uri.fragment.split('&')[0].split('=')[1];
 
           final puuid = JwtDecoder.decode(accessToken)['sub'];
-          print(puuid);
         }
       });
       if (!mounted) {

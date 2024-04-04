@@ -47,10 +47,13 @@ class PageWithSidebar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Expanded(
-            child: Container(
-          child: child,
-        )),
+        Padding(
+          child: Expanded(
+              child: Container(
+            child: child,
+          )),
+          padding: EdgeInsets.only(left: 75),
+        ),
         const TitleBar(),
         Sidebar(),
       ],

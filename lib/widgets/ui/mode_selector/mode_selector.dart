@@ -12,11 +12,11 @@ class ModeSelector extends StatelessWidget {
     BorderRadius getBorderRadius(int index) {
       if (index == 0) {
         return const BorderRadius.only(
-            topLeft: Radius.circular(4), bottomLeft: Radius.circular(4));
+            topLeft: Radius.circular(6), bottomLeft: Radius.circular(4));
       }
       if (index == modes.length - 1) {
         return const BorderRadius.only(
-            topRight: Radius.circular(4), bottomRight: Radius.circular(4));
+            topRight: Radius.circular(6), bottomRight: Radius.circular(4));
       }
       return const BorderRadius.all(Radius.circular(2));
     }
