@@ -13,12 +13,10 @@ import 'package:valoralysis/providers/category_provider.dart'; // Import the Cat
 import 'package:valoralysis/widgets/screens/home.dart';
 import 'package:valoralysis/widgets/screens/initial_sign_in.dart';
 import 'package:valoralysis/widgets/ui/title_bar/title_bar.dart';
+import 'dart:io' show Platform;
 
 void main() async {
   await dotenv.load();
-
-  WidgetsFlutterBinding
-      .ensureInitialized(); // Ensure that you have bindings for your app.
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -40,15 +38,19 @@ void main() async {
     ),
   );
   appWindow.show();
-  doWhenWindowReady(() {
-    final win = appWindow;
-    const initialSize = Size(1200, 800);
-    win.minSize = initialSize;
-    win.size = initialSize;
-    win.alignment = Alignment.center;
-    win.title = "Valoralysis";
-    win.show();
-  });
+  if (Platform.isWindows) {
+    WidgetsFlutterBinding
+        .ensureInitialized(); // Ensure that you have bindings for your app.
+    doWhenWindowReady(() {
+      final win = appWindow;
+      const initialSize = Size(1200, 800);
+      win.minSize = initialSize;
+      win.size = initialSize;
+      win.alignment = Alignment.center;
+      win.title = "Valoralysis";
+      win.show();
+    });
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -56,6 +58,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isWindows = Platform.isWindows;
     return ScreenUtilInit(
       designSize: const Size(1200, 800),
       builder: (BuildContext context, Widget? child) {
@@ -65,9 +68,14 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeMode.system, // device controls theme
           initialRoute: '/',
           routes: {
-            '/': (context) => const PageWithBar(child: InitialSignIn()),
-            '/auth': (context) => PageWithBar(child: WebViewPopup()),
-            '/home': (context) => PageWithSidebar(child: HomeScreen()),
+            '/': (context) => isWindows
+                ? const PageWithBar(child: InitialSignIn())
+                : const InitialSignIn(),
+            '/auth': (context) =>
+                isWindows ? PageWithBar(child: WebViewPopup()) : WebViewPopup(),
+            '/home': (context) => isWindows
+                ? PageWithSidebar(child: HomeScreen())
+                : PageWithTabBar(child: HomeScreen()),
           },
         );
       },

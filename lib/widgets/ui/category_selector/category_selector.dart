@@ -9,30 +9,34 @@ class CategoryTypeSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CategoryTypeProvider>(
       builder: (context, categoryTypeProvider, child) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: categoryTypeProvider.queueTypes.map((item) {
-            bool isSelected =
-                categoryTypeProvider.selectedQueue == item.realValue;
-            return GestureDetector(
-              onTap: () => categoryTypeProvider.selectQueue(item.realValue),
-              child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 25),
-                    child: Column(
-                      children: [
-                        buildAnimatedText(context, isSelected, item),
-                        const SizedBox(height: 4),
-                        buildAnimatedContainer(context, isSelected, item),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            );
-          }).toList(),
-        );
+        return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: categoryTypeProvider.queueTypes.map((item) {
+                bool isSelected =
+                    categoryTypeProvider.selectedQueue == item.realValue;
+                return GestureDetector(
+                  onTap: () => categoryTypeProvider.selectQueue(item.realValue),
+                  child: LayoutBuilder(
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 25),
+                        child: Column(
+                          children: [
+                            buildAnimatedText(context, isSelected, item),
+                            const SizedBox(height: 4),
+                            buildAnimatedContainer(context, isSelected, item),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }).toList(),
+            ));
       },
     );
   }
