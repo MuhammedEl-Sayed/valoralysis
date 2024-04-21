@@ -5,21 +5,17 @@ class ContentItem {
   String name;
   String id;
   String? iconUrl;
-  ContentItem(this.name, this.id, {this.iconUrl});
+  String? assetUrl;
+  ContentItem(this.name, this.id, {this.iconUrl, this.assetUrl});
   factory ContentItem.fromJson(Map<String, dynamic> json, {String? iconUrl}) {
-    return ContentItem(
-      json['name'],
-      json['id'].toString().toLowerCase(),
-      iconUrl: iconUrl ?? json['iconUrl'],
-    );
+    return ContentItem(json['name'], json['id'].toString().toLowerCase(),
+        iconUrl: iconUrl ?? json['iconUrl']);
   }
   factory ContentItem.fromJsonWithMapUrl(Map<String, dynamic> json,
       {String? iconUrl}) {
-    return ContentItem(
-      json['name'],
-      json['assetPath'] ?? json['id'],
-      iconUrl: iconUrl ?? json['iconUrl'],
-    );
+    print(json);
+    return ContentItem(json['name'], json['uuid'].toString().toLowerCase(),
+        iconUrl: iconUrl ?? json['iconUrl'], assetUrl: json['assetPath']);
   }
 }
 

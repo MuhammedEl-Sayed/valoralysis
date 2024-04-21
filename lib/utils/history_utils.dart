@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/match_history.dart';
 import 'package:valoralysis/models/player_stats.dart';
@@ -24,6 +26,42 @@ class HistoryUtils {
     return matchDetails
         .map((matchDetail) => extractPlayerStat(matchDetail, puuid))
         .toList();
+  }
+
+  static int extractStartTime(Map<String, dynamic> matchDetails) {
+    return matchDetails['matchInfo']['gameStartMillis'] as int;
+  }
+
+  static getContentImageFromId(String uuid, List<ContentItem> content) {
+    return content.firstWhere((item) => item.id == uuid).iconUrl;
+  }
+
+  static getContentTextFromId(String uuid, List<ContentItem> content) {
+    print('UUID: $uuid');
+    print('Content List Length: ${content.length}');
+
+    content.forEach((element) {
+      print('Element ID: ${element.assetUrl}');
+    });
+
+    try {
+      var result = content.firstWhere((item) => item.id == uuid);
+      print('Matched Content: ${result.name}');
+      return result.name;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+
+  static Map<String, dynamic> getPlayerByPUUID(
+      Map<String, dynamic> matchDetails, String puuid) {
+    for (Map<String, dynamic> player in matchDetails['players']) {
+      if (player['puuid'] == puuid) {
+        return player;
+      }
+    }
+    return {};
   }
 
   static List<Map<String, dynamic>> filterMatchDetails(

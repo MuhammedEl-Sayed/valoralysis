@@ -48,6 +48,7 @@ dependencies:
   pool: ^1.5.1
   flutter_dotenv: ^5.1.0
   flutter_screenutil: ^5.9.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -112,3 +113,8 @@ fonts:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/valoralysis_transparent.png"

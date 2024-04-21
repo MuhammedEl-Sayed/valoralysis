@@ -60,5 +60,3 @@ class PageWithSidebar extends StatelessWidget {
     );
   }
 }
-
-class Page

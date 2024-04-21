@@ -15,26 +15,28 @@ class ThemeColors {
   static const darkBackground = Color(0xff161314);
   static const darkSurfaceVariant = Color(0xff1F1A1C);
   static const darkOnSurfaceVariant = Color(0xffffedea);
-  static const altSurface = Color(0xffac9e9c);
+  static const altSurface = Color(0xff332B2F);
+  static const canvasColor = Color(0xff332B2F);
+
   Color fadedText = const Color(0xffffedea).withAlpha(120);
 }
 
 final ThemeData darkTheme = ThemeData(
   colorScheme: const ColorScheme.dark(
-    primary: ThemeColors.darkPrimary,
-    secondary: ThemeColors.darkSecondary,
-    background: ThemeColors.darkBackground,
-    error: ThemeColors.darkError,
-    surfaceVariant: ThemeColors.darkSurfaceVariant,
-    onSurfaceVariant: ThemeColors.darkOnSurfaceVariant,
-    onPrimary: ThemeColors.darkOnSurfaceVariant,
-    onSecondary: ThemeColors.darkOnSurfaceVariant,
-    onBackground: ThemeColors.darkOnSurfaceVariant,
-    onError: ThemeColors.darkErrorContainer,
-  ),
+      primary: ThemeColors.darkPrimary,
+      secondary: ThemeColors.darkSecondary,
+      background: ThemeColors.darkBackground,
+      error: ThemeColors.darkError,
+      surfaceVariant: ThemeColors.darkSurfaceVariant,
+      onSurfaceVariant: ThemeColors.darkOnSurfaceVariant,
+      onPrimary: ThemeColors.darkOnSurfaceVariant,
+      onSecondary: ThemeColors.darkOnSurfaceVariant,
+      onBackground: ThemeColors.darkOnSurfaceVariant,
+      onError: ThemeColors.darkErrorContainer),
   appBarTheme: const AppBarTheme(
     color: ThemeColors.darkAppBarColor,
   ),
+  canvasColor: ThemeColors.canvasColor,
   cardTheme: const CardTheme(
     color: ThemeColors.darkPrimaryContainer,
   ),

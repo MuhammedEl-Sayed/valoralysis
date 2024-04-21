@@ -1,6 +1,7 @@
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/utils/analysis/winrate_analysis.dart';
 import 'package:valoralysis/utils/formatting.dart';
+import 'package:valoralysis/utils/history_utils.dart';
 
 class AgentAnalysis {
   static String findTopAgent(List<Map<String, dynamic>> matches, String puuid,
@@ -9,13 +10,14 @@ class AgentAnalysis {
       Map<String, int> agentFrequency = {};
 
       for (Map<String, dynamic> matchDetails in matches) {
-        for (Map<String, dynamic> player in matchDetails['players']) {
-          if (player['puuid'] == puuid) {
-            agentFrequency.update(player['characterId'], (value) => value + 1,
-                ifAbsent: () => 1);
-          }
+        Map<String, dynamic> player =
+            HistoryUtils.getPlayerByPUUID(matchDetails, puuid);
+        if (player != null) {
+          agentFrequency.update(player['characterId'], (value) => value + 1,
+              ifAbsent: () => 1);
         }
       }
+
       String mostFrequentAgent = '';
       int mostFrequentValue = 0;
 
@@ -25,6 +27,7 @@ class AgentAnalysis {
           mostFrequentValue = value;
         }
       });
+
       return agentContent
           .firstWhere((agent) => agent.id.toLowerCase() == mostFrequentAgent)
           .name;
