@@ -22,10 +22,8 @@ class HistoryUtils {
   }
 
   static List<PlayerStats> extractPlayerStats(
-      List<Map<String, dynamic>> matchDetails, String puuid) {
-    return matchDetails
-        .map((matchDetail) => extractPlayerStat(matchDetail, puuid))
-        .toList();
+      List<Map<String, dynamic>> matchDetail, String puuid) {
+    return matchDetail.map((match) => extractPlayerStat(match, puuid)).toList();
   }
 
   static int extractStartTime(Map<String, dynamic> matchDetails) {
@@ -34,6 +32,27 @@ class HistoryUtils {
 
   static getContentImageFromId(String uuid, List<ContentItem> content) {
     return content.firstWhere((item) => item.id == uuid).iconUrl;
+  }
+
+  static Map<String, dynamic> extractTeamFromPUUID(
+      Map<String, dynamic> matchDetail, String uuid) {
+    return matchDetail['teams'].firstWhere((team) =>
+        team['teamId'] ==
+        matchDetail['players']
+            .firstWhere((player) => player['puuid'] == uuid)['teamId']);
+  }
+
+  static bool didTeamWinByPUUID(Map<String, dynamic> matchDetail, String uuid) {
+    return extractTeamFromPUUID(matchDetail, uuid)['won'] == true;
+  }
+
+  static Map<String, int> extractRoundWinsPerTeam(
+      Map<String, dynamic> matchDetail) {
+    Map<String, int> roundWinsPerTeam = {};
+    for (Map<String, dynamic> team in matchDetail['teams']) {
+      roundWinsPerTeam[team['teamId']] = team['roundsWon'];
+    }
+    return roundWinsPerTeam;
   }
 
   static getContentTextFromId(String uuid, List<ContentItem> content) {

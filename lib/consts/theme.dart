@@ -17,6 +17,7 @@ class ThemeColors {
   static const darkOnSurfaceVariant = Color(0xffffedea);
   static const altSurface = Color(0xff332B2F);
   static const canvasColor = Color(0xff332B2F);
+  static const textColor = Color(0xffAC9E9C);
 
   Color fadedText = const Color(0xffffedea).withAlpha(120);
 }
@@ -46,7 +47,7 @@ final ThemeData darkTheme = ThemeData(
     buttonColor: ThemeColors.darkTertiary,
   ),
   textTheme: const TextTheme(
-    bodyLarge: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
-    bodyMedium: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
-  ),
+      bodyLarge: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
+      bodyMedium: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
+      labelMedium: TextStyle(color: ThemeColors.textColor)),
 );

@@ -14,8 +14,14 @@ class HistoryList extends StatelessWidget {
         child: ListView.builder(
           itemCount: contentProvider.matchDetails.length,
           itemBuilder: (context, index) {
-            return HistoryTile(
-                matchDetails: contentProvider.matchDetails[index]);
+            return Column(children: [
+              HistoryTile(
+                matchDetails: contentProvider.matchDetails[index],
+              ),
+              const Padding(
+                padding: EdgeInsets.all(5),
+              )
+            ]);
           },
         ),
       );

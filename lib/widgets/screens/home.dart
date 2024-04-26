@@ -63,6 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
         Provider.of<UserProvider>(context, listen: false);
     ContentProvider contentProvider =
         Provider.of<ContentProvider>(context, listen: false);
+    double margin = MediaQuery.of(context).size.width * 0.05;
+
     return FutureBuilder(
       future: _loadingFuture,
       builder: (context, snapshot) {
@@ -77,12 +79,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder:
                     (context, categoryTypeProvider, contentProvider, child) {
                   return SingleChildScrollView(
-                      // Add this
                       child: ConstrainedBox(
                           constraints: BoxConstraints(
                               maxHeight: MediaQuery.of(context).size.height),
                           child: Padding(
-                              padding: const EdgeInsets.only(left: 30),
+                              padding:
+                                  EdgeInsets.only(left: margin, right: margin),
                               child: Column(children: [
                                 const Padding(
                                     padding: EdgeInsets.only(top: 20)),
