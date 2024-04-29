@@ -1,6 +1,6 @@
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/utils/analysis/winrate_analysis.dart';
-import 'package:valoralysis/utils/formatting.dart';
+import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 
 class AgentAnalysis {

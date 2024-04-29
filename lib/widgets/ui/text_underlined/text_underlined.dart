@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:valoralysis/utils/text_utils.dart';
 
 class TextUnderlined extends StatelessWidget {
   final String text;
 
   const TextUnderlined({Key? key, required this.text}) : super(key: key);
-
-  double calculateTextWidth(String text, TextStyle style) {
-    final textPainter = TextPainter(
-      text: TextSpan(text: text, style: style),
-      maxLines: 1,
-      textDirection: TextDirection.ltr,
-    )..layout(minWidth: 0, maxWidth: double.infinity);
-
-    return textPainter.size.width;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +13,7 @@ class TextUnderlined extends StatelessWidget {
       color: Theme.of(context).colorScheme.onPrimary,
     );
 
-    double textWidth = calculateTextWidth(text, style);
+    double textWidth = TextUtils.calculateTextWidth(text, style);
 
     return Column(
       children: [

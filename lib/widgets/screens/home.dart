@@ -82,18 +82,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: ConstrainedBox(
                           constraints: BoxConstraints(
                               maxHeight: MediaQuery.of(context).size.height),
-                          child: Padding(
-                              padding:
-                                  EdgeInsets.only(left: margin, right: margin),
-                              child: Column(children: [
-                                const Padding(
-                                    padding: EdgeInsets.only(top: 20)),
-                                const AgentTag(),
-                                const Padding(
-                                    padding: EdgeInsets.only(top: 40)),
-                                const CategoryDropdown(),
-                                HistoryList()
-                              ]))));
+                          child: Column(children: [
+                            const Padding(padding: EdgeInsets.only(top: 20)),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: MediaQuery.of(context).size.width *
+                                        0.05),
+                                child: const AgentTag()),
+                            const Padding(padding: EdgeInsets.only(top: 40)),
+                            const CategoryDropdown(),
+                            HistoryList()
+                          ])));
                 },
               ),
             ),

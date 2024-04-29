@@ -57,7 +57,7 @@ class WeaponsAnalysis {
         String weaponInKill =
             kill['finishingDamage']['damageItem'].toString().toLowerCase();
         String? weapon =
-            weapnList.firstWhere((weapon) => weapon.uuid == weaponInKill).name;
+            weapnList.firstWhere((weapon) => weapon.puuid == weaponInKill).name;
 
         weaponFrequency[weapon] = (weaponFrequency[weapon] ?? 0) + 1;
       }
@@ -80,7 +80,7 @@ class WeaponsAnalysis {
     for (WeaponItem weapon in weapons) {
       double kda = 0;
       kda += finishingDamage
-          .where((damage) => damage['damageItem'] == weapon.uuid)
+          .where((damage) => damage['damageItem'] == weapon.puuid)
           .toList()
           .length;
     }

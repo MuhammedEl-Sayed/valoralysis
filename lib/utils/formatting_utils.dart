@@ -13,7 +13,7 @@ class FormattingUtils {
   }
 
   static String convertWeaponIdToName(List<WeaponItem> content, String id) {
-    return content.firstWhere((item) => item.uuid == id).name;
+    return content.firstWhere((item) => item.puuid == id).name;
   }
 
   // Need puuid to figure out which team to show on the right

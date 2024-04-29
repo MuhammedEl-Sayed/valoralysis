@@ -16,7 +16,7 @@ class HistoryList extends StatelessWidget {
           itemBuilder: (context, index) {
             return Column(children: [
               HistoryTile(
-                matchDetails: contentProvider.matchDetails[index],
+                matchDetail: contentProvider.matchDetails[index],
               ),
               const Padding(
                 padding: EdgeInsets.all(5),

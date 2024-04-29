@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/models/rank.dart';
-import 'package:valoralysis/utils/formatting.dart';
+import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/widgets/ui/surface/surface.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';

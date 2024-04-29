@@ -1,5 +1,5 @@
 class AgentIconMap {
-  String uuid;
+  String puuid;
   String url;
-  AgentIconMap(this.uuid, this.url);
+  AgentIconMap(this.puuid, this.url);
 }

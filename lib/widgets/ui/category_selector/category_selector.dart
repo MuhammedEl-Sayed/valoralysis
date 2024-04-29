@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/providers/category_provider.dart';
+import 'package:valoralysis/utils/text_utils.dart';
 
 class CategoryTypeSelector extends StatelessWidget {
   @override
@@ -46,7 +47,7 @@ class CategoryTypeSelector extends StatelessWidget {
     return AnimatedDefaultTextStyle(
       style: TextStyle(
         fontWeight: isSelected ? FontWeight.w200 : FontWeight.w300,
-        fontSize: 20,
+        fontSize: 14,
         color: isSelected
             ? Theme.of(context).colorScheme.onSurface
             : ThemeColors().fadedText,
@@ -58,10 +59,20 @@ class CategoryTypeSelector extends StatelessWidget {
 
   AnimatedContainer buildAnimatedContainer(
       BuildContext context, bool isSelected, Item item) {
+    TextStyle style = TextStyle(
+      fontWeight: isSelected ? FontWeight.w200 : FontWeight.w300,
+      fontSize: 14,
+      color: isSelected
+          ? Theme.of(context).colorScheme.onSurface
+          : ThemeColors().fadedText,
+    );
+
+    double textWidth = TextUtils.calculateTextWidth(item.displayValue, style);
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       height: 2,
-      width: isSelected ? item.displayValue.length.toDouble() * 9 : 0.0,
+      width: isSelected ? textWidth : 0.0,
       color: isSelected
           ? Theme.of(context).colorScheme.primary
           : Colors.transparent,

@@ -15,7 +15,6 @@ class ThemeColors {
   static const darkBackground = Color(0xff161314);
   static const darkSurfaceVariant = Color(0xff1F1A1C);
   static const darkOnSurfaceVariant = Color(0xffffedea);
-  static const altSurface = Color(0xff332B2F);
   static const canvasColor = Color(0xff332B2F);
   static const textColor = Color(0xffAC9E9C);
 
@@ -50,4 +49,6 @@ final ThemeData darkTheme = ThemeData(
       bodyLarge: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
       bodyMedium: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
       labelMedium: TextStyle(color: ThemeColors.textColor)),
+  dataTableTheme:
+      const DataTableThemeData(dataRowMinHeight: 0, dataRowMaxHeight: 0),
 );

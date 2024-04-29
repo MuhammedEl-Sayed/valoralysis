@@ -20,10 +20,10 @@ class ContentItem {
 }
 
 class WeaponItem {
-  String uuid;
+  String puuid;
   String name;
   String? iconUrl;
-  WeaponItem(this.uuid, this.name, {this.iconUrl});
+  WeaponItem(this.puuid, this.name, {this.iconUrl});
   factory WeaponItem.fromJson(Map<String, dynamic> json, {String? iconUrl}) {
     return WeaponItem(
       json['uuid'].toString().toLowerCase(),
@@ -61,7 +61,7 @@ class Content {
             .toList(),
         agents: (json['characters'] as List).map((i) {
           var icon = agentIcons.firstWhere(
-              (icon) => icon.uuid == i['id'].toString().toLowerCase(),
+              (icon) => icon.puuid == i['id'].toString().toLowerCase(),
               orElse: () => AgentIconMap('', ''));
           return ContentItem.fromJson(i, iconUrl: icon.url);
         }).toList(),
