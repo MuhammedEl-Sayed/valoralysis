@@ -17,51 +17,72 @@ class TeamDetailsTable extends StatelessWidget {
   Widget build(BuildContext context) {
     //So we need DataRows,
     ContentProvider contentProvider = Provider.of<ContentProvider>(context);
-    List<DataRow> playerDataRows = TableUtils.buildPlayerDataRows(
-        matchDetail, puuid, contentProvider.ranks, contentProvider.agents);
+    List<DataRow> playerDataRows = TableUtils.buildPlayerDataRows(matchDetail,
+        puuid, contentProvider.ranks, contentProvider.agents, isUserTeam);
 
-    return Stack(children: [
-      Container(
-        height: 26,
-        color: Theme.of(context).canvasColor,
-      ),
-      DataTable(
-          headingRowHeight: 26,
-          columns: <DataColumn>[
-            DataColumn(
-                label: Expanded(
-              child: Text(isUserTeam ? 'Your team' : 'Enemy team'),
-            )),
-            const DataColumn(
-                label: Expanded(
-              child: Text('ACS'),
-            )),
-            const DataColumn(
-                label: Expanded(
-              child: Text('KD'),
-            )),
-            const DataColumn(
-                label: Expanded(
-              child: Text('K'),
-            )),
-            const DataColumn(
-                label: Expanded(
-              child: Text('D'),
-            )),
-            const DataColumn(
-                label: Expanded(
-              child: Text('A'),
-            )),
-            const DataColumn(
-                label: Expanded(
-              child: Text('ADR'),
-            )),
-            const DataColumn(
-                label: Expanded(
-              child: Text('HS%'),
-            )),
-          ],
-          rows: playerDataRows)
-    ]);
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Stack(children: [
+          Container(
+            width: constraints.maxWidth,
+            height: 26,
+            color: Theme.of(context).canvasColor,
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ClipRect(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minWidth: constraints.maxWidth),
+                child: DataTable(
+                    border: TableBorder(),
+                    dataRowColor: MaterialStateProperty.resolveWith<Color?>(
+                        (Set<MaterialState> states) {
+                      return isUserTeam
+                          ? const Color(0xff2BD900).withOpacity(0.2)
+                          : const Color(0xff730000)
+                              .withOpacity(0.2); // Use the default value.
+                    }),
+                    headingRowHeight: 26,
+                    columns: <DataColumn>[
+                      DataColumn(
+                          label: Expanded(
+                        child: Text(isUserTeam ? 'Your team' : 'Enemy team'),
+                      )),
+                      const DataColumn(
+                          label: Expanded(
+                        child: Text('ACS'),
+                      )),
+                      const DataColumn(
+                          label: Expanded(
+                        child: Text('KD'),
+                      )),
+                      const DataColumn(
+                          label: Expanded(
+                        child: Text('K'),
+                      )),
+                      const DataColumn(
+                          label: Expanded(
+                        child: Text('D'),
+                      )),
+                      const DataColumn(
+                          label: Expanded(
+                        child: Text('A'),
+                      )),
+                      const DataColumn(
+                          label: Expanded(
+                        child: Text('ADR'),
+                      )),
+                      const DataColumn(
+                          label: Expanded(
+                        child: Text('HS%'),
+                      )),
+                    ],
+                    rows: playerDataRows),
+              ),
+            ),
+          ),
+        ]);
+      },
+    );
   }
 }

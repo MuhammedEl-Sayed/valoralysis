@@ -22,33 +22,33 @@ class ThemeColors {
 }
 
 final ThemeData darkTheme = ThemeData(
-  colorScheme: const ColorScheme.dark(
-      primary: ThemeColors.darkPrimary,
-      secondary: ThemeColors.darkSecondary,
-      background: ThemeColors.darkBackground,
-      error: ThemeColors.darkError,
-      surfaceVariant: ThemeColors.darkSurfaceVariant,
-      onSurfaceVariant: ThemeColors.darkOnSurfaceVariant,
-      onPrimary: ThemeColors.darkOnSurfaceVariant,
-      onSecondary: ThemeColors.darkOnSurfaceVariant,
-      onBackground: ThemeColors.darkOnSurfaceVariant,
-      onError: ThemeColors.darkErrorContainer),
-  appBarTheme: const AppBarTheme(
-    color: ThemeColors.darkAppBarColor,
-  ),
-  canvasColor: ThemeColors.canvasColor,
-  cardTheme: const CardTheme(
-    color: ThemeColors.darkPrimaryContainer,
-  ),
-  dialogBackgroundColor: ThemeColors.darkSecondaryContainer,
-  scaffoldBackgroundColor: ThemeColors.darkBackground,
-  buttonTheme: const ButtonThemeData(
-    buttonColor: ThemeColors.darkTertiary,
-  ),
-  textTheme: const TextTheme(
-      bodyLarge: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
-      bodyMedium: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
-      labelMedium: TextStyle(color: ThemeColors.textColor)),
-  dataTableTheme:
-      const DataTableThemeData(dataRowMinHeight: 0, dataRowMaxHeight: 0),
-);
+    colorScheme: const ColorScheme.dark(
+        primary: ThemeColors.darkPrimary,
+        secondary: ThemeColors.darkSecondary,
+        background: ThemeColors.darkBackground,
+        error: ThemeColors.darkError,
+        surfaceVariant: ThemeColors.darkSurfaceVariant,
+        onSurfaceVariant: ThemeColors.darkOnSurfaceVariant,
+        onPrimary: ThemeColors.darkOnSurfaceVariant,
+        onSecondary: ThemeColors.darkOnSurfaceVariant,
+        onBackground: ThemeColors.darkOnSurfaceVariant,
+        onError: ThemeColors.darkErrorContainer),
+    appBarTheme: const AppBarTheme(
+      color: ThemeColors.darkAppBarColor,
+    ),
+    canvasColor: ThemeColors.canvasColor,
+    cardTheme: const CardTheme(
+      color: ThemeColors.darkPrimaryContainer,
+    ),
+    dialogBackgroundColor: ThemeColors.darkSecondaryContainer,
+    scaffoldBackgroundColor: ThemeColors.darkBackground,
+    buttonTheme: const ButtonThemeData(
+      buttonColor: ThemeColors.darkTertiary,
+    ),
+    textTheme: const TextTheme(
+        bodyLarge: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
+        bodyMedium: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
+        labelMedium: TextStyle(color: ThemeColors.textColor)),
+    dataTableTheme:
+        const DataTableThemeData(dataRowMinHeight: 0, dataRowMaxHeight: 0),
+    dividerColor: ThemeColors.canvasColor);

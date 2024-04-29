@@ -72,7 +72,11 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
             TeamDetailsTable(
                 puuid: widget.puuid,
                 matchDetail: widget.matchDetail,
-                isUserTeam: true)
+                isUserTeam: true),
+            TeamDetailsTable(
+                puuid: widget.puuid,
+                matchDetail: widget.matchDetail,
+                isUserTeam: false)
           ],
         ),
       ),

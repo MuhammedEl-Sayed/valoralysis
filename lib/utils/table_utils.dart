@@ -6,8 +6,12 @@ import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
 
 class TableUtils {
-  static List<DataRow> buildPlayerDataRows(Map<String, dynamic> matchDetail,
-      String puuid, List<Rank> ranks, List<ContentItem> agents) {
+  static List<DataRow> buildPlayerDataRows(
+      Map<String, dynamic> matchDetail,
+      String puuid,
+      List<Rank> ranks,
+      List<ContentItem> agents,
+      bool isUserTeam) {
     List<Map<String, dynamic>> players = [];
     /**
      * Matches have players.
@@ -15,8 +19,16 @@ class TableUtils {
      * Player has a bunch of properties, the Map<String, dynamic> p
      */
     print(matchDetail['players'][1]);
+    String userTeam =
+        HistoryUtils.extractTeamFromPUUID(matchDetail, puuid)['teamId'];
     for (Map<String, dynamic> player in matchDetail['players']) {
-      players.add(player);
+      String playerTeam = HistoryUtils.extractTeamFromPUUID(
+          matchDetail, player['puuid'])['teamId'];
+      if (isUserTeam && playerTeam == userTeam) {
+        players.add(player);
+      } else if (!isUserTeam && playerTeam != userTeam) {
+        players.add(player);
+      }
     }
 
     List<DataRow> rows = [];
@@ -60,7 +72,7 @@ class TableUtils {
     Rank playerRank = RankUtils.getPlayerRank([matchDetail], ranks, puuid);
 
     return DataCell(Padding(
-        padding: EdgeInsets.all(5),
+        padding: EdgeInsets.all(7),
         child: Row(
           children: [
             Image(
@@ -69,29 +81,27 @@ class TableUtils {
               width: 25,
               height: 25,
             ),
-            Container(
-                height: 23,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  playerName,
+                  style: const TextStyle(fontSize: 13),
+                ),
+                Row(
                   children: [
-                    Text(
-                      playerName,
-                      style: TextStyle(fontSize: 13, height: 1),
+                    Image(
+                      image: NetworkImage(playerRank.rankIcons.smallIcon),
+                      width: 10,
+                      height: 10,
                     ),
-                    Row(
-                      children: [
-                        Image(
-                          image: NetworkImage(playerRank.rankIcons.smallIcon),
-                          width: 10,
-                          height: 10,
-                        ),
-                        Text(playerRank.tierName,
-                            style: TextStyle(fontSize: 9, height: 1))
-                      ],
-                    )
+                    Text(playerRank.tierName,
+                        style: const TextStyle(fontSize: 9, height: 1))
                   ],
-                ))
+                )
+              ],
+            )
           ],
         )));
   }
