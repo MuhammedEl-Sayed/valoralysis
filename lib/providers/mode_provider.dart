@@ -13,7 +13,7 @@ class ModeProvider with ChangeNotifier {
     modes = [competitive, unrated, deathmatch, spikeRush];
   }
 
-  String _selectedMode = 'overview';
+  String _selectedMode = 'competitive';
 
   String get selectedMode => _selectedMode;
 

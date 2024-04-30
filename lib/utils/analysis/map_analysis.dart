@@ -4,23 +4,23 @@ import 'package:valoralysis/utils/analysis/winrate_analysis.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 
 class MapAnalysis {
-  static Map<String, double> getKDAPerMap(
+  static Map<String, double> getKDPerMap(
       List<Map<String, dynamic>> matchDetails,
       String puuid,
       List<ContentItem> maps) {
-    Map<String, double> kdaPerMap = {};
+    Map<String, double> kdPerMap = {};
     for (ContentItem map in maps) {
       List<PlayerStats> stats = HistoryUtils.extractPlayerStats(
           HistoryUtils.filterMatchDetails(matchDetails, puuid, map, 'maps'),
           puuid);
       if (stats.isNotEmpty) {
-        double totalKDA = stats.fold(0, (prev, element) => prev + element.kda);
-        kdaPerMap[map.name] = totalKDA / stats.length;
+        double totalKD = stats.fold(0, (prev, element) => prev + element.kd);
+        kdPerMap[map.name] = totalKD / stats.length;
       } else {
-        kdaPerMap[map.name] = 0;
+        kdPerMap[map.name] = 0;
       }
     }
-    return kdaPerMap;
+    return kdPerMap;
   }
 
   static Map<String, double> getWRPerMap(

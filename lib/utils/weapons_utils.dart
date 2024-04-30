@@ -1,8 +1,7 @@
 import 'package:valoralysis/models/content.dart';
-import 'package:valoralysis/models/player_stats.dart';
-import 'package:valoralysis/utils/history_utils.dart';
+import 'dart:math';
 
-class WeaponsAnalysis {
+class WeaponsUtils {
   static List<dynamic> getPlayerStats(
       List<Map<String, dynamic>> matches, String puuid, String statKey) {
     List<dynamic> playerStats = [];
@@ -31,41 +30,28 @@ class WeaponsAnalysis {
     double totalLegshots = 0;
 
     for (Map<String, dynamic> pd in playerDamage) {
-      totalHeadshots += pd['headshots'];
-      totalBodyshots += pd['bodyshots'];
-      totalLegshots += pd['legshots'];
+      if (!pd['headshots'].isNaN) {
+        totalHeadshots += pd['headshots'];
+      }
+
+      if (!pd['bodyshots'].isNaN) {
+        totalBodyshots += pd['bodyshots'];
+      }
+
+      if (!pd['legshots'].isNaN) {
+        totalLegshots += pd['legshots'];
+      }
     }
 
     double total = totalHeadshots + totalBodyshots + totalLegshots;
     return {
-      'Headshot': totalHeadshots / total,
-      'Bodyshot': totalBodyshots / total,
-      'Legshot': totalLegshots / total
+      'Headshot': totalHeadshots / max(total, 1),
+      'Bodyshot': totalBodyshots / max(total, 1),
+      'Legshot': totalLegshots / max(total, 1)
     };
   }
 
-  static Future<Map<String, int>> weaponsKillsFrequencyAnalysis(
-      List<Map<String, dynamic>> matches,
-      String puuid,
-      List<WeaponItem> weapnList) async {
-    List<dynamic> playerKills = getPlayerStats(matches, puuid, 'kills');
-
-    Map<String, int> weaponFrequency = {};
-    for (Map<String, dynamic> kill in playerKills) {
-      if (kill['finishingDamage']['damageType'] == 'Weapon' &&
-          kill['finishingDamage']['damageItem'].isNotEmpty) {
-        String weaponInKill =
-            kill['finishingDamage']['damageItem'].toString().toLowerCase();
-        String? weapon =
-            weapnList.firstWhere((weapon) => weapon.puuid == weaponInKill).name;
-
-        weaponFrequency[weapon] = (weaponFrequency[weapon] ?? 0) + 1;
-      }
-    }
-    return weaponFrequency;
-  }
-
-  static Map<String, double> getKDAPerWeapon(
+  static Map<String, double> getKDPerWeapon(
       List<Map<String, dynamic>> matchDetails,
       String puuid,
       List<WeaponItem> weapons) {
@@ -76,10 +62,10 @@ class WeaponsAnalysis {
         finishingDamage.add(kill['finishingDamage']);
       }
     }
-    Map<String, double> kdaPerWeapon = {};
+    Map<String, double> kdPerWeapon = {};
     for (WeaponItem weapon in weapons) {
-      double kda = 0;
-      kda += finishingDamage
+      double kd = 0;
+      kd += finishingDamage
           .where((damage) => damage['damageItem'] == weapon.puuid)
           .toList()
           .length;

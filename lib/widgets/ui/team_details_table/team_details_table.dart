@@ -3,6 +3,21 @@ import 'package:provider/provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/utils/table_utils.dart';
 
+class CustomDataColumnLabel extends StatelessWidget {
+  final String label;
+  final double width;
+
+  CustomDataColumnLabel({required this.label, this.width = 25});
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(minWidth: 30, maxWidth: 50),
+      child: Text(label),
+    );
+  }
+}
+
 class TeamDetailsTable extends StatelessWidget {
   final String puuid;
   final Map<String, dynamic> matchDetail;
@@ -34,7 +49,6 @@ class TeamDetailsTable extends StatelessWidget {
               child: ConstrainedBox(
                 constraints: BoxConstraints(minWidth: constraints.maxWidth),
                 child: DataTable(
-                    border: TableBorder(),
                     dataRowColor: MaterialStateProperty.resolveWith<Color?>(
                         (Set<MaterialState> states) {
                       return isUserTeam
@@ -45,37 +59,30 @@ class TeamDetailsTable extends StatelessWidget {
                     headingRowHeight: 26,
                     columns: <DataColumn>[
                       DataColumn(
-                          label: Expanded(
-                        child: Text(isUserTeam ? 'Your team' : 'Enemy team'),
-                      )),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('ACS'),
-                      )),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('KD'),
-                      )),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('K'),
-                      )),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('D'),
-                      )),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('A'),
-                      )),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('ADR'),
-                      )),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('HS%'),
-                      )),
+                        label: CustomDataColumnLabel(
+                            label: isUserTeam ? 'Your team' : 'Enemy team'),
+                      ),
+                      DataColumn(
+                        label: CustomDataColumnLabel(label: 'ACS'),
+                      ),
+                      DataColumn(
+                        label: CustomDataColumnLabel(label: 'KD'),
+                      ),
+                      DataColumn(
+                        label: CustomDataColumnLabel(label: 'K'),
+                      ),
+                      DataColumn(
+                        label: CustomDataColumnLabel(label: 'D'),
+                      ),
+                      DataColumn(
+                        label: CustomDataColumnLabel(label: 'A'),
+                      ),
+                      DataColumn(
+                        label: CustomDataColumnLabel(label: 'ADR'),
+                      ),
+                      DataColumn(
+                        label: CustomDataColumnLabel(label: 'HS%'),
+                      ),
                     ],
                     rows: playerDataRows),
               ),

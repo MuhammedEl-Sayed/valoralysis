@@ -95,7 +95,7 @@ class RoundHistory extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10, top: 16),
           child: Row(children: [
-            Column(
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [Text('Your Team'), Text("Enemy Team")],
             ),

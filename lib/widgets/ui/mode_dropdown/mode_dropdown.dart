@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/providers/mode_provider.dart';
 
-class CategoryDropdown extends StatefulWidget {
-  const CategoryDropdown({Key? key}) : super(key: key);
+class ModeDropdown extends StatefulWidget {
+  const ModeDropdown({Key? key}) : super(key: key);
 
   @override
-  _CategoryDropdownState createState() => _CategoryDropdownState();
+  _ModeDropdownState createState() => _ModeDropdownState();
 }
 
-class _CategoryDropdownState extends State<CategoryDropdown> {
+class _ModeDropdownState extends State<ModeDropdown> {
   String? dropdownValue;
   @override
   void initState() {
@@ -20,7 +20,6 @@ class _CategoryDropdownState extends State<CategoryDropdown> {
       if (modeProvider.modes.isNotEmpty) {
         setState(() {
           dropdownValue = modeProvider.modes[0].realValue;
-          print(dropdownValue);
         });
       }
     });
@@ -28,9 +27,8 @@ class _CategoryDropdownState extends State<CategoryDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    ModeProvider modeProvider = Provider.of<ModeProvider>(context);
     return Consumer<ModeProvider>(
-      builder: (context, categoryTypeProvider, child) {
+      builder: (context, modeProvider, child) {
         return Container(
             width: 160,
             decoration: BoxDecoration(
@@ -53,11 +51,13 @@ class _CategoryDropdownState extends State<CategoryDropdown> {
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownValue = newValue;
+                  modeProvider.selectMode(newValue as String);
                 });
               },
               isExpanded: true,
               items: modeProvider.modes.map<DropdownMenuItem<String>>((item) {
                 return DropdownMenuItem<String>(
+                  onTap: () {},
                   value: item.realValue,
                   child: Padding(
                     padding: const EdgeInsets.only(

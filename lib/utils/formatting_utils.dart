@@ -1,6 +1,9 @@
+//ignore_for_file: constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/utils/history_utils.dart';
+
+enum ShotType { Headshot, Bodyshot, Legshot }
 
 class FormattingUtils {
   static String capitalizeFirstLetter(String str) {
@@ -14,6 +17,15 @@ class FormattingUtils {
 
   static String convertWeaponIdToName(List<WeaponItem> content, String id) {
     return content.firstWhere((item) => item.puuid == id).name;
+  }
+
+  static String convertShotToPercentage(
+      Map<String, double> shots, ShotType typeOfShot) {
+    String shotKey = typeOfShot.toString().split('.').last;
+    if (shots[shotKey]!.isNaN) {
+      print(shots);
+    }
+    return '${(shots[shotKey]! * 100).toString().split('.')[0]}.${(shots[shotKey]! * 100).toString().split('.')[1].substring(0, 1)}%';
   }
 
   // Need puuid to figure out which team to show on the right

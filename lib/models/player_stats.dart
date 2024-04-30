@@ -5,7 +5,7 @@ class PlayerStats {
   int deaths;
   int assists;
   int playtimeMillis;
-  double kda;
+  double kd;
 
   PlayerStats(
       {required this.score,
@@ -14,9 +14,9 @@ class PlayerStats {
       required this.deaths,
       required this.assists,
       required this.playtimeMillis,
-      required this.kda});
+      required this.kd});
 
-  factory PlayerStats.fromJsonWithKDA(dynamic json) {
+  factory PlayerStats.fromJsonWithKD(dynamic json) {
     int kills = json['kills'] as int;
     int deaths = json['deaths'] as int;
     int assists = json['assists'] as int;
@@ -27,6 +27,6 @@ class PlayerStats {
         deaths: deaths,
         assists: assists,
         playtimeMillis: json['playtimeMillis'] as int,
-        kda: (kills + assists) / deaths);
+        kd: double.parse(((kills) / deaths).toStringAsFixed(2)));
   }
 }

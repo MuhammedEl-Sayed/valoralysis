@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:valoralysis/models/content.dart';
+import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/models/rank.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
+import 'package:valoralysis/utils/weapons_utils.dart';
+import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
 
@@ -13,12 +16,7 @@ class TableUtils {
       List<ContentItem> agents,
       bool isUserTeam) {
     List<Map<String, dynamic>> players = [];
-    /**
-     * Matches have players.
-     * Players is a List of Player
-     * Player has a bunch of properties, the Map<String, dynamic> p
-     */
-    print(matchDetail['players'][1]);
+
     String userTeam =
         HistoryUtils.extractTeamFromPUUID(matchDetail, puuid)['teamId'];
     for (Map<String, dynamic> player in matchDetail['players']) {
@@ -34,17 +32,24 @@ class TableUtils {
     List<DataRow> rows = [];
 
     for (Map<String, dynamic> player in players) {
+      String playerPUUID = player['puuid'];
       DataCell profile =
           buildPlayerProfileDataCell(matchDetail, player, ranks, agents);
+      PlayerStats stats =
+          HistoryUtils.extractPlayerStat(matchDetail, playerPUUID);
+      String hs = FormattingUtils.convertShotToPercentage(
+          WeaponsUtils.weaponsHeadshotAccuracyAnaylsis(
+              [matchDetail], playerPUUID),
+          ShotType.Headshot);
       rows.add(DataRow(cells: [
         profile, // Profile under the team name column
         DataCell(Text('0')), // ACS
-        DataCell(Text('0')), // KD
-        DataCell(Text('0')), // K
-        DataCell(Text('0')), // D
-        DataCell(Text('0')), // A
+        DataCell(Text(stats.kd.toString())), // KD
+        DataCell(Text(stats.kills.toString())), // K
+        DataCell(Text(stats.deaths.toString())), // D
+        DataCell(Text(stats.assists.toString())), // A
         DataCell(Text('0')), // ADR
-        DataCell(Text('0')), // HS%
+        DataCell(Text(hs)), // HS%
       ]));
     }
     return rows;
@@ -66,13 +71,12 @@ class TableUtils {
   static DataCell buildPlayerProfileDataCell(Map<String, dynamic> matchDetail,
       Map<String, dynamic> player, List<Rank> ranks, List<ContentItem> agents) {
     String puuid = player['puuid'];
-    String iconUrl = AgentUtils.extractAgentIdByPUUID(matchDetail, puuid);
     String playerName =
         HistoryUtils.extractPlayerNameByPUUID(matchDetail, puuid);
-    Rank playerRank = RankUtils.getPlayerRank([matchDetail], ranks, puuid);
+    Rank playerRank = RankUtils.getPlayerRank(matchDetail, ranks, puuid);
 
     return DataCell(Padding(
-        padding: EdgeInsets.all(7),
+        padding: const EdgeInsets.only(top: 7, bottom: 7),
         child: Row(
           children: [
             Image(

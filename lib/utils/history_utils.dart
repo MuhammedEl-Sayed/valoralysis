@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:valoralysis/models/content.dart';
+import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/models/match_history.dart';
 import 'package:valoralysis/models/player_stats.dart';
 
@@ -15,9 +16,15 @@ class HistoryUtils {
         .toList();
   }
 
+  static Item extractGamemode(
+      Map<String, dynamic> matchDetail, List<Item> modes) {
+    return modes.firstWhere(
+        (mode) => mode.realValue == matchDetail['matchInfo']['queueId']);
+  }
+
   static PlayerStats extractPlayerStat(
       Map<String, dynamic> matchDetail, String puuid) {
-    return PlayerStats.fromJsonWithKDA(matchDetail['players']
+    return PlayerStats.fromJsonWithKD(matchDetail['players']
         .firstWhere((player) => player['puuid'] == puuid)['stats']);
   }
 

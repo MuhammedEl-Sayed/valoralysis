@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
@@ -32,12 +33,12 @@ class ExpandedHistory extends StatefulWidget {
 class _ExpandedHistoryState extends State<ExpandedHistory> {
   @override
   Widget build(BuildContext context) {
+    double margin = getStandardMargins(context);
+
     return ExpandableSection(
       expanded: widget.opened,
       child: Container(
-        margin: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width * 0.05,
-            right: MediaQuery.of(context).size.width * 0.05),
+        margin: EdgeInsets.only(left: margin, right: margin),
         decoration:
             BoxDecoration(color: Theme.of(context).colorScheme.surfaceVariant),
         child: Column(
@@ -98,128 +99,135 @@ class _HistoryTileState extends State<HistoryTile> {
 
   @override
   Widget build(BuildContext context) {
-    ContentProvider contentProvider = Provider.of<ContentProvider>(context);
     UserProvider userProvider = Provider.of<UserProvider>(context);
     String puuid = userProvider.user.puuid;
     bool didWin = HistoryUtils.didTeamWinByPUUID(widget.matchDetail, puuid);
     Widget roundsWon =
         FormattingUtils.convertTeamWinMapToString(widget.matchDetail, puuid);
-    return Consumer2<UserProvider, ContentProvider>(
-        builder: (context, userProvider, contentProvider, child) {
-      return Column(children: [
-        Container(
-          margin: EdgeInsets.only(
-              left: MediaQuery.of(context).size.width * 0.05,
-              right: MediaQuery.of(context).size.width * 0.05),
-          height: 65,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              color: Theme.of(context).canvasColor,
-              borderRadius: opened
-                  ? const BorderRadius.only(
-                      topLeft: Radius.circular(5), topRight: Radius.circular(5))
-                  : const BorderRadius.all(Radius.circular(5)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
-                  spreadRadius: 2,
-                  blurRadius: 3,
-                  offset: const Offset(1, 1), // changes position of shadow
-                ),
-              ]),
-          child: Stack(
-            children: [
-              Container(
-                height: 65,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    stops: const [0, 0.6],
-                    colors: <Color>[
-                      didWin
-                          ? const Color(0xff2BD900).withOpacity(0.3)
-                          : const Color(0xff730000)
-                              .withOpacity(0.3), // green color
-                      Theme.of(context)
-                          .canvasColor
-                          .withOpacity(0) // transparent color
-                    ],
-                  ),
+    return Consumer<ContentProvider>(
+        builder: (context, contentProvider, child) {
+      double margin = getStandardMargins(context);
+
+      return Padding(
+          padding: const EdgeInsets.only(bottom: 5, top: 5),
+          child: Column(children: [
+            Container(
+              margin: EdgeInsets.only(left: margin, right: margin),
+              height: 65,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor,
                   borderRadius: opened
                       ? const BorderRadius.only(
                           topLeft: Radius.circular(5),
                           topRight: Radius.circular(5))
                       : const BorderRadius.all(Radius.circular(5)),
-                ),
-              ),
-              Row(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      spreadRadius: 2,
+                      blurRadius: 3,
+                      offset: const Offset(1, 1), // changes position of shadow
+                    ),
+                  ]),
+              child: Stack(
                 children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        const Padding(padding: EdgeInsets.only(left: 10)),
-                        AgentIcon(
-                          iconUrl: HistoryUtils.getContentImageFromId(
-                              AgentUtils.extractAgentIdByPUUID(
-                                  widget.matchDetail, puuid),
-                              contentProvider.agents),
-                          small: true,
-                        ),
-                        const Padding(padding: EdgeInsets.only(top: 2)),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              MapUtils.getMapNameFromPath(
-                                      MapUtils.extractMapPath(
-                                          widget.matchDetail),
-                                      contentProvider.maps) ??
-                                  '',
-                              style: const TextStyle(
-                                  color: Color(0xffffffff), fontSize: 17),
-                            ),
-                            Text(
-                                TimeUtils.timeAgo(
-                                    DateTime.fromMillisecondsSinceEpoch(
-                                        HistoryUtils.extractStartTime(
-                                            widget.matchDetail))),
-                                style: Theme.of(context).textTheme.labelMedium)
-                          ],
-                        ),
-                      ],
+                  Container(
+                    height: 65,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        stops: const [0, 0.6],
+                        colors: <Color>[
+                          didWin
+                              ? const Color(0xff2BD900).withOpacity(0.3)
+                              : const Color(0xff730000)
+                                  .withOpacity(0.3), // green color
+                          Theme.of(context)
+                              .canvasColor
+                              .withOpacity(0) // transparent color
+                        ],
+                      ),
+                      borderRadius: opened
+                          ? const BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5))
+                          : const BorderRadius.all(Radius.circular(5)),
                     ),
                   ),
-                  Expanded(
-                    child: Row(
-                        children: [const Spacer(), roundsWon, const Spacer()]),
-                  ),
-                  Expanded(
-                    child: Row(children: [
-                      const Spacer(),
-                      Center(
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_drop_down),
-                          onPressed: () => setState(() {
-                            opened = !opened;
-                          }),
+                  Row(
+                    children: [
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 150),
+                        child: Row(
+                          children: [
+                            const Padding(padding: EdgeInsets.only(left: 10)),
+                            AgentIcon(
+                              iconUrl: HistoryUtils.getContentImageFromId(
+                                  AgentUtils.extractAgentIdByPUUID(
+                                      widget.matchDetail, puuid),
+                                  contentProvider.agents),
+                              small: true,
+                            ),
+                            const Padding(
+                                padding: EdgeInsets.only(top: 2, left: 5)),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  MapUtils.getMapNameFromPath(
+                                          MapUtils.extractMapPath(
+                                              widget.matchDetail),
+                                          contentProvider.maps) ??
+                                      '',
+                                  style: const TextStyle(
+                                      color: Color(0xffffffff), fontSize: 17),
+                                ),
+                                Text(
+                                    TimeUtils.timeAgo(
+                                        HistoryUtils.extractStartTime(
+                                            widget.matchDetail)),
+                                    style:
+                                        Theme.of(context).textTheme.labelMedium)
+                              ],
+                            ),
+                          ],
                         ),
-                      )
-                    ]),
+                      ),
+                      Expanded(
+                        child: Row(children: [
+                          const Spacer(),
+                          roundsWon,
+                          const Spacer()
+                        ]),
+                      ),
+                      Expanded(
+                        child: Row(children: [
+                          const Spacer(),
+                          Center(
+                            child: IconButton(
+                              icon: const Icon(Icons.arrow_drop_down),
+                              onPressed: () => setState(() {
+                                opened = !opened;
+                              }),
+                            ),
+                          )
+                        ]),
+                      ),
+                      // Stack widget with gradient color
+                    ],
                   ),
-                  // Stack widget with gradient color
                 ],
               ),
-            ],
-          ),
-        ),
-        ExpandedHistory(
-          matchDetail: widget.matchDetail,
-          opened: opened,
-          puuid: userProvider.user.puuid,
-        )
-      ]);
+            ),
+            ExpandedHistory(
+              matchDetail: widget.matchDetail,
+              opened: opened,
+              puuid: userProvider.user.puuid,
+            )
+          ]));
     });
   }
 }

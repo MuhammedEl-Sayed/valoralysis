@@ -18,7 +18,7 @@ class RankTile extends StatelessWidget {
         Provider.of<ContentProvider>(context, listen: false);
 
     Rank playerRank = RankUtils.getPlayerRank(
-      contentProvider.matchDetails,
+      contentProvider.matchDetails[0],
       contentProvider.ranks,
       userProvider.user.puuid,
     );

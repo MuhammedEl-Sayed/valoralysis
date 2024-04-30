@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:valoralysis/utils/analysis/weapons_analysis.dart';
+import 'package:valoralysis/utils/weapons_utils.dart';
+import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/widgets/ui/surface/surface.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
@@ -15,34 +16,30 @@ class HeadshotTile extends StatelessWidget {
     ContentProvider contentProvider =
         Provider.of<ContentProvider>(context, listen: false);
 
-    Map<String, double> headshots =
-        WeaponsAnalysis.weaponsHeadshotAccuracyAnaylsis(
+    Map<String, double> shots = WeaponsUtils.weaponsHeadshotAccuracyAnaylsis(
       contentProvider.matchDetails,
       userProvider.user.puuid,
     );
-    print(headshots);
+
     return Surface(children: [
       const TextUnderlined(text: 'Headshot %'),
       const Padding(padding: EdgeInsets.only(bottom: 10)),
       Row(children: [
         const Text('Head', style: TextStyle(fontSize: 14)),
         const Padding(padding: EdgeInsets.only(right: 8)),
-        Text(
-            '${(headshots['Headshot']! * 100).toString().split('.')[0]}.${(headshots['Headshot']! * 100).toString().split('.')[1].substring(0, 1)}',
+        Text(FormattingUtils.convertShotToPercentage(shots, ShotType.Headshot),
             style: const TextStyle(fontSize: 14))
       ]),
       Row(children: [
         const Text('Body', style: TextStyle(fontSize: 14)),
         const Padding(padding: EdgeInsets.only(right: 8)),
-        Text(
-            '${(headshots['Bodyshot']! * 100).toString().split('.')[0]}.${(headshots['Bodyshot']! * 100).toString().split('.')[1].substring(0, 1)}',
+        Text(FormattingUtils.convertShotToPercentage(shots, ShotType.Bodyshot),
             style: const TextStyle(fontSize: 14))
       ]),
       Row(children: [
         const Text('Legs', style: TextStyle(fontSize: 14)),
         const Padding(padding: EdgeInsets.only(right: 8)),
-        Text(
-            '${(headshots['Legshot']! * 100).toString().split('.')[0]}.${(headshots['Legshot']! * 100).toString().split('.')[1].substring(0, 1)}',
+        Text(FormattingUtils.convertShotToPercentage(shots, ShotType.Legshot),
             style: const TextStyle(fontSize: 14))
       ])
     ]);
