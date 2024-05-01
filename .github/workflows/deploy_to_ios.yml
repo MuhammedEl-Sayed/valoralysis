@@ -31,7 +31,7 @@ jobs:
       - name: 'Upload app to TestFlight'
         uses: apple-actions/upload-testflight-build@v1
         with: 
-          app-path: 'build/ios/ipa/Runner.ipa'
+          app-path: '/Users/runner/work/valoralysis/valoralysis/build/ios/ipa/Runner.ipa'
           issuer-id: ${{ secrets.APP_ISSUER_ID }}
           api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
           api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
