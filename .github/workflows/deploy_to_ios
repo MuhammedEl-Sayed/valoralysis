@@ -2,7 +2,7 @@ name: "Build iOS app"
 
 on:
   # Define the manual trigger
-  workflow_dispatch:
+  workflow_dispatch
 
 jobs:
   build_with_signing:
