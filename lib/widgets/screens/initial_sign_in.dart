@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/images.dart';
+import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/models/user.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/pick_random.dart';
@@ -31,20 +32,18 @@ class _InitialSignInState extends State<InitialSignIn> {
     final consentGiven = userPrefs.getBool('consentGiven') ?? true;
 
     // We are using -1 to say they logged out but don't want to remove their data
-    /* if (preferredPUUID == -1) {
+    if (preferredPUUID == -1) {
       userProvider.resetUser();
     } else {
       userProvider.setUser(User(
-        // puuid: puuids?[preferredPUUID ?? 0] ?? '',
-        puuid: 'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
-        consentGiven: true,
-        
-      ));
-    }*/
+          puuid: puuids?[preferredPUUID ?? 0] ?? '',
+          //puuid:
+          //  'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
+          consentGiven: true,
+          name: "Wwew"));
+    }
     userProvider.setUser(User(
-      // puuid: puuids?[preferredPUUID ?? 0] ?? '',
-      puuid:
-          'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
+      puuid: puuids?[preferredPUUID ?? 0] ?? '',
       consentGiven: true,
       name: userProvider.user.name,
     ));
@@ -57,6 +56,8 @@ class _InitialSignInState extends State<InitialSignIn> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = TextEditingController();
+    double margin = getStandardMargins(context) * 3;
     final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -81,7 +82,32 @@ class _InitialSignInState extends State<InitialSignIn> {
                 const SizedBox(
                   height: 20,
                 ),
+                Padding(
+                    padding: EdgeInsets.only(left: margin, right: margin),
+                    child: TextField(
+                      controller: controller,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Enter your Name#Tagline',
+                      ),
+                    )),
+                const SizedBox(
+                  height: 20,
+                ),
                 FilledButton(
+                  onPressed: () {
+                    final nameTagline = controller.text;
+                    userProvider.setUser(User(
+                      name: nameTagline,
+                      puuid: '',
+                      //puuid:
+                      //  'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
+                      consentGiven: true,
+                    ));
+                  },
+                  child: const Text('Sign in with Riot Games'),
+                ),
+                /*FilledButton(
                   onPressed: () async {
                     await Navigator.pushNamed(context, '/auth');
                     // Perform action when you come back to this page
@@ -99,7 +125,7 @@ class _InitialSignInState extends State<InitialSignIn> {
                     userProvider.resetUser();
                   },
                   child: const Text('Delete User Data'),
-                ),
+                ),*/
               ],
             ),
           ),

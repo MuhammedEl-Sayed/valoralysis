@@ -75,38 +75,49 @@ class TableUtils {
         HistoryUtils.extractPlayerNameByPUUID(matchDetail, puuid);
     Rank playerRank = RankUtils.getPlayerRank(matchDetail, ranks, puuid);
 
-    return DataCell(Padding(
-        padding: const EdgeInsets.only(top: 7, bottom: 7),
-        child: Row(
-          children: [
-            Image(
-              image: NetworkImage(
-                  AgentUtils.getImageFromId(matchDetail, puuid, agents) ?? ''),
-              width: 25,
-              height: 25,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+    return DataCell(ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 120),
+        child: Padding(
+            padding: const EdgeInsets.only(top: 7, bottom: 7),
+            child: Row(
               children: [
-                Text(
-                  playerName,
-                  style: const TextStyle(fontSize: 13),
+                Image(
+                  image: NetworkImage(
+                      AgentUtils.getImageFromId(matchDetail, puuid, agents) ??
+                          ''),
+                  width: 25,
+                  height: 25,
                 ),
-                Row(
-                  children: [
-                    Image(
-                      image: NetworkImage(playerRank.rankIcons.smallIcon),
-                      width: 10,
-                      height: 10,
-                    ),
-                    Text(playerRank.tierName,
-                        style: const TextStyle(fontSize: 9, height: 1))
-                  ],
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Text(
+                            playerName,
+                            style: const TextStyle(fontSize: 13),
+                            overflow: TextOverflow.ellipsis,
+                          )),
+                      Row(
+                        children: [
+                          Image(
+                            image: NetworkImage(playerRank.rankIcons.smallIcon),
+                            width: 10,
+                            height: 10,
+                          ),
+                          Flexible(
+                            child: Text(playerRank.tierName,
+                                style: const TextStyle(fontSize: 9, height: 1),
+                                overflow: TextOverflow.ellipsis),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 )
               ],
-            )
-          ],
-        )));
+            ))));
   }
 }

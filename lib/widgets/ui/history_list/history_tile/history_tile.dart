@@ -124,11 +124,12 @@ class _HistoryTileState extends State<HistoryTile> {
                       : const BorderRadius.all(Radius.circular(5)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
-                      spreadRadius: 2,
-                      blurRadius: 3,
-                      offset: const Offset(1, 1), // changes position of shadow
-                    ),
+                      color: Colors.black,
+                      blurRadius: 2.0,
+                      spreadRadius: 0.0,
+                      offset:
+                          Offset(2.0, 2.0), // shadow direction: bottom right
+                    )
                   ]),
               child: Stack(
                 children: [
