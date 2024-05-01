@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: darkTheme,
           themeMode: ThemeMode.system, // device controls theme
-          initialRoute: '/',
+          initialRoute: '/home',
           routes: {
             '/': (context) => const InitialSignIn(),
             '/auth': (context) => WebViewPopup(),

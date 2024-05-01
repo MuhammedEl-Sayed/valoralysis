@@ -32,18 +32,20 @@ class _InitialSignInState extends State<InitialSignIn> {
     final consentGiven = userPrefs.getBool('consentGiven') ?? true;
 
     // We are using -1 to say they logged out but don't want to remove their data
-    if (preferredPUUID == -1) {
+    /*   if (preferredPUUID == -1) {
       userProvider.resetUser();
     } else {
       userProvider.setUser(User(
-          puuid: puuids?[preferredPUUID ?? 0] ?? '',
-          //puuid:
-          //  'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
+          //puuid: puuids?[preferredPUUID ?? 0] ?? '',
+          puuid:
+              'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
           consentGiven: true,
           name: "Wwew"));
-    }
+    }*/
     userProvider.setUser(User(
-      puuid: puuids?[preferredPUUID ?? 0] ?? '',
+      //  puuid: puuids?[preferredPUUID ?? 0] ?? '',
+      puuid:
+          'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
       consentGiven: true,
       name: userProvider.user.name,
     ));
