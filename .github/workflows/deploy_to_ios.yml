@@ -53,7 +53,7 @@ jobs:
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
       - name: Build Flutter iOS app
-        run: touch .env && echo "${{ secrets.RIOT_API_KEY }}" >> .env && $flutter build ios --release --dart-define RIOT_API_KEY=${{ secrets.RIOT_API_KEY }}
+        run: touch .env && echo "${{ secrets.RIOT_API_KEY }}" >> .env && flutter build ios --release --dart-define RIOT_API_KEY=${{ secrets.RIOT_API_KEY }}
 
       - name: Export IPA using Xcodebuild
         env:
