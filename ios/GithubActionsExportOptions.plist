@@ -14,7 +14,7 @@
 	<string>manual</string>
 	<key>provisioningProfiles</key>
 		<dict>
-			<key>5Y78SG766K.com.melsayed.valoralysis</key>
+			<key>com.melsayed.valoralysis</key>
 			<string>Valoralysis Distrubution Profile</string>
 		</dict>
 	<key>stripSwiftSymbols</key>
