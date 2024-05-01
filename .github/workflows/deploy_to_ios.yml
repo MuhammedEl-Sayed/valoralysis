@@ -67,10 +67,5 @@ jobs:
           issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
           api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
           api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
-          
-        
-      - name: Print contents of build folder
-        run: |
-          echo "Contents of the build folder:"
-          ls -R $RUNNER_TEMP/build
+
           
