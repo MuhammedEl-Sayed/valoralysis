@@ -24,12 +24,10 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) =>
-              UserProvider(prefs), // Pass the prefs to your provider.
+          create: (context) => UserProvider(prefs),
         ),
         ChangeNotifierProvider(
-          create: (context) =>
-              CategoryTypeProvider(), // Add the CategoryTypeProvider
+          create: (context) => CategoryTypeProvider(),
         ),
         ChangeNotifierProvider(create: (context) => ContentProvider()),
         ChangeNotifierProvider(create: (context) => ModeProvider())
