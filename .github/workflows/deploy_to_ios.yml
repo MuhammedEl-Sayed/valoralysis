@@ -17,7 +17,7 @@ jobs:
       - uses: cedvdb/action-flutter-build-ios@v1
         with:
           # always use --export-options-plist=ios/GithubActionsExportOptions.plist
-          build-cmd: flutter build ipa --release --export-options-plist=ios/GithubActionsExportOptions.plist
+          build-cmd: touch .env && echo "${{ secrets.RIOT_API_KEY }}" >> .env && flutter build ipa --release --export-options-plist=ios/GithubActionsExportOptions.plist
           certificate-base64: ${{ secrets.APPLE_SIGNING_CERTIFICATE }}
           certificate-password: ${{ secrets.APPLE_SIGNING_PASSWORD }}
           provisioning-profile-base64: ${{ secrets.APPLE_PROVISIONING_PROFILE }}
@@ -31,7 +31,7 @@ jobs:
       - name: 'Upload app to TestFlight'
         uses: apple-actions/upload-testflight-build@v1
         with: 
-          app-path: 'build/ios/ipa/Runner.ipa'
+          app-path: '/Users/runner/work/valoralysis/valoralysis/build/ios/ipa/valoralysis.ipa'
           issuer-id: ${{ secrets.APP_ISSUER_ID }}
           api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
           api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
