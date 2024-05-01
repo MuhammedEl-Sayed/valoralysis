@@ -3,7 +3,7 @@ name: "Build iOS app"
 on:
   push:
     branches:
-      - main
+      - 'main'
 
 jobs:
   build_with_signing:
