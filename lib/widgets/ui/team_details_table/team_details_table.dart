@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide DataColumn, DataRow, DataTable;
 import 'package:provider/provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/utils/table_utils.dart';
+import 'package:valoralysis/widgets/ui/data_table/data_table.dart';
 
 class TeamDetailsTable extends StatelessWidget {
   final String puuid;
@@ -36,12 +37,12 @@ class TeamDetailsTable extends StatelessWidget {
                 child: DataTable(
                     columnSpacing: 10,
                     dataRowColor: MaterialStateProperty.resolveWith<Color?>(
-                        (Set<MaterialState> states) {
-                      return isUserTeam
-                          ? const Color(0xff2BD900).withOpacity(0.2)
-                          : const Color(0xff730000)
-                              .withOpacity(0.2); // Use the default value.
-                    }),
+                      (Set<MaterialState> states) {
+                        return isUserTeam
+                            ? const Color(0xff2BD900).withOpacity(0.2)
+                            : const Color(0xff730000).withOpacity(0.2);
+                      },
+                    ),
                     headingRowHeight: 26,
                     columns: <DataColumn>[
                       DataColumn(

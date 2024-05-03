@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    hide DataColumn, DataCell, DataRow, DataTable;
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/models/rank.dart';
@@ -7,6 +8,7 @@ import 'package:valoralysis/utils/weapons_utils.dart';
 import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
+import 'package:valoralysis/widgets/ui/material/data_table.dart';
 
 class TableUtils {
   static List<DataRow> buildPlayerDataRows(
@@ -76,7 +78,7 @@ class TableUtils {
     Rank playerRank = RankUtils.getPlayerRank(matchDetail, ranks, puuid);
 
     return DataCell(ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 120),
+        constraints: const BoxConstraints(maxWidth: 120),
         child: Padding(
             padding: const EdgeInsets.only(top: 7, bottom: 7),
             child: Row(
