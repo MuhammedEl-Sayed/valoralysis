@@ -20,10 +20,15 @@ class _InitialSignInState extends State<InitialSignIn> {
   // State variables to manage the error message and visibility
   String errorMessage = '';
   bool showError = false;
+  // Declare the TextEditingController here
+  late TextEditingController controller;
+  late String randomName;
 
   @override
   void initState() {
     super.initState();
+    controller = TextEditingController();
+    randomName = HelperFunctions.pickRandom(signInBackgrounds);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initUserState();
     });
@@ -57,102 +62,102 @@ class _InitialSignInState extends State<InitialSignIn> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = TextEditingController();
-    double margin = getStandardMargins(context) * 3;
+    double margin = getStandardMargins(context);
     final userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Stack(fit: StackFit.expand, children: [
           Image.asset(
-            HelperFunctions.pickRandom(signInBackgrounds),
+            randomName,
             fit: BoxFit.cover,
             opacity: const AlwaysStoppedAnimation(0.2),
           ),
           Center(
-            widthFactor: 2,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(height: margin * 2),
-                Image.asset(
-                  'assets/images/valoralysis_transparent.png',
-                  width: 200,
-                ),
-                BlinkingText(),
-                const Text('Valoralysis', style: TextStyle(fontSize: 45)),
-                const SizedBox(height: 20),
-                if (showError)
-                  Container(
-                    margin: EdgeInsets.all(margin / 4),
-                    padding: EdgeInsets.all(margin / 4),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.onError,
-                      borderRadius: BorderRadius.circular(5),
+              widthFactor: 2,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(height: margin * 2),
+                    Image.asset(
+                      'assets/images/valoralysis_transparent.png',
+                      width: 200,
                     ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.error,
-                            color: Theme.of(context).colorScheme.error),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(errorMessage),
+                    BlinkingText(),
+                    const Text('Valoralysis', style: TextStyle(fontSize: 45)),
+                    const SizedBox(height: 20),
+                    if (showError)
+                      Container(
+                        margin: EdgeInsets.all(margin / 4),
+                        padding: EdgeInsets.all(margin / 4),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.onError,
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                      ],
+                        child: Row(
+                          children: [
+                            Icon(Icons.error,
+                                color: Theme.of(context).colorScheme.error),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(errorMessage),
+                            ),
+                          ],
+                        ),
+                      ),
+                    Padding(
+                      padding: EdgeInsets.only(left: margin, right: margin),
+                      child: TextField(
+                        controller: controller,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Enter your Name#Tagline',
+                        ),
+                      ),
                     ),
-                  ),
-                Padding(
-                  padding: EdgeInsets.only(left: margin, right: margin),
-                  child: TextField(
-                    controller: controller,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Enter your Name#Tagline',
+                    const SizedBox(height: 20),
+                    FilledButton(
+                      onPressed: () async {
+                        // Reset error state
+                        setState(() {
+                          errorMessage = '';
+                          showError = false;
+                        });
+
+                        final gameNameAndTag = controller.text;
+                        String puuid =
+                            await AuthService.getUserPUUID(gameNameAndTag);
+
+                        // If PUUID is empty, show error
+                        if (puuid.isEmpty) {
+                          setState(() {
+                            errorMessage =
+                                'Could not find the specified Name#Tagline. Please try again.';
+                            showError = true;
+                          });
+                        } else {
+                          setState(() {
+                            errorMessage = '';
+                            showError = false;
+                          });
+                          userProvider.setUser(User(
+                            name: gameNameAndTag,
+                            puuid: puuid,
+                            consentGiven: true,
+                          ));
+                          if (mounted) {
+                            Navigator.of(context).pushNamed('/home');
+                          }
+                        }
+                      },
+                      child: const Text('Sign in with Riot Games'),
                     ),
-                  ),
+                    // Display error container if there is an error
+                  ],
                 ),
-                const SizedBox(height: 20),
-                FilledButton(
-                  onPressed: () async {
-                    // Reset error state
-                    setState(() {
-                      errorMessage = '';
-                      showError = false;
-                    });
-
-                    final gameNameAndTag = controller.text;
-                    String puuid =
-                        await AuthService.getUserPUUID(gameNameAndTag);
-
-                    // If PUUID is empty, show error
-                    if (puuid.isEmpty) {
-                      setState(() {
-                        errorMessage =
-                            'Could not find the specified Name#Tagline. Please try again.';
-                        showError = true;
-                      });
-                    } else {
-                      setState(() {
-                        errorMessage = '';
-                        showError = false;
-                      });
-                      userProvider.setUser(User(
-                        name: gameNameAndTag,
-                        puuid: puuid,
-                        consentGiven: true,
-                      ));
-                      if (mounted) {
-                        Navigator.of(context).pushNamed('/home');
-                      }
-                    }
-                  },
-                  child: const Text('Sign in with Riot Games'),
-                ),
-                // Display error container if there is an error
-              ],
-            ),
-          ),
+              )),
         ]));
   }
 }
