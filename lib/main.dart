@@ -12,6 +12,7 @@ import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/providers/category_provider.dart'; // Import the CategoryTypeProvider
 import 'package:valoralysis/widgets/screens/home.dart';
 import 'package:valoralysis/widgets/screens/initial_sign_in.dart';
+import 'package:valoralysis/widgets/screens/settings.dart';
 import 'package:valoralysis/widgets/ui/title_bar/page_bar_wrappers.dart';
 import 'dart:io' show Platform;
 
@@ -50,11 +51,12 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: darkTheme,
           themeMode: ThemeMode.system, // device controls theme
-          initialRoute: '/home', //
+          initialRoute: '/', //
           routes: {
             '/': (context) => const InitialSignIn(),
             '/auth': (context) => WebViewPopup(),
             '/home': (context) => HomeScreen(),
+            '/settings': (context) => SettingsScreen(),
           },
         );
       },

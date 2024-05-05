@@ -15,18 +15,31 @@ class _BlinkingTextState extends State<BlinkingText>
   bool pause = false;
   String displayWord = "";
   String cursor = "|";
+  Timer? cursorTimer;
+  Timer? textTimer;
 
   @override
   void initState() {
-    Timer.periodic(Duration(milliseconds: 100), (Timer t) => _animateCursor());
-    Timer.periodic(Duration(milliseconds: 150), (Timer t) => _animateText());
+    cursorTimer = Timer.periodic(
+        const Duration(milliseconds: 100), (Timer t) => _animateCursor());
+    textTimer = Timer.periodic(
+        const Duration(milliseconds: 150), (Timer t) => _animateText());
     super.initState();
   }
 
+  @override
+  void dispose() {
+    cursorTimer?.cancel();
+    textTimer?.cancel();
+    super.dispose();
+  }
+
   void _animateCursor() {
-    setState(() {
-      cursor = cursor == "|" ? " " : "|";
-    });
+    if (mounted) {
+      setState(() {
+        cursor = cursor == "|" ? " " : "|";
+      });
+    }
   }
 
   void _animateText() {
@@ -35,30 +48,32 @@ class _BlinkingTextState extends State<BlinkingText>
       return;
     }
 
-    setState(() {
-      String currentWord = words[currentWordIndex];
-      if (currentCharIndex < 0) {
-        displayWord = "";
-      } else if (currentCharIndex >= currentWord.length) {
-        displayWord = currentWord;
-        pause = true;
-      } else {
-        displayWord = currentWord.substring(0, currentCharIndex);
-      }
-
-      if (deleting) {
-        currentCharIndex--;
+    if (mounted) {
+      setState(() {
+        String currentWord = words[currentWordIndex];
         if (currentCharIndex < 0) {
-          deleting = false;
-          currentWordIndex = (currentWordIndex + 1) % words.length;
+          displayWord = "";
+        } else if (currentCharIndex >= currentWord.length) {
+          displayWord = currentWord;
+          pause = true;
+        } else {
+          displayWord = currentWord.substring(0, currentCharIndex);
         }
-      } else {
-        currentCharIndex++;
-        if (currentCharIndex > currentWord.length) {
-          deleting = true;
+
+        if (deleting) {
+          currentCharIndex--;
+          if (currentCharIndex < 0) {
+            deleting = false;
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+          }
+        } else {
+          currentCharIndex++;
+          if (currentCharIndex > currentWord.length) {
+            deleting = true;
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   @override

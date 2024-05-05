@@ -14,9 +14,18 @@ class _NavBarState extends State<NavBar> {
   Widget build(BuildContext context) {
     return NavigationBar(
       onDestinationSelected: (int index) {
+        print(currIndex);
+        print(index);
+        if (currIndex == index) return; // Add this line
         setState(() {
           currIndex = index;
         });
+        if (index == 0) {
+          Navigator.of(context).pushNamed('/home');
+        }
+        if (index == 2) {
+          Navigator.of(context).pushNamed('/settings');
+        }
       },
       selectedIndex: currIndex,
       destinations: const [

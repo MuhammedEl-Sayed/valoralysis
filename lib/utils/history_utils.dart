@@ -18,8 +18,13 @@ class HistoryUtils {
 
   static Item extractGamemode(
       Map<String, dynamic> matchDetail, List<Item> modes) {
-    return modes.firstWhere(
-        (mode) => mode.realValue == matchDetail['matchInfo']['queueId']);
+    try {
+      return modes.firstWhere(
+          (mode) => mode.realValue == matchDetail['matchInfo']['queueId']);
+    } catch (e) {
+      return Item('deathmatch', 'Deathmatch');
+      // Replace with actual Deathmatch Item
+    }
   }
 
   static PlayerStats extractPlayerStat(
@@ -77,6 +82,7 @@ class HistoryUtils {
       "Your Team": [],
       "Enemy Team": []
     };
+    print('extractRoundResultPerTeam');
 
     String playerTeamId = extractTeamFromPUUID(matchDetail, puuid)['teamId'];
 

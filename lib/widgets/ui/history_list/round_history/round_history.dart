@@ -60,6 +60,7 @@ class RoundHistory extends StatelessWidget {
         HistoryUtils.extractRoundResultPerTeam(matchDetail, puuid);
     String userTeam =
         HistoryUtils.extractTeamFromPUUID(matchDetail, puuid)['teamId'];
+    print('history');
     int lastRound = max(
         roundResults['Your Team'].length, roundResults['Enemy Team'].length);
 

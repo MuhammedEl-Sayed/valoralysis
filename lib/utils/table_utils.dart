@@ -8,7 +8,7 @@ import 'package:valoralysis/utils/weapons_utils.dart';
 import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
-import 'package:valoralysis/widgets/ui/material/data_table.dart';
+import 'package:valoralysis/widgets/ui/data_table/data_table.dart';
 
 class TableUtils {
   static List<DataRow> buildPlayerDataRows(
@@ -21,6 +21,7 @@ class TableUtils {
 
     String userTeam =
         HistoryUtils.extractTeamFromPUUID(matchDetail, puuid)['teamId'];
+    print('table');
     for (Map<String, dynamic> player in matchDetail['players']) {
       String playerTeam = HistoryUtils.extractTeamFromPUUID(
           matchDetail, player['puuid'])['teamId'];

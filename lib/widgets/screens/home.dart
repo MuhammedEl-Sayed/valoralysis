@@ -34,6 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+
     _loadingFuture = _loadData();
   }
 
@@ -42,7 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
         Provider.of<UserProvider>(context, listen: false);
     ContentProvider contentProvider =
         Provider.of<ContentProvider>(context, listen: false);
-
+    if (userProvider.user.puuid == '') {
+      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+      return;
+    }
     contentProvider.updateContent(await ContentService.fetchContent());
 
     contentProvider.updateMatchHistory(

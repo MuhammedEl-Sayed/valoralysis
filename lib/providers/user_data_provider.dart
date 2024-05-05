@@ -21,6 +21,9 @@ class UserProvider with ChangeNotifier {
 
   void setUser(User value) {
     _user = value;
+    updatePuuids(value.puuid);
+    prefs.setBool('consentGiven', value.consentGiven);
+    prefs.setString('name', value.name);
     notifyListeners();
   }
 
@@ -30,7 +33,19 @@ class UserProvider with ChangeNotifier {
 
   void updatePuuid(String puuid) {
     _user.puuid = puuid;
+    updatePuuids(puuid);
     notifyListeners();
+  }
+
+  void updatePuuids(String puuid) {
+    List<String> puuids = prefs.getStringList('puuids') ?? [];
+    if (puuids.contains(puuid)) {
+      prefs.setInt('preferredPUUIDS', puuids.indexOf(puuid));
+    } else {
+      puuids.add(puuid);
+      prefs.setStringList('puuids', puuids);
+      prefs.setInt('preferredPUUIDS', puuids.length - 1);
+    }
   }
 
   void updateName(String name) {

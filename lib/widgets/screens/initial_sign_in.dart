@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:valoralysis/api/services/auth_service.dart';
 import 'package:valoralysis/consts/images.dart';
 import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/models/user.dart';
@@ -15,6 +17,10 @@ class InitialSignIn extends StatefulWidget {
 }
 
 class _InitialSignInState extends State<InitialSignIn> {
+  // State variables to manage the error message and visibility
+  String errorMessage = '';
+  bool showError = false;
+
   @override
   void initState() {
     super.initState();
@@ -32,25 +38,18 @@ class _InitialSignInState extends State<InitialSignIn> {
     final consentGiven = userPrefs.getBool('consentGiven') ?? true;
 
     // We are using -1 to say they logged out but don't want to remove their data
-    /*   if (preferredPUUID == -1) {
+    if (preferredPUUID == -1) {
       userProvider.resetUser();
     } else {
       userProvider.setUser(User(
-          //puuid: puuids?[preferredPUUID ?? 0] ?? '',
-          puuid:
-              'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
+          puuid: puuids?[preferredPUUID ?? 0] ?? '',
+          //  puuid:
+          //    'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
           consentGiven: true,
           name: "Wwew"));
-    }*/
-    userProvider.setUser(User(
-      //  puuid: puuids?[preferredPUUID ?? 0] ?? '',
-      puuid:
-          'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
-      consentGiven: true,
-      name: userProvider.user.name,
-    ));
+    }
 
-    // Check if the user is already signed in, then nav to the next page
+    // Check if the user is already signed in, then navigate to the next page
     if (userProvider.user.puuid != '' && userProvider.user.consentGiven) {
       Navigator.pushNamed(context, '/home');
     }
@@ -61,73 +60,96 @@ class _InitialSignInState extends State<InitialSignIn> {
     final controller = TextEditingController();
     double margin = getStandardMargins(context) * 3;
     final userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Stack(fit: StackFit.expand, children: [
           Image.asset(
             HelperFunctions.pickRandom(signInBackgrounds),
             fit: BoxFit.cover,
-            // Animation<double>?
             opacity: const AlwaysStoppedAnimation(0.2),
           ),
           Center(
             widthFactor: 2,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SizedBox(height: margin * 2),
                 Image.asset(
                   'assets/images/valoralysis_transparent.png',
                   width: 200,
                 ),
                 BlinkingText(),
                 const Text('Valoralysis', style: TextStyle(fontSize: 45)),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
+                if (showError)
+                  Container(
+                    margin: EdgeInsets.all(margin / 4),
+                    padding: EdgeInsets.all(margin / 4),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.onError,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.error,
+                            color: Theme.of(context).colorScheme.error),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(errorMessage),
+                        ),
+                      ],
+                    ),
+                  ),
                 Padding(
-                    padding: EdgeInsets.only(left: margin, right: margin),
-                    child: TextField(
-                      controller: controller,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Enter your Name#Tagline',
-                      ),
-                    )),
-                const SizedBox(
-                  height: 20,
+                  padding: EdgeInsets.only(left: margin, right: margin),
+                  child: TextField(
+                    controller: controller,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Enter your Name#Tagline',
+                    ),
+                  ),
                 ),
+                const SizedBox(height: 20),
                 FilledButton(
-                  onPressed: () {
-                    final nameTagline = controller.text;
-                    userProvider.setUser(User(
-                      name: nameTagline,
-                      puuid: '',
-                      //puuid:
-                      //  'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
-                      consentGiven: true,
-                    ));
-                  },
-                  child: const Text('Sign in with Riot Games'),
-                ),
-                /*FilledButton(
                   onPressed: () async {
-                    await Navigator.pushNamed(context, '/auth');
-                    // Perform action when you come back to this page
-                    // For example, you can call initUserState() again
-                    _initUserState();
+                    // Reset error state
+                    setState(() {
+                      errorMessage = '';
+                      showError = false;
+                    });
+
+                    final gameNameAndTag = controller.text;
+                    String puuid =
+                        await AuthService.getUserPUUID(gameNameAndTag);
+
+                    // If PUUID is empty, show error
+                    if (puuid.isEmpty) {
+                      setState(() {
+                        errorMessage =
+                            'Could not find the specified Name#Tagline. Please try again.';
+                        showError = true;
+                      });
+                    } else {
+                      setState(() {
+                        errorMessage = '';
+                        showError = false;
+                      });
+                      userProvider.setUser(User(
+                        name: gameNameAndTag,
+                        puuid: puuid,
+                        consentGiven: true,
+                      ));
+                      if (mounted) {
+                        Navigator.of(context).pushNamed('/home');
+                      }
+                    }
                   },
                   child: const Text('Sign in with Riot Games'),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    userProvider.prefs.clear();
-                    userProvider.resetUser();
-                  },
-                  child: const Text('Delete User Data'),
-                ),*/
+                // Display error container if there is an error
               ],
             ),
           ),
