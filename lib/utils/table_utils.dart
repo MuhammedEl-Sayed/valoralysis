@@ -4,10 +4,10 @@ import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/models/rank.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
-import 'package:valoralysis/utils/weapons_utils.dart';
 import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
+import 'package:valoralysis/utils/weapons_utils.dart';
 import 'package:valoralysis/widgets/ui/data_table/data_table.dart';
 
 class TableUtils {
@@ -21,7 +21,6 @@ class TableUtils {
 
     String userTeam =
         HistoryUtils.extractTeamFromPUUID(matchDetail, puuid)['teamId'];
-    print('table');
     for (Map<String, dynamic> player in matchDetail['players']) {
       String playerTeam = HistoryUtils.extractTeamFromPUUID(
           matchDetail, player['puuid'])['teamId'];
@@ -46,12 +45,12 @@ class TableUtils {
           ShotType.Headshot);
       rows.add(DataRow(cells: [
         profile, // Profile under the team name column
-        DataCell(Text('0')), // ACS
+        const DataCell(Text('0')), // ACS
         DataCell(Text(stats.kd.toString())), // KD
         DataCell(Text(stats.kills.toString())), // K
         DataCell(Text(stats.deaths.toString())), // D
         DataCell(Text(stats.assists.toString())), // A
-        DataCell(Text('0')), // ADR
+        const DataCell(Text('0')), // ADR
         DataCell(Text(hs)), // HS%
       ]));
     }

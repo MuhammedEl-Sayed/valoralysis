@@ -8,7 +8,8 @@ class RoundHistory extends StatelessWidget {
   final String puuid;
   final Map<String, dynamic> matchDetail;
 
-  RoundHistory({required this.puuid, required this.matchDetail});
+  const RoundHistory(
+      {super.key, required this.puuid, required this.matchDetail});
 
   Widget resultToImageMap(
       bool playerTeam, String result, BuildContext context) {
@@ -46,7 +47,7 @@ class RoundHistory extends StatelessWidget {
         );
     }
 
-    return Container(
+    return SizedBox(
       width: 22.0,
       height: 22.0,
       child: Image.asset('$baseUrl$imageName$imageSuffix'),
@@ -60,7 +61,6 @@ class RoundHistory extends StatelessWidget {
         HistoryUtils.extractRoundResultPerTeam(matchDetail, puuid);
     String userTeam =
         HistoryUtils.extractTeamFromPUUID(matchDetail, puuid)['teamId'];
-    print('history');
     int lastRound = max(
         roundResults['Your Team'].length, roundResults['Enemy Team'].length);
 

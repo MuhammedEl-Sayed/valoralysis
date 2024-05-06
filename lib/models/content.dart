@@ -13,7 +13,6 @@ class ContentItem {
   }
   factory ContentItem.fromJsonWithMapUrl(Map<String, dynamic> json,
       {String? iconUrl}) {
-    print(json);
     return ContentItem(json['name'], json['uuid'].toString().toLowerCase(),
         iconUrl: iconUrl ?? json['iconUrl'], assetUrl: json['assetPath']);
   }

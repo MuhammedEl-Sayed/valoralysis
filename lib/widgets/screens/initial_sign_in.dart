@@ -52,7 +52,8 @@ class _InitialSignInState extends State<InitialSignIn> {
           //  puuid:
           //    'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
           consentGiven: true,
-          name: "Wwew"));
+          name: "Wwew",
+          matchHistory: {}));
     }
 
     // Check if the user is already signed in, then navigate to the next page
@@ -66,7 +67,7 @@ class _InitialSignInState extends State<InitialSignIn> {
   Widget build(BuildContext context) {
     double margin = getStandardMargins(context);
     final userProvider = Provider.of<UserProvider>(context);
-    final pageController = Provider.of<PageController>(context, listen: false);
+    final pageController = Provider.of<PageController>(context, listen: true);
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -153,6 +154,7 @@ class _InitialSignInState extends State<InitialSignIn> {
                             name: gameNameAndTag,
                             puuid: puuid,
                             consentGiven: true,
+                            matchHistory: userProvider.user.matchHistory,
                           ));
                           if (mounted) {
                             pageController.animateToPage(2,

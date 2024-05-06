@@ -18,8 +18,7 @@ class AuthService {
     try {
       String gameName = gameNameAndTag.split('#')[0];
       String tagLine = gameNameAndTag.split('#')[1];
-      print(gameName);
-      print(tagLine);
+
       var response = await dio.get(
         '/riot/account/v1/accounts/by-riot-id/$gameName/$tagLine',
         options: Options(

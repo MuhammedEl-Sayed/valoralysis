@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/models/match_history.dart';
@@ -82,7 +80,6 @@ class HistoryUtils {
       "Your Team": [],
       "Enemy Team": []
     };
-    print('extractRoundResultPerTeam');
 
     String playerTeamId = extractTeamFromPUUID(matchDetail, puuid)['teamId'];
 

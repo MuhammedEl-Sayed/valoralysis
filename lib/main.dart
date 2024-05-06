@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
           designSize: const Size(1200, 800),
           builder: (BuildContext context, Widget? child) {
             final pageController =
-                Provider.of<PageController>(context, listen: false);
+                Provider.of<PageController>(context, listen: true);
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: darkTheme,

@@ -17,6 +17,11 @@ class _AgentTagState extends State<AgentTag> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
     _iconUrlFuture = _getIconUrl(context);
   }
@@ -42,7 +47,7 @@ class _AgentTagState extends State<AgentTag> {
     ContentProvider contentProvider =
         Provider.of<ContentProvider>(context, listen: false);
     UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+        Provider.of<UserProvider>(context, listen: true);
     final topAgent = AgentAnalysis.findTopAgent(contentProvider.matchDetails,
         userProvider.user.puuid, contentProvider.agents);
 

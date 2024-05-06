@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:valoralysis/api/services/content_service.dart';
 import 'package:valoralysis/api/services/history_service.dart';
+import 'package:valoralysis/models/match_history.dart';
 import 'package:valoralysis/providers/category_provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
@@ -17,8 +18,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with AutomaticKeepAliveClientMixin {
+class _HomeScreenState extends State<HomeScreen> {
   Future<void>? _loadingFuture;
 
   @override
@@ -27,9 +27,6 @@ class _HomeScreenState extends State<HomeScreen>
 
     _loadingFuture = _loadData();
   }
-
-  @override
-  bool get wantKeepAlive => true;
 
   Future<void> _loadData() async {
     UserProvider userProvider =
@@ -42,11 +39,28 @@ class _HomeScreenState extends State<HomeScreen>
     }
     contentProvider.updateContent(await ContentService.fetchContent());
 
-    contentProvider.updateMatchHistory(
-        await HistoryService.getMatchListByPuuid(userProvider.user.puuid));
+    List<MatchHistory> matchListUntrimmed =
+        await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
+    List<MatchHistory> matchList = matchListUntrimmed.getRange(0, 5).toList();
+    // This chunk should be its own function
+    var futures = matchList.map((match) async {
+      var details =
+          await HistoryService.getMatchDetailsByMatchID(match.matchID);
+      print(details);
+      return MapEntry(match.matchID, details);
+    });
+    var entries = await Future.wait(futures);
 
-    List<Map<String, dynamic>> matchDetails =
-        await HistoryService.getAllMatchDetails(contentProvider.matchHistory);
+    Map<String, dynamic> matchHistoryDetailsMap = Map.fromEntries(entries);
+    print(matchHistoryDetailsMap);
+
+    userProvider.updateMatchHistory(matchHistoryDetailsMap);
+
+//Fix this, this only includes the ones pulled fomr api not stored
+    contentProvider.updateMatchHistory(matchList);
+    List<Map<String, dynamic>> matchDetails = matchHistoryDetailsMap.values
+        .map((v) => v as Map<String, dynamic>)
+        .toList();
 
     contentProvider.updateMatchDetails(matchDetails);
 
@@ -56,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return FutureBuilder(
       future: _loadingFuture,
       builder: (context, snapshot) {

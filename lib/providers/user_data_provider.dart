@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valoralysis/models/user.dart';
 
 class UserProvider with ChangeNotifier {
-  User _user = User(puuid: '', consentGiven: false, name: '');
+  User _user = User(puuid: '', consentGiven: false, name: '', matchHistory: {});
+
   final SharedPreferences prefs;
   User get user => _user;
 
@@ -14,8 +17,13 @@ class UserProvider with ChangeNotifier {
             prefs.getInt('preferredPUUIDS') != -1)
         ? puuids[prefs.getInt('preferredPUUIDS') ?? 0]
         : '';
+
     _user.consentGiven = prefs.getBool('consentGiven') ?? false;
+
     _user.name = prefs.getString('name') ?? '';
+
+    String? matchHistory = prefs.getString('matchHistory');
+    _user.matchHistory = matchHistory != null ? jsonDecode(matchHistory) : {};
   }
 
   void setUser(User value) {
@@ -23,11 +31,12 @@ class UserProvider with ChangeNotifier {
     updatePuuids(value.puuid);
     prefs.setBool('consentGiven', value.consentGiven);
     prefs.setString('name', value.name);
+    prefs.setString('matchHistory', jsonEncode(value.matchHistory));
     notifyListeners();
   }
 
   void resetUser() {
-    setUser(User(puuid: '', consentGiven: false, name: ''));
+    setUser(User(puuid: '', consentGiven: false, name: '', matchHistory: {}));
   }
 
   void updatePuuid(String puuid) {
@@ -59,11 +68,18 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateMatchHistory(Map<String, dynamic> matchHistory) {
+    _user.matchHistory = matchHistory;
+    prefs.setString('matchHistory', jsonEncode(matchHistory));
+    notifyListeners();
+  }
+
   void logout(BuildContext context, PageController pageController) {
     _user.puuid = '';
     //update prefs so that preferredPUUIDS is -1
     prefs.setInt('preferredPUUIDS', -1);
-    pageController.jumpToPage(0);
+    pageController.animateToPage(0,
+        duration: const Duration(milliseconds: 500), curve: Curves.slowMiddle);
     resetUser();
     notifyListeners();
   }
