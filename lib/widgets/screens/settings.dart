@@ -11,7 +11,12 @@ class SettingsScreen extends StatelessWidget {
     return Consumer<UserProvider>(builder: (context, userProvider, child) {
       return SafeArea(
           child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: SettingsList(
+          darkTheme: SettingsThemeData(
+            settingsListBackground: Theme.of(context).colorScheme.background,
+            settingsSectionBackground: Theme.of(context).canvasColor,
+          ),
           sections: [
             SettingsSection(
               tiles: <SettingsTile>[

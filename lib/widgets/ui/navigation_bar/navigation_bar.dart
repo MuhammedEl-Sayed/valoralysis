@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class NavBar extends StatefulWidget {
   final int currIndex;
-  final GlobalKey<NavigatorState> navigator;
+  final PageController pageController;
 
-  const NavBar({Key? key, this.currIndex = 0, required this.navigator})
+  const NavBar({Key? key, this.currIndex = 0, required this.pageController})
       : super(key: key);
 
   @override
@@ -13,7 +13,6 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   int? _currIndex;
-
   @override
   void initState() {
     super.initState();
@@ -29,15 +28,7 @@ class _NavBarState extends State<NavBar> {
             setState(() {
               _currIndex = index;
             });
-            switch (index) {
-              case 0:
-                widget.navigator.currentState?.pushNamed('/home');
-                break;
-
-              case 2:
-                widget.navigator.currentState?.pushNamed('/settings');
-                break;
-            }
+            widget.pageController.jumpToPage(index);
           },
           selectedIndex: _currIndex as int,
           destinations: const [

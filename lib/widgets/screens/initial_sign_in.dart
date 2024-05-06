@@ -41,6 +41,7 @@ class _InitialSignInState extends State<InitialSignIn> {
     final preferredPUUID = userPrefs.getInt('preferredPUUIDS');
     // We are setting this to true for now, but we will change this to false when we have RSO.
     final consentGiven = userPrefs.getBool('consentGiven') ?? true;
+    final pageController = Provider.of<PageController>(context, listen: false);
 
     // We are using -1 to say they logged out but don't want to remove their data
     if (preferredPUUID == -1) {
@@ -56,7 +57,8 @@ class _InitialSignInState extends State<InitialSignIn> {
 
     // Check if the user is already signed in, then navigate to the next page
     if (userProvider.user.puuid != '' && userProvider.user.consentGiven) {
-      Navigator.pushNamed(context, '/home');
+      pageController.animateToPage(2,
+          duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
     }
   }
 
@@ -64,7 +66,7 @@ class _InitialSignInState extends State<InitialSignIn> {
   Widget build(BuildContext context) {
     double margin = getStandardMargins(context);
     final userProvider = Provider.of<UserProvider>(context);
-
+    final pageController = Provider.of<PageController>(context, listen: false);
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -153,7 +155,9 @@ class _InitialSignInState extends State<InitialSignIn> {
                             consentGiven: true,
                           ));
                           if (mounted) {
-                            Navigator.of(context).pushNamed('/home');
+                            pageController.animateToPage(2,
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut);
                           }
                         }
                       },

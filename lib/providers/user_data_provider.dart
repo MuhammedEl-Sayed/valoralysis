@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valoralysis/models/user.dart';
-import 'package:provider/provider.dart';
 
 class UserProvider with ChangeNotifier {
   User _user = User(puuid: '', consentGiven: false, name: '');

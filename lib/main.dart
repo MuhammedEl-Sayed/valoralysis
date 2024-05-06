@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:valoralysis/api/auth_redirect_webview.dart';
 import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/providers/category_provider.dart'; // Import the CategoryTypeProvider
 import 'package:valoralysis/providers/content_provider.dart';
@@ -44,37 +43,42 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<NavigatorState> navigator = GlobalKey<NavigatorState>();
-    return ScreenUtilInit(
-      designSize: const Size(1200, 800),
-      builder: (BuildContext context, Widget? child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: darkTheme,
-          navigatorKey: navigator, // Assign the navigator key here
+    return ChangeNotifierProvider<PageController>(
+        create: (_) => PageController(initialPage: 0),
+        child: ScreenUtilInit(
+          designSize: const Size(1200, 800),
+          builder: (BuildContext context, Widget? child) {
+            final pageController =
+                Provider.of<PageController>(context, listen: false);
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: darkTheme,
 
-          builder: (context, child) => Overlay(
-            initialEntries: [
-              OverlayEntry(
-                builder: (context) => Scaffold(
-                  bottomNavigationBar: NavBar(navigator: navigator),
-                  backgroundColor: Theme.of(context).colorScheme.background,
-                  body: child,
-                ),
+              builder: (context, child) => Overlay(
+                initialEntries: [
+                  OverlayEntry(
+                    builder: (context) => Scaffold(
+                      bottomNavigationBar: NavBar(
+                        pageController: pageController,
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.background,
+                      body: child,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          themeMode: ThemeMode.system, // device controls theme
-          initialRoute: '/', //
-          routes: {
-            '/': (context) => const InitialSignIn(),
-            '/auth': (context) => WebViewPopup(),
-            '/home': (context) => const HomeScreen(),
-            '/settings': (context) => const SettingsScreen(),
+              themeMode: ThemeMode.system, // device controls theme
+              home: PageView(
+                controller: pageController,
+                children: const <Widget>[
+                  HomeScreen(),
+                  HomeScreen(),
+                  SettingsScreen(),
+                ],
+              ),
+            );
           },
-        );
-      },
-      child: const PageWithBar(child: InitialSignIn()),
-    );
+          child: const PageWithBar(child: InitialSignIn()),
+        ));
   }
 }

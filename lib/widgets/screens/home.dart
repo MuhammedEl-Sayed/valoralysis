@@ -24,8 +24,6 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
 
     _loadingFuture = _loadData();
   }
@@ -58,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return FutureBuilder(
       future: _loadingFuture,
       builder: (context, snapshot) {
