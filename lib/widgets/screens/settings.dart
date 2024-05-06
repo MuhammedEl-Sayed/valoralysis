@@ -8,6 +8,8 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pageController = Provider.of<PageController>(context, listen: false);
+
     return Consumer<UserProvider>(builder: (context, userProvider, child) {
       return SafeArea(
           child: Scaffold(
@@ -21,7 +23,8 @@ class SettingsScreen extends StatelessWidget {
             SettingsSection(
               tiles: <SettingsTile>[
                 SettingsTile(
-                  onPressed: (context) => (userProvider.logout(context)),
+                  onPressed: (context) =>
+                      (userProvider.logout(context, pageController)),
                   leading: const Icon(Icons.logout),
                   title: const Text('Sign out'),
                 ),

@@ -59,11 +59,11 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void logout(BuildContext context) {
+  void logout(BuildContext context, PageController pageController) {
     _user.puuid = '';
     //update prefs so that preferredPUUIDS is -1
     prefs.setInt('preferredPUUIDS', -1);
-    Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+    pageController.jumpToPage(0);
     resetUser();
     notifyListeners();
   }

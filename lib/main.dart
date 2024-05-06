@@ -71,6 +71,7 @@ class MyApp extends StatelessWidget {
               home: PageView(
                 controller: pageController,
                 children: const <Widget>[
+                  InitialSignIn(),
                   HomeScreen(),
                   HomeScreen(),
                   SettingsScreen(),

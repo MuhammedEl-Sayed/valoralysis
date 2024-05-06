@@ -4,9 +4,10 @@ import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/widgets/ui/sidebar/sidebar_icons.dart';
 
 class Sidebar extends StatelessWidget {
+  const Sidebar({super.key});
+
   void _logout(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    userProvider.logout(context);
   }
 
   @override

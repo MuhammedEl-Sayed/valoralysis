@@ -28,7 +28,7 @@ class _NavBarState extends State<NavBar> {
             setState(() {
               _currIndex = index;
             });
-            widget.pageController.jumpToPage(index);
+            widget.pageController.jumpToPage(index + 1);
           },
           selectedIndex: _currIndex as int,
           destinations: const [
