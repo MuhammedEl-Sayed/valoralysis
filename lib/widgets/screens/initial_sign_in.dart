@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/api/services/auth_service.dart';
 import 'package:valoralysis/consts/images.dart';
@@ -20,6 +19,7 @@ class _InitialSignInState extends State<InitialSignIn> {
   // State variables to manage the error message and visibility
   String errorMessage = '';
   bool showError = false;
+
   // Declare the TextEditingController here
   late TextEditingController controller;
   late String randomName;
@@ -90,8 +90,12 @@ class _InitialSignInState extends State<InitialSignIn> {
                     const SizedBox(height: 20),
                     if (showError)
                       Container(
-                        margin: EdgeInsets.all(margin / 4),
-                        padding: EdgeInsets.all(margin / 4),
+                        margin: EdgeInsets.only(
+                            left: margin * 2,
+                            right: margin * 2,
+                            top: margin,
+                            bottom: margin),
+                        padding: EdgeInsets.all(margin / 2),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.onError,
                           borderRadius: BorderRadius.circular(5),
@@ -108,7 +112,8 @@ class _InitialSignInState extends State<InitialSignIn> {
                         ),
                       ),
                     Padding(
-                      padding: EdgeInsets.only(left: margin, right: margin),
+                      padding:
+                          EdgeInsets.only(left: margin * 2, right: margin * 2),
                       child: TextField(
                         controller: controller,
                         decoration: const InputDecoration(
@@ -134,7 +139,7 @@ class _InitialSignInState extends State<InitialSignIn> {
                         if (puuid.isEmpty) {
                           setState(() {
                             errorMessage =
-                                'Could not find the specified Name#Tagline. Please try again.';
+                                'Could not find the specified user. Please try again.';
                             showError = true;
                           });
                         } else {

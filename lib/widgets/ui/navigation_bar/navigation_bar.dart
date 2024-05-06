@@ -1,39 +1,53 @@
 import 'package:flutter/material.dart';
 
 class NavBar extends StatefulWidget {
-  const NavBar({Key? key}) : super(key: key);
+  final int currIndex;
+  final GlobalKey<NavigatorState> navigator;
+
+  const NavBar({Key? key, this.currIndex = 0, required this.navigator})
+      : super(key: key);
 
   @override
-  State<NavBar> createState() => _NavBarState();
+  _NavBarState createState() => _NavBarState();
 }
 
 class _NavBarState extends State<NavBar> {
-  int currIndex = 0;
+  int? _currIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currIndex = widget.currIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return NavigationBar(
-      onDestinationSelected: (int index) {
-        print(currIndex);
-        print(index);
-        if (currIndex == index) return; // Add this line
-        setState(() {
-          currIndex = index;
-        });
-        if (index == 0) {
-          Navigator.of(context).pushNamed('/home');
-        }
-        if (index == 2) {
-          Navigator.of(context).pushNamed('/settings');
-        }
+    return Builder(
+      builder: (BuildContext context) {
+        return NavigationBar(
+          onDestinationSelected: (int index) {
+            setState(() {
+              _currIndex = index;
+            });
+            switch (index) {
+              case 0:
+                widget.navigator.currentState?.pushNamed('/home');
+                break;
+
+              case 2:
+                widget.navigator.currentState?.pushNamed('/settings');
+                break;
+            }
+          },
+          selectedIndex: _currIndex as int,
+          destinations: const [
+            NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+            NavigationDestination(icon: Icon(Icons.bar_chart), label: 'Stats'),
+            NavigationDestination(icon: Icon(Icons.settings), label: 'Settings')
+          ],
+          elevation: 2,
+        );
       },
-      selectedIndex: currIndex,
-      destinations: const [
-        NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-        NavigationDestination(icon: Icon(Icons.bar_chart), label: 'Stats'),
-        NavigationDestination(icon: Icon(Icons.settings), label: 'Settings')
-      ],
-      elevation: 2,
     );
   }
 }

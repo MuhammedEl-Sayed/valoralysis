@@ -4,8 +4,8 @@
 
 import 'dart:math' as math;
 
-import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 // Examples can assume:
 // late BuildContext context;
@@ -1032,7 +1032,7 @@ class DataTable extends StatelessWidget {
             index > 0 ? resolvedDataRowColor : resolvedHeadingRowColor;
         final BorderSide borderSide = Divider.createBorderSide(
           context,
-          color: Color(0xff1F1A1C),
+          color: const Color(0xff1F1A1C),
           width: dividerThickness ??
               dataTableTheme.dividerThickness ??
               theme.dataTableTheme.dividerThickness ??
