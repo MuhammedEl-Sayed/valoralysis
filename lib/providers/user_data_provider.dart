@@ -78,7 +78,7 @@ class UserProvider with ChangeNotifier {
     _user.puuid = '';
     //update prefs so that preferredPUUIDS is -1
     prefs.setInt('preferredPUUIDS', -1);
-    pageController.animateToPage(0,
+    pageController.animateToPage(1,
         duration: const Duration(milliseconds: 500), curve: Curves.slowMiddle);
     resetUser();
     notifyListeners();

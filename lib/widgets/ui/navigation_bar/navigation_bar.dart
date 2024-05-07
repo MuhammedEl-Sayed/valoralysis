@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NavBar extends StatefulWidget {
   final int currIndex;
-  final PageController pageController;
 
-  const NavBar({Key? key, this.currIndex = 0, required this.pageController})
-      : super(key: key);
+  const NavBar({
+    Key? key,
+    this.currIndex = 0,
+  }) : super(key: key);
 
   @override
   _NavBarState createState() => _NavBarState();
@@ -13,37 +15,25 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   int? _currIndex;
-
   @override
   void initState() {
     super.initState();
     _currIndex = widget.currIndex;
-    widget.pageController.addListener(_pageChanged);
-  }
-
-  void _pageChanged() {
-    setState(() {
-      _currIndex = widget.pageController.page!.round() - 2 ?? 0;
-    });
-  }
-
-  @override
-  void dispose() {
-    widget.pageController.removeListener(_pageChanged);
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    PageController pageController =
+        Provider.of<PageController>(context, listen: true);
     return Builder(
       builder: (BuildContext context) {
-        return _currIndex != 0
+        return (pageController.hasClients && pageController.page!.round() != 0)
             ? NavigationBar(
                 onDestinationSelected: (int index) {
                   setState(() {
                     _currIndex = index;
                   });
-                  widget.pageController.animateToPage(index + 1,
+                  pageController.animateToPage(index,
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.easeInOut);
                 },

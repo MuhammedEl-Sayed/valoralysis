@@ -44,23 +44,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<PageController>(
-        create: (_) => PageController(initialPage: 0),
+        create: (_) => PageController(initialPage: 0, keepPage: true),
         child: ScreenUtilInit(
           designSize: const Size(1200, 800),
           builder: (BuildContext context, Widget? child) {
             final pageController =
-                Provider.of<PageController>(context, listen: true);
+                Provider.of<PageController>(context, listen: false);
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: darkTheme,
-
               builder: (context, child) => Overlay(
                 initialEntries: [
                   OverlayEntry(
                     builder: (context) => Scaffold(
-                      bottomNavigationBar: NavBar(
-                        pageController: pageController,
-                      ),
+                      bottomNavigationBar: const NavBar(),
                       backgroundColor: Theme.of(context).colorScheme.background,
                       body: child,
                     ),
@@ -72,7 +69,6 @@ class MyApp extends StatelessWidget {
                 controller: pageController,
                 children: const <Widget>[
                   InitialSignIn(),
-                  HomeScreen(),
                   HomeScreen(),
                   SettingsScreen(),
                 ],
