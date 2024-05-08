@@ -12,7 +12,7 @@ jobs:
     env:
       # Setup env variables that will be used throughout the workflow
       JAVA_VERSION: 12.0
-      FLUTTER_VERSION: 3.13.1
+      FLUTTER_VERSION: 3.19.0
       AAB_PATH: build/app/outputs/bundle/release/app-release.aab
       KEYSTORE_PATH: android/keystore_valoralysis.jks
       KEY_PROPS_PATH: android/key.properties
@@ -45,7 +45,10 @@ jobs:
       # Decode Android release Service Account
       - name: Decode Android Service Account
         run: echo "${{ secrets.ANDROID_SERVICE_ACCOUNT }}" | base64 --decode > ${{ env.SERVICE_ACCOUNT_PATH }}
-
+        
+      - name: create .env
+        run: touch .env && echo "${{ secrets.RIOT_API_KEY }}" >> .env
+        
       # Run flutter commands
       - name: Run flutter pub get
         run: flutter pub get
@@ -56,8 +59,7 @@ jobs:
       # Build Android Bundle release file
       - name: Build aab
         run: |
-          flutter build appbundle 
-          --release
+          flutter build appbundle --release
 
 
 
@@ -65,7 +67,7 @@ jobs:
       - name: Deploy to Play Store (Internal testing)
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: ${{ secrets.SERVICE_ACCOUNT_JSON}}
-          packageName: com.yourapp.package
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.melsayed.valoralysis
           releaseFiles: build/app/outputs/bundle/release/app-release.aab
           track: internal
