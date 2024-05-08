@@ -16,7 +16,7 @@ class InitialSignIn extends StatefulWidget {
   _InitialSignInState createState() => _InitialSignInState();
 }
 
-class _InitialSignInState extends State<InitialSignIn> {
+class _InitialSignInState extends State<InitialSignIn> with RouteAware {
   // State variables to manage the error message and visibility
   String errorMessage = '';
   bool showError = false;

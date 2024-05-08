@@ -2,7 +2,6 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:navigation_history_observer/navigation_history_observer.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valoralysis/consts/theme.dart';
@@ -41,6 +40,9 @@ void main() async {
   appWindow.show();
 }
 
+final RouteObserver<ModalRoute<void>> routeObserver =
+    RouteObserver<ModalRoute<void>>();
+
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
@@ -55,7 +57,7 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          navigatorObservers: [NavigationHistoryObserver()],
+          navigatorObservers: <RouteObserver<ModalRoute<void>>>[routeObserver],
           theme: darkTheme,
           home: const InitialSignIn(),
           builder: (context, child) => Overlay(
@@ -73,27 +75,28 @@ class MyApp extends StatelessWidget {
                       switch (settings.name) {
                         case '/':
                           builder =
-                              (BuildContext context) => const InitialSignIn();
+                              (BuildContext context) => const RouteAwareWidget(
+                                    name: '/',
+                                    child: InitialSignIn(),
+                                  );
                           break;
                         case '/home':
                           builder =
-                              (BuildContext context) => const HomeScreen();
+                              (BuildContext context) => const RouteAwareWidget(
+                                    name: '/home',
+                                    child: HomeScreen(),
+                                  );
                           break;
                         case '/settings':
                           builder =
-                              (BuildContext context) => const SettingsScreen();
+                              (BuildContext context) => const RouteAwareWidget(
+                                    name: '/settings',
+                                    child: SettingsScreen(),
+                                  );
                           break;
                         default:
                           throw Exception('Invalid route: ${settings.name}');
                       }
-
-                      // Update the current page in the navigation provider
-                      navigationProvider.currentPage = settings.name;
-
-                      // Call the callback function
-                      _navigatorKey.currentState?.context
-                          .findAncestorWidgetOfExactType<NavBar>()
-                          ?.onRouteChanged(settings.name);
 
                       return MaterialPageRoute(
                         builder: builder,
@@ -111,4 +114,47 @@ class MyApp extends StatelessWidget {
       child: const PageWithBar(child: InitialSignIn()),
     );
   }
+}
+
+class RouteAwareWidget extends StatefulWidget {
+  final String name;
+  final Widget child;
+
+  const RouteAwareWidget({required this.name, super.key, required this.child});
+
+  @override
+  State<RouteAwareWidget> createState() => RouteAwareWidgetState();
+}
+
+class RouteAwareWidgetState extends State<RouteAwareWidget> with RouteAware {
+  NavigationProvider? navigationProvider;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute<dynamic>);
+    navigationProvider = Provider.of<NavigationProvider>(context);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  // Called when the current route has been pushed.
+  void didPush() {
+    print('didPush ${widget.name}');
+    navigationProvider?.pageName = widget.name;
+  }
+
+  @override
+  // Called when the top route has been popped off, and the current route shows up.
+  void didPopNext() {
+    print('didPopNext ${widget.name}');
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }

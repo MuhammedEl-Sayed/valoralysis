@@ -11,7 +11,7 @@ import 'package:valoralysis/utils/user_utils.dart';
 import 'package:valoralysis/widgets/ui/agent_tag/agent_tag.dart';
 import 'package:valoralysis/widgets/ui/history_list/history_list.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget with RouteAware {
   const HomeScreen({super.key});
 
   @override
