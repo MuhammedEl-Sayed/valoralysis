@@ -42,6 +42,7 @@ class ContentProvider with ChangeNotifier {
     notifyListeners();
   }
 
+//
   void updateMatchHistory(List<MatchHistory> matchHistory) {
     try {
       _matchHistory = matchHistory;
