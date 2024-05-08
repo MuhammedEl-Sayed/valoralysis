@@ -1,4 +1,4 @@
-package com.example.valoralysis
+package com.melsayed.valoralysis
 
 import io.flutter.embedding.android.FlutterActivity
 
