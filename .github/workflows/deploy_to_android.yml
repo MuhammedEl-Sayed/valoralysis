@@ -59,8 +59,7 @@ jobs:
       # Build Android Bundle release file
       - name: Build aab
         run: |
-          flutter build appbundle 
-          --release
+          flutter build appbundle --release
 
 
 
