@@ -1,9 +1,7 @@
 name: "Build iOS app"
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build_with_signing:
@@ -36,5 +34,3 @@ jobs:
           issuer-id: ${{ secrets.APP_ISSUER_ID }}
           api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
           api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
-
-          
