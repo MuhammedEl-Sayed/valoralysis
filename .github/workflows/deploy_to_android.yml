@@ -68,6 +68,6 @@ jobs:
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: com.example.valoralysis
+          packageName: com.melsayed.valoralysis
           releaseFiles: build/app/outputs/bundle/release/app-release.aab
           track: internal
