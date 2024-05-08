@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:valoralysis/providers/navigation_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -8,9 +9,8 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pageController = Provider.of<PageController>(context, listen: false);
-
     return Consumer<UserProvider>(builder: (context, userProvider, child) {
+      final navigationProvider = Provider.of<NavigationProvider>(context);
       return SafeArea(
           child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -24,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
               tiles: <SettingsTile>[
                 SettingsTile(
                   onPressed: (context) =>
-                      (userProvider.logout(context, pageController)),
+                      (userProvider.logout(context, navigationProvider)),
                   leading: const Icon(Icons.logout),
                   title: const Text('Sign out'),
                 ),

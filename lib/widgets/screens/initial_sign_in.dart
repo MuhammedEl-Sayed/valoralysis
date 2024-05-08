@@ -4,6 +4,7 @@ import 'package:valoralysis/api/services/auth_service.dart';
 import 'package:valoralysis/consts/images.dart';
 import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/models/user.dart';
+import 'package:valoralysis/providers/navigation_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/pick_random.dart';
 import 'package:valoralysis/widgets/ui/flashing_text/flashing_text.dart';
@@ -41,7 +42,7 @@ class _InitialSignInState extends State<InitialSignIn> {
     final preferredPUUID = userPrefs.getInt('preferredPUUIDS');
     // We are setting this to true for now, but we will change this to false when we have RSO.
     final consentGiven = userPrefs.getBool('consentGiven') ?? true;
-    final pageController = Provider.of<PageController>(context, listen: false);
+    final navigationProvider = Provider.of<NavigationProvider>(context);
 
     // We are using -1 to say they logged out but don't want to remove their data
     if (preferredPUUID == -1) {
@@ -58,8 +59,7 @@ class _InitialSignInState extends State<InitialSignIn> {
 
     // Check if the user is already signed in, then navigate to the next page
     if (userProvider.user.puuid != '' && userProvider.user.consentGiven) {
-      pageController.animateToPage(2,
-          duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+      navigationProvider.navigateTo('/home');
     }
   }
 
@@ -67,7 +67,9 @@ class _InitialSignInState extends State<InitialSignIn> {
   Widget build(BuildContext context) {
     double margin = getStandardMargins(context);
     final userProvider = Provider.of<UserProvider>(context);
-    final pageController = Provider.of<PageController>(context, listen: true);
+    final navigationProvider =
+        Provider.of<NavigationProvider>(context, listen: false);
+
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -157,9 +159,7 @@ class _InitialSignInState extends State<InitialSignIn> {
                             matchHistory: userProvider.user.matchHistory,
                           ));
                           if (mounted) {
-                            pageController.animateToPage(2,
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.easeInOut);
+                            navigationProvider.navigateTo('/home');
                           }
                         }
                       },

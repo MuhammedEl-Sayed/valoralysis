@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valoralysis/models/user.dart';
+import 'package:valoralysis/providers/navigation_provider.dart';
 
 class UserProvider with ChangeNotifier {
   User _user = User(puuid: '', consentGiven: false, name: '', matchHistory: {});
@@ -74,12 +75,11 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void logout(BuildContext context, PageController pageController) {
+  void logout(BuildContext context, NavigationProvider navigationProvider) {
     _user.puuid = '';
     //update prefs so that preferredPUUIDS is -1
     prefs.setInt('preferredPUUIDS', -1);
-    pageController.animateToPage(1,
-        duration: const Duration(milliseconds: 500), curve: Curves.slowMiddle);
+    navigationProvider.navigateTo('/');
     resetUser();
     notifyListeners();
   }

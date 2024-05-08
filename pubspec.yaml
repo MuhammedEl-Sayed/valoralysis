@@ -54,7 +54,8 @@ dependencies:
   fluttertoast: ^8.2.5
   settings_ui: ^2.0.2
   skeletonizer: ^1.1.2+1
-  go_router: ^14.0.2
+  auto_route: ^8.1.3
+  navigation_history_observer: ^1.1.1
 
 dev_dependencies:
   flutter_test:
