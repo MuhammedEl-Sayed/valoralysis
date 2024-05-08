@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/models/match_history.dart';
@@ -18,8 +16,13 @@ class HistoryUtils {
 
   static Item extractGamemode(
       Map<String, dynamic> matchDetail, List<Item> modes) {
-    return modes.firstWhere(
-        (mode) => mode.realValue == matchDetail['matchInfo']['queueId']);
+    try {
+      return modes.firstWhere(
+          (mode) => mode.realValue == matchDetail['matchInfo']['queueId']);
+    } catch (e) {
+      return Item('deathmatch', 'Deathmatch');
+      // Replace with actual Deathmatch Item
+    }
   }
 
   static PlayerStats extractPlayerStat(

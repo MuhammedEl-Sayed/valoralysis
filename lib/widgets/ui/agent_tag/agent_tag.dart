@@ -3,11 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/analysis/agent_analysis.dart';
-import 'package:valoralysis/widgets/ui/agent_tag/agent_icon.dart';
 
 class AgentTag extends StatefulWidget {
-  const AgentTag({Key? key}) : super(key: key);
-
+  final bool loading;
+  const AgentTag({Key? key, this.loading = false}) : super(key: key);
   @override
   _AgentTagState createState() => _AgentTagState();
 }
@@ -18,6 +17,11 @@ class _AgentTagState extends State<AgentTag> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
     _iconUrlFuture = _getIconUrl(context);
   }
@@ -28,47 +32,22 @@ class _AgentTagState extends State<AgentTag> {
         Provider.of<UserProvider>(context, listen: true);
     String userName = userProvider.user.name;
 
-    return FutureBuilder(
-      future: _iconUrlFuture,
-      builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting ||
-            snapshot.data == null) {
-          return const CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Error22: ${snapshot.error}');
-        } else {
-          return Row(children: [
-            ClipOval(
-                child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.primary,
-                  width: 2,
-                ),
-              ),
-              child: AgentIcon(
-                iconUrl: snapshot.data,
-              ),
-            )),
-            const Padding(
-              padding: EdgeInsets.only(left: 17),
-            ),
-            Text(
-              userName,
-              style: const TextStyle(fontSize: 20),
-            )
-          ]);
-        }
-      },
-    );
+    return Row(children: [
+      const Padding(
+        padding: EdgeInsets.only(left: 17),
+      ),
+      Text(
+        userName,
+        style: const TextStyle(fontSize: 20),
+      )
+    ]);
   }
 
   Future<String?> _getIconUrl(BuildContext context) async {
     ContentProvider contentProvider =
         Provider.of<ContentProvider>(context, listen: false);
     UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+        Provider.of<UserProvider>(context, listen: true);
     final topAgent = AgentAnalysis.findTopAgent(contentProvider.matchDetails,
         userProvider.user.puuid, contentProvider.agents);
 

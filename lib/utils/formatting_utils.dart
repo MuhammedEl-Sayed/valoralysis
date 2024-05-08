@@ -11,7 +11,6 @@ class FormattingUtils {
   }
 
   static String convertContentIdToName(List<ContentItem> content, String id) {
-    print(content.firstWhere((item) => item.id == id));
     return content.firstWhere((item) => item.id == id).name;
   }
 
@@ -22,9 +21,7 @@ class FormattingUtils {
   static String convertShotToPercentage(
       Map<String, double> shots, ShotType typeOfShot) {
     String shotKey = typeOfShot.toString().split('.').last;
-    if (shots[shotKey]!.isNaN) {
-      print(shots);
-    }
+    if (shots[shotKey]!.isNaN) {}
     return '${(shots[shotKey]! * 100).toString().split('.')[0]}.${(shots[shotKey]! * 100).toString().split('.')[1].substring(0, 1)}%';
   }
 
@@ -49,8 +46,8 @@ class FormattingUtils {
         style: TextStyle(
           fontSize: 17,
           color: int.parse(playerTeamWins) > int.parse(opponentTeamWins)
-              ? Color(0xffE5FFE4)
-              : Color(0xffFFE4E4),
+              ? const Color(0xffE5FFE4)
+              : const Color(0xffFFE4E4),
         ),
       ),
       const Text(
@@ -65,8 +62,8 @@ class FormattingUtils {
         style: TextStyle(
           fontSize: 17,
           color: int.parse(opponentTeamWins) > int.parse(playerTeamWins)
-              ? Color(0xffE5FFE4)
-              : Color(0xffFFE4E4),
+              ? const Color(0xffE5FFE4)
+              : const Color(0xffFFE4E4),
         ),
       ),
     ]);
