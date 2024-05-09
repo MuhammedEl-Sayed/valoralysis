@@ -141,10 +141,9 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
                             await AuthService.getUserPUUID(gameNameAndTag);
 
                         // If PUUID is empty, show error
-                        if (puuid.isEmpty) {
+                        if (puuid.contains('Error:')) {
                           setState(() {
-                            errorMessage =
-                                'Could not find the specified user. Please try again.';
+                            errorMessage = puuid;
                             showError = true;
                           });
                         } else {

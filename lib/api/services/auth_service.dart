@@ -30,7 +30,7 @@ class AuthService {
       );
       return response.data['puuid'].length > 0 ? response.data['puuid'] : '';
     } catch (e) {
-      return '';
+      return 'Error: $e';
     }
   }
 
