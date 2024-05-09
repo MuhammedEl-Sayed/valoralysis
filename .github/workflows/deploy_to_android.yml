@@ -59,7 +59,7 @@ jobs:
       # Build Android Bundle release file
       - name: Build aab
         run: |
-          flutter build appbundle --release
+          flutter build appbundle --debug
 
 
 
@@ -69,5 +69,5 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.melsayed.valoralysis
-          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          releaseFiles: build/app/outputs/bundle/debug/app-debug.aab
           track: internal
