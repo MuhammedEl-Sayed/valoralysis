@@ -34,7 +34,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => ModeProvider()),
         ChangeNotifierProvider(create: (context) => NavigationProvider())
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
   appWindow.show();
@@ -44,9 +44,7 @@ final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-
-  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -145,15 +143,12 @@ class RouteAwareWidgetState extends State<RouteAwareWidget> with RouteAware {
   @override
   // Called when the current route has been pushed.
   void didPush() {
-    print('didPush ${widget.name}');
     navigationProvider?.pageName = widget.name;
   }
 
   @override
   // Called when the top route has been popped off, and the current route shows up.
-  void didPopNext() {
-    print('didPopNext ${widget.name}');
-  }
+  void didPopNext() {}
 
   @override
   Widget build(BuildContext context) => widget.child;

@@ -122,7 +122,7 @@ class _HistoryTileState extends State<HistoryTile> {
                           topLeft: Radius.circular(5),
                           topRight: Radius.circular(5))
                       : const BorderRadius.all(Radius.circular(5)),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black,
                       blurRadius: 2.0,

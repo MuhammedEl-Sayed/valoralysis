@@ -30,7 +30,6 @@ class MapAnalysis {
     Map<String, double> wrPerMap = {};
 
     for (ContentItem map in maps) {
-      print(map.name);
       double stats = WinrateAnalysis.getWR(
           HistoryUtils.filterMatchDetails(matchDetails, puuid, map, 'maps'),
           puuid);

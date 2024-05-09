@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valoralysis/models/user.dart';
 import 'package:valoralysis/providers/navigation_provider.dart';
+import 'package:valoralysis/utils/file_utils.dart';
 
 class UserProvider with ChangeNotifier {
   User _user = User(puuid: '', consentGiven: false, name: '', matchHistory: {});
@@ -12,6 +11,7 @@ class UserProvider with ChangeNotifier {
   User get user => _user;
 
   UserProvider(this.prefs) {
+    prefs.clear();
     List<String>? puuids = prefs.getStringList('puuids');
     _user.puuid = (puuids != null &&
             puuids.isNotEmpty &&
@@ -22,9 +22,11 @@ class UserProvider with ChangeNotifier {
     _user.consentGiven = prefs.getBool('consentGiven') ?? false;
 
     _user.name = prefs.getString('name') ?? '';
+    init();
+  }
 
-    String? matchHistory = prefs.getString('matchHistory');
-    _user.matchHistory = matchHistory != null ? jsonDecode(matchHistory) : {};
+  Future<void> init() async {
+    _user.matchHistory = await FileUtils.readMatcHistory();
   }
 
   void setUser(User value) {
@@ -32,7 +34,7 @@ class UserProvider with ChangeNotifier {
     updatePuuids(value.puuid);
     prefs.setBool('consentGiven', value.consentGiven);
     prefs.setString('name', value.name);
-    prefs.setString('matchHistory', jsonEncode(value.matchHistory));
+    FileUtils.writeMatchHistory(value.matchHistory);
     notifyListeners();
   }
 
@@ -69,9 +71,15 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateMatchHistory(Map<String, dynamic> matchHistory) {
-    _user.matchHistory = matchHistory;
-    prefs.setString('matchHistory', jsonEncode(matchHistory));
+  void updateStoredMatches(Map<String, dynamic> matchHistory) {
+    //we already loaded user data in init so know we gotta merge with new
+    matchHistory.forEach((key, value) {
+      if (!_user.matchHistory.containsKey(key)) {
+        print('Added new match!');
+        _user.matchHistory.addEntries([MapEntry(key, value)]);
+      }
+    });
+    FileUtils.writeMatchHistory(_user.matchHistory);
     notifyListeners();
   }
 

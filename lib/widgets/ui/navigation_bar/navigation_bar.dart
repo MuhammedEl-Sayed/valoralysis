@@ -15,7 +15,6 @@ class NavBar extends HookWidget {
 
     useEffect(() {
       listener() {
-        print('listener called: ${navigationProvider.pageName}');
         currIndex.value = navigationProvider.pageName == '/home'
             ? 0
             : navigationProvider.pageName == '/settings'

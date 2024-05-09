@@ -6,7 +6,7 @@ import 'package:valoralysis/utils/rate_limiter.dart';
 import 'package:valoralysis/utils/riot_api_builder.dart';
 
 class HistoryService {
-  static final rateLimiter = RateLimiter(15, 90);
+  static final rateLimiter = RateLimiter(20, 100);
 
   static Future<List<MatchHistory>> getMatchListByPuuid(String puuid) async {
     return rateLimiter.run(() => _getMatchListByPuuid(puuid));
@@ -28,8 +28,13 @@ class HistoryService {
   static Future<Map<String, dynamic>> _getMatchDetailsByMatchID(
       String matchID) async {
     Dio dio = AuthService.prepareDio(PlatformId.NA);
-    var response = await dio.get('/val/match/v1/matches/$matchID');
-    return response.data;
+    try {
+      var response = await dio.get('/val/match/v1/matches/$matchID');
+      return response.data;
+    } catch (e) {
+      print(e.toString());
+      return {};
+    }
   }
 
   static Future<List<Map<String, dynamic>>> getAllMatchDetails(

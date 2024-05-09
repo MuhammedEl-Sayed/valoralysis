@@ -2,62 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
-import 'package:valoralysis/utils/analysis/agent_analysis.dart';
+import 'package:valoralysis/utils/agent_utils.dart';
+import 'package:valoralysis/utils/history_utils.dart';
+import 'package:valoralysis/widgets/ui/agent_tag/agent_icon.dart';
 
-class AgentTag extends StatefulWidget {
-  final bool loading;
-  const AgentTag({Key? key, this.loading = false}) : super(key: key);
-  @override
-  _AgentTagState createState() => _AgentTagState();
-}
-
-class _AgentTagState extends State<AgentTag> {
-  Future<String?>? _iconUrlFuture;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    _iconUrlFuture = _getIconUrl(context);
-  }
+class AgentTag extends StatelessWidget {
+  const AgentTag({super.key});
 
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: true);
     String userName = userProvider.user.name;
-
-    return Row(children: [
-      const Padding(
-        padding: EdgeInsets.only(left: 17),
-      ),
-      Text(
-        userName,
-        style: const TextStyle(fontSize: 20),
-      )
-    ]);
-  }
-
-  Future<String?> _getIconUrl(BuildContext context) async {
     ContentProvider contentProvider =
-        Provider.of<ContentProvider>(context, listen: false);
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: true);
-    final topAgent = AgentAnalysis.findTopAgent(contentProvider.matchDetails,
-        userProvider.user.puuid, contentProvider.agents);
+        Provider.of<ContentProvider>(context, listen: true);
 
-    try {
-      final agent =
-          contentProvider.agents.firstWhere((agent) => agent.name == topAgent);
-      return agent.iconUrl;
-    } catch (e) {
-      // Handle the case where no matching agent is found
-      return null;
-    }
+    return contentProvider.matchDetails.isNotEmpty
+        ? Row(children: [
+            ClipOval(
+                child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary,
+                  width: 2,
+                ),
+              ),
+              child: AgentIcon(
+                iconUrl: HistoryUtils.getContentImageFromId(
+                    AgentUtils.extractAgentIdByPUUID(
+                        contentProvider.matchDetails[0],
+                        userProvider.user.puuid),
+                    contentProvider.agents),
+              ),
+            )),
+            const Padding(
+              padding: EdgeInsets.only(left: 17),
+            ),
+            Text(
+              userName,
+              style: const TextStyle(fontSize: 20),
+            )
+          ])
+        : const SizedBox.shrink();
   }
 }

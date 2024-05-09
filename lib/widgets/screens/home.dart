@@ -39,24 +39,21 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     contentProvider.updateContent(await ContentService.fetchContent());
 
-    List<MatchHistory> matchListUntrimmed =
+    List<MatchHistory> matchList =
         await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
-    List<MatchHistory> matchList = matchListUntrimmed.getRange(0, 5).toList();
     // This chunk should be its own function
     var futures = matchList.map((match) async {
       var details =
           await HistoryService.getMatchDetailsByMatchID(match.matchID);
-      print(details);
       return MapEntry(match.matchID, details);
     });
     var entries = await Future.wait(futures);
 
     Map<String, dynamic> matchHistoryDetailsMap = Map.fromEntries(entries);
-    print(matchHistoryDetailsMap);
 
-    userProvider.updateMatchHistory(matchHistoryDetailsMap);
+    userProvider.updateStoredMatches(matchHistoryDetailsMap);
 
-//Fix this, this only includes the ones pulled fomr api not stored
+    //Fix this, this only includes the ones pulled fomr api not stored
     contentProvider.updateMatchHistory(matchList);
     List<Map<String, dynamic>> matchDetails = matchHistoryDetailsMap.values
         .map((v) => v as Map<String, dynamic>)
@@ -89,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding: EdgeInsets.only(
                                     left: MediaQuery.of(context).size.width *
                                         0.05),
-                                child: const AgentTag(loading: true)),
+                                child: const AgentTag()),
                             const Padding(padding: EdgeInsets.only(top: 20)),
                             HistoryList()
                           ])));
@@ -115,7 +112,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         0.05),
                                 child: const AgentTag()),
                             const Padding(padding: EdgeInsets.only(top: 20)),
-                            HistoryList()
+                            HistoryList(),
+                            const Padding(
+                                padding: EdgeInsets.only(bottom: 130)),
                           ])));
                 },
               ),

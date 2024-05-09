@@ -4,7 +4,7 @@ import 'package:valoralysis/utils/rate_limiter.dart';
 import 'package:valoralysis/utils/riot_api_builder.dart';
 
 class AuthService {
-  static final rateLimiter = RateLimiter(15, 90);
+  static final rateLimiter = RateLimiter(20, 100);
 
   static Dio prepareDio(String platform) {
     Dio dio = Dio();
