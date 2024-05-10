@@ -7,7 +7,8 @@ import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/widgets/ui/agent_tag/agent_icon.dart';
 
 class AgentTag extends StatelessWidget {
-  const AgentTag({super.key});
+  final bool fake;
+  const AgentTag({super.key, this.fake = false});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class AgentTag extends StatelessWidget {
     ContentProvider contentProvider =
         Provider.of<ContentProvider>(context, listen: true);
 
-    return contentProvider.matchDetails.isNotEmpty
+    return (contentProvider.matchDetails.isNotEmpty || fake)
         ? Row(children: [
             ClipOval(
                 child: Container(
@@ -28,21 +29,25 @@ class AgentTag extends StatelessWidget {
                   width: 2,
                 ),
               ),
-              child: AgentIcon(
-                iconUrl: HistoryUtils.getContentImageFromId(
-                    AgentUtils.extractAgentIdByPUUID(
-                        contentProvider.matchDetails[0],
-                        userProvider.user.puuid),
-                    contentProvider.agents),
-              ),
+              child: fake
+                  ? AgentIcon(
+                      iconUrl: HistoryUtils.getContentImageFromId(
+                          AgentUtils.extractAgentIdByPUUID(
+                              contentProvider.matchDetails[0],
+                              userProvider.user.puuid),
+                          contentProvider.agents),
+                    )
+                  : const SizedBox.shrink(),
             )),
             const Padding(
               padding: EdgeInsets.only(left: 17),
             ),
-            Text(
-              userName,
-              style: const TextStyle(fontSize: 20),
-            )
+            fake
+                ? Text(
+                    userName,
+                    style: const TextStyle(fontSize: 20),
+                  )
+                : const Text('Fake User', style: TextStyle(fontSize: 20)),
           ])
         : const SizedBox.shrink();
   }
