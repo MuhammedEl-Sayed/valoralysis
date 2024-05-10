@@ -59,7 +59,7 @@ jobs:
       # Build Android Bundle release file
       - name: Build aab
         run: |
-          flutter build appbundle --release
+          flutter build appbundle --release --dart-define=RIOT_API_KEY=${{ secrets.RIOT_API_KEY }}
           
       - name: Sign Android App Bundle
         run: jarsigner -keystore ${{ env.KEYSTORE_PATH }} -storepass ${{ secrets.ANDROID_KEY_PASSWORD }} -keypass ${{ secrets.ANDROID_KEY_PASSWORD }} -sigalg SHA256withRSA -digestalg SHA-256 -signedjar build/app/outputs/bundle/release/app-release-signed.aab build/app/outputs/bundle/release/*.aab Valoralysis
