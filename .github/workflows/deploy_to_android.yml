@@ -47,7 +47,7 @@ jobs:
         run: echo "${{ secrets.ANDROID_SERVICE_ACCOUNT }}" | base64 --decode > ${{ env.SERVICE_ACCOUNT_PATH }}
         
       - name: create .env
-        run: touch .env && echo "${{ secrets.RIOT_API_KEY }}" >> env
+        run: touch .env && echo "${{ secrets.RIOT_API_KEY }}" >> .env
         
       # Run flutter commands
       - name: Run flutter pub get
