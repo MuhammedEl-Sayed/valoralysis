@@ -71,6 +71,5 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.melsayed.valoralysis
-          status: draft
           releaseFiles: build/app/outputs/bundle/release/app-release-signed.aab
           track: internal
