@@ -9,8 +9,9 @@ class TeamDetailsTable extends StatelessWidget {
   final Map<String, dynamic> matchDetail;
   final bool isUserTeam;
 
-  TeamDetailsTable(
-      {required this.puuid,
+  const TeamDetailsTable(
+      {super.key,
+      required this.puuid,
       required this.matchDetail,
       required this.isUserTeam});
 //! DONT FORGET TO MAKE FORK OF MATERIAL FOR THE DATATABLE OVERRIDE
@@ -50,7 +51,7 @@ class TeamDetailsTable extends StatelessWidget {
                       ),
                       const DataColumn(
                           label: Expanded(
-                        child: Text('ACS'),
+                        child: Text('KAST'),
                       )),
                       const DataColumn(
                           label: Expanded(
