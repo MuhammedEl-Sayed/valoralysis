@@ -6,8 +6,9 @@ class HistorySectionTitle extends StatelessWidget {
   final int numOfMatches;
   final String dateTitle;
   final bool hasDropdown;
-  HistorySectionTitle(
-      {required this.numOfMatches,
+  const HistorySectionTitle(
+      {super.key,
+      required this.numOfMatches,
       required this.dateTitle,
       required this.hasDropdown});
 
@@ -37,8 +38,8 @@ class HistorySectionTitle extends StatelessWidget {
                 style: const TextStyle(fontSize: 15),
               )),
             ),
-            Spacer(),
-            hasDropdown ? ModeDropdown() : SizedBox.shrink()
+            const Spacer(),
+            hasDropdown ? const ModeDropdown() : const SizedBox.shrink()
           ],
         ));
   }

@@ -40,7 +40,7 @@ class RateLimiter {
 
       if (secondsSinceLastRequest < 1 &&
           rateLimitService.requestsThisSecond >= maxRequestsPerSecond) {
-        print('Rate limit for requests per second reached. Waiting...');
+        //  print('Rate limit for requests per second reached. Waiting...');
         await Future.delayed(Duration(seconds: 1 - secondsSinceLastRequest));
         rateLimitService.requestsThisSecond =
             0; // Reset the counter after waiting
@@ -52,7 +52,7 @@ class RateLimiter {
 
       if (twoMinutesSinceLastRequest < 2 &&
           rateLimitService.requestsLastTwoMinutes >= maxRequestsPerTwoMinutes) {
-        print('Rate limit for requests per two minutes reached. Waiting...');
+        //   print('Rate limit for requests per two minutes reached. Waiting...');
         await Future.delayed(Duration(minutes: 2 - twoMinutesSinceLastRequest));
         rateLimitService.requestsLastTwoMinutes =
             0; // Reset the counter after waiting
@@ -67,7 +67,7 @@ class RateLimiter {
     rateLimitService.requestsThisSecond++;
     rateLimitService.requestsLastTwoMinutes++;
 
-    print('Requests this second: ${rateLimitService.requestsThisSecond}');
+    // print('Requests this second: ${rateLimitService.requestsThisSecond}');
     print(
         'Requests last two minutes: ${rateLimitService.requestsLastTwoMinutes}');
   }

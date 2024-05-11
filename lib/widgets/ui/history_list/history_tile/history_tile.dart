@@ -87,8 +87,9 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
 
 class HistoryTile extends StatefulWidget {
   final Map<String, dynamic> matchDetail;
-
-  const HistoryTile({Key? key, required this.matchDetail}) : super(key: key);
+  final bool fake;
+  const HistoryTile({Key? key, required this.matchDetail, this.fake = false})
+      : super(key: key);
 
   @override
   State<HistoryTile> createState() => _HistoryTileState();
@@ -101,134 +102,138 @@ class _HistoryTileState extends State<HistoryTile> {
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     String puuid = userProvider.user.puuid;
-    bool didWin = HistoryUtils.didTeamWinByPUUID(widget.matchDetail, puuid);
-    Widget roundsWon =
-        FormattingUtils.convertTeamWinMapToString(widget.matchDetail, puuid);
-    return Consumer<ContentProvider>(
-        builder: (context, contentProvider, child) {
-      double margin = getStandardMargins(context);
+    bool didWin;
+    Widget roundsWon;
+    Widget content;
 
-      return Padding(
-          padding: const EdgeInsets.only(bottom: 5, top: 5),
-          child: Column(children: [
-            Container(
-              margin: EdgeInsets.only(left: margin, right: margin),
-              height: 65,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: Theme.of(context).canvasColor,
+    if (widget.fake) {
+      didWin = true;
+      roundsWon = const SizedBox.shrink();
+      content = const SizedBox.shrink();
+    } else {
+      didWin = HistoryUtils.didTeamWinByPUUID(widget.matchDetail, puuid);
+      roundsWon =
+          FormattingUtils.convertTeamWinMapToString(widget.matchDetail, puuid);
+      content = Consumer<ContentProvider>(
+        builder: (context, contentProvider, child) {
+          return Row(
+            children: [
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 150),
+                child: Row(
+                  children: [
+                    const Padding(padding: EdgeInsets.only(left: 10)),
+                    AgentIcon(
+                      iconUrl: HistoryUtils.getContentImageFromId(
+                          AgentUtils.extractAgentIdByPUUID(
+                              widget.matchDetail, puuid),
+                          contentProvider.agents),
+                      small: true,
+                    ),
+                    const Padding(padding: EdgeInsets.only(top: 2, left: 5)),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          MapUtils.getMapNameFromPath(
+                                  MapUtils.extractMapPath(widget.matchDetail),
+                                  contentProvider.maps) ??
+                              '',
+                          style: const TextStyle(
+                              color: Color(0xffffffff), fontSize: 17),
+                        ),
+                        Text(
+                            TimeUtils.timeAgo(HistoryUtils.extractStartTime(
+                                widget.matchDetail)),
+                            style: Theme.of(context).textTheme.labelMedium)
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child:
+                    Row(children: [const Spacer(), roundsWon, const Spacer()]),
+              ),
+              Expanded(
+                child: Row(children: [
+                  const Spacer(),
+                  Center(
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_drop_down),
+                      onPressed: () => setState(() {
+                        opened = !opened;
+                      }),
+                    ),
+                  )
+                ]),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    double margin = getStandardMargins(context);
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5, top: 5),
+      child: Column(children: [
+        Container(
+          margin: EdgeInsets.only(left: margin, right: margin),
+          height: 65,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+              borderRadius: opened
+                  ? const BorderRadius.only(
+                      topLeft: Radius.circular(5), topRight: Radius.circular(5))
+                  : const BorderRadius.all(Radius.circular(5)),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black,
+                  blurRadius: 2.0,
+                  spreadRadius: 0.0,
+                  offset: Offset(2.0, 2.0), // shadow direction: bottom right
+                )
+              ]),
+          child: Stack(
+            children: [
+              Container(
+                height: 65,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    stops: const [0, 0.6],
+                    colors: <Color>[
+                      didWin
+                          ? const Color(0xff2BD900).withOpacity(0.3)
+                          : const Color(0xff730000)
+                              .withOpacity(0.3), // green color
+                      Theme.of(context)
+                          .canvasColor
+                          .withOpacity(0) // transparent color
+                    ],
+                  ),
                   borderRadius: opened
                       ? const BorderRadius.only(
                           topLeft: Radius.circular(5),
                           topRight: Radius.circular(5))
                       : const BorderRadius.all(Radius.circular(5)),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 2.0,
-                      spreadRadius: 0.0,
-                      offset:
-                          Offset(2.0, 2.0), // shadow direction: bottom right
-                    )
-                  ]),
-              child: Stack(
-                children: [
-                  Container(
-                    height: 65,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        stops: const [0, 0.6],
-                        colors: <Color>[
-                          didWin
-                              ? const Color(0xff2BD900).withOpacity(0.3)
-                              : const Color(0xff730000)
-                                  .withOpacity(0.3), // green color
-                          Theme.of(context)
-                              .canvasColor
-                              .withOpacity(0) // transparent color
-                        ],
-                      ),
-                      borderRadius: opened
-                          ? const BorderRadius.only(
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5))
-                          : const BorderRadius.all(Radius.circular(5)),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 150),
-                        child: Row(
-                          children: [
-                            const Padding(padding: EdgeInsets.only(left: 10)),
-                            AgentIcon(
-                              iconUrl: HistoryUtils.getContentImageFromId(
-                                  AgentUtils.extractAgentIdByPUUID(
-                                      widget.matchDetail, puuid),
-                                  contentProvider.agents),
-                              small: true,
-                            ),
-                            const Padding(
-                                padding: EdgeInsets.only(top: 2, left: 5)),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  MapUtils.getMapNameFromPath(
-                                          MapUtils.extractMapPath(
-                                              widget.matchDetail),
-                                          contentProvider.maps) ??
-                                      '',
-                                  style: const TextStyle(
-                                      color: Color(0xffffffff), fontSize: 17),
-                                ),
-                                Text(
-                                    TimeUtils.timeAgo(
-                                        HistoryUtils.extractStartTime(
-                                            widget.matchDetail)),
-                                    style:
-                                        Theme.of(context).textTheme.labelMedium)
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Row(children: [
-                          const Spacer(),
-                          roundsWon,
-                          const Spacer()
-                        ]),
-                      ),
-                      Expanded(
-                        child: Row(children: [
-                          const Spacer(),
-                          Center(
-                            child: IconButton(
-                              icon: const Icon(Icons.arrow_drop_down),
-                              onPressed: () => setState(() {
-                                opened = !opened;
-                              }),
-                            ),
-                          )
-                        ]),
-                      ),
-                      // Stack widget with gradient color
-                    ],
-                  ),
-                ],
+                ),
               ),
-            ),
-            ExpandedHistory(
-              matchDetail: widget.matchDetail,
-              opened: opened,
-              puuid: userProvider.user.puuid,
-            )
-          ]));
-    });
+              content,
+            ],
+          ),
+        ),
+        ExpandedHistory(
+          matchDetail: widget.matchDetail,
+          opened: opened,
+          puuid: userProvider.user.puuid,
+        )
+      ]),
+    );
   }
 }

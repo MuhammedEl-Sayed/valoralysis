@@ -1,16 +1,17 @@
 import 'dart:convert';
-import 'dart:io';
+
+import 'package:flutter/services.dart' show rootBundle;
 
 Future<List<Map<String, dynamic>>> getMockData() async {
-  final file = File('mock_data.json');
-  String jsonString = await file.readAsString();
+  String jsonString = await rootBundle.loadString('assets/data/mock_data.json');
+  print('jsonString: $jsonString');
+
   Map<String, dynamic> jsonData = jsonDecode(jsonString);
 
   List<Map<String, dynamic>> mockData = [];
 
   for (int i = 0; i < 8; i++) {
-    mockData.add(jsonData[i.toString()]);
+    mockData.add(jsonData);
   }
-
   return mockData;
 }

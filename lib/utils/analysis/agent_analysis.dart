@@ -16,6 +16,7 @@ class AgentAnalysis {
         agentFrequency.update(player['characterId'], (value) => value + 1,
             ifAbsent: () => 1);
       }
+      print(agentFrequency);
 
       String mostFrequentAgent = '';
       int mostFrequentValue = 0;
