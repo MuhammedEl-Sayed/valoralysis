@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/api/services/auth_service.dart';
 import 'package:valoralysis/consts/images.dart';
@@ -36,13 +37,15 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
   }
 
   void _initUserState() async {
+    print(dotenv.env['TEST']);
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final userPrefs = userProvider.prefs;
     final puuids = userPrefs.getStringList('puuids');
     final preferredPUUID = userPrefs.getInt('preferredPUUIDS');
     // We are setting this to true for now, but we will change this to false when we have RSO.
     final consentGiven = userPrefs.getBool('consentGiven') ?? true;
-    final navigationProvider = Provider.of<NavigationProvider>(context);
+    final navigationProvider =
+        Provider.of<NavigationProvider>(context, listen: false);
 
     // We are using -1 to say they logged out but don't want to remove their data
     if (preferredPUUID == -1) {

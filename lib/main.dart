@@ -1,4 +1,3 @@
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,7 +36,6 @@ void main() async {
       child: const MyApp(),
     ),
   );
-  appWindow.show();
 }
 
 final RouteObserver<ModalRoute<void>> routeObserver =
