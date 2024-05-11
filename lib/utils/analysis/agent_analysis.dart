@@ -12,10 +12,9 @@ class AgentAnalysis {
       for (Map<String, dynamic> matchDetails in matches) {
         Map<String, dynamic> player =
             HistoryUtils.getPlayerByPUUID(matchDetails, puuid);
-        if (player != null) {
-          agentFrequency.update(player['characterId'], (value) => value + 1,
-              ifAbsent: () => 1);
-        }
+
+        agentFrequency.update(player['characterId'], (value) => value + 1,
+            ifAbsent: () => 1);
       }
 
       String mostFrequentAgent = '';
@@ -33,7 +32,7 @@ class AgentAnalysis {
           .name;
     } catch (e) {
       print('Error: $e');
-      return 'Pheonix';
+      return 'Jett';
     }
   }
 

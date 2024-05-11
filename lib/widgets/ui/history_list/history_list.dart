@@ -24,7 +24,7 @@ class HistoryList extends StatelessWidget {
       builder: (context, snapshot) {
         List<Map<String, dynamic>> relevantMatches;
 
-        if (snapshot.connectionState == ConnectionState.done && fake) {
+        if (snapshot.hasData && fake) {
           relevantMatches = snapshot.data!;
         } else {
           relevantMatches = contentProvider.matchDetails

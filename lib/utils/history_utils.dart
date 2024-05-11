@@ -44,6 +44,10 @@ class HistoryUtils {
     return content.firstWhere((item) => item.id == puuid).iconUrl;
   }
 
+  static getContentImageFromName(String name, List<ContentItem> content) {
+    return content.firstWhere((item) => item.name == name).iconUrl;
+  }
+
   static Map<String, dynamic> extractTeamFromPUUID(
       Map<String, dynamic> matchDetail, String puuid) {
     return matchDetail['teams'].firstWhere((team) =>

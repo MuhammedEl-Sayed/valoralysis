@@ -6,6 +6,8 @@ import 'package:valoralysis/providers/category_provider.dart';
 import 'package:valoralysis/utils/text_utils.dart';
 
 class CategoryTypeSelector extends StatelessWidget {
+  const CategoryTypeSelector({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Consumer<CategoryTypeProvider>(

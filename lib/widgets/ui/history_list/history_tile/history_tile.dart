@@ -56,13 +56,13 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                     bottomRight: Radius.circular(5)),
                 color: Theme.of(context).canvasColor,
               ),
-              child: Column(
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Spacer(),
+                      Spacer(),
                       CategoryTypeSelector(),
                     ],
                   ),

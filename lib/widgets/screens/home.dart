@@ -20,7 +20,8 @@ class HomeScreen extends StatefulWidget with RouteAware {
 
 class _HomeScreenState extends State<HomeScreen> {
   Future<void>? _loadingFuture;
-
+  Future<String> testLoad =
+      Future.delayed(const Duration(seconds: 45), () => 'Data Loaded');
   @override
   void initState() {
     super.initState();
@@ -68,31 +69,25 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _loadingFuture,
+      future: testLoad,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Skeletonizer(
             child: SafeArea(
-              child: Consumer2<CategoryTypeProvider, ContentProvider>(
-                builder:
-                    (context, categoryTypeProvider, contentProvider, child) {
-                  return SingleChildScrollView(
-                      child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                              maxHeight: MediaQuery.of(context).size.height),
-                          child: Column(children: [
-                            const Padding(padding: EdgeInsets.only(top: 20)),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width *
-                                        0.05),
-                                child: const AgentTag()),
-                            const Padding(padding: EdgeInsets.only(top: 20)),
-                            HistoryList()
-                          ])));
-                },
-              ),
-            ),
+                child: SingleChildScrollView(
+                    child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height),
+                        child: Column(children: [
+                          const Padding(padding: EdgeInsets.only(top: 20)),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.05),
+                              child: const AgentTag(fake: true)),
+                          const Padding(padding: EdgeInsets.only(top: 20)),
+                          const HistoryList(fake: true)
+                        ])))),
           );
         } else {
           return SafeArea(
@@ -112,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         0.05),
                                 child: const AgentTag()),
                             const Padding(padding: EdgeInsets.only(top: 20)),
-                            HistoryList(),
+                            const HistoryList(),
                             const Padding(
                                 padding: EdgeInsets.only(bottom: 130)),
                           ])));
