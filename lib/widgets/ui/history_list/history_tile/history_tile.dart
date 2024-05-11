@@ -228,11 +228,13 @@ class _HistoryTileState extends State<HistoryTile> {
             ],
           ),
         ),
-        ExpandedHistory(
-          matchDetail: widget.matchDetail,
-          opened: opened,
-          puuid: userProvider.user.puuid,
-        )
+        !widget.fake
+            ? ExpandedHistory(
+                matchDetail: widget.matchDetail,
+                opened: opened,
+                puuid: userProvider.user.puuid,
+              )
+            : const SizedBox.shrink()
       ]),
     );
   }

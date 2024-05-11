@@ -33,54 +33,75 @@ class TeamDetailsTable extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: ClipRect(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minWidth: constraints.maxWidth),
-                child: DataTable(
-                    columnSpacing: 10,
-                    dataRowColor: MaterialStateProperty.resolveWith<Color?>(
-                      (Set<MaterialState> states) {
-                        return isUserTeam
-                            ? const Color(0xff2BD900).withOpacity(0.2)
-                            : const Color(0xff730000).withOpacity(0.2);
-                      },
-                    ),
-                    headingRowHeight: 26,
-                    columns: <DataColumn>[
-                      DataColumn(
-                        label: Text(isUserTeam ? 'Your team' : 'Enemy team'),
+                child: ConstrainedBox(
+                    constraints: BoxConstraints(minWidth: constraints.maxWidth),
+                    child: Row(children: [
+                      DataTable(
+                        columnSpacing: 10,
+                        dataRowColor: MaterialStateProperty.resolveWith<Color?>(
+                          (Set<MaterialState> states) {
+                            return isUserTeam
+                                ? const Color(0xff2BD900).withOpacity(0.2)
+                                : const Color(0xff730000).withOpacity(0.2);
+                          },
+                        ),
+                        headingRowHeight: 26,
+                        columns: <DataColumn>[
+                          DataColumn(
+                            label:
+                                Text(isUserTeam ? 'Your team' : 'Enemy team'),
+                          ),
+                        ],
+                        rows: playerDataRows
+                            .map((row) => DataRow(cells: [row.cells[0]]))
+                            .toList(),
                       ),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('KAST'),
-                      )),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('KD'),
-                      )),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('K'),
-                      )),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('D'),
-                      )),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('A'),
-                      )),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('ADR'),
-                      )),
-                      const DataColumn(
-                          label: Expanded(
-                        child: Text('HS%'),
-                      )),
-                    ],
-                    rows: playerDataRows),
-              ),
-            ),
+                      DataTable(
+                        columnSpacing: 10,
+                        dataRowColor: MaterialStateProperty.resolveWith<Color?>(
+                          (Set<MaterialState> states) {
+                            return isUserTeam
+                                ? const Color(0xff2BD900).withOpacity(0.2)
+                                : const Color(0xff730000).withOpacity(0.2);
+                          },
+                        ),
+                        headingRowHeight: 26,
+                        dataRowMaxHeight: double.infinity,
+                        columns: const <DataColumn>[
+                          DataColumn(
+                              label: Expanded(
+                            child: Text('KAST'),
+                          )),
+                          DataColumn(
+                              label: Expanded(
+                            child: Text('KD'),
+                          )),
+                          DataColumn(
+                              label: Expanded(
+                            child: Text('K'),
+                          )),
+                          DataColumn(
+                              label: Expanded(
+                            child: Text('D'),
+                          )),
+                          DataColumn(
+                              label: Expanded(
+                            child: Text('A'),
+                          )),
+                          DataColumn(
+                              label: Expanded(
+                            child: Text('ADR'),
+                          )),
+                          DataColumn(
+                              label: Expanded(
+                            child: Text('HS%'),
+                          )),
+                        ],
+                        rows: playerDataRows
+                            .map((row) => DataRow(cells: row.cells.sublist(1)))
+                            .toList(),
+                      ),
+                    ]))),
           ),
         ]);
       },

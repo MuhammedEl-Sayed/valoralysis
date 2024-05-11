@@ -46,7 +46,7 @@ class TableUtils {
       rows.add(DataRow(cells: [
         profile, // Profile under the team name column
         const DataCell(Text('0')), // ACS
-        DataCell(Text(stats.kd.toString())), // KD
+        DataCell(SizedBox(child: Text(stats.kd.toString()))), // KD
         DataCell(Text(stats.kills.toString())), // K
         DataCell(Text(stats.deaths.toString())), // D
         DataCell(Text(stats.assists.toString())), // A
