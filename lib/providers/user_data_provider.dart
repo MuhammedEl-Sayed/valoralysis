@@ -38,6 +38,10 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool isUserPUUID(String puuid) {
+    return puuid == user.puuid;
+  }
+
   void resetUser() {
     setUser(User(puuid: '', consentGiven: false, name: '', matchHistory: {}));
   }

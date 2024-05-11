@@ -9,6 +9,7 @@ import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
 import 'package:valoralysis/utils/weapons_utils.dart';
 import 'package:valoralysis/widgets/ui/data_table/data_table.dart';
+import 'package:valoralysis/widgets/ui/marquee_text/marquee_text.dart';
 
 class TableUtils {
   static List<DataRow> buildPlayerDataRows(
@@ -16,7 +17,8 @@ class TableUtils {
       String puuid,
       List<Rank> ranks,
       List<ContentItem> agents,
-      bool isUserTeam) {
+      bool isUserTeam,
+      String userPUUID) {
     List<Map<String, dynamic>> players = [];
 
     String userTeam =
@@ -35,8 +37,8 @@ class TableUtils {
 
     for (Map<String, dynamic> player in players) {
       String playerPUUID = player['puuid'];
-      DataCell profile =
-          buildPlayerProfileDataCell(matchDetail, player, ranks, agents);
+      DataCell profile = buildPlayerProfileDataCell(
+          matchDetail, player, ranks, agents, playerPUUID == userPUUID);
       PlayerStats stats =
           HistoryUtils.extractPlayerStat(matchDetail, playerPUUID);
       String hs = FormattingUtils.convertShotToPercentage(
@@ -46,7 +48,7 @@ class TableUtils {
       rows.add(DataRow(cells: [
         profile, // Profile under the team name column
         const DataCell(Text('0')), // ACS
-        DataCell(SizedBox(child: Text(stats.kd.toString()))), // KD
+        DataCell(Text(stats.kd.toString())), // KD
         DataCell(Text(stats.kills.toString())), // K
         DataCell(Text(stats.deaths.toString())), // D
         DataCell(Text(stats.assists.toString())), // A
@@ -57,69 +59,84 @@ class TableUtils {
     return rows;
   }
 
-  static List<DataCell> buildPlayerProfileDataCells(
+  static DataCell buildPlayerProfileDataCell(
       Map<String, dynamic> matchDetail,
-      List<Map<String, dynamic>> players,
+      Map<String, dynamic> player,
       List<Rank> ranks,
-      List<ContentItem> agents) {
-    List<DataCell> profiles = [];
-    for (Map<String, dynamic> player in players) {
-      profiles
-          .add(buildPlayerProfileDataCell(matchDetail, player, ranks, agents));
-    }
-    return profiles;
-  }
-
-  static DataCell buildPlayerProfileDataCell(Map<String, dynamic> matchDetail,
-      Map<String, dynamic> player, List<Rank> ranks, List<ContentItem> agents) {
+      List<ContentItem> agents,
+      bool isUser) {
     String puuid = player['puuid'];
     String playerName =
         HistoryUtils.extractPlayerNameByPUUID(matchDetail, puuid);
     Rank playerRank = RankUtils.getPlayerRank(matchDetail, ranks, puuid);
 
-    return DataCell(ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 120),
-        child: Padding(
-            padding: const EdgeInsets.only(top: 7, bottom: 7),
-            child: Row(
-              children: [
-                Image(
-                  image: NetworkImage(
-                      AgentUtils.getImageFromId(matchDetail, puuid, agents) ??
-                          ''),
-                  width: 25,
-                  height: 25,
-                ),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Text(
-                            playerName,
-                            style: const TextStyle(fontSize: 13),
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                      Row(
-                        children: [
-                          Image(
-                            image: NetworkImage(playerRank.rankIcons.smallIcon),
-                            width: 10,
-                            height: 10,
-                          ),
-                          Flexible(
-                            child: Text(playerRank.tierName,
-                                style: const TextStyle(fontSize: 9, height: 1),
-                                overflow: TextOverflow.ellipsis),
-                          )
-                        ],
-                      )
+    return DataCell(Stack(children: <Widget>[
+      Positioned(
+        left: 0,
+        top: 0,
+        bottom: 0,
+        child: isUser
+            ? Container(
+                width: 75, // adjust the width as needed
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      const Color(0xffff897d).withOpacity(0.5),
+                      Colors.transparent,
                     ],
                   ),
-                )
-              ],
-            ))));
+                ),
+              )
+            : const SizedBox.shrink(),
+      ),
+      ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 120),
+          child: Padding(
+              padding: const EdgeInsets.only(top: 7, bottom: 7, left: 7),
+              child: Row(
+                children: [
+                  Image(
+                    image: NetworkImage(
+                        AgentUtils.getImageFromId(matchDetail, puuid, agents) ??
+                            ''),
+                    width: 25,
+                    height: 25,
+                  ),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MarqueeText(
+                            direction: Axis.horizontal,
+                            child: Text(
+                              playerName,
+                              style: const TextStyle(fontSize: 13),
+                              overflow: TextOverflow.ellipsis,
+                            )),
+                        Row(
+                          children: [
+                            Image(
+                              image:
+                                  NetworkImage(playerRank.rankIcons.smallIcon),
+                              width: 10,
+                              height: 10,
+                            ),
+                            Flexible(
+                              child: Text(playerRank.tierName,
+                                  style:
+                                      const TextStyle(fontSize: 9, height: 1),
+                                  overflow: TextOverflow.ellipsis),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              )))
+    ]));
   }
 }

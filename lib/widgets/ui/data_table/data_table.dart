@@ -425,6 +425,8 @@ class DataTable extends StatelessWidget {
     this.headingTextStyle,
     this.horizontalMargin,
     this.columnSpacing,
+    this.dataCellPadding,
+    this.headerCellPadding,
     this.showCheckboxColumn = true,
     this.showBottomBorder = false,
     this.dividerThickness,
@@ -448,6 +450,9 @@ class DataTable extends StatelessWidget {
         dataRowMinHeight = dataRowHeight ?? dataRowMinHeight,
         dataRowMaxHeight = dataRowHeight ?? dataRowMaxHeight,
         _onlyTextColumn = _initOnlyTextColumn(columns);
+
+  final EdgeInsetsGeometry? dataCellPadding;
+  final EdgeInsetsGeometry? headerCellPadding;
 
   /// The configuration and labels for the columns in the table.
   final List<DataColumn> columns;
@@ -1134,7 +1139,7 @@ class DataTable extends StatelessWidget {
       };
       tableRows[0].children[displayColumnIndex] = _buildHeadingCell(
         context: context,
-        padding: padding,
+        padding: headerCellPadding != null ? headerCellPadding! : padding,
         label: column.label,
         tooltip: column.tooltip,
         numeric: column.numeric,
@@ -1156,7 +1161,7 @@ class DataTable extends StatelessWidget {
         final DataCell cell = row.cells[dataColumnIndex];
         tableRows[rowIndex].children[displayColumnIndex] = _buildDataCell(
           context: context,
-          padding: padding,
+          padding: dataCellPadding != null ? dataCellPadding! : padding,
           label: cell.child,
           numeric: column.numeric,
           placeholder: cell.placeholder,
