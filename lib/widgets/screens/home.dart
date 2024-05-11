@@ -20,8 +20,7 @@ class HomeScreen extends StatefulWidget with RouteAware {
 
 class _HomeScreenState extends State<HomeScreen> {
   Future<void>? _loadingFuture;
-  Future<String> testLoad =
-      Future.delayed(const Duration(seconds: 45), () => 'Data Loaded');
+
   @override
   void initState() {
     super.initState();
@@ -69,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: testLoad,
+      future: _loadingFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Skeletonizer(
