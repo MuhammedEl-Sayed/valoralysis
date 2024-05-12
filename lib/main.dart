@@ -19,7 +19,8 @@ void main() async {
   await dotenv.load();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
-
+  UserProvider userProvider = UserProvider(prefs);
+  await userProvider.init();
   runApp(
     MultiProvider(
       providers: [

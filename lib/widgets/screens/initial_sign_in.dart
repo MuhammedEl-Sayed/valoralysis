@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/api/services/auth_service.dart';
 import 'package:valoralysis/consts/images.dart';
@@ -37,31 +36,14 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
   }
 
   void _initUserState() async {
-    print(dotenv.env['TEST']);
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final userPrefs = userProvider.prefs;
-    final puuids = userPrefs.getStringList('puuids');
-    final preferredPUUID = userPrefs.getInt('preferredPUUIDS');
-    // We are setting this to true for now, but we will change this to false when we have RSO.
-    final consentGiven = userPrefs.getBool('consentGiven') ?? true;
     final navigationProvider =
         Provider.of<NavigationProvider>(context, listen: false);
-
-    // We are using -1 to say they logged out but don't want to remove their data
-    if (preferredPUUID == -1) {
-      userProvider.resetUser();
-    } else {
-      userProvider.setUser(User(
-          puuid: puuids?[preferredPUUID ?? 0] ?? '',
-          //  puuid:
-          //    'MYpcGOQYqOY7ZJQN58_9Tz2anqwxVXbETFUEK1LqDWxZ43_VQfUFXR1RCl-u9dsF33ufL6EMgJu65w',
-          consentGiven: true,
-          name: "Wwew",
-          matchHistory: {}));
-    }
-
+    User user = userProvider.getUser();
+    print('name: ${userProvider.getUser().name}');
     // Check if the user is already signed in, then navigate to the next page
-    if (userProvider.user.puuid != '' && userProvider.user.consentGiven) {
+    //TODO: add consent check
+    if (user.puuid != '') {
       navigationProvider.navigateTo('/home');
     }
   }
@@ -161,6 +143,7 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
                             matchHistory: userProvider.user.matchHistory,
                           ));
                           if (mounted) {
+                            userProvider.updatePuuid(puuid);
                             navigationProvider.navigateTo('/home');
                           }
                         }

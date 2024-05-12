@@ -7,39 +7,37 @@ import 'package:valoralysis/utils/file_utils.dart';
 class UserProvider with ChangeNotifier {
   User _user = User(puuid: '', consentGiven: false, name: '', matchHistory: {});
 
-  final SharedPreferences prefs;
   User get user => _user;
+  final SharedPreferences prefs;
 
-  UserProvider(this.prefs) {
-    prefs.clear();
-    List<String>? puuids = prefs.getStringList('puuids');
-    _user.puuid = (puuids != null &&
-            puuids.isNotEmpty &&
-            prefs.getInt('preferredPUUIDS') != -1)
-        ? puuids[prefs.getInt('preferredPUUIDS') ?? 0]
-        : '';
-
-    _user.consentGiven = prefs.getBool('consentGiven') ?? false;
-
-    _user.name = prefs.getString('name') ?? '';
-    init();
-  }
+  UserProvider(this.prefs);
 
   Future<void> init() async {
-    _user.matchHistory = await FileUtils.readMatcHistory();
+    int preferredPUUID = prefs.getInt('preferredPUUID') ?? -1;
+    List<User> users = await FileUtils.readUsers();
+    print('init');
+    print(users[0].puuid);
+    print(preferredPUUID);
+    if (preferredPUUID == -1) {
+      return setUser(
+          User(puuid: '', consentGiven: false, name: '', matchHistory: {}));
+    }
+    return setUser(users[preferredPUUID]);
   }
 
   void setUser(User value) {
     _user = value;
-    updatePuuids(value.puuid);
-    prefs.setBool('consentGiven', value.consentGiven);
-    prefs.setString('name', value.name);
-    FileUtils.writeMatchHistory(value.matchHistory);
+    print(_user.name);
+    saveUser();
     notifyListeners();
   }
 
   bool isUserPUUID(String puuid) {
     return puuid == user.puuid;
+  }
+
+  User getUser() {
+    return _user;
   }
 
   void resetUser() {
@@ -48,51 +46,42 @@ class UserProvider with ChangeNotifier {
 
   void updatePuuid(String puuid) {
     _user.puuid = puuid;
-    updatePuuids(puuid);
+    saveUser();
     notifyListeners();
-  }
-
-  void updatePuuids(String puuid) {
-    List<String> puuids = prefs.getStringList('puuids') ?? [];
-    if (puuids.contains(puuid)) {
-      prefs.setInt('preferredPUUIDS', puuids.indexOf(puuid));
-    } else {
-      puuids.add(puuid);
-      prefs.setStringList('puuids', puuids);
-      prefs.setInt('preferredPUUIDS', puuids.length - 1);
-    }
   }
 
   void updateName(String name) {
     _user.name = name;
-    prefs.setString('name', name);
+    saveUser();
     notifyListeners();
   }
 
   void updateConsentGiven(bool consentGiven) {
     _user.consentGiven = consentGiven;
-    prefs.setBool('consentGiven', consentGiven);
+    saveUser();
     notifyListeners();
   }
 
   void updateStoredMatches(Map<String, dynamic> matchHistory) {
-    //we already loaded user data in init so know we gotta merge with new
     matchHistory.forEach((key, value) {
       if (!_user.matchHistory.containsKey(key)) {
-        print('Added new match!');
         _user.matchHistory.addEntries([MapEntry(key, value)]);
       }
     });
-    FileUtils.writeMatchHistory(_user.matchHistory);
+    FileUtils.writeUser(_user);
     notifyListeners();
   }
 
   void logout(BuildContext context, NavigationProvider navigationProvider) {
     _user.puuid = '';
-    //update prefs so that preferredPUUIDS is -1
-    prefs.setInt('preferredPUUIDS', -1);
+    prefs.setInt('preferredPUUID', -1);
     navigationProvider.navigateTo('/');
     resetUser();
     notifyListeners();
+  }
+
+  Future<void> saveUser() async {
+    prefs.setInt('preferredPUUID', await FileUtils.writeUser(_user));
+    print(prefs.getInt('preferredPUUID'));
   }
 }

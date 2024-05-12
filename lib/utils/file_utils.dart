@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:valoralysis/models/user.dart';
 
 class FileUtils {
   static Future<String> get _localPath async {
@@ -12,28 +13,62 @@ class FileUtils {
 
   static Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/matchHistory.txt');
+    return File('$path/users.txt');
   }
 
-  static Future<File> writeMatchHistory(
-      Map<String, dynamic> matchHistory) async {
-    final file = await _localFile;
+//Re-work this to insert the user into the array and resave it. do same for read.
+// then bring back prefs so you can save preferredPUUID
+  static Future<int> writeUser(User user) async {
+    try {
+      if (user.puuid == '') {
+        return -1;
+      }
+      final file = await _localFile;
 
-    // Write the file
-    return file.writeAsString(jsonEncode(matchHistory));
+      List<User> existingUsers = await readUsers();
+
+      int index = existingUsers
+          .indexWhere((existingUser) => existingUser.puuid == user.puuid);
+      if (index != -1) {
+        // If user exists, update it
+        existingUsers[index] = user;
+        file.writeAsString(jsonEncode(existingUsers));
+        return existingUsers.length - 1;
+      } else {
+        // If user does not exist, add it
+        existingUsers.add(user);
+        file.writeAsString(jsonEncode(existingUsers));
+        return existingUsers.length - 1;
+      }
+    } catch (e) {
+      print('An error occurred: $e');
+      return -1;
+    }
   }
 
-  static Future<Map<String, dynamic>> readMatcHistory() async {
+  static Future<List<User>> readUsers() async {
     try {
       final file = await _localFile;
 
       // Read the file
       final contents = await file.readAsString();
 
-      return jsonDecode(contents);
+      if (contents.isEmpty) {
+        return [];
+      }
+
+      List<dynamic> decodedJson = jsonDecode(contents);
+      print('read: ${decodedJson.map((user) => User.fromJson(user)).toList()}');
+      return decodedJson.map((user) => User.fromJson(user)).toList();
     } catch (e) {
+      print(e);
       // If encountering an error, return 0
-      return {};
+      return [];
     }
+  }
+
+  static Future<void> clearUsers() async {
+    final file = await _localFile;
+    file.writeAsString('');
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter/services.dart' show rootBundle;
 
 Future<List<Map<String, dynamic>>> getMockData() async {
   String jsonString = await rootBundle.loadString('assets/data/mock_data.json');
-  print('jsonString: $jsonString');
 
   Map<String, dynamic> jsonData = jsonDecode(jsonString);
 

@@ -23,10 +23,8 @@ class HistoryList extends StatelessWidget {
       future: fake ? getMockData() : null,
       builder: (context, snapshot) {
         List<Map<String, dynamic>> relevantMatches;
-        print('snapshot.hasData: ${snapshot.hasData}');
-        print('fake: $fake');
+
         if (snapshot.hasData && fake) {
-          print("Snapshot has data");
           relevantMatches = snapshot.data!;
         } else {
           relevantMatches = contentProvider.matchDetails

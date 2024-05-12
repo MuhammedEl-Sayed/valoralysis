@@ -10,13 +10,13 @@ class AgentAnalysis {
       Map<String, int> agentFrequency = {};
 
       for (Map<String, dynamic> matchDetails in matches) {
+        print('iterating map');
         Map<String, dynamic> player =
             HistoryUtils.getPlayerByPUUID(matchDetails, puuid);
 
         agentFrequency.update(player['characterId'], (value) => value + 1,
             ifAbsent: () => 1);
       }
-      print(agentFrequency);
 
       String mostFrequentAgent = '';
       int mostFrequentValue = 0;
