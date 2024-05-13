@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/providers/category_provider.dart';
@@ -10,13 +11,14 @@ class CategoryTypeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double margin = getStandardMargins(context);
     return Consumer<CategoryTypeProvider>(
       builder: (context, categoryTypeProvider, child) {
         return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
               children: categoryTypeProvider.queueTypes.map((item) {
                 bool isSelected =
                     categoryTypeProvider.selectedQueue == item.realValue;
@@ -26,8 +28,10 @@ class CategoryTypeSelector extends StatelessWidget {
                     builder:
                         (BuildContext context, BoxConstraints constraints) {
                       return Padding(
-                        padding: const EdgeInsets.only(right: 25),
+                        padding: EdgeInsets.only(
+                            right: margin / 3, left: margin / 3),
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             buildAnimatedText(context, isSelected, item),
                             const SizedBox(height: 4),

@@ -10,7 +10,6 @@ class AgentAnalysis {
       Map<String, int> agentFrequency = {};
 
       for (Map<String, dynamic> matchDetails in matches) {
-        print('iterating map');
         Map<String, dynamic> player =
             HistoryUtils.getPlayerByPUUID(matchDetails, puuid);
 

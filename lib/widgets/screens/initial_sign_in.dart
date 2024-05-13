@@ -39,6 +39,7 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final navigationProvider =
         Provider.of<NavigationProvider>(context, listen: false);
+    await userProvider.init();
     User user = userProvider.getUser();
     print('name: ${userProvider.getUser().name}');
     // Check if the user is already signed in, then navigate to the next page

@@ -62,7 +62,6 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Spacer(),
                       CategoryTypeSelector(),
                     ],
                   ),

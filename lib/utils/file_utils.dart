@@ -13,7 +13,11 @@ class FileUtils {
 
   static Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/users.txt');
+    final file = File('$path/users.txt');
+
+    await file.create(recursive: true);
+
+    return file;
   }
 
 //Re-work this to insert the user into the array and resave it. do same for read.

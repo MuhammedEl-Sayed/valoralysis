@@ -16,13 +16,12 @@ class UserProvider with ChangeNotifier {
     int preferredPUUID = prefs.getInt('preferredPUUID') ?? -1;
     List<User> users = await FileUtils.readUsers();
     print('init');
-    print(users[0].puuid);
     print(preferredPUUID);
     if (preferredPUUID == -1) {
-      return setUser(
-          User(puuid: '', consentGiven: false, name: '', matchHistory: {}));
+      setUser(User(puuid: '', consentGiven: false, name: '', matchHistory: {}));
+      return;
     }
-    return setUser(users[preferredPUUID]);
+    setUser(users[preferredPUUID]);
   }
 
   void setUser(User value) {
@@ -37,6 +36,7 @@ class UserProvider with ChangeNotifier {
   }
 
   User getUser() {
+    print(_user.name);
     return _user;
   }
 
