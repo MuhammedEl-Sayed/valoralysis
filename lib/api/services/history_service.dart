@@ -32,7 +32,7 @@ class HistoryService {
       var response = await dio.get('/val/match/v1/matches/$matchID');
       return response.data;
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
       return {};
     }
   }

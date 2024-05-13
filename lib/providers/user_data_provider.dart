@@ -53,7 +53,6 @@ class UserProvider with ChangeNotifier {
   void updateName(String name) {
     _user.name = name;
     saveUser();
-    notifyListeners();
   }
 
   void updateConsentGiven(bool consentGiven) {

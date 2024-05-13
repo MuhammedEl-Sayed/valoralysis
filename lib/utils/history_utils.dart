@@ -109,6 +109,9 @@ class HistoryUtils {
 
   static Map<String, dynamic> getPlayerByPUUID(
       Map<String, dynamic> matchDetail, String puuid) {
+    if (matchDetail['players'] == null) {
+      return {};
+    }
     for (Map<String, dynamic> player in matchDetail['players']) {
       if (player['puuid'] == puuid) {
         return player;

@@ -6,34 +6,30 @@ import 'package:valoralysis/utils/history_utils.dart';
 class AgentAnalysis {
   static String findTopAgent(List<Map<String, dynamic>> matches, String puuid,
       List<ContentItem> agentContent) {
-    try {
-      Map<String, int> agentFrequency = {};
+    Map<String, int> agentFrequency = {};
 
-      for (Map<String, dynamic> matchDetails in matches) {
-        Map<String, dynamic> player =
-            HistoryUtils.getPlayerByPUUID(matchDetails, puuid);
-
-        agentFrequency.update(player['characterId'], (value) => value + 1,
-            ifAbsent: () => 1);
+    for (Map<String, dynamic> matchDetails in matches) {
+      Map<String, dynamic> player =
+          HistoryUtils.getPlayerByPUUID(matchDetails, puuid);
+      if (player == {} || player['characterId'] == null) {
+        continue;
       }
-
-      String mostFrequentAgent = '';
-      int mostFrequentValue = 0;
-
-      agentFrequency.forEach((agent, value) {
-        if (value > mostFrequentValue) {
-          mostFrequentAgent = agent;
-          mostFrequentValue = value;
-        }
-      });
-
-      return agentContent
-          .firstWhere((agent) => agent.id.toLowerCase() == mostFrequentAgent)
-          .name;
-    } catch (e) {
-      print('Error: $e');
-      return 'Jett';
+      agentFrequency.update(player['characterId'], (value) => value + 1,
+          ifAbsent: () => 1);
     }
+
+    String mostFrequentAgent = '';
+    int mostFrequentValue = 0;
+
+    agentFrequency.forEach((agent, value) {
+      if (value > mostFrequentValue) {
+        mostFrequentAgent = agent;
+        mostFrequentValue = value;
+      }
+    });
+    return agentContent
+        .firstWhere((agent) => agent.id.toLowerCase() == mostFrequentAgent)
+        .name;
   }
 
   static Map<String, double> findAgentWR(List<Map<String, dynamic>> matches,
