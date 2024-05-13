@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/margins.dart';
@@ -31,6 +33,28 @@ class ExpandedHistory extends StatefulWidget {
 }
 
 class _ExpandedHistoryState extends State<ExpandedHistory> {
+  bool visible = false;
+
+  @override
+  void didUpdateWidget(covariant ExpandedHistory oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.opened != oldWidget.opened) {
+      if (widget.opened) {
+        setState(() {
+          visible = true;
+        });
+      } else {
+        Timer(const Duration(milliseconds: 400), () {
+          if (mounted) {
+            setState(() {
+              visible = false;
+            });
+          }
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double margin = getStandardMargins(context);
@@ -68,15 +92,28 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                 ],
               ),
             ),
-            RoundHistory(puuid: widget.puuid, matchDetail: widget.matchDetail),
-            TeamDetailsTable(
-                puuid: widget.puuid,
-                matchDetail: widget.matchDetail,
-                isUserTeam: true),
-            TeamDetailsTable(
-                puuid: widget.puuid,
-                matchDetail: widget.matchDetail,
-                isUserTeam: false)
+            Visibility(
+              visible: visible,
+              maintainState: false,
+              child: RoundHistory(
+                  puuid: widget.puuid, matchDetail: widget.matchDetail),
+            ),
+            Visibility(
+              visible: visible,
+              maintainState: false,
+              child: TeamDetailsTable(
+                  puuid: widget.puuid,
+                  matchDetail: widget.matchDetail,
+                  isUserTeam: true),
+            ),
+            Visibility(
+              visible: visible,
+              maintainState: false,
+              child: TeamDetailsTable(
+                  puuid: widget.puuid,
+                  matchDetail: widget.matchDetail,
+                  isUserTeam: false),
+            )
           ],
         ),
       ),
