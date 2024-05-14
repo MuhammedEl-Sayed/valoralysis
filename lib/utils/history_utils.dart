@@ -38,7 +38,7 @@ class HistoryUtils {
         .firstWhere((player) => player['puuid'] == puuid)['stats']);
   }
 
-  static List<PlayerRoundStats> extractPlayerRoundStat(
+  static List<PlayerRoundStats> extractPlayerRoundStats(
       Map<String, dynamic> matchDetail, String puuid) {
     return matchDetail['roundResults']
         .where((roundResult) => roundResult['puuid'] == puuid)
@@ -69,12 +69,83 @@ class HistoryUtils {
     return '${player['gameName']}#${player['tagLine']}';
   }
 
-  static List<String> extractKilledPlayers(
+  static Map<int, List<KillDto>> extractKilledPlayers(
       Map<String, dynamic> matchDetail, String puuid) {
-    List<String> killedPlayers = [];
-    for (Map<String, dynamic> roundResult in matchDetail['roundResults']) {}
-    return killedPlayers;
+    Map<int, List<KillDto>> roundToPlayerKills = {};
+    List<PlayerRoundStats> playerRoundStats =
+        extractPlayerRoundStats(matchDetail, puuid);
+    for (int index = 0; index < playerRoundStats.length; index++) {
+      PlayerRoundStats playerRoundStat = playerRoundStats[index];
+      if (playerRoundStat.kills.isNotEmpty) {
+        roundToPlayerKills[index] = playerRoundStat.kills;
+      } else {
+        roundToPlayerKills[index] = [];
+      }
+    }
+
+    return roundToPlayerKills;
   }
+
+  static Map<String, List<KillDto>> extractRoundDeaths(
+      Map<String, dynamic> matchDetail, String puuid) {
+        Map<String, List<KillDto>> puuidToKillListMap = {};
+    List<String> enemyTeamPUUIDS = extractEnemyTeamPUUIDs(matchDetail, puuid);
+    List<Map<String, dynamic>> roundResults = getRoundResults(matchDetail);
+
+
+    for(var roundResult in roundResults){
+      for(PlayerRoundStats playerStat in roundResult['playerStats']){
+        if(enemyTeamPUUIDS.contains(playerStat.puuid)){
+          for(KillDto kill in playerStat.kills){
+            if(kill.victim == puuid){
+              print('I killed you bitch: ${playerStat.puuid}');
+                puuidToKillListMap[playerStat.puuid]!.add(kill);
+            }
+          }
+        }
+
+      }
+    }
+
+    return puuidToKillListMap;
+    
+  }
+
+  static bool getPlayerTrades(Map<String, dynamic> matchDetail, String puuid){
+    /*
+      So to do this. We need to find a round with a dead teammate. 
+      Then we check if KilledPlayers map has a list at index of that round with dead teammate.
+      If so, check if any of them are the one who killed dead teammate. 
+      Then check if the time was less than 3s. then return true
+    */
+  
+    // ! Potential optimization, make plural version of extractRoundDeaths and make it a
+    
+
+  }
+
+  static List<String> extractEnemyTeamPUUIDs(Map<String, dynamic> matchDetail, String puuid) {
+    String userTeam = extractTeamIdFromPUUID(matchDetail, puuid);
+    List<String> enemyTeamPUUIDs = [];
+    for(var player in matchDetail['players']){
+      if(player['teamId'] != userTeam) {
+        enemyTeamPUUIDs.add(player['puuid']);
+      }
+    }
+    return enemyTeamPUUIDs;
+  }
+
+    static List<String> extractPlayerTeamPUUIDs(  Map<String, dynamic> matchDetail, String puuid) {
+     String userTeam = extractTeamIdFromPUUID(matchDetail, puuid);
+    List<String> playerTeamPUUIDs = [];
+    for(var player in matchDetail['players']){
+      if(player['teamId'] == userTeam) {
+        playerTeamPUUIDs.add(player['puuid']);
+      }
+    }
+    return playerTeamPUUIDs;
+  }
+
 
   // Methods related to extracting content details
   static getContentImageFromId(String puuid, List<ContentItem> content) {
@@ -103,6 +174,11 @@ class HistoryUtils {
             .firstWhere((player) => player['puuid'] == puuid)['teamId']);
   }
 
+  static String extractTeamIdFromPUUID(
+      Map<String, dynamic> matchDetail, String puuid) {
+    return extractTeamFromPUUID(matchDetail, puuid)['teamId'];
+  }
+
   static bool didTeamWinByPUUID(
       Map<String, dynamic> matchDetail, String puuid) {
     return extractTeamFromPUUID(matchDetail, puuid)['won'] == true;
@@ -117,9 +193,12 @@ class HistoryUtils {
     return roundWinsPerTeam;
   }
 
+  static
+
   // Methods related to extracting round results
-  static List<dynamic> getRoundResults(Map<String, dynamic> matchDetail) {
-    List<dynamic> roundResults = [];
+  static List<Map<String, dynamic>> getRoundResults(
+      Map<String, dynamic> matchDetail) {
+    List<Map<String, dynamic>> roundResults = [];
     for (Map<String, dynamic> roundResult in matchDetail['roundResults']) {
       roundResults.add(roundResult);
     }
@@ -133,7 +212,7 @@ class HistoryUtils {
       "Enemy Team": []
     };
 
-    String playerTeamId = extractTeamFromPUUID(matchDetail, puuid)['teamId'];
+    String playerTeamId = extractTeamIdFromPUUID(matchDetail, puuid);
 
     for (Map<String, dynamic> roundResult in matchDetail['roundResults']) {
       if (roundResult['winningTeam'] == playerTeamId) {
