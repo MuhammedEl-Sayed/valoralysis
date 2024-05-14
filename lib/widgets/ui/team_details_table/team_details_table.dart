@@ -44,6 +44,8 @@ class TeamDetailsTable extends StatelessWidget {
                           color: Theme.of(context).canvasColor,
                         ),
                         DataTable(
+                            border: TableBorder.all(
+                                color: Theme.of(context).canvasColor),
                             columnSpacing: 20,
                             dataRowColor:
                                 MaterialStateProperty.resolveWith<Color?>(

@@ -1,9 +1,11 @@
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/models/match_history.dart';
+import 'package:valoralysis/models/player_round_stats.dart';
 import 'package:valoralysis/models/player_stats.dart';
 
 class HistoryUtils {
+  // Methods related to extracting match details
   static String extractMatchID(MatchHistory matchHistory) {
     return matchHistory.matchID;
   }
@@ -14,6 +16,11 @@ class HistoryUtils {
         .toList();
   }
 
+  static int extractStartTime(Map<String, dynamic> matchDetails) {
+    return matchDetails['matchInfo']['gameStartMillis'] as int;
+  }
+
+  // Methods related to extracting game mode details
   static Item extractGamemode(
       Map<String, dynamic> matchDetail, List<Item> modes) {
     try {
@@ -21,14 +28,21 @@ class HistoryUtils {
           (mode) => mode.realValue == matchDetail['matchInfo']['queueId']);
     } catch (e) {
       return Item('deathmatch', 'Deathmatch');
-      // Replace with actual Deathmatch Item
     }
   }
 
+  // Methods related to extracting player details
   static PlayerStats extractPlayerStat(
       Map<String, dynamic> matchDetail, String puuid) {
     return PlayerStats.fromJsonWithKD(matchDetail['players']
         .firstWhere((player) => player['puuid'] == puuid)['stats']);
+  }
+
+  static List<PlayerRoundStats> extractPlayerRoundStat(
+      Map<String, dynamic> matchDetail, String puuid) {
+    return matchDetail['roundResults']
+        .where((roundResult) => roundResult['puuid'] == puuid)
+        .toList();
   }
 
   static List<PlayerStats> extractPlayerStats(
@@ -36,10 +50,33 @@ class HistoryUtils {
     return matchDetail.map((match) => extractPlayerStat(match, puuid)).toList();
   }
 
-  static int extractStartTime(Map<String, dynamic> matchDetails) {
-    return matchDetails['matchInfo']['gameStartMillis'] as int;
+  static Map<String, dynamic> getPlayerByPUUID(
+      Map<String, dynamic> matchDetail, String puuid) {
+    if (matchDetail['players'] == null) {
+      return {};
+    }
+    for (Map<String, dynamic> player in matchDetail['players']) {
+      if (player['puuid'] == puuid) {
+        return player;
+      }
+    }
+    return {};
   }
 
+  static String extractPlayerNameByPUUID(
+      Map<String, dynamic> matchDetail, String puuid) {
+    Map<String, dynamic> player = getPlayerByPUUID(matchDetail, puuid);
+    return '${player['gameName']}#${player['tagLine']}';
+  }
+
+  static List<String> extractKilledPlayers(
+      Map<String, dynamic> matchDetail, String puuid) {
+    List<String> killedPlayers = [];
+    for (Map<String, dynamic> roundResult in matchDetail['roundResults']) {}
+    return killedPlayers;
+  }
+
+  // Methods related to extracting content details
   static getContentImageFromId(String puuid, List<ContentItem> content) {
     return content.firstWhere((item) => item.id == puuid).iconUrl;
   }
@@ -48,6 +85,16 @@ class HistoryUtils {
     return content.firstWhere((item) => item.name == name).iconUrl;
   }
 
+  static getContentTextFromId(String puuid, List<ContentItem> content) {
+    try {
+      var result = content.firstWhere((item) => item.id == puuid);
+      return result.name;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // Methods related to extracting team details
   static Map<String, dynamic> extractTeamFromPUUID(
       Map<String, dynamic> matchDetail, String puuid) {
     return matchDetail['teams'].firstWhere((team) =>
@@ -70,6 +117,7 @@ class HistoryUtils {
     return roundWinsPerTeam;
   }
 
+  // Methods related to extracting round results
   static List<dynamic> getRoundResults(Map<String, dynamic> matchDetail) {
     List<dynamic> roundResults = [];
     for (Map<String, dynamic> roundResult in matchDetail['roundResults']) {
@@ -98,34 +146,7 @@ class HistoryUtils {
     return roundResultsPerTeam;
   }
 
-  static getContentTextFromId(String puuid, List<ContentItem> content) {
-    try {
-      var result = content.firstWhere((item) => item.id == puuid);
-      return result.name;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Map<String, dynamic> getPlayerByPUUID(
-      Map<String, dynamic> matchDetail, String puuid) {
-    if (matchDetail['players'] == null) {
-      return {};
-    }
-    for (Map<String, dynamic> player in matchDetail['players']) {
-      if (player['puuid'] == puuid) {
-        return player;
-      }
-    }
-    return {};
-  }
-
-  static String extractPlayerNameByPUUID(
-      Map<String, dynamic> matchDetail, String puuid) {
-    Map<String, dynamic> player = getPlayerByPUUID(matchDetail, puuid);
-    return '${player['gameName']}#${player['tagLine']}';
-  }
-
+  // Method related to filtering match details
   static List<Map<String, dynamic>> filterMatchDetails(
       List<Map<String, dynamic>> matchDetails,
       String? puuid,
