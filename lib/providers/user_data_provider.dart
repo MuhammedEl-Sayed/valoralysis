@@ -6,22 +6,25 @@ import 'package:valoralysis/utils/file_utils.dart';
 
 class UserProvider with ChangeNotifier {
   User _user = User(puuid: '', consentGiven: false, name: '', matchHistory: {});
+  List<User> _users = [];
 
   User get user => _user;
+  List<User> get users => _users;
+
   final SharedPreferences prefs;
 
   UserProvider(this.prefs);
 
   Future<void> init() async {
     int preferredPUUID = prefs.getInt('preferredPUUID') ?? -1;
-    List<User> users = await FileUtils.readUsers();
+    _users = await FileUtils.readUsers();
     print('init');
     print(preferredPUUID);
     if (preferredPUUID == -1) {
       setUser(User(puuid: '', consentGiven: false, name: '', matchHistory: {}));
       return;
     }
-    setUser(users[preferredPUUID]);
+    setUser(_users[preferredPUUID]);
   }
 
   void setUser(User value) {
@@ -33,11 +36,6 @@ class UserProvider with ChangeNotifier {
 
   bool isUserPUUID(String puuid) {
     return puuid == user.puuid;
-  }
-
-  User getUser() {
-    print(_user.name);
-    return _user;
   }
 
   void resetUser() {
@@ -82,5 +80,9 @@ class UserProvider with ChangeNotifier {
   Future<void> saveUser() async {
     prefs.setInt('preferredPUUID', await FileUtils.writeUser(_user));
     print(prefs.getInt('preferredPUUID'));
+  }
+
+  List<String> getNameHistory() {
+    return _users.map((User user) => user.name).toList();
   }
 }

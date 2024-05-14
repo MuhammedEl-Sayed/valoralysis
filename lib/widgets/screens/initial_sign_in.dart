@@ -8,6 +8,7 @@ import 'package:valoralysis/providers/navigation_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/pick_random.dart';
 import 'package:valoralysis/widgets/ui/flashing_text/flashing_text.dart';
+import 'package:valoralysis/widgets/ui/login_search_bar/login_search_bar.dart';
 
 class InitialSignIn extends StatefulWidget {
   const InitialSignIn({Key? key}) : super(key: key);
@@ -21,40 +22,73 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
   String errorMessage = '';
   bool showError = false;
 
-  // Declare the TextEditingController here
-  late TextEditingController controller;
   late String randomName;
+  late UserProvider userProvider;
+  late NavigationProvider navigationProvider;
+  // Current user name
+  String userName = '';
 
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController();
     randomName = HelperFunctions.pickRandom(signInBackgrounds);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    navigationProvider =
+        Provider.of<NavigationProvider>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initUserState();
     });
   }
 
   void _initUserState() async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
     final navigationProvider =
         Provider.of<NavigationProvider>(context, listen: false);
     await userProvider.init();
-    User user = userProvider.getUser();
-    print('name: ${userProvider.getUser().name}');
+
     // Check if the user is already signed in, then navigate to the next page
     //TODO: add consent check
-    if (user.puuid != '') {
+    if (userProvider.user.puuid != '') {
       navigationProvider.navigateTo('/home');
+    }
+  }
+
+  void login(String name) async {
+    setState(() {
+      errorMessage = '';
+      showError = false;
+    });
+
+    final gameNameAndTag = userName;
+    print(gameNameAndTag);
+    String puuid = await AuthService.getUserPUUID(gameNameAndTag);
+
+    // If PUUID is empty, show error
+    if (puuid.contains('Error:')) {
+      setState(() {
+        errorMessage = puuid;
+        showError = true;
+      });
+    } else {
+      setState(() {
+        errorMessage = '';
+        showError = false;
+      });
+      userProvider.setUser(User(
+        name: gameNameAndTag,
+        puuid: puuid,
+        consentGiven: true,
+        matchHistory: userProvider.user.matchHistory,
+      ));
+      if (mounted) {
+        userProvider.updatePuuid(puuid);
+        navigationProvider.navigateTo('/home');
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     double margin = getStandardMargins(context);
-    final userProvider = Provider.of<UserProvider>(context);
-    final navigationProvider =
-        Provider.of<NavigationProvider>(context, listen: false);
 
     return Scaffold(
         resizeToAvoidBottomInset: true,
@@ -103,52 +137,21 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
                         ),
                       ),
                     Padding(
-                      padding:
-                          EdgeInsets.only(left: margin * 2, right: margin * 2),
-                      child: TextField(
-                        controller: controller,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Enter your Name#Tagline',
-                        ),
-                      ),
-                    ),
+                        padding: EdgeInsets.only(
+                            left: margin * 2, right: margin * 2),
+                        child: LoginSearchBar(
+                          onUserNameChanged: (newUserName) {
+                            setState(() {
+                              userName = newUserName;
+                            });
+                          },
+                          onSearchSubmitted: (newUserName) {
+                            login(newUserName);
+                          },
+                        )),
                     const SizedBox(height: 20),
                     FilledButton(
-                      onPressed: () async {
-                        // Reset error state
-                        setState(() {
-                          errorMessage = '';
-                          showError = false;
-                        });
-
-                        final gameNameAndTag = controller.text;
-                        String puuid =
-                            await AuthService.getUserPUUID(gameNameAndTag);
-
-                        // If PUUID is empty, show error
-                        if (puuid.contains('Error:')) {
-                          setState(() {
-                            errorMessage = puuid;
-                            showError = true;
-                          });
-                        } else {
-                          setState(() {
-                            errorMessage = '';
-                            showError = false;
-                          });
-                          userProvider.setUser(User(
-                            name: gameNameAndTag,
-                            puuid: puuid,
-                            consentGiven: true,
-                            matchHistory: userProvider.user.matchHistory,
-                          ));
-                          if (mounted) {
-                            userProvider.updatePuuid(puuid);
-                            navigationProvider.navigateTo('/home');
-                          }
-                        }
-                      },
+                      onPressed: () => login(userName),
                       child: const Text('Sign in with Riot Games'),
                     ),
                     // Display error container if there is an error

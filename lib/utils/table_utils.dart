@@ -34,6 +34,7 @@ class TableUtils {
     }
 
     List<DataRow> rows = [];
+    List<PlayerStats> playerStatsList = [];
 
     for (Map<String, dynamic> player in players) {
       String playerPUUID = player['puuid'];
@@ -41,6 +42,7 @@ class TableUtils {
           matchDetail, player, ranks, agents, playerPUUID == userPUUID);
       PlayerStats stats =
           HistoryUtils.extractPlayerStat(matchDetail, playerPUUID);
+      playerStatsList.add(stats);
       String hs = FormattingUtils.convertShotToPercentage(
           WeaponsUtils.weaponsHeadshotAccuracyAnaylsis(
               [matchDetail], playerPUUID),
@@ -56,6 +58,18 @@ class TableUtils {
         DataCell(Text(hs)), // HS%
       ]));
     }
+    rows.sort((a, b) {
+      int aIndex = rows.indexOf(a);
+      int bIndex = rows.indexOf(b);
+      if (aIndex == -1 || bIndex == -1) {
+        return 0; // or handle this situation differently
+      }
+      double aStats = playerStatsList[aIndex].kills.toDouble();
+      double bStats = playerStatsList[bIndex].kills.toDouble();
+      return bStats.compareTo(aStats);
+    });
+    // Now we make sure to sort the rows by KD
+
     return rows;
   }
 
