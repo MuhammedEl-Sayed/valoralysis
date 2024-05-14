@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valoralysis/api/services/auth_service.dart';
 import 'package:valoralysis/consts/images.dart';
 import 'package:valoralysis/consts/margins.dart';
+import 'package:valoralysis/consts/update_messages.dart';
 import 'package:valoralysis/models/user.dart';
 import 'package:valoralysis/providers/navigation_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
@@ -18,14 +20,12 @@ class InitialSignIn extends StatefulWidget {
 }
 
 class _InitialSignInState extends State<InitialSignIn> with RouteAware {
-  // State variables to manage the error message and visibility
+  // State variables
   String errorMessage = '';
   bool showError = false;
-
   late String randomName;
   late UserProvider userProvider;
   late NavigationProvider navigationProvider;
-  // Current user name
   String userName = '';
 
   @override
@@ -37,7 +37,47 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
         Provider.of<NavigationProvider>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initUserState();
+      _maybeShowUpdateDialog();
     });
+  }
+
+  Future<void> _maybeShowUpdateDialog() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasShownUpdateDialog = prefs.getBool('hasShownUpdateDialog') ?? false;
+
+    if (!hasShownUpdateDialog) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showUpdateDialog(context);
+      });
+      await prefs.setBool('hasShownUpdateDialog', true);
+    }
+  }
+
+  void showUpdateDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Updates'),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: updateMessages
+                  .map((message) => Text(message, textAlign: TextAlign.left))
+                  .toList(),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _initUserState() async {
@@ -45,8 +85,6 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
         Provider.of<NavigationProvider>(context, listen: false);
     await userProvider.init();
 
-    // Check if the user is already signed in, then navigate to the next page
-    //TODO: add consent check
     if (userProvider.user.puuid != '') {
       navigationProvider.navigateTo('/home');
     }
@@ -62,7 +100,6 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
     print(gameNameAndTag);
     String puuid = await AuthService.getUserPUUID(gameNameAndTag);
 
-    // If PUUID is empty, show error
     if (puuid.contains('Error:')) {
       setState(() {
         errorMessage = puuid;
@@ -154,7 +191,6 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
                       onPressed: () => login(userName),
                       child: const Text('Sign in with Riot Games'),
                     ),
-                    // Display error container if there is an error
                   ],
                 ),
               )),
