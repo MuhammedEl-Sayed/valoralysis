@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Get the current version from pubspec.yaml
+current_version=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+
+# Split the version and the build number
+IFS='+' read -ra version_parts <<< "$current_version"
+
+# Increment the build number
+new_build_number=$((${version_parts[1]} + 1))
+
+# Construct the new version string
+new_version="${version_parts[0]}+$new_build_number"
+
+# Replace the version in pubspec.yaml
+sed -i "s/version: $current_version/version: $new_version/g" pubspec.yaml
+
+# Stage the updated pubspec.yaml file
+git add pubspec.yaml

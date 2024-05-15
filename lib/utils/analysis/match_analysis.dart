@@ -39,8 +39,8 @@ class MatchAnalysis {
       if (hasKill || hasAssist || didGetTraded) continue;
       if (didPlayerDieThisRound) numOfRoundsPlayerFuckingSucked++;
     }
-
     return ((1 - (numOfRoundsPlayerFuckingSucked / kills.keys.length)) * 100)
-        .toStringAsFixed(1);
+        .toInt()
+        .toString();
   }
 }

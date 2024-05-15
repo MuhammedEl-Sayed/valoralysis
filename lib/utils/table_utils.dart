@@ -61,12 +61,12 @@ class TableUtils {
           .fold(0, (previousValue, element) => previousValue + element.length);
       rows.add(DataRow(cells: [
         profile, // Profile under the team name column
-        DataCell(Text(kast)), // ACS
+        DataCell(Text('$kast%')), // ACS
         DataCell(Text(stats.kd.toString())), // KD
         DataCell(Text(stats.kills.toString())), // K
         DataCell(Text(stats.deaths.toString())), // D
         DataCell(Text(stats.assists.toString())), // A
-        DataCell(Text('${numTrades.toString()}%')),
+        DataCell(Text(numTrades.toString())),
         const DataCell(Text('0')), // ADR
         DataCell(Text(hs)), // HS%
       ]));
