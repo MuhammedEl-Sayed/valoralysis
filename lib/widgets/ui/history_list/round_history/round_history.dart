@@ -27,7 +27,7 @@ class RoundHistory extends StatelessWidget {
       case (bombDetonated):
         imageName = 'explosion';
         break;
-      case (roundTimerExpired):
+      case (timeSinceRoundStartMillisrExpired):
         imageName = 'time';
         break;
       default:

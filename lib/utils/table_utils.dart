@@ -4,6 +4,7 @@ import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/models/rank.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
+import 'package:valoralysis/utils/analysis/match_analysis.dart';
 import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
@@ -34,12 +35,13 @@ class TableUtils {
     }
 
     // Now we sort the players by their kills
+    for (Map<String, dynamic> player in players) {
+      player['kast'] = MatchAnalysis.findKAST(matchDetail, player['puuid']);
+    }
+
+// Now we sort the players by their KAST
     players.sort((a, b) {
-      PlayerStats aStats =
-          HistoryUtils.extractPlayerStat(matchDetail, a['puuid']);
-      PlayerStats bStats =
-          HistoryUtils.extractPlayerStat(matchDetail, b['puuid']);
-      return bStats.kd.compareTo(aStats.kd);
+      return double.parse(b['kast']).compareTo(double.parse(a['kast']));
     });
 
     List<DataRow> rows = [];
@@ -54,13 +56,17 @@ class TableUtils {
           WeaponsUtils.weaponsHeadshotAccuracyAnaylsis(
               [matchDetail], playerPUUID),
           ShotType.Headshot);
+      String kast = MatchAnalysis.findKAST(matchDetail, playerPUUID);
+      int numTrades = stats.trades.values
+          .fold(0, (previousValue, element) => previousValue + element.length);
       rows.add(DataRow(cells: [
         profile, // Profile under the team name column
-        const DataCell(Text('0')), // ACS
+        DataCell(Text(kast)), // ACS
         DataCell(Text(stats.kd.toString())), // KD
         DataCell(Text(stats.kills.toString())), // K
         DataCell(Text(stats.deaths.toString())), // D
         DataCell(Text(stats.assists.toString())), // A
+        DataCell(Text('${numTrades.toString()}%')),
         const DataCell(Text('0')), // ADR
         DataCell(Text(hs)), // HS%
       ]));

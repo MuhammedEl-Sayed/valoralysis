@@ -1,4 +1,3 @@
-
 {
     "matchInfo": {
         "matchId": "714838f4-5011-41a0-b249-2e4f5ae0240b",
@@ -267,7 +266,7 @@
             "winningTeam": "Blue",
             "bombPlanter": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
             "bombDefuser": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
-            "plantRoundTime": 17478,
+            "planttimeSinceRoundStartMillis": 17478,
             "plantPlayerLocations": [
                 {
                     "puuid": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
@@ -355,7 +354,7 @@
                 "y": -6294
             },
             "plantSite": "B",
-            "defuseRoundTime": 42198,
+            "defusetimeSinceRoundStartMillis": 42198,
             "defusePlayerLocations": [
                 {
                     "puuid": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
@@ -445,8 +444,8 @@
                     "puuid": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                     "kills": [
                         {
-                            "gameTime": 77725,
-                            "roundTime": 22691,
+                            "timeSinceGameStartMillis": 77725,
+                            "timeSinceRoundStartMillis": 22691,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victimLocation": {
@@ -573,8 +572,8 @@
                     "puuid": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                     "kills": [
                         {
-                            "gameTime": 77499,
-                            "roundTime": 22465,
+                            "timeSinceGameStartMillis": 77499,
+                            "timeSinceRoundStartMillis": 22465,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -647,8 +646,8 @@
                             }
                         },
                         {
-                            "gameTime": 80721,
-                            "roundTime": 25687,
+                            "timeSinceGameStartMillis": 80721,
+                            "timeSinceRoundStartMillis": 25687,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -707,8 +706,8 @@
                             }
                         },
                         {
-                            "gameTime": 88748,
-                            "roundTime": 33714,
+                            "timeSinceGameStartMillis": 88748,
+                            "timeSinceRoundStartMillis": 33714,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -856,8 +855,8 @@
                     "puuid": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                     "kills": [
                         {
-                            "gameTime": 76083,
-                            "roundTime": 21049,
+                            "timeSinceGameStartMillis": 76083,
+                            "timeSinceRoundStartMillis": 21049,
                             "killer": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -974,8 +973,8 @@
                     "puuid": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                     "kills": [
                         {
-                            "gameTime": 76502,
-                            "roundTime": 21468,
+                            "timeSinceGameStartMillis": 76502,
+                            "timeSinceRoundStartMillis": 21468,
                             "killer": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victim": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victimLocation": {
@@ -1092,14 +1091,14 @@
             "winningTeam": "Blue",
             "bombPlanter": null,
             "bombDefuser": null,
-            "plantRoundTime": 0,
+            "planttimeSinceRoundStartMillis": 0,
             "plantPlayerLocations": null,
             "plantLocation": {
                 "x": 0,
                 "y": 0
             },
             "plantSite": "",
-            "defuseRoundTime": 0,
+            "defusetimeSinceRoundStartMillis": 0,
             "defusePlayerLocations": null,
             "defuseLocation": {
                 "x": 0,
@@ -1148,8 +1147,8 @@
                     "puuid": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                     "kills": [
                         {
-                            "gameTime": 190508,
-                            "roundTime": 56249,
+                            "timeSinceGameStartMillis": 190508,
+                            "timeSinceRoundStartMillis": 56249,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -1260,8 +1259,8 @@
                     "puuid": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                     "kills": [
                         {
-                            "gameTime": 163854,
-                            "roundTime": 29595,
+                            "timeSinceGameStartMillis": 163854,
+                            "timeSinceRoundStartMillis": 29595,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -1328,8 +1327,8 @@
                             }
                         },
                         {
-                            "gameTime": 173412,
-                            "roundTime": 39153,
+                            "timeSinceGameStartMillis": 173412,
+                            "timeSinceRoundStartMillis": 39153,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -1477,8 +1476,8 @@
                     "puuid": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                     "kills": [
                         {
-                            "gameTime": 161874,
-                            "roundTime": 27615,
+                            "timeSinceGameStartMillis": 161874,
+                            "timeSinceRoundStartMillis": 27615,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victimLocation": {
@@ -1593,8 +1592,8 @@
                     "puuid": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                     "kills": [
                         {
-                            "gameTime": 149301,
-                            "roundTime": 15042,
+                            "timeSinceGameStartMillis": 149301,
+                            "timeSinceRoundStartMillis": 15042,
                             "killer": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victim": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victimLocation": {
@@ -1683,8 +1682,8 @@
                             }
                         },
                         {
-                            "gameTime": 154960,
-                            "roundTime": 20701,
+                            "timeSinceGameStartMillis": 154960,
+                            "timeSinceRoundStartMillis": 20701,
                             "killer": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -1832,7 +1831,7 @@
             "winningTeam": "Red",
             "bombPlanter": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
             "bombDefuser": null,
-            "plantRoundTime": 51933,
+            "planttimeSinceRoundStartMillis": 51933,
             "plantPlayerLocations": [
                 {
                     "puuid": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
@@ -1872,7 +1871,7 @@
                 "y": -5730
             },
             "plantSite": "A",
-            "defuseRoundTime": 0,
+            "defusetimeSinceRoundStartMillis": 0,
             "defusePlayerLocations": null,
             "defuseLocation": {
                 "x": 0,
@@ -1902,8 +1901,8 @@
                     "puuid": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                     "kills": [
                         {
-                            "gameTime": 246467,
-                            "roundTime": 18924,
+                            "timeSinceGameStartMillis": 246467,
+                            "timeSinceRoundStartMillis": 18924,
                             "killer": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -2023,8 +2022,8 @@
                     "puuid": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                     "kills": [
                         {
-                            "gameTime": 239301,
-                            "roundTime": 11758,
+                            "timeSinceGameStartMillis": 239301,
+                            "timeSinceRoundStartMillis": 11758,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victimLocation": {
@@ -2133,8 +2132,8 @@
                     "puuid": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                     "kills": [
                         {
-                            "gameTime": 244484,
-                            "roundTime": 16941,
+                            "timeSinceGameStartMillis": 244484,
+                            "timeSinceRoundStartMillis": 16941,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -2269,8 +2268,8 @@
                     "puuid": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                     "kills": [
                         {
-                            "gameTime": 236127,
-                            "roundTime": 8584,
+                            "timeSinceGameStartMillis": 236127,
+                            "timeSinceRoundStartMillis": 8584,
                             "killer": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -2387,8 +2386,8 @@
                     "puuid": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                     "kills": [
                         {
-                            "gameTime": 254441,
-                            "roundTime": 26898,
+                            "timeSinceGameStartMillis": 254441,
+                            "timeSinceRoundStartMillis": 26898,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victimLocation": {
@@ -2445,8 +2444,8 @@
                             }
                         },
                         {
-                            "gameTime": 260357,
-                            "roundTime": 32814,
+                            "timeSinceGameStartMillis": 260357,
+                            "timeSinceRoundStartMillis": 32814,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victimLocation": {
@@ -2497,8 +2496,8 @@
                             }
                         },
                         {
-                            "gameTime": 286164,
-                            "roundTime": 58621,
+                            "timeSinceGameStartMillis": 286164,
+                            "timeSinceRoundStartMillis": 58621,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victimLocation": {
@@ -2633,14 +2632,14 @@
             "winningTeam": "Blue",
             "bombPlanter": null,
             "bombDefuser": null,
-            "plantRoundTime": 0,
+            "planttimeSinceRoundStartMillis": 0,
             "plantPlayerLocations": null,
             "plantLocation": {
                 "x": 0,
                 "y": 0
             },
             "plantSite": "",
-            "defuseRoundTime": 0,
+            "defusetimeSinceRoundStartMillis": 0,
             "defusePlayerLocations": null,
             "defuseLocation": {
                 "x": 0,
@@ -2651,8 +2650,8 @@
                     "puuid": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                     "kills": [
                         {
-                            "gameTime": 328085,
-                            "roundTime": 4893,
+                            "timeSinceGameStartMillis": 328085,
+                            "timeSinceRoundStartMillis": 4893,
                             "killer": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -2741,8 +2740,8 @@
                             }
                         },
                         {
-                            "gameTime": 416355,
-                            "roundTime": 93163,
+                            "timeSinceGameStartMillis": 416355,
+                            "timeSinceRoundStartMillis": 93163,
                             "killer": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -2852,8 +2851,8 @@
                     "puuid": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                     "kills": [
                         {
-                            "gameTime": 359071,
-                            "roundTime": 35879,
+                            "timeSinceGameStartMillis": 359071,
+                            "timeSinceRoundStartMillis": 35879,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -2920,8 +2919,8 @@
                             }
                         },
                         {
-                            "gameTime": 405641,
-                            "roundTime": 82449,
+                            "timeSinceGameStartMillis": 405641,
+                            "timeSinceRoundStartMillis": 82449,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -3006,8 +3005,8 @@
                     "puuid": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                     "kills": [
                         {
-                            "gameTime": 351489,
-                            "roundTime": 28297,
+                            "timeSinceGameStartMillis": 351489,
+                            "timeSinceRoundStartMillis": 28297,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -3082,8 +3081,8 @@
                             }
                         },
                         {
-                            "gameTime": 359792,
-                            "roundTime": 36600,
+                            "timeSinceGameStartMillis": 359792,
+                            "timeSinceRoundStartMillis": 36600,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victimLocation": {
@@ -3140,8 +3139,8 @@
                             }
                         },
                         {
-                            "gameTime": 368575,
-                            "roundTime": 45383,
+                            "timeSinceGameStartMillis": 368575,
+                            "timeSinceRoundStartMillis": 45383,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victimLocation": {
@@ -3190,8 +3189,8 @@
                             }
                         },
                         {
-                            "gameTime": 412190,
-                            "roundTime": 88998,
+                            "timeSinceGameStartMillis": 412190,
+                            "timeSinceRoundStartMillis": 88998,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victimLocation": {
@@ -3397,8 +3396,8 @@
                     "puuid": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                     "kills": [
                         {
-                            "gameTime": 350812,
-                            "roundTime": 27620,
+                            "timeSinceGameStartMillis": 350812,
+                            "timeSinceRoundStartMillis": 27620,
                             "killer": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victim": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victimLocation": {
@@ -3547,14 +3546,14 @@
             "winningTeam": "Blue",
             "bombPlanter": null,
             "bombDefuser": null,
-            "plantRoundTime": 0,
+            "planttimeSinceRoundStartMillis": 0,
             "plantPlayerLocations": null,
             "plantLocation": {
                 "x": 0,
                 "y": 0
             },
             "plantSite": "",
-            "defuseRoundTime": 0,
+            "defusetimeSinceRoundStartMillis": 0,
             "defusePlayerLocations": null,
             "defuseLocation": {
                 "x": 0,
@@ -3584,8 +3583,8 @@
                     "puuid": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                     "kills": [
                         {
-                            "gameTime": 495632,
-                            "roundTime": 42251,
+                            "timeSinceGameStartMillis": 495632,
+                            "timeSinceRoundStartMillis": 42251,
                             "killer": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victim": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victimLocation": {
@@ -3650,8 +3649,8 @@
                             }
                         },
                         {
-                            "gameTime": 503418,
-                            "roundTime": 50037,
+                            "timeSinceGameStartMillis": 503418,
+                            "timeSinceRoundStartMillis": 50037,
                             "killer": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -3738,8 +3737,8 @@
                     "puuid": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                     "kills": [
                         {
-                            "gameTime": 489268,
-                            "roundTime": 35887,
+                            "timeSinceGameStartMillis": 489268,
+                            "timeSinceRoundStartMillis": 35887,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -3812,8 +3811,8 @@
                             }
                         },
                         {
-                            "gameTime": 514622,
-                            "roundTime": 61241,
+                            "timeSinceGameStartMillis": 514622,
+                            "timeSinceRoundStartMillis": 61241,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -3856,8 +3855,8 @@
                             }
                         },
                         {
-                            "gameTime": 516682,
-                            "roundTime": 63301,
+                            "timeSinceGameStartMillis": 516682,
+                            "timeSinceRoundStartMillis": 63301,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victimLocation": {
@@ -3934,8 +3933,8 @@
                     "puuid": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                     "kills": [
                         {
-                            "gameTime": 472547,
-                            "roundTime": 19166,
+                            "timeSinceGameStartMillis": 472547,
+                            "timeSinceRoundStartMillis": 19166,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victimLocation": {
@@ -4053,8 +4052,8 @@
                     "puuid": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                     "kills": [
                         {
-                            "gameTime": 502611,
-                            "roundTime": 49230,
+                            "timeSinceGameStartMillis": 502611,
+                            "timeSinceRoundStartMillis": 49230,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -4168,8 +4167,8 @@
                     "puuid": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                     "kills": [
                         {
-                            "gameTime": 470763,
-                            "roundTime": 17382,
+                            "timeSinceGameStartMillis": 470763,
+                            "timeSinceRoundStartMillis": 17382,
                             "killer": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -4386,7 +4385,7 @@
             "winningTeam": "Red",
             "bombPlanter": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
             "bombDefuser": null,
-            "plantRoundTime": 50676,
+            "planttimeSinceRoundStartMillis": 50676,
             "plantPlayerLocations": [
                 {
                     "puuid": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
@@ -4434,7 +4433,7 @@
                 "y": -6293
             },
             "plantSite": "B",
-            "defuseRoundTime": 0,
+            "defusetimeSinceRoundStartMillis": 0,
             "defusePlayerLocations": null,
             "defuseLocation": {
                 "x": 0,
@@ -4445,8 +4444,8 @@
                     "puuid": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                     "kills": [
                         {
-                            "gameTime": 587790,
-                            "roundTime": 34080,
+                            "timeSinceGameStartMillis": 587790,
+                            "timeSinceRoundStartMillis": 34080,
                             "killer": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -4511,8 +4510,8 @@
                             }
                         },
                         {
-                            "gameTime": 588326,
-                            "roundTime": 34616,
+                            "timeSinceGameStartMillis": 588326,
+                            "timeSinceRoundStartMillis": 34616,
                             "killer": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -4638,8 +4637,8 @@
                     "puuid": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                     "kills": [
                         {
-                            "gameTime": 572788,
-                            "roundTime": 19078,
+                            "timeSinceGameStartMillis": 572788,
+                            "timeSinceRoundStartMillis": 19078,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -4749,8 +4748,8 @@
                     "puuid": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                     "kills": [
                         {
-                            "gameTime": 619295,
-                            "roundTime": 65585,
+                            "timeSinceGameStartMillis": 619295,
+                            "timeSinceRoundStartMillis": 65585,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victimLocation": {
@@ -4840,8 +4839,8 @@
                     "puuid": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                     "kills": [
                         {
-                            "gameTime": 569303,
-                            "roundTime": 15593,
+                            "timeSinceGameStartMillis": 569303,
+                            "timeSinceRoundStartMillis": 15593,
                             "killer": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -4930,8 +4929,8 @@
                             }
                         },
                         {
-                            "gameTime": 583182,
-                            "roundTime": 29472,
+                            "timeSinceGameStartMillis": 583182,
+                            "timeSinceRoundStartMillis": 29472,
                             "killer": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victim": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victimLocation": {
@@ -5004,8 +5003,8 @@
                             }
                         },
                         {
-                            "gameTime": 598305,
-                            "roundTime": 44595,
+                            "timeSinceGameStartMillis": 598305,
+                            "timeSinceRoundStartMillis": 44595,
                             "killer": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victim": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victimLocation": {
@@ -5064,8 +5063,8 @@
                             }
                         },
                         {
-                            "gameTime": 608832,
-                            "roundTime": 55122,
+                            "timeSinceGameStartMillis": 608832,
+                            "timeSinceRoundStartMillis": 55122,
                             "killer": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -5163,8 +5162,8 @@
                     "puuid": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                     "kills": [
                         {
-                            "gameTime": 611708,
-                            "roundTime": 57998,
+                            "timeSinceGameStartMillis": 611708,
+                            "timeSinceRoundStartMillis": 57998,
                             "killer": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -5249,8 +5248,8 @@
                     "puuid": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                     "kills": [
                         {
-                            "gameTime": 572450,
-                            "roundTime": 18740,
+                            "timeSinceGameStartMillis": 572450,
+                            "timeSinceRoundStartMillis": 18740,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victimLocation": {
@@ -5413,7 +5412,7 @@
             "winningTeam": "Blue",
             "bombPlanter": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
             "bombDefuser": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
-            "plantRoundTime": 23695,
+            "planttimeSinceRoundStartMillis": 23695,
             "plantPlayerLocations": [
                 {
                     "puuid": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
@@ -5493,7 +5492,7 @@
                 "y": -6293
             },
             "plantSite": "B",
-            "defuseRoundTime": 47324,
+            "defusetimeSinceRoundStartMillis": 47324,
             "defusePlayerLocations": [
                 {
                     "puuid": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
@@ -5545,8 +5544,8 @@
                     "puuid": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                     "kills": [
                         {
-                            "gameTime": 690062,
-                            "roundTime": 33735,
+                            "timeSinceGameStartMillis": 690062,
+                            "timeSinceRoundStartMillis": 33735,
                             "killer": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -5673,8 +5672,8 @@
                     "puuid": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                     "kills": [
                         {
-                            "gameTime": 670428,
-                            "roundTime": 14101,
+                            "timeSinceGameStartMillis": 670428,
+                            "timeSinceRoundStartMillis": 14101,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -5824,8 +5823,8 @@
                     "puuid": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                     "kills": [
                         {
-                            "gameTime": 682187,
-                            "roundTime": 25860,
+                            "timeSinceGameStartMillis": 682187,
+                            "timeSinceRoundStartMillis": 25860,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -5906,8 +5905,8 @@
                             }
                         },
                         {
-                            "gameTime": 684128,
-                            "roundTime": 27801,
+                            "timeSinceGameStartMillis": 684128,
+                            "timeSinceRoundStartMillis": 27801,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -5982,8 +5981,8 @@
                             }
                         },
                         {
-                            "gameTime": 693127,
-                            "roundTime": 36800,
+                            "timeSinceGameStartMillis": 693127,
+                            "timeSinceRoundStartMillis": 36800,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victimLocation": {
@@ -6208,14 +6207,14 @@
             "winningTeam": "Blue",
             "bombPlanter": null,
             "bombDefuser": null,
-            "plantRoundTime": 0,
+            "planttimeSinceRoundStartMillis": 0,
             "plantPlayerLocations": null,
             "plantLocation": {
                 "x": 0,
                 "y": 0
             },
             "plantSite": "",
-            "defuseRoundTime": 0,
+            "defusetimeSinceRoundStartMillis": 0,
             "defusePlayerLocations": null,
             "defuseLocation": {
                 "x": 0,
@@ -6245,8 +6244,8 @@
                     "puuid": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                     "kills": [
                         {
-                            "gameTime": 776928,
-                            "roundTime": 36244,
+                            "timeSinceGameStartMillis": 776928,
+                            "timeSinceRoundStartMillis": 36244,
                             "killer": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victim": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victimLocation": {
@@ -6393,8 +6392,8 @@
                     "puuid": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                     "kills": [
                         {
-                            "gameTime": 754521,
-                            "roundTime": 13837,
+                            "timeSinceGameStartMillis": 754521,
+                            "timeSinceRoundStartMillis": 13837,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -6483,8 +6482,8 @@
                             }
                         },
                         {
-                            "gameTime": 756830,
-                            "roundTime": 16146,
+                            "timeSinceGameStartMillis": 756830,
+                            "timeSinceRoundStartMillis": 16146,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -6565,8 +6564,8 @@
                             }
                         },
                         {
-                            "gameTime": 757262,
-                            "roundTime": 16578,
+                            "timeSinceGameStartMillis": 757262,
+                            "timeSinceRoundStartMillis": 16578,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victimLocation": {
@@ -6639,8 +6638,8 @@
                             }
                         },
                         {
-                            "gameTime": 776986,
-                            "roundTime": 36302,
+                            "timeSinceGameStartMillis": 776986,
+                            "timeSinceRoundStartMillis": 36302,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -6794,8 +6793,8 @@
                     "puuid": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                     "kills": [
                         {
-                            "gameTime": 777177,
-                            "roundTime": 36493,
+                            "timeSinceGameStartMillis": 777177,
+                            "timeSinceRoundStartMillis": 36493,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -6881,8 +6880,8 @@
                     "puuid": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                     "kills": [
                         {
-                            "gameTime": 779617,
-                            "roundTime": 38933,
+                            "timeSinceGameStartMillis": 779617,
+                            "timeSinceRoundStartMillis": 38933,
                             "killer": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -6985,7 +6984,7 @@
             "winningTeam": "Red",
             "bombPlanter": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
             "bombDefuser": null,
-            "plantRoundTime": 86840,
+            "planttimeSinceRoundStartMillis": 86840,
             "plantPlayerLocations": [
                 {
                     "puuid": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
@@ -7009,7 +7008,7 @@
                 "y": -6951
             },
             "plantSite": "B",
-            "defuseRoundTime": 0,
+            "defusetimeSinceRoundStartMillis": 0,
             "defusePlayerLocations": null,
             "defuseLocation": {
                 "x": 0,
@@ -7074,8 +7073,8 @@
                     "puuid": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                     "kills": [
                         {
-                            "gameTime": 838653,
-                            "roundTime": 22011,
+                            "timeSinceGameStartMillis": 838653,
+                            "timeSinceRoundStartMillis": 22011,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -7148,8 +7147,8 @@
                             }
                         },
                         {
-                            "gameTime": 841125,
-                            "roundTime": 24483,
+                            "timeSinceGameStartMillis": 841125,
+                            "timeSinceRoundStartMillis": 24483,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -7214,8 +7213,8 @@
                             }
                         },
                         {
-                            "gameTime": 842191,
-                            "roundTime": 25549,
+                            "timeSinceGameStartMillis": 842191,
+                            "timeSinceRoundStartMillis": 25549,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victimLocation": {
@@ -7367,8 +7366,8 @@
                     "puuid": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                     "kills": [
                         {
-                            "gameTime": 853389,
-                            "roundTime": 36747,
+                            "timeSinceGameStartMillis": 853389,
+                            "timeSinceRoundStartMillis": 36747,
                             "killer": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victim": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victimLocation": {
@@ -7417,8 +7416,8 @@
                             }
                         },
                         {
-                            "gameTime": 868383,
-                            "roundTime": 51741,
+                            "timeSinceGameStartMillis": 868383,
+                            "timeSinceRoundStartMillis": 51741,
                             "killer": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victim": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victimLocation": {
@@ -7459,8 +7458,8 @@
                             }
                         },
                         {
-                            "gameTime": 881213,
-                            "roundTime": 64571,
+                            "timeSinceGameStartMillis": 881213,
+                            "timeSinceRoundStartMillis": 64571,
                             "killer": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victim": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victimLocation": {
@@ -7495,8 +7494,8 @@
                             }
                         },
                         {
-                            "gameTime": 907341,
-                            "roundTime": 90699,
+                            "timeSinceGameStartMillis": 907341,
+                            "timeSinceRoundStartMillis": 90699,
                             "killer": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -7570,8 +7569,8 @@
                     "puuid": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                     "kills": [
                         {
-                            "gameTime": 821543,
-                            "roundTime": 4901,
+                            "timeSinceGameStartMillis": 821543,
+                            "timeSinceRoundStartMillis": 4901,
                             "killer": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -7688,8 +7687,8 @@
                     "puuid": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                     "kills": [
                         {
-                            "gameTime": 822378,
-                            "roundTime": 5736,
+                            "timeSinceGameStartMillis": 822378,
+                            "timeSinceRoundStartMillis": 5736,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victimLocation": {
@@ -7865,14 +7864,14 @@
             "winningTeam": "Blue",
             "bombPlanter": null,
             "bombDefuser": null,
-            "plantRoundTime": 0,
+            "planttimeSinceRoundStartMillis": 0,
             "plantPlayerLocations": null,
             "plantLocation": {
                 "x": 0,
                 "y": 0
             },
             "plantSite": "",
-            "defuseRoundTime": 0,
+            "defusetimeSinceRoundStartMillis": 0,
             "defusePlayerLocations": null,
             "defuseLocation": {
                 "x": 0,
@@ -7948,8 +7947,8 @@
                     "puuid": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                     "kills": [
                         {
-                            "gameTime": 970936,
-                            "roundTime": 26568,
+                            "timeSinceGameStartMillis": 970936,
+                            "timeSinceRoundStartMillis": 26568,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victimLocation": {
@@ -8026,8 +8025,8 @@
                     "puuid": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                     "kills": [
                         {
-                            "gameTime": 965394,
-                            "roundTime": 21026,
+                            "timeSinceGameStartMillis": 965394,
+                            "timeSinceRoundStartMillis": 21026,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -8108,8 +8107,8 @@
                             }
                         },
                         {
-                            "gameTime": 966766,
-                            "roundTime": 22398,
+                            "timeSinceGameStartMillis": 966766,
+                            "timeSinceRoundStartMillis": 22398,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victimLocation": {
@@ -8182,8 +8181,8 @@
                             }
                         },
                         {
-                            "gameTime": 970945,
-                            "roundTime": 26577,
+                            "timeSinceGameStartMillis": 970945,
+                            "timeSinceRoundStartMillis": 26577,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -8287,8 +8286,8 @@
                     "puuid": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                     "kills": [
                         {
-                            "gameTime": 968674,
-                            "roundTime": 24306,
+                            "timeSinceGameStartMillis": 968674,
+                            "timeSinceRoundStartMillis": 24306,
                             "killer": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -8388,8 +8387,8 @@
                     "puuid": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                     "kills": [
                         {
-                            "gameTime": 963064,
-                            "roundTime": 18696,
+                            "timeSinceGameStartMillis": 963064,
+                            "timeSinceRoundStartMillis": 18696,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victimLocation": {
@@ -8478,8 +8477,8 @@
                             }
                         },
                         {
-                            "gameTime": 970232,
-                            "roundTime": 25864,
+                            "timeSinceGameStartMillis": 970232,
+                            "timeSinceRoundStartMillis": 25864,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victimLocation": {
@@ -8578,8 +8577,8 @@
                     "puuid": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                     "kills": [
                         {
-                            "gameTime": 972588,
-                            "roundTime": 28220,
+                            "timeSinceGameStartMillis": 972588,
+                            "timeSinceRoundStartMillis": 28220,
                             "killer": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -8673,14 +8672,14 @@
             "winningTeam": "Blue",
             "bombPlanter": null,
             "bombDefuser": null,
-            "plantRoundTime": 0,
+            "planttimeSinceRoundStartMillis": 0,
             "plantPlayerLocations": null,
             "plantLocation": {
                 "x": 0,
                 "y": 0
             },
             "plantSite": "",
-            "defuseRoundTime": 0,
+            "defusetimeSinceRoundStartMillis": 0,
             "defusePlayerLocations": null,
             "defuseLocation": {
                 "x": 0,
@@ -8729,8 +8728,8 @@
                     "puuid": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                     "kills": [
                         {
-                            "gameTime": 1042815,
-                            "roundTime": 33197,
+                            "timeSinceGameStartMillis": 1042815,
+                            "timeSinceRoundStartMillis": 33197,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -8803,8 +8802,8 @@
                             }
                         },
                         {
-                            "gameTime": 1049743,
-                            "roundTime": 40125,
+                            "timeSinceGameStartMillis": 1049743,
+                            "timeSinceRoundStartMillis": 40125,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -8922,8 +8921,8 @@
                     "puuid": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                     "kills": [
                         {
-                            "gameTime": 1025729,
-                            "roundTime": 16111,
+                            "timeSinceGameStartMillis": 1025729,
+                            "timeSinceRoundStartMillis": 16111,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -9012,8 +9011,8 @@
                             }
                         },
                         {
-                            "gameTime": 1049489,
-                            "roundTime": 39871,
+                            "timeSinceGameStartMillis": 1049489,
+                            "timeSinceRoundStartMillis": 39871,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -9140,8 +9139,8 @@
                     "puuid": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                     "kills": [
                         {
-                            "gameTime": 1042378,
-                            "roundTime": 32760,
+                            "timeSinceGameStartMillis": 1042378,
+                            "timeSinceRoundStartMillis": 32760,
                             "killer": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victim": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victimLocation": {
@@ -9336,7 +9335,7 @@
             "winningTeam": "Red",
             "bombPlanter": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
             "bombDefuser": null,
-            "plantRoundTime": 60522,
+            "planttimeSinceRoundStartMillis": 60522,
             "plantPlayerLocations": [
                 {
                     "puuid": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
@@ -9392,7 +9391,7 @@
                 "y": -6352
             },
             "plantSite": "B",
-            "defuseRoundTime": 0,
+            "defusetimeSinceRoundStartMillis": 0,
             "defusePlayerLocations": null,
             "defuseLocation": {
                 "x": 0,
@@ -9403,8 +9402,8 @@
                     "puuid": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                     "kills": [
                         {
-                            "gameTime": 1093875,
-                            "roundTime": 7101,
+                            "timeSinceGameStartMillis": 1093875,
+                            "timeSinceRoundStartMillis": 7101,
                             "killer": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -9528,8 +9527,8 @@
                     "puuid": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                     "kills": [
                         {
-                            "gameTime": 1116406,
-                            "roundTime": 29632,
+                            "timeSinceGameStartMillis": 1116406,
+                            "timeSinceRoundStartMillis": 29632,
                             "killer": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victim": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victimLocation": {
@@ -9594,8 +9593,8 @@
                             }
                         },
                         {
-                            "gameTime": 1180133,
-                            "roundTime": 93359,
+                            "timeSinceGameStartMillis": 1180133,
+                            "timeSinceRoundStartMillis": 93359,
                             "killer": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victim": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victimLocation": {
@@ -9729,8 +9728,8 @@
                     "puuid": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                     "kills": [
                         {
-                            "gameTime": 1127220,
-                            "roundTime": 40446,
+                            "timeSinceGameStartMillis": 1127220,
+                            "timeSinceRoundStartMillis": 40446,
                             "killer": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victim": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victimLocation": {
@@ -9837,8 +9836,8 @@
                     "puuid": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                     "kills": [
                         {
-                            "gameTime": 1108614,
-                            "roundTime": 21840,
+                            "timeSinceGameStartMillis": 1108614,
+                            "timeSinceRoundStartMillis": 21840,
                             "killer": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -9911,8 +9910,8 @@
                             }
                         },
                         {
-                            "gameTime": 1169997,
-                            "roundTime": 83223,
+                            "timeSinceGameStartMillis": 1169997,
+                            "timeSinceRoundStartMillis": 83223,
                             "killer": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victim": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victimLocation": {
@@ -9980,8 +9979,8 @@
                     "puuid": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                     "kills": [
                         {
-                            "gameTime": 1107447,
-                            "roundTime": 20673,
+                            "timeSinceGameStartMillis": 1107447,
+                            "timeSinceRoundStartMillis": 20673,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -10099,8 +10098,8 @@
                     "puuid": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                     "kills": [
                         {
-                            "gameTime": 1149218,
-                            "roundTime": 62444,
+                            "timeSinceGameStartMillis": 1149218,
+                            "timeSinceRoundStartMillis": 62444,
                             "killer": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -10159,8 +10158,8 @@
                             }
                         },
                         {
-                            "gameTime": 1167303,
-                            "roundTime": 80529,
+                            "timeSinceGameStartMillis": 1167303,
+                            "timeSinceRoundStartMillis": 80529,
                             "killer": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -10244,8 +10243,8 @@
                     "puuid": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                     "kills": [
                         {
-                            "gameTime": 1167362,
-                            "roundTime": 80588,
+                            "timeSinceGameStartMillis": 1167362,
+                            "timeSinceRoundStartMillis": 80588,
                             "killer": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victim": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victimLocation": {
@@ -10329,7 +10328,7 @@
             "winningTeam": "Red",
             "bombPlanter": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
             "bombDefuser": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
-            "plantRoundTime": 61019,
+            "planttimeSinceRoundStartMillis": 61019,
             "plantPlayerLocations": [
                 {
                     "puuid": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
@@ -10385,7 +10384,7 @@
                 "y": -6512
             },
             "plantSite": "A",
-            "defuseRoundTime": 101158,
+            "defusetimeSinceRoundStartMillis": 101158,
             "defusePlayerLocations": [
                 {
                     "puuid": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
@@ -10448,8 +10447,8 @@
                     "puuid": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                     "kills": [
                         {
-                            "gameTime": 1324915,
-                            "roundTime": 92751,
+                            "timeSinceGameStartMillis": 1324915,
+                            "timeSinceRoundStartMillis": 92751,
                             "killer": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victim": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victimLocation": {
@@ -10553,8 +10552,8 @@
                     "puuid": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                     "kills": [
                         {
-                            "gameTime": 1263133,
-                            "roundTime": 30969,
+                            "timeSinceGameStartMillis": 1263133,
+                            "timeSinceRoundStartMillis": 30969,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victimLocation": {
@@ -10637,8 +10636,8 @@
                             }
                         },
                         {
-                            "gameTime": 1282275,
-                            "roundTime": 50111,
+                            "timeSinceGameStartMillis": 1282275,
+                            "timeSinceRoundStartMillis": 50111,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -10703,8 +10702,8 @@
                             }
                         },
                         {
-                            "gameTime": 1313430,
-                            "roundTime": 81266,
+                            "timeSinceGameStartMillis": 1313430,
+                            "timeSinceRoundStartMillis": 81266,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victimLocation": {
@@ -10803,8 +10802,8 @@
                     "puuid": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                     "kills": [
                         {
-                            "gameTime": 1280070,
-                            "roundTime": 47906,
+                            "timeSinceGameStartMillis": 1280070,
+                            "timeSinceRoundStartMillis": 47906,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -11020,8 +11019,8 @@
                     "puuid": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                     "kills": [
                         {
-                            "gameTime": 1251481,
-                            "roundTime": 19317,
+                            "timeSinceGameStartMillis": 1251481,
+                            "timeSinceRoundStartMillis": 19317,
                             "killer": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victim": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victimLocation": {
@@ -11144,7 +11143,7 @@
             "winningTeam": "Red",
             "bombPlanter": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
             "bombDefuser": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
-            "plantRoundTime": 55964,
+            "planttimeSinceRoundStartMillis": 55964,
             "plantPlayerLocations": [
                 {
                     "puuid": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
@@ -11184,7 +11183,7 @@
                 "y": -7031
             },
             "plantSite": "A",
-            "defuseRoundTime": 87450,
+            "defusetimeSinceRoundStartMillis": 87450,
             "defusePlayerLocations": [
                 {
                     "puuid": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
@@ -11246,8 +11245,8 @@
                     "puuid": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                     "kills": [
                         {
-                            "gameTime": 1416186,
-                            "roundTime": 45839,
+                            "timeSinceGameStartMillis": 1416186,
+                            "timeSinceRoundStartMillis": 45839,
                             "killer": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -11383,8 +11382,8 @@
                     "puuid": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                     "kills": [
                         {
-                            "gameTime": 1420245,
-                            "roundTime": 49898,
+                            "timeSinceGameStartMillis": 1420245,
+                            "timeSinceRoundStartMillis": 49898,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victimLocation": {
@@ -11471,8 +11470,8 @@
                     "puuid": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                     "kills": [
                         {
-                            "gameTime": 1411321,
-                            "roundTime": 40974,
+                            "timeSinceGameStartMillis": 1411321,
+                            "timeSinceRoundStartMillis": 40974,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -11622,8 +11621,8 @@
                     "puuid": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                     "kills": [
                         {
-                            "gameTime": 1437045,
-                            "roundTime": 66698,
+                            "timeSinceGameStartMillis": 1437045,
+                            "timeSinceRoundStartMillis": 66698,
                             "killer": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -11692,8 +11691,8 @@
                     "puuid": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                     "kills": [
                         {
-                            "gameTime": 1393944,
-                            "roundTime": 23597,
+                            "timeSinceGameStartMillis": 1393944,
+                            "timeSinceRoundStartMillis": 23597,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victimLocation": {
@@ -11782,8 +11781,8 @@
                             }
                         },
                         {
-                            "gameTime": 1421966,
-                            "roundTime": 51619,
+                            "timeSinceGameStartMillis": 1421966,
+                            "timeSinceRoundStartMillis": 51619,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victimLocation": {
@@ -11832,8 +11831,8 @@
                             }
                         },
                         {
-                            "gameTime": 1444070,
-                            "roundTime": 73723,
+                            "timeSinceGameStartMillis": 1444070,
+                            "timeSinceRoundStartMillis": 73723,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victimLocation": {
@@ -11910,8 +11909,8 @@
                     "puuid": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                     "kills": [
                         {
-                            "gameTime": 1416067,
-                            "roundTime": 45720,
+                            "timeSinceGameStartMillis": 1416067,
+                            "timeSinceRoundStartMillis": 45720,
                             "killer": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victim": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victimLocation": {
@@ -12061,14 +12060,14 @@
             "winningTeam": "Red",
             "bombPlanter": null,
             "bombDefuser": null,
-            "plantRoundTime": 0,
+            "planttimeSinceRoundStartMillis": 0,
             "plantPlayerLocations": null,
             "plantLocation": {
                 "x": 0,
                 "y": 0
             },
             "plantSite": "",
-            "defuseRoundTime": 0,
+            "defusetimeSinceRoundStartMillis": 0,
             "defusePlayerLocations": null,
             "defuseLocation": {
                 "x": 0,
@@ -12079,8 +12078,8 @@
                     "puuid": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                     "kills": [
                         {
-                            "gameTime": 1551415,
-                            "roundTime": 56591,
+                            "timeSinceGameStartMillis": 1551415,
+                            "timeSinceRoundStartMillis": 56591,
                             "killer": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -12195,8 +12194,8 @@
                     "puuid": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                     "kills": [
                         {
-                            "gameTime": 1510056,
-                            "roundTime": 15232,
+                            "timeSinceGameStartMillis": 1510056,
+                            "timeSinceRoundStartMillis": 15232,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victimLocation": {
@@ -12277,8 +12276,8 @@
                             }
                         },
                         {
-                            "gameTime": 1510277,
-                            "roundTime": 15453,
+                            "timeSinceGameStartMillis": 1510277,
+                            "timeSinceRoundStartMillis": 15453,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victimLocation": {
@@ -12451,8 +12450,8 @@
                     "puuid": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                     "kills": [
                         {
-                            "gameTime": 1537551,
-                            "roundTime": 42727,
+                            "timeSinceGameStartMillis": 1537551,
+                            "timeSinceRoundStartMillis": 42727,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victimLocation": {
@@ -12503,8 +12502,8 @@
                             }
                         },
                         {
-                            "gameTime": 1553221,
-                            "roundTime": 58397,
+                            "timeSinceGameStartMillis": 1553221,
+                            "timeSinceRoundStartMillis": 58397,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victimLocation": {
@@ -12575,8 +12574,8 @@
                     "puuid": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                     "kills": [
                         {
-                            "gameTime": 1510367,
-                            "roundTime": 15543,
+                            "timeSinceGameStartMillis": 1510367,
+                            "timeSinceRoundStartMillis": 15543,
                             "killer": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -12641,8 +12640,8 @@
                             }
                         },
                         {
-                            "gameTime": 1533282,
-                            "roundTime": 38458,
+                            "timeSinceGameStartMillis": 1533282,
+                            "timeSinceRoundStartMillis": 38458,
                             "killer": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -12734,8 +12733,8 @@
                     "puuid": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                     "kills": [
                         {
-                            "gameTime": 1508301,
-                            "roundTime": 13477,
+                            "timeSinceGameStartMillis": 1508301,
+                            "timeSinceRoundStartMillis": 13477,
                             "killer": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -12858,14 +12857,14 @@
             "winningTeam": "Red",
             "bombPlanter": null,
             "bombDefuser": null,
-            "plantRoundTime": 0,
+            "planttimeSinceRoundStartMillis": 0,
             "plantPlayerLocations": null,
             "plantLocation": {
                 "x": 0,
                 "y": 0
             },
             "plantSite": "",
-            "defuseRoundTime": 0,
+            "defusetimeSinceRoundStartMillis": 0,
             "defusePlayerLocations": null,
             "defuseLocation": {
                 "x": 0,
@@ -12941,8 +12940,8 @@
                     "puuid": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                     "kills": [
                         {
-                            "gameTime": 1640472,
-                            "roundTime": 50223,
+                            "timeSinceGameStartMillis": 1640472,
+                            "timeSinceRoundStartMillis": 50223,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victimLocation": {
@@ -13007,8 +13006,8 @@
                             }
                         },
                         {
-                            "gameTime": 1641020,
-                            "roundTime": 50771,
+                            "timeSinceGameStartMillis": 1641020,
+                            "timeSinceRoundStartMillis": 50771,
                             "killer": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victim": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victimLocation": {
@@ -13148,8 +13147,8 @@
                     "puuid": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                     "kills": [
                         {
-                            "gameTime": 1600970,
-                            "roundTime": 10721,
+                            "timeSinceGameStartMillis": 1600970,
+                            "timeSinceRoundStartMillis": 10721,
                             "killer": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victim": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victimLocation": {
@@ -13238,8 +13237,8 @@
                             }
                         },
                         {
-                            "gameTime": 1629641,
-                            "roundTime": 39392,
+                            "timeSinceGameStartMillis": 1629641,
+                            "timeSinceRoundStartMillis": 39392,
                             "killer": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victim": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victimLocation": {
@@ -13426,8 +13425,8 @@
                     "puuid": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                     "kills": [
                         {
-                            "gameTime": 1613276,
-                            "roundTime": 23027,
+                            "timeSinceGameStartMillis": 1613276,
+                            "timeSinceRoundStartMillis": 23027,
                             "killer": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -13542,7 +13541,7 @@
             "winningTeam": "Red",
             "bombPlanter": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
             "bombDefuser": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
-            "plantRoundTime": 54571,
+            "planttimeSinceRoundStartMillis": 54571,
             "plantPlayerLocations": [
                 {
                     "puuid": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
@@ -13598,7 +13597,7 @@
                 "y": -6293
             },
             "plantSite": "B",
-            "defuseRoundTime": 74376,
+            "defusetimeSinceRoundStartMillis": 74376,
             "defusePlayerLocations": [
                 {
                     "puuid": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
@@ -13645,8 +13644,8 @@
                     "puuid": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                     "kills": [
                         {
-                            "gameTime": 1687418,
-                            "roundTime": 9371,
+                            "timeSinceGameStartMillis": 1687418,
+                            "timeSinceRoundStartMillis": 9371,
                             "killer": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victim": "lYznxzi0uZfchn1V9w3eXVyY5epEv09xhtv2L70updmSkuDT9v3WA9_4C77kUa57JVTpymgOYK___A",
                             "victimLocation": {
@@ -13735,8 +13734,8 @@
                             }
                         },
                         {
-                            "gameTime": 1687655,
-                            "roundTime": 9608,
+                            "timeSinceGameStartMillis": 1687655,
+                            "timeSinceRoundStartMillis": 9608,
                             "killer": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victim": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victimLocation": {
@@ -13898,8 +13897,8 @@
                     "puuid": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                     "kills": [
                         {
-                            "gameTime": 1734929,
-                            "roundTime": 56882,
+                            "timeSinceGameStartMillis": 1734929,
+                            "timeSinceRoundStartMillis": 56882,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -13956,8 +13955,8 @@
                             }
                         },
                         {
-                            "gameTime": 1739467,
-                            "roundTime": 61420,
+                            "timeSinceGameStartMillis": 1739467,
+                            "timeSinceRoundStartMillis": 61420,
                             "killer": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -14047,8 +14046,8 @@
                     "puuid": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                     "kills": [
                         {
-                            "gameTime": 1715781,
-                            "roundTime": 37734,
+                            "timeSinceGameStartMillis": 1715781,
+                            "timeSinceRoundStartMillis": 37734,
                             "killer": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victim": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victimLocation": {
@@ -14116,8 +14115,8 @@
                             }
                         },
                         {
-                            "gameTime": 1736145,
-                            "roundTime": 58098,
+                            "timeSinceGameStartMillis": 1736145,
+                            "timeSinceRoundStartMillis": 58098,
                             "killer": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victim": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victimLocation": {
@@ -14222,8 +14221,8 @@
                     "puuid": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                     "kills": [
                         {
-                            "gameTime": 1740843,
-                            "roundTime": 62796,
+                            "timeSinceGameStartMillis": 1740843,
+                            "timeSinceRoundStartMillis": 62796,
                             "killer": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -14284,8 +14283,8 @@
                     "puuid": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                     "kills": [
                         {
-                            "gameTime": 1690095,
-                            "roundTime": 12048,
+                            "timeSinceGameStartMillis": 1690095,
+                            "timeSinceRoundStartMillis": 12048,
                             "killer": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -14419,7 +14418,7 @@
             "winningTeam": "Blue",
             "bombPlanter": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
             "bombDefuser": null,
-            "plantRoundTime": 34920,
+            "planttimeSinceRoundStartMillis": 34920,
             "plantPlayerLocations": [
                 {
                     "puuid": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
@@ -14483,7 +14482,7 @@
                 "y": -6993
             },
             "plantSite": "A",
-            "defuseRoundTime": 0,
+            "defusetimeSinceRoundStartMillis": 0,
             "defusePlayerLocations": null,
             "defuseLocation": {
                 "x": 0,
@@ -14494,8 +14493,8 @@
                     "puuid": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                     "kills": [
                         {
-                            "gameTime": 1817753,
-                            "roundTime": 28299,
+                            "timeSinceGameStartMillis": 1817753,
+                            "timeSinceRoundStartMillis": 28299,
                             "killer": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victim": "8y8sI-uMwfGQol7AxxKd2NODLhtmVcuUTxxWMW5W0ypbY2MG1AtfZgm-JjkUWDiVLpUSiIqcFbrMhw",
                             "victimLocation": {
@@ -14570,8 +14569,8 @@
                             }
                         },
                         {
-                            "gameTime": 1836044,
-                            "roundTime": 46590,
+                            "timeSinceGameStartMillis": 1836044,
+                            "timeSinceRoundStartMillis": 46590,
                             "killer": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victim": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victimLocation": {
@@ -14620,8 +14619,8 @@
                             }
                         },
                         {
-                            "gameTime": 1849929,
-                            "roundTime": 60475,
+                            "timeSinceGameStartMillis": 1849929,
+                            "timeSinceRoundStartMillis": 60475,
                             "killer": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
                             "victim": "KLFOItXyIr_jTtb7tm9zYfeD3zWroqfiffvjC3y8p3VsGucGlDLiqZQcdPOJYtDajXQXp7PUON49BA",
                             "victimLocation": {
@@ -14711,8 +14710,8 @@
                     "puuid": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                     "kills": [
                         {
-                            "gameTime": 1825429,
-                            "roundTime": 35975,
+                            "timeSinceGameStartMillis": 1825429,
+                            "timeSinceRoundStartMillis": 35975,
                             "killer": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victim": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victimLocation": {
@@ -14777,8 +14776,8 @@
                             }
                         },
                         {
-                            "gameTime": 1827214,
-                            "roundTime": 37760,
+                            "timeSinceGameStartMillis": 1827214,
+                            "timeSinceRoundStartMillis": 37760,
                             "killer": "qsOp_xCRT88-K4BcSe86N4xCFBDLQZqtFqI8KymaFo08Fsd4gpZN9jsa3Ml4-LYnMkbrUYPp4xa2mA",
                             "victim": "kPJxRfbwF30yKgmvKR9fheC9aSxi8WhwMCqII1aienbYmzwoCqt-cweR3rOkLCgprMeyK_tCKfpUxQ",
                             "victimLocation": {
@@ -14870,8 +14869,8 @@
                     "puuid": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                     "kills": [
                         {
-                            "gameTime": 1797392,
-                            "roundTime": 7938,
+                            "timeSinceGameStartMillis": 1797392,
+                            "timeSinceRoundStartMillis": 7938,
                             "killer": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
                             "victim": "klMaK9W6xRe9rfgaEw1NsgFoadB9gHuzuTRQ5uMMmboOQWOp1PDt9oTWNoU-Jzh0cCOVswUehR15jw",
                             "victimLocation": {
@@ -15130,8 +15129,8 @@
                     "puuid": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                     "kills": [
                         {
-                            "gameTime": 1813289,
-                            "roundTime": 23835,
+                            "timeSinceGameStartMillis": 1813289,
+                            "timeSinceRoundStartMillis": 23835,
                             "killer": "jIIHlfxAC0X1BG9h0GXdrwWbhj27enPrf3z05N5E8eqKjfx8aWvvP9UKoNAY8Tq0_5P3gUQqVZireA",
                             "victim": "ZWZzoJVQfkjCHbOLn365kzb6FNNnCfshoiwgo-lN3DU5pRM1wOPuEMjeQsf3SQONb1-LvxtVnGBleQ",
                             "victimLocation": {
@@ -15273,7 +15272,7 @@
             "winningTeam": "Blue",
             "bombPlanter": "jZ25ygzS-b-M7IzOWDk05IbC70gZgWt80yEa7BjZAmItq5xPV94y9Z4RzpIOC-Gs9cGSbPZoDuCDJQ",
             "bombDefuser": null,
-            "plantRoundTime": 28756,
+            "planttimeSinceRoundStartMillis": 28756,
             "plantPlayerLocations": [
                 {
                     "puuid": "uiF1Yw-YdVdmdyP5fV5h0sWgcL52Pn2zlJPBKKOlUifjYCkNRUitbSBRKkDtsWAtV0CVxzBJZOzzxA",
@@ -15299,9 +15298,7 @@
                         "y": -4690
                     }
                 }
-
             ]
         }
     ]
 }
-    

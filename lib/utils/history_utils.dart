@@ -34,14 +34,19 @@ class HistoryUtils {
   // Methods related to extracting player details
   static PlayerStats extractPlayerStat(
       Map<String, dynamic> matchDetail, String puuid) {
-    return PlayerStats.fromJsonWithKD(matchDetail['players']
-        .firstWhere((player) => player['puuid'] == puuid)['stats']);
+    return PlayerStats.fromJsonWithKD(
+        matchDetail['players']
+            .firstWhere((player) => player['puuid'] == puuid)['stats'],
+        getPlayerTrades(matchDetail, puuid));
   }
 
   static List<PlayerRoundStats> extractPlayerRoundStats(
       Map<String, dynamic> matchDetail, String puuid) {
-    return matchDetail['roundResults']
-        .where((roundResult) => roundResult['puuid'] == puuid)
+    print('Length of round results: ${getRoundResults(matchDetail).length}');
+    return getRoundResults(matchDetail)
+        .expand((roundResult) => (roundResult['playerStats'] as List<dynamic>)
+            .where((playerStat) => playerStat['puuid'] == puuid))
+        .map((playerStat) => PlayerRoundStats.fromJson(playerStat))
         .toList();
   }
 
@@ -91,21 +96,31 @@ class HistoryUtils {
     Map<String, Map<int, List<KillDto>>> puuidToRoundToPlayerKills = {};
 
     for (String puuid in puuids) {
-      Map<int, List<KillDto>> roundToPlayerKills = {};
-      List<PlayerRoundStats> playerRoundStats =
-          extractPlayerRoundStats(matchDetail, puuid);
-      for (int index = 0; index < playerRoundStats.length; index++) {
-        PlayerRoundStats playerRoundStat = playerRoundStats[index];
-        if (playerRoundStat.kills.isNotEmpty) {
-          roundToPlayerKills[index] = playerRoundStat.kills;
-        } else {
-          roundToPlayerKills[index] = [];
-        }
-      }
-      puuidToRoundToPlayerKills[puuid] = roundToPlayerKills;
+      puuidToRoundToPlayerKills[puuid] = extractPlayerKills(matchDetail, puuid);
     }
 
     return puuidToRoundToPlayerKills;
+  }
+
+  static Map<int, List<KillDto>> extractPlayerAssists(
+      Map<String, dynamic> matchDetail,
+      List<String> alliedPUUIDs,
+      String playerPUUID) {
+    Map<String, Map<int, List<KillDto>>> roundToPlayerKills =
+        extractMultiplePlayerKills(matchDetail, alliedPUUIDs);
+    Map<int, List<KillDto>> killsPlayerAssistedOn = {};
+
+    for (Map<int, List<KillDto>> alliedKillsMap in roundToPlayerKills.values) {
+      for (int round in alliedKillsMap.keys) {
+        killsPlayerAssistedOn[round] = [];
+        for (KillDto alliedKill in alliedKillsMap[round]!) {
+          if (alliedKill.assistants.contains(playerPUUID)) {
+            killsPlayerAssistedOn[round]!.add(alliedKill);
+          }
+        }
+      }
+    }
+    return killsPlayerAssistedOn;
   }
 
   static Map<int, List<KillDto>> extractRoundDeathsByPUUID(
@@ -118,11 +133,11 @@ class HistoryUtils {
       roundToDeathListMap[roundIndex] =
           []; // Initialize an empty list for each round
       var roundResult = roundResults[roundIndex];
-      for (PlayerRoundStats playerStat in roundResult['playerStats']) {
+      for (var playerStatMap in roundResult['playerStats']) {
+        PlayerRoundStats playerStat = PlayerRoundStats.fromJson(playerStatMap);
         if (enemyTeamPUUIDS.contains(playerStat.puuid)) {
           for (KillDto kill in playerStat.kills) {
             if (kill.victim == puuid) {
-              print('I killed you: ${playerStat.puuid}');
               roundToDeathListMap[roundIndex]!.add(kill);
             }
           }
@@ -150,7 +165,6 @@ class HistoryUtils {
           if (enemyTeamPUUIDS.contains(playerStat.puuid)) {
             for (KillDto kill in playerStat.kills) {
               if (kill.victim == puuid) {
-                print('I killed you: ${playerStat.puuid}');
                 puuidsToKillListMap[puuid]![roundIndex]!.add(kill);
               }
             }
@@ -162,20 +176,39 @@ class HistoryUtils {
     return puuidsToKillListMap;
   }
 
-  static int getPlayerTrades(Map<String, dynamic> matchDetail, String puuid) {
+  // TODO: REFACTORRR THIS IS BAD
+  static Map<int, List<KillDto>> getPlayerTrades(
+      Map<String, dynamic> matchDetail, String puuid) {
     List<String> playerteamPUUIDs = extractPlayerTeamPUUIDs(matchDetail, puuid);
     Map<int, List<KillDto>> playerDeaths =
         extractRoundDeathsByPUUID(matchDetail, puuid);
-    Map<String, Map<int, List<KillDto>>> playerKills =
+    Map<String, Map<int, List<KillDto>>> alliedPlayersKills =
         extractMultiplePlayerKills(matchDetail, playerteamPUUIDs);
 
-    int trades = 0;
+    Map<int, List<KillDto>> trades = {};
 
-    for (List<KillDto> playerDeathList in playerDeaths.values) {
-      for (KillDto playerDeath in playerDeathList) {
-        int playerDeathTime = playerDeath.roundTime;
+    for (int round in playerDeaths.keys) {
+      trades[round] = [];
+      for (KillDto playerDeath in playerDeaths[round]!) {
+        for (Map<int, List<KillDto>> alliedPlayerKills
+            in alliedPlayersKills.values) {
+          if (alliedPlayerKills[round] != null) {
+            for (KillDto alliedKill in alliedPlayerKills[round]!) {
+              if (alliedKill.victim != playerDeath.killer) continue;
+              int timeDiff = (playerDeath.timeSinceRoundStartMillis -
+                      alliedKill.timeSinceRoundStartMillis)
+                  .abs();
+
+              if (timeDiff <= 10000) {
+                trades[round]!.add(alliedKill);
+              }
+            }
+          }
+        }
       }
     }
+
+    return trades;
   }
 
   static List<String> extractEnemyTeamPUUIDs(
@@ -256,6 +289,10 @@ class HistoryUtils {
       roundResults.add(roundResult);
     }
     return roundResults;
+  }
+
+  static int getNumberOfRounds(Map<String, dynamic> matchDetail) {
+    return getRoundResults(matchDetail).length;
   }
 
   static Map<String, dynamic> extractRoundResultPerTeam(

@@ -82,6 +82,10 @@ class TeamDetailsTable extends StatelessWidget {
                               )),
                               const DataColumn(
                                   label: Expanded(
+                                child: Text('T'),
+                              )),
+                              const DataColumn(
+                                  label: Expanded(
                                 child: Text('ADR'),
                               )),
                               const DataColumn(

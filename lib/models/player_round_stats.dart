@@ -29,8 +29,8 @@ class PlayerRoundStats {
 }
 
 class KillDto {
-  int gameTime;
-  int roundTime;
+  int timeSinceGameStartMillis;
+  int timeSinceRoundStartMillis;
   String killer;
   String victim;
   LocationDto victimLocation;
@@ -39,8 +39,8 @@ class KillDto {
   FinishingDamageDto finishingDamage;
 
   KillDto({
-    required this.gameTime,
-    required this.roundTime,
+    required this.timeSinceGameStartMillis,
+    required this.timeSinceRoundStartMillis,
     required this.killer,
     required this.victim,
     required this.victimLocation,
@@ -51,8 +51,8 @@ class KillDto {
 
   factory KillDto.fromJson(Map<String, dynamic> json) {
     return KillDto(
-      gameTime: json['gameTime'],
-      roundTime: json['roundTime'],
+      timeSinceGameStartMillis: json['timeSinceGameStartMillis'],
+      timeSinceRoundStartMillis: json['timeSinceRoundStartMillis'],
       killer: json['killer'],
       victim: json['victim'],
       victimLocation: LocationDto.fromJson(json['victimLocation']),
@@ -175,23 +175,24 @@ class DamageDto {
 }
 
 class AbilityDto {
-  String grenadeEffects;
-  String ability1Effects;
-  String ability2Effects;
-  String ultimateEffects;
+  String? grenadeEffects;
+  String? ability1Effects;
+  String? ability2Effects;
+  String? ultimateEffects;
 
   AbilityDto({
-    required this.grenadeEffects,
-    required this.ability1Effects,
-    required this.ability2Effects,
-    required this.ultimateEffects,
+    this.grenadeEffects,
+    this.ability1Effects,
+    this.ability2Effects,
+    this.ultimateEffects,
   });
+
   factory AbilityDto.fromJson(Map<String, dynamic> json) {
     return AbilityDto(
-      grenadeEffects: json['grenadeEffects'],
-      ability1Effects: json['ability1Effects'],
-      ability2Effects: json['ability2Effects'],
-      ultimateEffects: json['ultimateEffects'],
+      grenadeEffects: json['grenadeEffects'] ?? '',
+      ability1Effects: json['ability1Effects'] ?? '',
+      ability2Effects: json['ability2Effects'] ?? '',
+      ultimateEffects: json['ultimateEffects'] ?? '',
     );
   }
 }
