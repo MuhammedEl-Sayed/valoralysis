@@ -14,11 +14,23 @@ class PlayerRoundStats {
     required this.economy,
     required this.ability,
   });
+
+  factory PlayerRoundStats.fromJson(Map<String, dynamic> json) {
+    return PlayerRoundStats(
+      puuid: json['puuid'],
+      kills: (json['kills'] as List).map((e) => KillDto.fromJson(e)).toList(),
+      damage:
+          (json['damage'] as List).map((e) => DamageDto.fromJson(e)).toList(),
+      score: json['score'],
+      economy: EconomyDto.fromJson(json['economy']),
+      ability: AbilityDto.fromJson(json['ability']),
+    );
+  }
 }
 
 class KillDto {
-  int timeSinceGameStartMillis;
-  int timeSinceRoundStartMillis;
+  int gameTime;
+  int roundTime;
   String killer;
   String victim;
   LocationDto victimLocation;
@@ -27,8 +39,8 @@ class KillDto {
   FinishingDamageDto finishingDamage;
 
   KillDto({
-    required this.timeSinceGameStartMillis,
-    required this.timeSinceRoundStartMillis,
+    required this.gameTime,
+    required this.roundTime,
     required this.killer,
     required this.victim,
     required this.victimLocation,
@@ -36,6 +48,21 @@ class KillDto {
     required this.playerLocations,
     required this.finishingDamage,
   });
+
+  factory KillDto.fromJson(Map<String, dynamic> json) {
+    return KillDto(
+      gameTime: json['gameTime'],
+      roundTime: json['roundTime'],
+      killer: json['killer'],
+      victim: json['victim'],
+      victimLocation: LocationDto.fromJson(json['victimLocation']),
+      assistants: List<String>.from(json['assistants']),
+      playerLocations: (json['playerLocations'] as List)
+          .map((e) => PlayerLocationsDto.fromJson(e))
+          .toList(),
+      finishingDamage: FinishingDamageDto.fromJson(json['finishingDamage']),
+    );
+  }
 }
 
 class EconomyDto {
@@ -52,6 +79,16 @@ class EconomyDto {
     required this.remaining,
     required this.spent,
   });
+
+  factory EconomyDto.fromJson(Map<String, dynamic> json) {
+    return EconomyDto(
+      loadoutValue: json['loadoutValue'],
+      weapon: json['weapon'],
+      armor: json['armor'],
+      remaining: json['remaining'],
+      spent: json['spent'],
+    );
+  }
 }
 
 class FinishingDamageDto {
@@ -64,6 +101,14 @@ class FinishingDamageDto {
     required this.damageItem,
     required this.isSecondaryFireMode,
   });
+
+  factory FinishingDamageDto.fromJson(Map<String, dynamic> json) {
+    return FinishingDamageDto(
+      damageType: json['damageType'],
+      damageItem: json['damageItem'],
+      isSecondaryFireMode: json['isSecondaryFireMode'],
+    );
+  }
 }
 
 class LocationDto {
@@ -74,6 +119,13 @@ class LocationDto {
     required this.x,
     required this.y,
   });
+
+  factory LocationDto.fromJson(Map<String, dynamic> json) {
+    return LocationDto(
+      x: json['x'],
+      y: json['y'],
+    );
+  }
 }
 
 class PlayerLocationsDto {
@@ -86,6 +138,14 @@ class PlayerLocationsDto {
     required this.viewRadians,
     required this.location,
   });
+
+  factory PlayerLocationsDto.fromJson(Map<String, dynamic> json) {
+    return PlayerLocationsDto(
+      puuid: json['puuid'],
+      viewRadians: json['viewRadians'],
+      location: LocationDto.fromJson(json['location']),
+    );
+  }
 }
 
 class DamageDto {
@@ -102,6 +162,16 @@ class DamageDto {
     required this.bodyshots,
     required this.headshots,
   });
+
+  factory DamageDto.fromJson(Map<String, dynamic> json) {
+    return DamageDto(
+      receiver: json['receiver'],
+      damage: json['damage'],
+      legshots: json['legshots'],
+      bodyshots: json['bodyshots'],
+      headshots: json['headshots'],
+    );
+  }
 }
 
 class AbilityDto {
@@ -116,4 +186,12 @@ class AbilityDto {
     required this.ability2Effects,
     required this.ultimateEffects,
   });
+  factory AbilityDto.fromJson(Map<String, dynamic> json) {
+    return AbilityDto(
+      grenadeEffects: json['grenadeEffects'],
+      ability1Effects: json['ability1Effects'],
+      ability2Effects: json['ability2Effects'],
+      ultimateEffects: json['ultimateEffects'],
+    );
+  }
 }

@@ -69,7 +69,7 @@ class HistoryUtils {
     return '${player['gameName']}#${player['tagLine']}';
   }
 
-  static Map<int, List<KillDto>> extractKilledPlayers(
+  static Map<int, List<KillDto>> extractPlayerKills(
       Map<String, dynamic> matchDetail, String puuid) {
     Map<int, List<KillDto>> roundToPlayerKills = {};
     List<PlayerRoundStats> playerRoundStats =
@@ -86,66 +86,121 @@ class HistoryUtils {
     return roundToPlayerKills;
   }
 
-  static Map<String, List<KillDto>> extractRoundDeaths(
+  static Map<String, Map<int, List<KillDto>>> extractMultiplePlayerKills(
+      Map<String, dynamic> matchDetail, List<String> puuids) {
+    Map<String, Map<int, List<KillDto>>> puuidToRoundToPlayerKills = {};
+
+    for (String puuid in puuids) {
+      Map<int, List<KillDto>> roundToPlayerKills = {};
+      List<PlayerRoundStats> playerRoundStats =
+          extractPlayerRoundStats(matchDetail, puuid);
+      for (int index = 0; index < playerRoundStats.length; index++) {
+        PlayerRoundStats playerRoundStat = playerRoundStats[index];
+        if (playerRoundStat.kills.isNotEmpty) {
+          roundToPlayerKills[index] = playerRoundStat.kills;
+        } else {
+          roundToPlayerKills[index] = [];
+        }
+      }
+      puuidToRoundToPlayerKills[puuid] = roundToPlayerKills;
+    }
+
+    return puuidToRoundToPlayerKills;
+  }
+
+  static Map<int, List<KillDto>> extractRoundDeathsByPUUID(
       Map<String, dynamic> matchDetail, String puuid) {
-        Map<String, List<KillDto>> puuidToKillListMap = {};
+    Map<int, List<KillDto>> roundToDeathListMap = {};
     List<String> enemyTeamPUUIDS = extractEnemyTeamPUUIDs(matchDetail, puuid);
     List<Map<String, dynamic>> roundResults = getRoundResults(matchDetail);
 
-
-    for(var roundResult in roundResults){
-      for(PlayerRoundStats playerStat in roundResult['playerStats']){
-        if(enemyTeamPUUIDS.contains(playerStat.puuid)){
-          for(KillDto kill in playerStat.kills){
-            if(kill.victim == puuid){
-              print('I killed you bitch: ${playerStat.puuid}');
-                puuidToKillListMap[playerStat.puuid]!.add(kill);
+    for (int roundIndex = 0; roundIndex < roundResults.length; roundIndex++) {
+      roundToDeathListMap[roundIndex] =
+          []; // Initialize an empty list for each round
+      var roundResult = roundResults[roundIndex];
+      for (PlayerRoundStats playerStat in roundResult['playerStats']) {
+        if (enemyTeamPUUIDS.contains(playerStat.puuid)) {
+          for (KillDto kill in playerStat.kills) {
+            if (kill.victim == puuid) {
+              print('I killed you: ${playerStat.puuid}');
+              roundToDeathListMap[roundIndex]!.add(kill);
             }
           }
         }
-
       }
     }
 
-    return puuidToKillListMap;
-    
+    return roundToDeathListMap;
   }
 
-  static bool getPlayerTrades(Map<String, dynamic> matchDetail, String puuid){
-    /*
-      So to do this. We need to find a round with a dead teammate. 
-      Then we check if KilledPlayers map has a list at index of that round with dead teammate.
-      If so, check if any of them are the one who killed dead teammate. 
-      Then check if the time was less than 3s. then return true
-    */
-  
-    // ! Potential optimization, make plural version of extractRoundDeaths and make it a
-    
+  static Map<String, Map<int, List<KillDto>>> extractRoundDeathsByPUUIDs(
+      Map<String, dynamic> matchDetail, List<String> puuids) {
+    Map<String, Map<int, List<KillDto>>> puuidsToKillListMap = {};
+    List<String> enemyTeamPUUIDS =
+        extractEnemyTeamPUUIDs(matchDetail, puuids[0]);
+    List<Map<String, dynamic>> roundResults = getRoundResults(matchDetail);
 
+    for (String puuid in puuids) {
+      puuidsToKillListMap[puuid] = {};
+      for (int roundIndex = 0; roundIndex < roundResults.length; roundIndex++) {
+        puuidsToKillListMap[puuid]![roundIndex] =
+            []; // Initialize an empty list for each round
+        var roundResult = roundResults[roundIndex];
+        for (PlayerRoundStats playerStat in roundResult['playerStats']) {
+          if (enemyTeamPUUIDS.contains(playerStat.puuid)) {
+            for (KillDto kill in playerStat.kills) {
+              if (kill.victim == puuid) {
+                print('I killed you: ${playerStat.puuid}');
+                puuidsToKillListMap[puuid]![roundIndex]!.add(kill);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return puuidsToKillListMap;
   }
 
-  static List<String> extractEnemyTeamPUUIDs(Map<String, dynamic> matchDetail, String puuid) {
+  static int getPlayerTrades(Map<String, dynamic> matchDetail, String puuid) {
+    List<String> playerteamPUUIDs = extractPlayerTeamPUUIDs(matchDetail, puuid);
+    Map<int, List<KillDto>> playerDeaths =
+        extractRoundDeathsByPUUID(matchDetail, puuid);
+    Map<String, Map<int, List<KillDto>>> playerKills =
+        extractMultiplePlayerKills(matchDetail, playerteamPUUIDs);
+
+    int trades = 0;
+
+    for (List<KillDto> playerDeathList in playerDeaths.values) {
+      for (KillDto playerDeath in playerDeathList) {
+        int playerDeathTime = playerDeath.roundTime;
+      }
+    }
+  }
+
+  static List<String> extractEnemyTeamPUUIDs(
+      Map<String, dynamic> matchDetail, String puuid) {
     String userTeam = extractTeamIdFromPUUID(matchDetail, puuid);
     List<String> enemyTeamPUUIDs = [];
-    for(var player in matchDetail['players']){
-      if(player['teamId'] != userTeam) {
+    for (var player in matchDetail['players']) {
+      if (player['teamId'] != userTeam) {
         enemyTeamPUUIDs.add(player['puuid']);
       }
     }
     return enemyTeamPUUIDs;
   }
 
-    static List<String> extractPlayerTeamPUUIDs(  Map<String, dynamic> matchDetail, String puuid) {
-     String userTeam = extractTeamIdFromPUUID(matchDetail, puuid);
+  static List<String> extractPlayerTeamPUUIDs(
+      Map<String, dynamic> matchDetail, String puuid) {
+    String userTeam = extractTeamIdFromPUUID(matchDetail, puuid);
     List<String> playerTeamPUUIDs = [];
-    for(var player in matchDetail['players']){
-      if(player['teamId'] == userTeam) {
+    for (var player in matchDetail['players']) {
+      if (player['teamId'] == userTeam && player['puuid'] != puuid) {
         playerTeamPUUIDs.add(player['puuid']);
       }
     }
     return playerTeamPUUIDs;
   }
-
 
   // Methods related to extracting content details
   static getContentImageFromId(String puuid, List<ContentItem> content) {
@@ -192,8 +247,6 @@ class HistoryUtils {
     }
     return roundWinsPerTeam;
   }
-
-  static
 
   // Methods related to extracting round results
   static List<Map<String, dynamic>> getRoundResults(
