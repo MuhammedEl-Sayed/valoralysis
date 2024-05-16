@@ -1,7 +1,5 @@
 const updateMessages = [
-  "- Added borders within the table.",
-  "- Switched the input to be a search bar that saves your history.",
-  "- Now we save history to your device locally.",
-  "- Performance improvements.",
-  "- Added KAST score calculation."
+  "- Added KAST score calculation.",
+  "- Fixed mismatched column header background size."
+      "- Fixed some issues with matches preventing the table from showing."
 ];
