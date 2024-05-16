@@ -39,7 +39,7 @@ class TeamDetailsTable extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: Stack(children: [
                         Container(
-                          width: constraints.maxWidth + 110,
+                          width: constraints.maxWidth + 140,
                           height: 26,
                           color: Theme.of(context).canvasColor,
                         ),

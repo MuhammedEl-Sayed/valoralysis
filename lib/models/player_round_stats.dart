@@ -142,7 +142,9 @@ class PlayerLocationsDto {
   factory PlayerLocationsDto.fromJson(Map<String, dynamic> json) {
     return PlayerLocationsDto(
       puuid: json['puuid'],
-      viewRadians: json['viewRadians'],
+      viewRadians: json['viewRadians'] is int
+          ? (json['viewRadians'] as int).toDouble()
+          : json['viewRadians'],
       location: LocationDto.fromJson(json['location']),
     );
   }
