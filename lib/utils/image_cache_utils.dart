@@ -19,7 +19,7 @@ class ImageCacheUtils {
 
   // What I need to be able to do is convert an image back and forth between sha256
 
-  static String encryptImage(File file) {
+  static String generateImageHash(File file) {
     String imageBytes = file.readAsBytesSync().toString();
     var bytes = utf8.encode(imageBytes);
     String digest = sha256.convert(bytes).toString();

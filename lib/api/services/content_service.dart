@@ -1,8 +1,8 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:valoralysis/api/services/agent_service.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:valoralysis/api/services/auth_service.dart';
-import 'package:valoralysis/api/services/rank_service.dart';
-import 'package:valoralysis/api/services/weapons_service.dart';
 import 'package:valoralysis/models/agent.dart';
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/rank.dart';
@@ -15,7 +15,7 @@ class ContentService {
       var response = await dio.get('/val/content/v1/contents?locale=en-US');
       List<AgentIconMap> agentIcons = await getAgentIcons();
       List<Rank> ranks = await getRanks();
-      List<WeaponItem> weapons = await WeaponsService.fetchWeaponData();
+      List<WeaponItem> weapons = await fetchWeaponData();
       return await Content.fromJson(response.data,
           agentIcons: agentIcons, ranks: ranks, weapons: weapons);
     } catch (e) {
@@ -23,6 +23,7 @@ class ContentService {
       rethrow;
     }
   }
+
   static Future<List<AgentIconMap>> getAgentIcons() async {
     Dio dio = Dio();
     try {
@@ -37,7 +38,7 @@ class ContentService {
     }
   }
 
-    static Future<List<Rank>> getRanks() async {
+  static Future<List<Rank>> getRanks() async {
     Dio dio = Dio();
     try {
       var response =
@@ -72,9 +73,26 @@ class ContentService {
     }
   }
 
-  static Future<File> fetchContentFile() async {
-    try{
+  static Future<File> fetchImageFile(String url, String id) async {
+    Dio dio = Dio();
 
+    try {
+      var response = await dio.get(url);
+      var documentDirectory = await getApplicationDocumentsDirectory();
+      var firstPath = "${documentDirectory.path}/images";
+      var filePathAndName = '${documentDirectory.path}/images/$id.png';
+
+      await Directory(firstPath).create(recursive: true);
+      File file2 = File(filePathAndName);
+      if (response.data is List<int>) {
+        file2.writeAsBytesSync(response.data);
+        return file2;
+      } else {
+        return File('');
+      }
+    } catch (e) {
+      print(e);
+      return File('');
     }
   }
 }

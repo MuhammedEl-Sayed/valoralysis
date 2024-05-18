@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:valoralysis/api/services/content_service.dart';
 import 'package:valoralysis/models/content.dart';
@@ -66,20 +64,29 @@ class ContentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _updateImageCacheForItem(ContentItem item) async {
-    if (!_imageCache.containsKey(item.id) ||
-        _imageCache[item.id]![0] != item.iconUrl) {
-      var file = await _downloadImage(item.iconUrl as String);
+  Future<void> _updateImageCacheForItem(var item) async {
+    String id;
+    String iconUrl;
+
+    if (item is WeaponItem) {
+      id = item.puuid;
+      iconUrl = item.iconUrl ?? '';
+    } else if (item is Rank) {
+      id = item.tier.toString();
+      iconUrl = item.rankIcons
+          .smallIcon; // or item.rankIcons.largeIcon depending on your needs
+    } else {
+      id = item.id;
+      iconUrl = item.iconUrl;
+    }
+
+    if (!_imageCache.containsKey(id) || _imageCache[id]![0] != iconUrl) {
+      var file = await ContentService.fetchImageFile(iconUrl, id);
       var hash = ImageCacheUtils.generateImageHash(file);
       var path = file.path;
 
-      _imageCache[item.id] = [hash, path];
+      _imageCache[id] = [hash, path];
     }
-  }
-
-  Future<File> _downloadImage(String url) {
-    // Implement this method to download an image from the given URL and return
-    // the File where it is stored on the device.
   }
 
   String getImagePath(String puuid) {
