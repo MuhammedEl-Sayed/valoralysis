@@ -1,5 +1,6 @@
-import 'package:valoralysis/models/content.dart';
 import 'dart:math';
+
+import 'package:valoralysis/models/content.dart';
 
 class WeaponsUtils {
   static List<dynamic> getPlayerStats(
@@ -54,7 +55,7 @@ class WeaponsUtils {
   static Map<String, double> getKDPerWeapon(
       List<Map<String, dynamic>> matchDetails,
       String puuid,
-      List<WeaponItem> weapons) {
+      List<ContentItem> weapons) {
     List<dynamic> playerKills = getPlayerStats(matchDetails, puuid, 'kills');
     List<dynamic> finishingDamage = [];
     for (dynamic kill in playerKills) {
@@ -63,10 +64,10 @@ class WeaponsUtils {
       }
     }
     Map<String, double> kdPerWeapon = {};
-    for (WeaponItem weapon in weapons) {
+    for (ContentItem weapon in weapons) {
       double kd = 0;
       kd += finishingDamage
-          .where((damage) => damage['damageItem'] == weapon.puuid)
+          .where((damage) => damage['damageItem'] == weapon.uuid)
           .toList()
           .length;
     }

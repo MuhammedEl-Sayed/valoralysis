@@ -239,7 +239,7 @@ class HistoryUtils {
   static getContentImageFromId(String puuid, List<ContentItem> content) {
     print('puuid $puuid');
     print('content: $content');
-    return content.firstWhere((item) => item.id == puuid).iconUrl;
+    return content.firstWhere((item) => item.uuid == puuid).iconUrl;
   }
 
   static getContentImageFromName(String name, List<ContentItem> content) {
@@ -248,7 +248,7 @@ class HistoryUtils {
 
   static getContentTextFromId(String puuid, List<ContentItem> content) {
     try {
-      var result = content.firstWhere((item) => item.id == puuid);
+      var result = content.firstWhere((item) => item.uuid == puuid);
       return result.name;
     } catch (e) {
       return null;
@@ -321,14 +321,10 @@ class HistoryUtils {
   static List<Map<String, dynamic>> filterMatchDetails(
       List<Map<String, dynamic>> matchDetails,
       String? puuid,
-      Object filter,
+      ContentItem filter,
       String filterType) {
-    String id = '';
-    if (filter is ContentItem) {
-      id = filter.id;
-    } else if (filter is WeaponItem) {
-      id = filter.puuid;
-    }
+    String id = filter.uuid;
+
     if (id.isNotEmpty) {
       switch (filterType) {
         case 'maps':

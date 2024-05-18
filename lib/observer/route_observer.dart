@@ -6,14 +6,6 @@ class MyRouteObserver extends RouteObserver<PageRoute<dynamic>> {
 
   MyRouteObserver({required this.navigationProvider});
 
-  void _sendScreenView(PageRoute<dynamic> route) {
-    var screenName = route.settings.name;
-    // print('screenName $screenName');
-    navigationProvider.setScreenName(screenName!);
-
-    // do something with it, ie. send it to your analytics service collector
-  }
-
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPush(route, previousRoute);

@@ -11,11 +11,11 @@ class FormattingUtils {
   }
 
   static String convertContentIdToName(List<ContentItem> content, String id) {
-    return content.firstWhere((item) => item.id == id).name;
+    return content.firstWhere((item) => item.uuid == id).name;
   }
 
-  static String convertWeaponIdToName(List<WeaponItem> content, String id) {
-    return content.firstWhere((item) => item.puuid == id).name;
+  static String convertWeaponIdToName(List<ContentItem> content, String id) {
+    return content.firstWhere((item) => item.uuid == id).name;
   }
 
   static String convertShotToPercentage(

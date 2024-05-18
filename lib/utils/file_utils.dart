@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/user.dart';
 
 class FileUtils {
@@ -85,11 +86,11 @@ class FileUtils {
     file.writeAsString('');
   }
 
-  static Future<int> writeImageMap(Map<String, List<String>> imageMap) async {
+  static Future<int> writeImageMap(Content content) async {
     try {
       final file = await _localImageMapFile;
 
-      file.writeAsString(jsonEncode(imageMap));
+      file.writeAsString(jsonEncode(content));
 
       return 0;
     } catch (e) {
@@ -98,7 +99,7 @@ class FileUtils {
     }
   }
 
-  static Future<Map<String, List<String>>> readImageMap() async {
+  static Future<Content> readImageMap() async {
     try {
       final file = await _localImageMapFile;
 
@@ -106,19 +107,51 @@ class FileUtils {
       final contents = await file.readAsString();
 
       if (contents.isEmpty) {
-        return {};
+        return Content(
+          maps: [],
+          agents: [],
+          gameModes: [],
+          acts: [],
+          ranks: [],
+          weapons: [],
+        );
       }
 
-      Map<String, dynamic> decodedJson = jsonDecode(contents);
-      Map<String, List<String>> imageMap = decodedJson
-          .map((key, value) => MapEntry(key, List<String>.from(value)));
+      Map<String, dynamic> jsonMap = jsonDecode(contents);
+      List<ContentItem> maps = _convertToContentItems(jsonMap['maps']);
+      List<ContentItem> agents = _convertToContentItems(jsonMap['agents']);
+      List<ContentItem> gameModes =
+          _convertToContentItems(jsonMap['gameModes']);
+      List<ContentItem> acts = _convertToContentItems(jsonMap['acts']);
+      List<ContentItem> ranks = _convertToContentItems(jsonMap['ranks']);
+      List<ContentItem> weapons = _convertToContentItems(jsonMap['weapons']);
 
-      return imageMap;
+      return Content(
+        maps: maps,
+        agents: agents,
+        gameModes: gameModes,
+        acts: acts,
+        ranks: ranks,
+        weapons: weapons,
+      );
     } catch (e) {
       print(e);
-      // If encountering an error, return empty map
-      return {};
+      // If encountering an error, return empty Content
+      return Content(
+        maps: [],
+        agents: [],
+        gameModes: [],
+        acts: [],
+        ranks: [],
+        weapons: [],
+      );
     }
+  }
+
+  static List<ContentItem> _convertToContentItems(List<dynamic> jsonList) {
+    return jsonList
+        .map((json) => ContentItem.fromJsonWithMapUrl(json, json['hash']))
+        .toList();
   }
 
   static Future<void> clearImageMap() async {

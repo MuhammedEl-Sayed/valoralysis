@@ -1,98 +1,86 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:valoralysis/api/services/auth_service.dart';
-import 'package:valoralysis/models/agent.dart';
 import 'package:valoralysis/models/content.dart';
-import 'package:valoralysis/models/rank.dart';
-import 'package:valoralysis/utils/riot_api_builder.dart';
+import 'package:valoralysis/utils/image_cache_utils.dart';
 
 class ContentService {
   static Future<Content> fetchContent() async {
     try {
-      Dio dio = AuthService.prepareDio(PlatformId.NA);
-      var response = await dio.get('/val/content/v1/contents?locale=en-US');
-      List<AgentIconMap> agentIcons = await getAgentIcons();
-      List<Rank> ranks = await getRanks();
-      List<WeaponItem> weapons = await fetchWeaponData();
-      return await Content.fromJson(response.data,
-          agentIcons: agentIcons, ranks: ranks, weapons: weapons);
+      List<ContentItem> agents =
+          await fetchContentData('https://valorant-api.com/v1/agents', false);
+      List<ContentItem> ranks = await getRanks();
+      List<ContentItem> weapons =
+          await fetchContentData('https://valorant-api.com/v1/weapons', true);
+      List<ContentItem> maps =
+          await fetchContentData('https://valorant-api.com/v1/maps', false);
+      List<ContentItem> gameModes = await fetchContentData(
+          'https://valorant-api.com/v1/gamemodes', false);
+      List<ContentItem> acts =
+          await fetchContentData('https://valorant-api.com/v1/seasons', false);
+      return Content(
+          agents: agents,
+          ranks: ranks,
+          weapons: weapons,
+          maps: maps,
+          gameModes: gameModes,
+          acts: acts);
     } catch (e) {
       print('Error fetching content: $e');
       rethrow;
     }
   }
 
-  static Future<List<AgentIconMap>> getAgentIcons() async {
-    Dio dio = Dio();
-    try {
-      var response = await dio.get('https://valorant-api.com/v1/agents');
-      List<AgentIconMap> agentIcons = [];
-      for (var agent in response.data['data']) {
-        agentIcons.add(AgentIconMap(agent['uuid'], agent['displayIcon']));
-      }
-      return agentIcons;
-    } catch (e) {
-      return [];
-    }
-  }
-
-  static Future<List<Rank>> getRanks() async {
+  static Future<List<ContentItem>> getRanks() async {
     Dio dio = Dio();
     try {
       var response =
           await dio.get('https://valorant-api.com/v1/competitivetiers');
-      List<Rank> ranks = [];
+      List<ContentItem> ranks = [];
       for (var data in response.data['data']) {
         for (var tier in data['tiers']) {
-          if (tier['smallIcon'] != null && tier['largeIcon'] != null) {
-            ranks.add(Rank.fromJson(tier));
+          if (tier['smallIcon'] != null) {
+            String id = tier['tierName'];
+            String url = tier['smallIcon'];
+            File? image = await downloadImage(url, id);
+            if (image != null) {
+              String hash = ImageCacheUtils.generateImageHash(image);
+              ranks.add(ContentItem.fromJson(tier, hash, iconUrl: image.path));
+            }
           }
         }
       }
       return ranks;
     } catch (e) {
+      print('Error fetching ranks: $e');
       return [];
     }
   }
 
-  static Future<List<WeaponItem>> fetchWeaponData() async {
+  static Future<List<ContentItem>> fetchContentData(
+      String url, bool isWeapon) async {
     Dio dio = Dio();
-    try {
-      var response = await dio.get('https://valorant-api.com/v1/weapons');
-      Map<String, dynamic> jsonData = response.data;
-      List<WeaponItem> weapons = [];
-      for (var weapon in jsonData['data']) {
-        weapons.add(WeaponItem.fromJson(weapon));
-      }
-      return weapons;
-    } catch (e) {
-      print('Weapon fetch error: $e');
-      return [];
-    }
-  }
-
-  static Future<File> fetchImageFile(String url, String id) async {
-    Dio dio = Dio();
-
     try {
       var response = await dio.get(url);
-      var documentDirectory = await getApplicationDocumentsDirectory();
-      var firstPath = "${documentDirectory.path}/images";
-      var filePathAndName = '${documentDirectory.path}/images/$id.png';
-
-      await Directory(firstPath).create(recursive: true);
-      File file2 = File(filePathAndName);
-      if (response.data is List<int>) {
-        file2.writeAsBytesSync(response.data);
-        return file2;
-      } else {
-        return File('');
+      List<ContentItem> contentItems = [];
+      for (var item in response.data['data']) {
+        String uuid = item['uuid'];
+        String imageUrl = item['displayIcon'];
+        File? image = await downloadImage(imageUrl, uuid);
+        if (image != null) {
+          String hash = ImageCacheUtils.generateImageHash(image);
+          contentItems.add(ContentItem.fromJson(item, hash,
+              isWeapon: isWeapon, iconUrl: image.path));
+        }
       }
+      return contentItems;
     } catch (e) {
-      print(e);
-      return File('');
+      return [];
     }
+  }
+
+  static Future<File?> downloadImage(String url, String id) async {
+    File? image = await ImageCacheUtils.downloadImageFile(url, id);
+    return image;
   }
 }

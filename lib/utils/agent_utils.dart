@@ -6,7 +6,7 @@ class AgentUtils {
       List<ContentItem> agents) {
     return agents
         .firstWhere(
-            (agent) => agent.id == extractAgentIdByPUUID(matchDetails, puuid))
+            (agent) => agent.uuid == extractAgentIdByPUUID(matchDetails, puuid))
         .iconUrl;
   }
 

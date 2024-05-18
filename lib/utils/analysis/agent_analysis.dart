@@ -28,7 +28,7 @@ class AgentAnalysis {
       }
     });
     return agentContent
-        .firstWhere((agent) => agent.id.toLowerCase() == mostFrequentAgent)
+        .firstWhere((agent) => agent.uuid.toLowerCase() == mostFrequentAgent)
         .name;
   }
 
