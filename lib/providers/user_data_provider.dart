@@ -5,7 +5,7 @@ import 'package:valoralysis/providers/navigation_provider.dart';
 import 'package:valoralysis/utils/file_utils.dart';
 
 class UserProvider with ChangeNotifier {
-  User _user = User(puuid: '', consentGiven: false, name: '', matchHistory: {});
+  User _user = User(puuid: '', consentGiven: false, name: '', matchDetails: {});
   List<User> _users = [];
 
   User get user => _user;
@@ -21,7 +21,7 @@ class UserProvider with ChangeNotifier {
     print('init');
     print(preferredPUUID);
     if (preferredPUUID == -1) {
-      setUser(User(puuid: '', consentGiven: false, name: '', matchHistory: {}));
+      setUser(User(puuid: '', consentGiven: false, name: '', matchDetails: {}));
       return;
     }
     setUser(_users[preferredPUUID]);
@@ -39,7 +39,7 @@ class UserProvider with ChangeNotifier {
   }
 
   void resetUser() {
-    setUser(User(puuid: '', consentGiven: false, name: '', matchHistory: {}));
+    setUser(User(puuid: '', consentGiven: false, name: '', matchDetails: {}));
   }
 
   void updatePuuid(String puuid) {
@@ -61,8 +61,8 @@ class UserProvider with ChangeNotifier {
 
   void updateStoredMatches(Map<String, dynamic> matchHistory) {
     matchHistory.forEach((key, value) {
-      if (!_user.matchHistory.containsKey(key)) {
-        _user.matchHistory.addEntries([MapEntry(key, value)]);
+      if (!_user.matchDetails.containsKey(key)) {
+        _user.matchDetails.addEntries([MapEntry(key, value)]);
       }
     });
     FileUtils.writeUser(_user);

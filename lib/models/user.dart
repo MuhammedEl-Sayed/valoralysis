@@ -2,13 +2,13 @@ class User {
   String puuid = '';
   bool consentGiven = false;
   String name = '';
-  Map<String, dynamic> matchHistory = {};
+  Map<String, dynamic> matchDetails = {};
 
   User({
     required this.puuid,
     required this.consentGiven,
     required this.name,
-    required this.matchHistory,
+    required this.matchDetails,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -16,7 +16,7 @@ class User {
       puuid: json['puuid'] as String,
       consentGiven: json['consentGiven'] as bool,
       name: json['name'] as String,
-      matchHistory: json['matchHistory'] as Map<String, dynamic>,
+      matchDetails: json['matchDetails'] as Map<String, dynamic>,
     );
   }
   Map<String, dynamic> toJson() {
@@ -24,7 +24,7 @@ class User {
       'puuid': puuid,
       'consentGiven': consentGiven,
       'name': name,
-      'matchHistory': matchHistory,
+      'matchDetails': matchDetails,
     };
   }
 }

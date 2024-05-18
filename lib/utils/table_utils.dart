@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart'
     hide DataColumn, DataCell, DataRow, DataTable;
 import 'package:valoralysis/models/content.dart';
@@ -115,10 +116,14 @@ class TableUtils {
               padding: const EdgeInsets.only(top: 7, bottom: 7, left: 7),
               child: Row(
                 children: [
-                  Image(
-                    image: NetworkImage(
+                  CachedNetworkImage(
+                    imageUrl:
                         AgentUtils.getImageFromId(matchDetail, puuid, agents) ??
-                            ''),
+                            '',
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                     width: 25,
                     height: 25,
                   ),
@@ -136,9 +141,12 @@ class TableUtils {
                             )),
                         Row(
                           children: [
-                            Image(
-                              image:
-                                  NetworkImage(playerRank.rankIcons.smallIcon),
+                            CachedNetworkImage(
+                              imageUrl: playerRank.rankIcons.smallIcon ?? '',
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
                               width: 10,
                               height: 10,
                             ),

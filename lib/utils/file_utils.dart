@@ -11,9 +11,18 @@ class FileUtils {
     return directory.path;
   }
 
-  static Future<File> get _localFile async {
+  static Future<File> get _localUserFile async {
     final path = await _localPath;
     final file = File('$path/users.txt');
+
+    await file.create(recursive: true);
+
+    return file;
+  }
+
+  static Future<File> get _localImageMapFile async {
+    final path = await _localPath;
+    final file = File('$path/imageMap.txt');
 
     await file.create(recursive: true);
 
@@ -27,7 +36,7 @@ class FileUtils {
       if (user.puuid == '') {
         return -1;
       }
-      final file = await _localFile;
+      final file = await _localUserFile;
 
       List<User> existingUsers = await readUsers();
 
@@ -52,7 +61,7 @@ class FileUtils {
 
   static Future<List<User>> readUsers() async {
     try {
-      final file = await _localFile;
+      final file = await _localUserFile;
 
       // Read the file
       final contents = await file.readAsString();
@@ -72,7 +81,48 @@ class FileUtils {
   }
 
   static Future<void> clearUsers() async {
-    final file = await _localFile;
+    final file = await _localUserFile;
+    file.writeAsString('');
+  }
+
+  static Future<int> writeImageMap(Map<String, List<String>> imageMap) async {
+    try {
+      final file = await _localImageMapFile;
+
+      file.writeAsString(jsonEncode(imageMap));
+
+      return 0;
+    } catch (e) {
+      print('An error occurred: $e');
+      return -1;
+    }
+  }
+
+  static Future<Map<String, List<String>>> readImageMap() async {
+    try {
+      final file = await _localImageMapFile;
+
+      // Read the file
+      final contents = await file.readAsString();
+
+      if (contents.isEmpty) {
+        return {};
+      }
+
+      Map<String, dynamic> decodedJson = jsonDecode(contents);
+      Map<String, List<String>> imageMap = decodedJson
+          .map((key, value) => MapEntry(key, List<String>.from(value)));
+
+      return imageMap;
+    } catch (e) {
+      print(e);
+      // If encountering an error, return empty map
+      return {};
+    }
+  }
+
+  static Future<void> clearImageMap() async {
+    final file = await _localImageMapFile;
     file.writeAsString('');
   }
 }

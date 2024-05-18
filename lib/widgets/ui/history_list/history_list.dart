@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/consts/mock_data.dart';
-import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/mode_provider.dart';
+import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/time.dart';
 import 'package:valoralysis/widgets/ui/history_list/history_section_title/history_section_title.dart';
@@ -18,23 +18,34 @@ class HistoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     ModeProvider modeProvider =
         Provider.of<ModeProvider>(context, listen: true);
-    ContentProvider contentProvider =
-        Provider.of<ContentProvider>(context, listen: true);
+
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: true);
 
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: fake ? getMockData() : null,
       builder: (context, snapshot) {
-        List<Map<String, dynamic>> relevantMatches;
+        List<Map<String, dynamic>> relevantMatches = [];
 
-        if (snapshot.hasData && fake) {
-          relevantMatches = snapshot.data!;
-        } else {
-          relevantMatches = contentProvider.matchDetails
+        List<Map<String, dynamic>> filterMatches() {
+          return userProvider.user.matchDetails.values
               .where((matchDetail) =>
                   HistoryUtils.extractGamemode(matchDetail, modeProvider.modes)
                       .realValue ==
                   modeProvider.selectedMode)
-              .toList();
+              .toList()
+              .cast<Map<String, dynamic>>();
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting &&
+            userProvider.user.matchDetails.isNotEmpty) {
+          filterMatches();
+        } else if (snapshot.hasData &&
+            fake &&
+            userProvider.user.matchDetails.isEmpty) {
+          relevantMatches = snapshot.data!;
+        } else {
+          relevantMatches = filterMatches();
         }
 
         Map<String, dynamic> matchesByDay =

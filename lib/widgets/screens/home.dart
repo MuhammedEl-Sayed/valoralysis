@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:valoralysis/api/services/content_service.dart';
 import 'package:valoralysis/api/services/history_service.dart';
 import 'package:valoralysis/models/match_history.dart';
 import 'package:valoralysis/providers/category_provider.dart';
@@ -31,13 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _loadData() async {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
-    ContentProvider contentProvider =
-        Provider.of<ContentProvider>(context, listen: false);
+
     if (userProvider.user.puuid == '') {
       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
       return;
     }
-    contentProvider.updateContent(await ContentService.fetchContent());
 
     List<MatchHistory> matchList =
         await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
@@ -53,16 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     userProvider.updateStoredMatches(matchHistoryDetailsMap);
 
-    //Fix this, this only includes the ones pulled fomr api not stored
-    contentProvider.updateMatchHistory(matchList);
-    List<Map<String, dynamic>> matchDetails = matchHistoryDetailsMap.values
-        .map((v) => v as Map<String, dynamic>)
-        .toList();
-
-    contentProvider.updateMatchDetails(matchDetails);
-
-    userProvider.updateName(
-        UserUtils.getUsername(matchDetails[0], userProvider.user.puuid));
+    userProvider.updateName(UserUtils.getUsername(
+        userProvider.user.matchDetails.values.toList()[0],
+        userProvider.user.puuid));
   }
 
   @override
@@ -70,7 +60,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return FutureBuilder(
       future: _loadingFuture,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        UserProvider userProvider =
+            Provider.of<UserProvider>(context, listen: false);
+        bool showSkeleton = userProvider.user.matchDetails.isEmpty;
+
+        if (snapshot.connectionState == ConnectionState.waiting &&
+            showSkeleton) {
           return Skeletonizer(
             child: SafeArea(
                 child: SingleChildScrollView(

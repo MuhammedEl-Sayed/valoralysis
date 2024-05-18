@@ -6,6 +6,7 @@ import 'package:valoralysis/consts/images.dart';
 import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/consts/update_messages.dart';
 import 'package:valoralysis/models/user.dart';
+import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/navigation_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/pick_random.dart';
@@ -36,6 +37,7 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
     navigationProvider =
         Provider.of<NavigationProvider>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initContentState();
       _initUserState();
       _maybeShowUpdateDialog();
     });
@@ -90,6 +92,12 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
     }
   }
 
+  void _initContentState() async {
+    final contentProvider =
+        Provider.of<ContentProvider>(context, listen: false);
+    await contentProvider.updateContent();
+  }
+
   void login(String name) async {
     setState(() {
       errorMessage = '';
@@ -114,7 +122,7 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
         name: gameNameAndTag,
         puuid: puuid,
         consentGiven: true,
-        matchHistory: userProvider.user.matchHistory,
+        matchDetails: userProvider.user.matchDetails,
       ));
       if (mounted) {
         userProvider.updatePuuid(puuid);

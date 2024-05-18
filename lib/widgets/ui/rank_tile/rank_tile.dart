@@ -1,15 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/models/rank.dart';
-import 'package:valoralysis/utils/formatting_utils.dart';
-import 'package:valoralysis/widgets/ui/surface/surface.dart';
-import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
+import 'package:valoralysis/providers/user_data_provider.dart';
+import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
+import 'package:valoralysis/widgets/ui/surface/surface.dart';
 import 'package:valoralysis/widgets/ui/text_underlined/text_underlined.dart';
 
 class RankTile extends StatelessWidget {
+  const RankTile({super.key});
+
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider =
@@ -27,8 +30,10 @@ class RankTile extends StatelessWidget {
       const TextUnderlined(text: 'Current Rating'),
       const Padding(padding: EdgeInsets.only(bottom: 10)),
       Row(children: [
-        Image(
-          image: NetworkImage(playerRank.rankIcons.largeIcon),
+        CachedNetworkImage(
+          imageUrl: playerRank.rankIcons.largeIcon,
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
           width: 60,
           height: 60,
         ),
