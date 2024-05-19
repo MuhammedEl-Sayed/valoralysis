@@ -4,22 +4,33 @@ class ContentItem {
   String? iconUrl;
   String? assetUrl;
   String hash;
+
   ContentItem(this.name, this.uuid, this.hash, {this.iconUrl, this.assetUrl});
+
   factory ContentItem.fromJson(Map<String, dynamic> json, String hash,
-      {String? iconUrl, bool isWeapon = false}) {
-    return ContentItem(
-        isWeapon ? json['displayName'] : json['name'],
-        isWeapon
-            ? json['uuid'].toString().toLowerCase()
-            : json['id'].toString().toLowerCase(),
-        hash,
-        iconUrl: iconUrl ?? (isWeapon ? json['displayIcon'] : json['iconUrl']));
+      {String? iconUrl}) {
+    return ContentItem(json['name'], json['id'].toString().toLowerCase(), hash,
+        iconUrl: iconUrl ?? json['iconUrl']);
   }
-  factory ContentItem.fromJsonWithMapUrl(Map<String, dynamic> json, String hash,
+
+  factory ContentItem.fromJsonMap(Map<String, dynamic> json, String hash,
       {String? iconUrl}) {
     return ContentItem(
         json['name'], json['uuid'].toString().toLowerCase(), hash,
         iconUrl: iconUrl ?? json['iconUrl'], assetUrl: json['assetPath']);
+  }
+
+  factory ContentItem.fromJsonRanks(Map<String, dynamic> json, String hash,
+      {String? iconUrl}) {
+    return ContentItem(json['tierName'], json['tier'].toString(), hash,
+        iconUrl: iconUrl ?? json['smallIcon']);
+  }
+
+  factory ContentItem.fromJsonWeapon(Map<String, dynamic> json, String hash,
+      {String? iconUrl}) {
+    return ContentItem(
+        json['displayName'], json['uuid'].toString().toLowerCase(), hash,
+        iconUrl: iconUrl ?? json['displayIcon']);
   }
 }
 

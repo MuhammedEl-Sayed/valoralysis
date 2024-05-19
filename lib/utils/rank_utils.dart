@@ -1,15 +1,15 @@
-import 'package:valoralysis/models/rank.dart';
+import 'package:valoralysis/models/content.dart';
 
 class RankUtils {
 // Singular version
-  static Rank getPlayerRank(
-      Map<String, dynamic> match, List<Rank> ranks, String puuid) {
-    Rank fallbackRank = ranks.firstWhere((rank) => rank.tier == 0);
+  static ContentItem getPlayerRank(
+      Map<String, dynamic> match, List<ContentItem> ranks, String puuid) {
+    ContentItem fallbackRank = ranks[0];
     int compTier = match['players'].firstWhere(
         (player) => player['puuid'] == puuid,
         orElse: () => {"competitiveTier": 0})['competitiveTier'];
     return ranks.firstWhere(
-      (rank) => rank.tier == compTier,
+      (rank) => int.parse(rank.uuid) == compTier,
       orElse: () => fallbackRank,
     );
   }

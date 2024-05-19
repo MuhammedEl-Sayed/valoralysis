@@ -8,16 +8,16 @@ class ContentService {
   static Future<Content> fetchContent() async {
     try {
       List<ContentItem> agents =
-          await fetchContentData('https://valorant-api.com/v1/agents', false);
+          await fetchContentData('https://valorant-api.com/v1/agents');
       List<ContentItem> ranks = await getRanks();
       List<ContentItem> weapons =
-          await fetchContentData('https://valorant-api.com/v1/weapons', true);
+          await fetchContentData('https://valorant-api.com/v1/weapons');
       List<ContentItem> maps =
-          await fetchContentData('https://valorant-api.com/v1/maps', false);
-      List<ContentItem> gameModes = await fetchContentData(
-          'https://valorant-api.com/v1/gamemodes', false);
+          await fetchContentData('https://valorant-api.com/v1/maps');
+      List<ContentItem> gameModes =
+          await fetchContentData('https://valorant-api.com/v1/gamemodes');
       List<ContentItem> acts =
-          await fetchContentData('https://valorant-api.com/v1/seasons', false);
+          await fetchContentData('https://valorant-api.com/v1/seasons');
       return Content(
           agents: agents,
           ranks: ranks,
@@ -40,12 +40,13 @@ class ContentService {
       for (var data in response.data['data']) {
         for (var tier in data['tiers']) {
           if (tier['smallIcon'] != null) {
-            String id = tier['tierName'];
+            String id = tier['tier'];
             String url = tier['smallIcon'];
             File? image = await downloadImage(url, id);
             if (image != null) {
               String hash = ImageCacheUtils.generateImageHash(image);
-              ranks.add(ContentItem.fromJson(tier, hash, iconUrl: image.path));
+              ranks.add(
+                  ContentItem.fromJsonRanks(tier, hash, iconUrl: image.path));
             }
           }
         }
@@ -57,9 +58,12 @@ class ContentService {
     }
   }
 
-  static Future<List<ContentItem>> fetchContentData(
-      String url, bool isWeapon) async {
+  static Future<List<ContentItem>> fetchContentData(String url) async {
     Dio dio = Dio();
+    String type = url.split('/').last;
+    bool isWeapon = type == 'weapons';
+    bool isMap = type == 'maps';
+
     try {
       var response = await dio.get(url);
       List<ContentItem> contentItems = [];
@@ -69,8 +73,16 @@ class ContentService {
         File? image = await downloadImage(imageUrl, uuid);
         if (image != null) {
           String hash = ImageCacheUtils.generateImageHash(image);
-          contentItems.add(ContentItem.fromJson(item, hash,
-              isWeapon: isWeapon, iconUrl: image.path));
+          if (isWeapon) {
+            contentItems.add(
+                ContentItem.fromJsonWeapon(item, hash, iconUrl: image.path));
+          } else if (isMap) {
+            contentItems
+                .add(ContentItem.fromJsonMap(item, hash, iconUrl: image.path));
+          } else {
+            contentItems
+                .add(ContentItem.fromJson(item, hash, iconUrl: image.path));
+          }
         }
       }
       return contentItems;

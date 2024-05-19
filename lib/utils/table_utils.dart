@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart'
     hide DataColumn, DataCell, DataRow, DataTable;
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/player_stats.dart';
-import 'package:valoralysis/models/rank.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
 import 'package:valoralysis/utils/analysis/match_analysis.dart';
 import 'package:valoralysis/utils/formatting_utils.dart';
@@ -14,14 +12,11 @@ import 'package:valoralysis/widgets/ui/data_table/data_table.dart';
 import 'package:valoralysis/widgets/ui/marquee_text/marquee_text.dart';
 
 class TableUtils {
-  static List<DataRow> buildPlayerDataRows(
-      Map<String, dynamic> matchDetail,
-      String puuid,
-      List<Rank> ranks,
-      List<ContentItem> agents,
-      bool isUserTeam,
-      String userPUUID) {
+  static List<DataRow> buildPlayerDataRows(Map<String, dynamic> matchDetail,
+      String puuid, Content content, bool isUserTeam, String userPUUID) {
     List<Map<String, dynamic>> players = [];
+    List<ContentItem> ranks = content.ranks;
+    List<ContentItem> agents = content.agents;
 
     String userTeam =
         HistoryUtils.extractTeamFromPUUID(matchDetail, puuid)['teamId'];
@@ -81,13 +76,13 @@ class TableUtils {
   static DataCell buildPlayerProfileDataCell(
       Map<String, dynamic> matchDetail,
       Map<String, dynamic> player,
-      List<Rank> ranks,
+      List<ContentItem> ranks,
       List<ContentItem> agents,
       bool isUser) {
     String puuid = player['puuid'];
     String playerName =
         HistoryUtils.extractPlayerNameByPUUID(matchDetail, puuid);
-    Rank playerRank = RankUtils.getPlayerRank(matchDetail, ranks, puuid);
+    ContentItem playerRank = RankUtils.getPlayerRank(matchDetail, ranks, puuid);
 
     return DataCell(Stack(children: <Widget>[
       Positioned(

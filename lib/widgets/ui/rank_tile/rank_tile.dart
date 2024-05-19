@@ -1,8 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/theme.dart';
-import 'package:valoralysis/models/rank.dart';
+import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/formatting_utils.dart';
@@ -20,7 +19,7 @@ class RankTile extends StatelessWidget {
     ContentProvider contentProvider =
         Provider.of<ContentProvider>(context, listen: false);
 
-    Rank playerRank = RankUtils.getPlayerRank(
+    ContentItem playerRank = RankUtils.getPlayerRank(
       contentProvider.matchDetails[0],
       contentProvider.ranks,
       userProvider.user.puuid,
@@ -31,14 +30,14 @@ class RankTile extends StatelessWidget {
       const Padding(padding: EdgeInsets.only(bottom: 10)),
       Row(children: [
         CachedNetworkImage(
-          imageUrl: playerRank.rankIcons.largeIcon,
+          imageUrl: playerRank.iconUrl,
           placeholder: (context, url) => const CircularProgressIndicator(),
           errorWidget: (context, url, error) => const Icon(Icons.error),
           width: 60,
           height: 60,
         ),
         const Padding(padding: EdgeInsets.only(right: 8)),
-        Text(FormattingUtils.capitalizeFirstLetter(playerRank.tierName),
+        Text(FormattingUtils.capitalizeFirstLetter(playerRank.name),
             style: TextStyle(fontSize: 14, color: ThemeColors().fadedText))
       ])
     ]);
