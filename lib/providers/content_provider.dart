@@ -19,6 +19,7 @@ class ContentProvider with ChangeNotifier {
   List<ContentItem> get ranks => _content.ranks;
   List<MatchHistory> get matchHistory => _matchHistory;
   List<Map<String, dynamic>> get matchDetails => _matchDetails;
+  Content get content => _content;
   Content _contentCache = Content(
       maps: [], agents: [], gameModes: [], acts: [], ranks: [], weapons: []);
 
@@ -31,31 +32,42 @@ class ContentProvider with ChangeNotifier {
     _content.ranks = <ContentItem>[];
     _matchHistory = <MatchHistory>[];
     _matchDetails = <Map<String, dynamic>>[];
-    _loadImageCache();
+  }
+
+  Future<void> init() async {
+    await _loadImageCache();
   }
 
   Future<void> _loadImageCache() async {
+    print('Loading image cache');
     _contentCache = await FileUtils.readImageMap();
     if (_contentCache.maps.isNotEmpty) {
+      print('Image cache is not empty, updating content');
       await updateContent();
     } else {
+      print('Image cache is empty, updating all content');
       await updateAllContent();
     }
     notifyListeners();
   }
 
   Future<void> updateAllContent() async {
+    print('Updating all content');
     _content = await ContentService.fetchContent();
+    print(_content.agents.length);
     await FileUtils.writeImageMap(_content);
     notifyListeners();
   }
 
   Future<void> updateContent() async {
+    print('Updating content');
     Content newContent = await ContentService.fetchContent();
     if (ContentUtils.isContentOld(newContent, _content)) {
+      print('Content is old, updating');
       _content = newContent;
       await FileUtils.writeImageMap(_content);
     } else {
+      print('Content is not old, using cached content');
       _content = _contentCache;
     }
     notifyListeners();

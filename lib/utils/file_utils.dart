@@ -90,7 +90,7 @@ class FileUtils {
     try {
       final file = await _localImageMapFile;
 
-      file.writeAsString(jsonEncode(content));
+      file.writeAsString(jsonEncode(content.toJson()));
 
       return 0;
     } catch (e) {
@@ -150,7 +150,7 @@ class FileUtils {
 
   static List<ContentItem> _convertToContentItems(List<dynamic> jsonList) {
     return jsonList
-        .map((json) => ContentItem.fromJsonWithMapUrl(json, json['hash']))
+        .map((json) => ContentItem.fromJsonMap(json, json['hash']))
         .toList();
   }
 

@@ -9,6 +9,7 @@ class ContentService {
     try {
       List<ContentItem> agents =
           await fetchContentData('https://valorant-api.com/v1/agents');
+      print('agents $agents');
       List<ContentItem> ranks = await getRanks();
       List<ContentItem> weapons =
           await fetchContentData('https://valorant-api.com/v1/weapons');
@@ -40,7 +41,7 @@ class ContentService {
       for (var data in response.data['data']) {
         for (var tier in data['tiers']) {
           if (tier['smallIcon'] != null) {
-            String id = tier['tier'];
+            String id = tier['tier'].toString();
             String url = tier['smallIcon'];
             File? image = await downloadImage(url, id);
             if (image != null) {
@@ -68,6 +69,9 @@ class ContentService {
       var response = await dio.get(url);
       List<ContentItem> contentItems = [];
       for (var item in response.data['data']) {
+        if (item['uuid'] == null || item['displayIcon'] == null) {
+          continue;
+        }
         String uuid = item['uuid'];
         String imageUrl = item['displayIcon'];
         File? image = await downloadImage(imageUrl, uuid);
@@ -85,8 +89,10 @@ class ContentService {
           }
         }
       }
+
       return contentItems;
     } catch (e) {
+      print('Error fetching $type: $e');
       return [];
     }
   }

@@ -1,36 +1,73 @@
 class ContentItem {
   String name;
   String uuid;
+  String hash;
   String? iconUrl;
   String? assetUrl;
-  String hash;
 
   ContentItem(this.name, this.uuid, this.hash, {this.iconUrl, this.assetUrl});
 
   factory ContentItem.fromJson(Map<String, dynamic> json, String hash,
       {String? iconUrl}) {
-    return ContentItem(json['name'], json['id'].toString().toLowerCase(), hash,
-        iconUrl: iconUrl ?? json['iconUrl']);
+    if (json['displayName'] == null || json['uuid'] == null) {
+      throw ArgumentError('Invalid JSON: $json');
+    }
+    return ContentItem(
+      json['displayName'] ?? 'Unknown',
+      json['uuid'].toString().toLowerCase(),
+      hash,
+      iconUrl: iconUrl ?? json['displayIcon'],
+    );
   }
 
   factory ContentItem.fromJsonMap(Map<String, dynamic> json, String hash,
       {String? iconUrl}) {
+    if (json['displayName'] == null || json['uuid'] == null) {
+      throw ArgumentError('Invalid JSON: $json');
+    }
     return ContentItem(
-        json['name'], json['uuid'].toString().toLowerCase(), hash,
-        iconUrl: iconUrl ?? json['iconUrl'], assetUrl: json['assetPath']);
+      json['displayName'] ?? 'Unknown',
+      json['uuid'].toString().toLowerCase(),
+      hash,
+      iconUrl: iconUrl ?? json['iconUrl'],
+      assetUrl: json['assetPath'],
+    );
   }
 
   factory ContentItem.fromJsonRanks(Map<String, dynamic> json, String hash,
       {String? iconUrl}) {
-    return ContentItem(json['tierName'], json['tier'].toString(), hash,
-        iconUrl: iconUrl ?? json['smallIcon']);
+    if (json['tierName'] == null || json['tier'] == null) {
+      throw ArgumentError('Invalid JSON: $json');
+    }
+    return ContentItem(
+      json['tierName'] ?? 'Unknown',
+      json['tier'].toString(),
+      hash,
+      iconUrl: iconUrl ?? json['smallIcon'],
+    );
   }
 
   factory ContentItem.fromJsonWeapon(Map<String, dynamic> json, String hash,
       {String? iconUrl}) {
+    if (json['displayName'] == null || json['uuid'] == null) {
+      throw ArgumentError('Invalid JSON: $json');
+    }
     return ContentItem(
-        json['displayName'], json['uuid'].toString().toLowerCase(), hash,
-        iconUrl: iconUrl ?? json['displayIcon']);
+      json['displayName'] ?? 'Unknown',
+      json['uuid'].toString().toLowerCase(),
+      hash,
+      iconUrl: iconUrl ?? json['displayIcon'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'uuid': uuid,
+      'iconUrl': iconUrl,
+      'assetUrl': assetUrl,
+      'hash': hash,
+    };
   }
 }
 
@@ -49,4 +86,15 @@ class Content {
       required this.acts,
       required this.ranks,
       required this.weapons});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'maps': maps.map((item) => item.toJson()).toList(),
+      'agents': agents.map((item) => item.toJson()).toList(),
+      'gameModes': gameModes.map((item) => item.toJson()).toList(),
+      'acts': acts.map((item) => item.toJson()).toList(),
+      'weapons': weapons.map((item) => item.toJson()).toList(),
+      'ranks': ranks.map((item) => item.toJson()).toList(),
+    };
+  }
 }

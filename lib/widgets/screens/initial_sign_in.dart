@@ -36,11 +36,12 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
     userProvider = Provider.of<UserProvider>(context, listen: false);
     navigationProvider =
         Provider.of<NavigationProvider>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initContentState();
-      _initUserState();
-      _maybeShowUpdateDialog();
-    });
+  }
+
+  Future<void> _initializeApp() async {
+    await _initContentState();
+    await _initUserState();
+    await _maybeShowUpdateDialog();
   }
 
   Future<void> _maybeShowUpdateDialog() async {
@@ -82,7 +83,7 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
     );
   }
 
-  void _initUserState() async {
+  Future<void> _initUserState() async {
     final navigationProvider =
         Provider.of<NavigationProvider>(context, listen: false);
     await userProvider.init();
@@ -92,10 +93,10 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
     }
   }
 
-  void _initContentState() async {
+  Future<void> _initContentState() async {
     final contentProvider =
         Provider.of<ContentProvider>(context, listen: false);
-    await contentProvider.updateContent();
+    await contentProvider.init();
   }
 
   void login(String name) async {
@@ -135,53 +136,67 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
   Widget build(BuildContext context) {
     double margin = getStandardMargins(context);
 
-    return Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: Theme.of(context).colorScheme.background,
-        body: Stack(fit: StackFit.expand, children: [
-          Image.asset(
-            randomName,
-            fit: BoxFit.cover,
-            opacity: const AlwaysStoppedAnimation(0.2),
-          ),
-          Center(
-              widthFactor: 2,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(height: margin * 2),
-                    Image.asset(
-                      'assets/images/valoralysis_transparent.png',
-                      width: 200,
-                    ),
-                    BlinkingText(),
-                    const Text('Valoralysis', style: TextStyle(fontSize: 45)),
-                    const SizedBox(height: 20),
-                    if (showError)
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: margin * 2,
-                            right: margin * 2,
-                            top: margin,
-                            bottom: margin),
-                        padding: EdgeInsets.all(margin / 2),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.onError,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(Icons.error,
-                                color: Theme.of(context).colorScheme.error),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(errorMessage),
-                            ),
-                          ],
-                        ),
+    return FutureBuilder(
+      future: _initializeApp(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(
+            backgroundColor: Theme.of(context).colorScheme.background,
+            body: const Center(child: CircularProgressIndicator()),
+          );
+        } else if (snapshot.hasError) {
+          return Scaffold(
+            backgroundColor: Theme.of(context).colorScheme.background,
+            body: Center(child: Text('Error: ${snapshot.error}')),
+          );
+        } else {
+          return Scaffold(
+            resizeToAvoidBottomInset: true,
+            backgroundColor: Theme.of(context).colorScheme.background,
+            body: Stack(fit: StackFit.expand, children: [
+              Image.asset(
+                randomName,
+                fit: BoxFit.cover,
+                opacity: const AlwaysStoppedAnimation(0.2),
+              ),
+              Center(
+                widthFactor: 2,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(height: margin * 2),
+                      Image.asset(
+                        'assets/images/valoralysis_transparent.png',
+                        width: 200,
                       ),
-                    Padding(
+                      BlinkingText(),
+                      const Text('Valoralysis', style: TextStyle(fontSize: 45)),
+                      const SizedBox(height: 20),
+                      if (showError)
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: margin * 2,
+                              right: margin * 2,
+                              top: margin,
+                              bottom: margin),
+                          padding: EdgeInsets.all(margin / 2),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.onError,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.error,
+                                  color: Theme.of(context).colorScheme.error),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(errorMessage),
+                              ),
+                            ],
+                          ),
+                        ),
+                      Padding(
                         padding: EdgeInsets.only(
                             left: margin * 2, right: margin * 2),
                         child: LoginSearchBar(
@@ -193,15 +208,21 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
                           onSearchSubmitted: (newUserName) {
                             login(newUserName);
                           },
-                        )),
-                    const SizedBox(height: 20),
-                    FilledButton(
-                      onPressed: () => login(userName),
-                      child: const Text('Sign in with Riot Games'),
-                    ),
-                  ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      FilledButton(
+                        onPressed: () => login(userName),
+                        child: const Text('Sign in with Riot Games'),
+                      ),
+                    ],
+                  ),
                 ),
-              )),
-        ]));
+              ),
+            ]),
+          );
+        }
+      },
+    );
   }
 }

@@ -6,6 +6,7 @@ import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
+import 'package:valoralysis/widgets/ui/cached_image/cached_image.dart';
 import 'package:valoralysis/widgets/ui/surface/surface.dart';
 import 'package:valoralysis/widgets/ui/text_underlined/text_underlined.dart';
 
@@ -29,10 +30,8 @@ class RankTile extends StatelessWidget {
       const TextUnderlined(text: 'Current Rating'),
       const Padding(padding: EdgeInsets.only(bottom: 10)),
       Row(children: [
-        CachedNetworkImage(
-          imageUrl: playerRank.iconUrl,
-          placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
+        CachedImage(
+          imageUrl: playerRank.iconUrl ?? '',
           width: 60,
           height: 60,
         ),

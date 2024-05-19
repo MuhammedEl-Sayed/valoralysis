@@ -36,19 +36,18 @@ class ImageCacheUtils {
     Dio dio = Dio();
 
     try {
-      var response = await dio.get(url);
+      var response = await dio.get<List<int>>(
+        url,
+        options: Options(responseType: ResponseType.bytes),
+      );
       var documentDirectory = await getApplicationDocumentsDirectory();
       var firstPath = "${documentDirectory.path}/images";
-      var filePathAndName = '${documentDirectory.path}/images/$id.png';
+      var filePathAndName = '$firstPath/$id.png';
 
       await Directory(firstPath).create(recursive: true);
-      File file2 = File(filePathAndName);
-      if (response.data is List<int>) {
-        file2.writeAsBytesSync(response.data);
-        return file2;
-      } else {
-        return null;
-      }
+      File file = File(filePathAndName);
+      await file.writeAsBytes(response.data!, flush: true);
+      return file;
     } catch (e) {
       print(e);
       return null;

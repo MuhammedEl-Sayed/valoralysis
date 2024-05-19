@@ -18,8 +18,7 @@ class UserProvider with ChangeNotifier {
   Future<void> init() async {
     int preferredPUUID = prefs.getInt('preferredPUUID') ?? -1;
     _users = await FileUtils.readUsers();
-    print('init');
-    print(preferredPUUID);
+
     if (preferredPUUID == -1) {
       setUser(User(puuid: '', consentGiven: false, name: '', matchDetails: {}));
       return;
@@ -29,7 +28,7 @@ class UserProvider with ChangeNotifier {
 
   void setUser(User value) {
     _user = value;
-    print(_user.name);
+
     saveUser();
     notifyListeners();
   }
@@ -79,7 +78,6 @@ class UserProvider with ChangeNotifier {
 
   Future<void> saveUser() async {
     prefs.setInt('preferredPUUID', await FileUtils.writeUser(_user));
-    print(prefs.getInt('preferredPUUID'));
   }
 
   List<String> getNameHistory() {

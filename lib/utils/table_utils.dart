@@ -8,6 +8,7 @@ import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
 import 'package:valoralysis/utils/weapons_utils.dart';
+import 'package:valoralysis/widgets/ui/cached_image/cached_image.dart';
 import 'package:valoralysis/widgets/ui/data_table/data_table.dart';
 import 'package:valoralysis/widgets/ui/marquee_text/marquee_text.dart';
 
@@ -111,14 +112,10 @@ class TableUtils {
               padding: const EdgeInsets.only(top: 7, bottom: 7, left: 7),
               child: Row(
                 children: [
-                  CachedNetworkImage(
+                  CachedImage(
                     imageUrl:
                         AgentUtils.getImageFromId(matchDetail, puuid, agents) ??
                             '',
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
                     width: 25,
                     height: 25,
                   ),
@@ -136,17 +133,13 @@ class TableUtils {
                             )),
                         Row(
                           children: [
-                            CachedNetworkImage(
-                              imageUrl: playerRank.rankIcons.smallIcon ?? '',
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
+                            CachedImage(
+                              imageUrl: playerRank.iconUrl ?? '',
                               width: 10,
                               height: 10,
                             ),
                             Flexible(
-                              child: Text(playerRank.tierName,
+                              child: Text(playerRank.name,
                                   style:
                                       const TextStyle(fontSize: 9, height: 1),
                                   overflow: TextOverflow.ellipsis),

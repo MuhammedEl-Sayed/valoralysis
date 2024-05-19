@@ -21,13 +21,8 @@ class TeamDetailsTable extends StatelessWidget {
     //So we need DataRows,
     ContentProvider contentProvider = Provider.of<ContentProvider>(context);
     UserProvider userProvider = Provider.of<UserProvider>(context);
-    List<DataRow> playerDataRows = TableUtils.buildPlayerDataRows(
-        matchDetail,
-        puuid,
-        contentProvider.ranks,
-        contentProvider.agents,
-        isUserTeam,
-        userProvider.user.puuid);
+    List<DataRow> playerDataRows = TableUtils.buildPlayerDataRows(matchDetail,
+        puuid, contentProvider.content, isUserTeam, userProvider.user.puuid);
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {

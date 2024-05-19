@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:valoralysis/widgets/ui/cached_image/cached_image.dart';
 
 class AgentIcon extends StatelessWidget {
   final String? iconUrl;
@@ -12,10 +12,8 @@ class AgentIcon extends StatelessWidget {
     bool isValidUrl = Uri.tryParse(iconUrl ?? '')?.hasAbsolutePath ?? false;
     double size = small == true ? 45 : 60;
     if (isValidUrl) {
-      return CachedNetworkImage(
+      return CachedImage(
         imageUrl: iconUrl!,
-        placeholder: (context, url) => const CircularProgressIndicator(),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
         width: size,
         height: size,
       );
