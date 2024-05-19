@@ -89,7 +89,7 @@ class FileUtils {
   static Future<int> writeImageMap(Content content) async {
     try {
       final file = await _localImageMapFile;
-
+      print('writing image map: ${content.toJson()}');
       file.writeAsString(jsonEncode(content.toJson()));
 
       return 0;
@@ -105,37 +105,13 @@ class FileUtils {
 
       // Read the file
       final contents = await file.readAsString();
+      print('read image map: $contents');
 
-      if (contents.isEmpty) {
-        return Content(
-          maps: [],
-          agents: [],
-          gameModes: [],
-          acts: [],
-          ranks: [],
-          weapons: [],
-        );
-      }
+      print('read image map: ${Content.fromJson(jsonDecode(contents))}');
 
-      Map<String, dynamic> jsonMap = jsonDecode(contents);
-      List<ContentItem> maps = _convertToContentItems(jsonMap['maps']);
-      List<ContentItem> agents = _convertToContentItems(jsonMap['agents']);
-      List<ContentItem> gameModes =
-          _convertToContentItems(jsonMap['gameModes']);
-      List<ContentItem> acts = _convertToContentItems(jsonMap['acts']);
-      List<ContentItem> ranks = _convertToContentItems(jsonMap['ranks']);
-      List<ContentItem> weapons = _convertToContentItems(jsonMap['weapons']);
-
-      return Content(
-        maps: maps,
-        agents: agents,
-        gameModes: gameModes,
-        acts: acts,
-        ranks: ranks,
-        weapons: weapons,
-      );
+      return Content.fromJson(jsonDecode(contents));
     } catch (e) {
-      print(e);
+      print('error reading: $e');
       // If encountering an error, return empty Content
       return Content(
         maps: [],
@@ -146,12 +122,6 @@ class FileUtils {
         weapons: [],
       );
     }
-  }
-
-  static List<ContentItem> _convertToContentItems(List<dynamic> jsonList) {
-    return jsonList
-        .map((json) => ContentItem.fromJsonMap(json, json['hash']))
-        .toList();
   }
 
   static Future<void> clearImageMap() async {

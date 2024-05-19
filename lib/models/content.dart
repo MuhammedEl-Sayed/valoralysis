@@ -26,7 +26,7 @@ class ContentItem {
       throw ArgumentError('Invalid JSON: $json');
     }
     return ContentItem(
-      json['displayName'] ?? 'Unknown',
+      json['displayName'] ?? json['name'] ?? 'Unknown',
       json['uuid'].toString().toLowerCase(),
       hash,
       iconUrl: iconUrl ?? json['iconUrl'],
@@ -86,6 +86,64 @@ class Content {
       required this.acts,
       required this.ranks,
       required this.weapons});
+  factory Content.fromJson(Map<String, dynamic> json) {
+    return Content(
+      maps: (json['maps'] as List<dynamic>)
+          .map((item) => ContentItem(
+                item['name'],
+                item['uuid'],
+                item['hash'],
+                iconUrl: item['iconUrl'] ?? '',
+                assetUrl: item['assetUrl'] ?? '',
+              ))
+          .toList(),
+      agents: (json['agents'] as List<dynamic>)
+          .map((item) => ContentItem(
+                item['name'],
+                item['uuid'],
+                item['hash'],
+                iconUrl: item['iconUrl'] ?? '',
+                assetUrl: item['assetUrl'] ?? '',
+              ))
+          .toList(),
+      gameModes: (json['gameModes'] as List<dynamic>)
+          .map((item) => ContentItem(
+                item['name'],
+                item['uuid'],
+                item['hash'],
+                iconUrl: item['iconUrl'] ?? '',
+                assetUrl: item['assetUrl'] ?? '',
+              ))
+          .toList(),
+      acts: (json['acts'] as List<dynamic>)
+          .map((item) => ContentItem(
+                item['name'],
+                item['uuid'],
+                item['hash'],
+                iconUrl: item['iconUrl'] ?? '',
+                assetUrl: item['assetUrl'] ?? '',
+              ))
+          .toList(),
+      ranks: (json['ranks'] as List<dynamic>)
+          .map((item) => ContentItem(
+                item['name'],
+                item['uuid'],
+                item['hash'],
+                iconUrl: item['iconUrl'] ?? '',
+                assetUrl: item['assetUrl'] ?? '',
+              ))
+          .toList(),
+      weapons: (json['weapons'] as List<dynamic>)
+          .map((item) => ContentItem(
+                item['name'],
+                item['uuid'],
+                item['hash'],
+                iconUrl: item['iconUrl'] ?? '',
+                assetUrl: item['assetUrl'] ?? '',
+              ))
+          .toList(),
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return {

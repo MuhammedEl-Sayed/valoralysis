@@ -19,7 +19,7 @@ class UserProvider with ChangeNotifier {
     int preferredPUUID = prefs.getInt('preferredPUUID') ?? -1;
     _users = await FileUtils.readUsers();
 
-    if (preferredPUUID == -1) {
+    if (preferredPUUID == -1 || _users.isEmpty) {
       setUser(User(puuid: '', consentGiven: false, name: '', matchDetails: {}));
       return;
     }

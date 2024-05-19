@@ -41,9 +41,10 @@ class ContentProvider with ChangeNotifier {
   Future<void> _loadImageCache() async {
     print('Loading image cache');
     _contentCache = await FileUtils.readImageMap();
+    print('Image cache loaded ${_contentCache.agents.length}');
     if (_contentCache.maps.isNotEmpty) {
       print('Image cache is not empty, updating content');
-      await updateContent();
+      updateContent();
     } else {
       print('Image cache is empty, updating all content');
       await updateAllContent();
