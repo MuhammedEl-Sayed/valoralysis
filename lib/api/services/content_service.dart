@@ -45,22 +45,24 @@ class ContentService {
       List<ContentItem> ranks = [];
       List<String> urls = [];
       List<String> ids = [];
-      for (var data in response.data['data']) {
-        for (var tier in data['tiers']) {
-          if (tier['smallIcon'] != null) {
-            String id = tier['tier'].toString();
-            String url = tier['smallIcon'];
-            ids.add(id);
-            urls.add(url);
-          }
+      var lastDataObject = response.data['data'].last;
+
+// Iterate over the tiers of the last object
+      for (var tier in lastDataObject['tiers']) {
+        if (tier['smallIcon'] != null) {
+          String id = tier['tier'].toString();
+          String url = tier['smallIcon'];
+          ids.add(id);
+          urls.add(url);
         }
       }
+      print('len urls${urls.length}');
       List<File?> images = await ImageCacheUtils.downloadImageFiles(urls, ids);
       print('len images: ${images.length}');
       for (var i = 0; i < images.length; i++) {
         if (images[i] != null) {
           String hash = ImageCacheUtils.generateImageHash(images[i]!);
-          ranks.add(ContentItem.fromJsonRanks(response.data['data'][i], hash,
+          ranks.add(ContentItem.fromJsonRanks(lastDataObject['tiers'][i], hash,
               iconUrl: images[i]!.path));
         }
       }
