@@ -237,8 +237,6 @@ class HistoryUtils {
 
   // Methods related to extracting content details
   static getContentImageFromId(String puuid, List<ContentItem> content) {
-    print('puuid $puuid');
-    print('content: $content');
     return content.firstWhere((item) => item.uuid == puuid).iconUrl;
   }
 

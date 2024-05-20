@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:show_fps/show_fps.dart';
 import 'package:valoralysis/consts/theme.dart';
-import 'package:valoralysis/providers/category_provider.dart'; // Import the CategoryTypeProvider
+import 'package:valoralysis/providers/category_provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/mode_provider.dart';
 import 'package:valoralysis/providers/navigation_provider.dart';
@@ -17,21 +17,24 @@ import 'package:valoralysis/widgets/ui/navigation_bar/navigation_bar.dart';
 import 'package:valoralysis/widgets/ui/title_bar/page_bar_wrappers.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  UserProvider userProvider = UserProvider(prefs);
-  await userProvider.init();
+
+  final userProvider = UserProvider(prefs);
+  final contentProvider = ContentProvider();
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => UserProvider(prefs),
+          create: (context) => userProvider,
         ),
         ChangeNotifierProvider(
           create: (context) => CategoryTypeProvider(),
         ),
-        ChangeNotifierProvider(create: (context) => ContentProvider()),
+        ChangeNotifierProvider(create: (context) => contentProvider),
         ChangeNotifierProvider(create: (context) => ModeProvider()),
         ChangeNotifierProvider(create: (context) => NavigationProvider())
       ],
@@ -43,31 +46,67 @@ void main() async {
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late Future<void> _initProvidersFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _initProvidersFuture = _initProviders(context);
+  }
+
+  Future<void> _initProviders(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final contentProvider =
+        Provider.of<ContentProvider>(context, listen: false);
+
+    await userProvider.init();
+    await contentProvider.init();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final navigationProvider = Provider.of<NavigationProvider>(context);
-
     return ScreenUtilInit(
-      designSize: const Size(1200, 800),
       builder: (BuildContext context, Widget? child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          navigatorObservers: <RouteObserver<ModalRoute<void>>>[routeObserver],
-          theme: darkTheme,
-          home: const InitialSignIn(),
-          builder: (context, child) => Overlay(
-            initialEntries: [
-              OverlayEntry(
-                  builder: (context) => ShowFPS(
+        return FutureBuilder(
+          future: _initProvidersFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return MaterialApp(
+                theme: darkTheme,
+                home: const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              );
+            } else {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                navigatorObservers: <RouteObserver<ModalRoute<void>>>[
+                  routeObserver
+                ],
+                theme: darkTheme,
+                home: const PageWithBar(child: InitialSignIn()),
+                builder: (context, child) => Overlay(
+                  initialEntries: [
+                    OverlayEntry(
+                      builder: (context) => ShowFPS(
                         child: Scaffold(
                           bottomNavigationBar: const NavBar(),
                           backgroundColor:
                               Theme.of(context).colorScheme.background,
                           body: Navigator(
-                            key: navigationProvider.navigatorKey,
+                            key: Provider.of<NavigationProvider>(context,
+                                    listen: false)
+                                .navigatorKey,
                             initialRoute: '/',
                             onGenerateRoute: (RouteSettings settings) {
                               WidgetBuilder builder;
@@ -106,10 +145,14 @@ class MyApp extends StatelessWidget {
                             },
                           ),
                         ),
-                      ))
-            ],
-          ),
-          themeMode: ThemeMode.system,
+                      ),
+                    )
+                  ],
+                ),
+                themeMode: ThemeMode.system,
+              );
+            }
+          },
         );
       },
       child: const PageWithBar(child: InitialSignIn()),
@@ -144,13 +187,11 @@ class RouteAwareWidgetState extends State<RouteAwareWidget> with RouteAware {
   }
 
   @override
-  // Called when the current route has been pushed.
   void didPush() {
     navigationProvider?.pageName = widget.name;
   }
 
   @override
-  // Called when the top route has been popped off, and the current route shows up.
   void didPopNext() {}
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class CachedImage extends StatelessWidget {
@@ -12,8 +14,8 @@ class CachedImage extends StatelessWidget {
     bool isLocal = Uri.parse(imageUrl).host.isEmpty;
 
     return isLocal
-        ? Image.asset(
-            imageUrl,
+        ? Image.file(
+            File(imageUrl),
             width: width,
             height: height,
           )

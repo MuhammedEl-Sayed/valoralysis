@@ -30,7 +30,7 @@ class ContentItem {
       json['uuid'].toString().toLowerCase(),
       hash,
       iconUrl: iconUrl ?? json['iconUrl'],
-      assetUrl: json['assetPath'],
+      assetUrl: json['mapUrl'],
     );
   }
 
@@ -87,6 +87,7 @@ class Content {
       required this.ranks,
       required this.weapons});
   factory Content.fromJson(Map<String, dynamic> json) {
+    print(json['ranks']);
     return Content(
       maps: (json['maps'] as List<dynamic>)
           .map((item) => ContentItem(

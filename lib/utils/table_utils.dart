@@ -18,6 +18,7 @@ class TableUtils {
     List<Map<String, dynamic>> players = [];
     List<ContentItem> ranks = content.ranks;
     List<ContentItem> agents = content.agents;
+    print('content: ${content.agents.length}');
 
     String userTeam =
         HistoryUtils.extractTeamFromPUUID(matchDetail, puuid)['teamId'];

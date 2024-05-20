@@ -6,7 +6,6 @@ import 'package:valoralysis/consts/images.dart';
 import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/consts/update_messages.dart';
 import 'package:valoralysis/models/user.dart';
-import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/navigation_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/pick_random.dart';
@@ -36,12 +35,16 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
     userProvider = Provider.of<UserProvider>(context, listen: false);
     navigationProvider =
         Provider.of<NavigationProvider>(context, listen: false);
+    print('rebuilt');
   }
 
-  Future<void> _initializeApp() async {
-    await _initContentState();
-    await _initUserState();
-    await _maybeShowUpdateDialog();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _maybeShowUpdateDialog();
+      await _checkIfUserLoggedIn();
+    });
   }
 
   Future<void> _maybeShowUpdateDialog() async {
@@ -83,20 +86,13 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
     );
   }
 
-  Future<void> _initUserState() async {
+  Future<void> _checkIfUserLoggedIn() async {
     final navigationProvider =
         Provider.of<NavigationProvider>(context, listen: false);
-    await userProvider.init();
-
+    print(userProvider.user.puuid);
     if (userProvider.user.puuid != '') {
       navigationProvider.navigateTo('/home');
     }
-  }
-
-  Future<void> _initContentState() async {
-    final contentProvider =
-        Provider.of<ContentProvider>(context, listen: false);
-    await contentProvider.init();
   }
 
   void login(String name) async {
@@ -136,93 +132,75 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
   Widget build(BuildContext context) {
     double margin = getStandardMargins(context);
 
-    return FutureBuilder(
-      future: _initializeApp(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            backgroundColor: Theme.of(context).colorScheme.background,
-            body: const Center(child: CircularProgressIndicator()),
-          );
-        } else if (snapshot.hasError) {
-          return Scaffold(
-            backgroundColor: Theme.of(context).colorScheme.background,
-            body: Center(child: Text('Error: ${snapshot.error}')),
-          );
-        } else {
-          return Scaffold(
-            resizeToAvoidBottomInset: true,
-            backgroundColor: Theme.of(context).colorScheme.background,
-            body: Stack(fit: StackFit.expand, children: [
-              Image.asset(
-                randomName,
-                fit: BoxFit.cover,
-                opacity: const AlwaysStoppedAnimation(0.2),
-              ),
-              Center(
-                widthFactor: 2,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(height: margin * 2),
-                      Image.asset(
-                        'assets/images/valoralysis_transparent.png',
-                        width: 200,
-                      ),
-                      BlinkingText(),
-                      const Text('Valoralysis', style: TextStyle(fontSize: 45)),
-                      const SizedBox(height: 20),
-                      if (showError)
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: margin * 2,
-                              right: margin * 2,
-                              top: margin,
-                              bottom: margin),
-                          padding: EdgeInsets.all(margin / 2),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.onError,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.error,
-                                  color: Theme.of(context).colorScheme.error),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(errorMessage),
-                              ),
-                            ],
-                          ),
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: Stack(fit: StackFit.expand, children: [
+        Image.asset(
+          randomName,
+          fit: BoxFit.cover,
+          opacity: const AlwaysStoppedAnimation(0.2),
+        ),
+        Center(
+          widthFactor: 2,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(height: margin * 2),
+                Image.asset(
+                  'assets/images/valoralysis_transparent.png',
+                  width: 200,
+                ),
+                BlinkingText(),
+                const Text('Valoralysis', style: TextStyle(fontSize: 45)),
+                const SizedBox(height: 20),
+                if (showError)
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: margin * 2,
+                        right: margin * 2,
+                        top: margin,
+                        bottom: margin),
+                    padding: EdgeInsets.all(margin / 2),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.onError,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.error,
+                            color: Theme.of(context).colorScheme.error),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(errorMessage),
                         ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: margin * 2, right: margin * 2),
-                        child: LoginSearchBar(
-                          onUserNameChanged: (newUserName) {
-                            setState(() {
-                              userName = newUserName;
-                            });
-                          },
-                          onSearchSubmitted: (newUserName) {
-                            login(newUserName);
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      FilledButton(
-                        onPressed: () => login(userName),
-                        child: const Text('Sign in with Riot Games'),
-                      ),
-                    ],
+                      ],
+                    ),
+                  ),
+                Padding(
+                  padding: EdgeInsets.only(left: margin * 2, right: margin * 2),
+                  child: LoginSearchBar(
+                    onUserNameChanged: (newUserName) {
+                      setState(() {
+                        userName = newUserName;
+                      });
+                    },
+                    onSearchSubmitted: (newUserName) {
+                      login(newUserName);
+                    },
                   ),
                 ),
-              ),
-            ]),
-          );
-        }
-      },
+                const SizedBox(height: 20),
+                FilledButton(
+                  onPressed: () => login(userName),
+                  child: const Text('Sign in with Riot Games'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ]),
     );
   }
 }

@@ -176,8 +176,8 @@ class _HistoryTileState extends State<HistoryTile> {
                                   MapUtils.extractMapPath(widget.matchDetail),
                                   contentProvider.maps) ??
                               '',
-                          style: const TextStyle(
-                              color: Color(0xffffffff), fontSize: 17),
+                          style:
+                              TextStyle(color: Color(0xffffffff), fontSize: 17),
                         ),
                         Text(
                             TimeUtils.timeAgo(HistoryUtils.extractStartTime(

@@ -53,4 +53,17 @@ class ImageCacheUtils {
       return null;
     }
   }
+
+  static Future<List<File?>> downloadImageFiles(
+      List<String> urls, List<String> ids) async {
+    if (urls.length != ids.length) {
+      throw ArgumentError('The length of urls and ids must be the same.');
+    }
+
+    return Future.wait(urls.asMap().entries.map((entry) {
+      int index = entry.key;
+      String url = entry.value;
+      return downloadImageFile(url, ids[index]);
+    }).toList());
+  }
 }
