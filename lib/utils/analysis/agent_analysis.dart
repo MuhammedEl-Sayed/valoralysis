@@ -4,11 +4,11 @@ import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 
 class AgentAnalysis {
-  static String findTopAgent(List<Map<String, dynamic>> matches, String puuid,
+  static String findTopAgent(Map<String, dynamic> matches, String puuid,
       List<ContentItem> agentContent) {
     Map<String, int> agentFrequency = {};
 
-    for (Map<String, dynamic> matchDetails in matches) {
+    for (Map<String, dynamic> matchDetails in matches.values) {
       Map<String, dynamic> player =
           HistoryUtils.getPlayerByPUUID(matchDetails, puuid);
       if (player == {} || player['characterId'] == null) {
@@ -27,6 +27,7 @@ class AgentAnalysis {
         mostFrequentValue = value;
       }
     });
+    print('agentContent: $mostFrequentAgent');
     return agentContent
         .firstWhere((agent) => agent.uuid.toLowerCase() == mostFrequentAgent)
         .name;

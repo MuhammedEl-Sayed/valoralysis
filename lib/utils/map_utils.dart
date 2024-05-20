@@ -6,8 +6,6 @@ class MapUtils {
   }
 
   static String getMapNameFromPath(String path, List<ContentItem> maps) {
-    print('path $path');
-
     return maps.firstWhere((map) => map.assetUrl == path).name;
   }
 }
