@@ -9,6 +9,7 @@ class RankUtils {
     int compTier = match['players'].firstWhere(
         (player) => player['puuid'] == puuid,
         orElse: () => {"competitiveTier": 0})['competitiveTier'];
+    print(compTier);
     return ranks.firstWhere(
       (rank) => int.parse(rank.uuid) == compTier,
       orElse: () => fallbackRank,

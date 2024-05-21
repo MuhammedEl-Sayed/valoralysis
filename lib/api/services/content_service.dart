@@ -45,7 +45,7 @@ class ContentService {
       List<ContentItem> ranks = [];
       List<String> urls = [];
       List<String> ids = [];
-      var lastDataObject = response.data['data'].last;
+      var lastDataObject = response.data['data'].first;
 
 // Iterate over the tiers of the last object
       for (var tier in lastDataObject['tiers']) {
