@@ -1,0 +1,28 @@
+name: "Send Discord Update"
+
+on:
+  workflow_run:
+    workflows: ["Build Android App", "Build iOS app"]
+    types:
+      - completed
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Get last commit message
+        id: commit
+        run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          echo "::set-output name=message::$COMMIT_MESSAGE"
+
+      - name: Send Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@0.3.2
+        with:
+          args: ${{ steps.commit.outputs.message }}
