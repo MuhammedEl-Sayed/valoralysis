@@ -194,7 +194,7 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
                 const SizedBox(height: 20),
                 FilledButton(
                   onPressed: () => login(userName),
-                  child: const Text('Sign in with Riot Games'),
+                  child: const Text('Search for player'),
                 ),
               ],
             ),
