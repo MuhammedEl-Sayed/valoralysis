@@ -27,7 +27,7 @@ class _LoginSearchBarState extends State<LoginSearchBar> {
       widget.onSearchSubmitted(value);
     }, builder: (BuildContext context, SearchController controller) {
       return SearchBar(
-        hintText: 'Search for a player i.e Player#1243',
+        hintText: 'Player#1243',
         controller: controller,
         padding: const MaterialStatePropertyAll<EdgeInsets>(
             EdgeInsets.symmetric(horizontal: 16.0)),
