@@ -42,7 +42,6 @@ class HistoryUtils {
 
   static List<PlayerRoundStats> extractPlayerRoundStats(
       Map<String, dynamic> matchDetail, String puuid) {
-    print('Length of round results: ${getRoundResults(matchDetail).length}');
     return getRoundResults(matchDetail)
         .expand((roundResult) => (roundResult['playerStats'] as List<dynamic>)
             .where((playerStat) => playerStat['puuid'] == puuid))
