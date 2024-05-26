@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 class ThemeColors {
@@ -46,9 +44,11 @@ final ThemeData darkTheme = ThemeData(
       buttonColor: ThemeColors.darkTertiary,
     ),
     textTheme: const TextTheme(
-        bodyLarge: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
-        bodyMedium: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
-        labelMedium: TextStyle(color: ThemeColors.textColor)),
+      bodyLarge: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
+      bodyMedium: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
+      labelMedium: TextStyle(color: ThemeColors.textColor),
+      titleMedium: TextStyle(color: Color(0xffffffff), fontSize: 15),
+    ),
     dataTableTheme:
         const DataTableThemeData(dataRowMinHeight: 0, dataRowMaxHeight: 0),
     dividerColor: ThemeColors.canvasColor);

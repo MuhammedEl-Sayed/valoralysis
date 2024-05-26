@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart' hide DataColumn, DataRow, DataTable;
 import 'package:provider/provider.dart';
+import 'package:table_sticky_headers/table_sticky_headers.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/table_utils.dart';
-import 'package:valoralysis/widgets/ui/data_table/data_table.dart';
 
 class TeamDetailsTable extends StatelessWidget {
   final String puuid;
@@ -15,116 +15,74 @@ class TeamDetailsTable extends StatelessWidget {
       required this.puuid,
       required this.matchDetail,
       required this.isUserTeam});
-//! DONT FORGET TO MAKE FORK OF MATERIAL FOR THE DATATABLE OVERRIDE
+  //! DONT FORGET TO MAKE FORK OF MATERIAL FOR THE DATATABLE OVERRIDE
   @override
   Widget build(BuildContext context) {
-    //So we need DataRows,
     ContentProvider contentProvider = Provider.of<ContentProvider>(context);
     UserProvider userProvider = Provider.of<UserProvider>(context);
-    List<DataRow> playerDataRows = TableUtils.buildPlayerDataRows(matchDetail,
-        puuid, contentProvider.content, isUserTeam, userProvider.user.puuid);
-
+    List<List<Widget>> playerDataRows = TableUtils.buildPlayerDataRows(
+        matchDetail,
+        puuid,
+        contentProvider.content,
+        isUserTeam,
+        userProvider.user.puuid);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return ClipRect(
             child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: constraints.maxWidth),
-                child: Stack(children: [
-                  SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Stack(children: [
-                        Container(
-                          width: constraints.maxWidth + 140,
-                          height: 26,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                        DataTable(
-                            border: TableBorder.all(
-                                color: Theme.of(context).canvasColor),
-                            columnSpacing: 20,
-                            dataRowColor:
-                                MaterialStateProperty.resolveWith<Color?>(
-                              (Set<MaterialState> states) {
-                                return isUserTeam
-                                    ? const Color(0xff2BD900).withOpacity(0.2)
-                                    : const Color(0xff730000).withOpacity(0.2);
-                              },
-                            ),
-                            headingRowHeight: 26,
-                            columns: <DataColumn>[
-                              DataColumn(
-                                label: Text(isUserTeam ? '' : ''),
-                              ),
-                              const DataColumn(
-                                  label: Expanded(
-                                child: Text('KAST'),
-                              )),
-                              const DataColumn(
-                                  label: Expanded(
-                                child: Text('KD'),
-                              )),
-                              const DataColumn(
-                                  label: Expanded(
-                                child: Text('K'),
-                              )),
-                              const DataColumn(
-                                  label: Expanded(
-                                child: Text('D'),
-                              )),
-                              const DataColumn(
-                                  label: Expanded(
-                                child: Text('A'),
-                              )),
-                              const DataColumn(
-                                  label: Expanded(
-                                child: Text('T'),
-                              )),
-                              const DataColumn(
-                                  label: Expanded(
-                                child: Text('ADR'),
-                              )),
-                              const DataColumn(
-                                  label: Expanded(
-                                child: Text('HS%'),
-                              )),
-                            ],
-                            rows: playerDataRows),
-                      ])),
-                  Stack(
-                    children: [
-                      Container(
-                        width: 150,
-                        height: 26,
-                        color: Theme.of(context).canvasColor,
-                      ),
-                      SizedBox(
-                        width: 150,
-                        child: DataTable(
-                          columnSpacing: 10,
-                          dataCellPadding: const EdgeInsets.all(0),
-                          dataRowColor:
-                              MaterialStateProperty.resolveWith<Color?>(
-                            (Set<MaterialState> states) {
-                              return isUserTeam
-                                  ? const Color(0xff224015)
-                                  : const Color(0xff2e1515);
-                            },
-                          ),
-                          headingRowHeight: 26,
-                          columns: <DataColumn>[
-                            DataColumn(
-                              label:
-                                  Text(isUserTeam ? 'Your team' : 'Enemy team'),
-                            ),
-                          ],
-                          rows: playerDataRows
-                              .map((row) => DataRow(cells: [row.cells[0]]))
-                              .toList(),
-                        ),
-                      ),
-                    ],
-                  )
-                ])));
+                constraints: BoxConstraints(
+                    maxWidth: constraints.maxWidth, maxHeight: 35 * 5.0 + 26.0),
+                child: StickyHeadersTable(
+                  showHorizontalScrollbar: false,
+                  showVerticalScrollbar: false,
+                  columnsLength: 8,
+                  cellDimensions: const CellDimensions.variableRowHeight(
+                    contentCellWidth: 45.0,
+                    rowHeights: [35.0, 35.0, 35.0, 35.0, 35.0],
+                    stickyLegendWidth: 150.0,
+                    stickyLegendHeight: 26.0,
+                  ),
+                  rowsLength: 5,
+                  legendCell: Text(isUserTeam ? 'Your team' : 'Enemy team'),
+                  columnsTitleBuilder: (int index) {
+                    String title;
+                    switch (index) {
+                      case 0:
+                        title = 'KAST';
+                        break;
+                      case 1:
+                        title = 'KD';
+                        break;
+                      case 2:
+                        title = 'K';
+                        break;
+                      case 3:
+                        title = 'D';
+                        break;
+                      case 4:
+                        title = 'A';
+                        break;
+                      case 5:
+                        title = 'T';
+                        break;
+                      case 6:
+                        title = 'ADR';
+                        break;
+                      case 7:
+                        title = 'HS%';
+                        break;
+                      default:
+                        title = '';
+                    }
+                    return Text(title);
+                  },
+                  rowsTitleBuilder: (int index) {
+                    return playerDataRows[index][0];
+                  },
+                  contentCellBuilder: (int columnIndex, int rowIndex) {
+                    return playerDataRows[rowIndex].sublist(1)[columnIndex];
+                  },
+                )));
       },
     );
   }

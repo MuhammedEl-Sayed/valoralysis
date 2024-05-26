@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/margins.dart';
+import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
@@ -141,6 +142,8 @@ class _HistoryTileState extends State<HistoryTile> {
     bool didWin;
     Widget roundsWon;
     Widget content;
+    PlayerStats playerStats = HistoryUtils.extractPlayerStat(
+        widget.matchDetail, userProvider.user.puuid);
 
     if (widget.fake) {
       didWin = true;
@@ -172,13 +175,11 @@ class _HistoryTileState extends State<HistoryTile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          MapUtils.getMapNameFromPath(
-                                  MapUtils.extractMapPath(widget.matchDetail),
-                                  contentProvider.maps) ??
-                              '',
-                          style:
-                              TextStyle(color: Color(0xffffffff), fontSize: 17),
-                        ),
+                            MapUtils.getMapNameFromPath(
+                                    MapUtils.extractMapPath(widget.matchDetail),
+                                    contentProvider.maps) ??
+                                '',
+                            style: Theme.of(context).textTheme.titleMedium),
                         Text(
                             TimeUtils.timeAgo(HistoryUtils.extractStartTime(
                                 widget.matchDetail)),
@@ -189,8 +190,22 @@ class _HistoryTileState extends State<HistoryTile> {
                 ),
               ),
               Expanded(
-                child:
-                    Row(children: [const Spacer(), roundsWon, const Spacer()]),
+                child: Row(children: [
+                  const Spacer(),
+                  roundsWon,
+                  const Spacer(),
+                ]),
+              ),
+              const Spacer(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text('K/D/A', style: Theme.of(context).textTheme.labelMedium),
+                  Text(
+                      '${playerStats.kills}/${playerStats.deaths}/${playerStats.assists}',
+                      style: Theme.of(context).textTheme.titleMedium),
+                ],
               ),
               Expanded(
                 child: Row(children: [

@@ -9,12 +9,15 @@ import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
 import 'package:valoralysis/utils/weapons_utils.dart';
 import 'package:valoralysis/widgets/ui/cached_image/cached_image.dart';
-import 'package:valoralysis/widgets/ui/data_table/data_table.dart';
 import 'package:valoralysis/widgets/ui/marquee_text/marquee_text.dart';
 
 class TableUtils {
-  static List<DataRow> buildPlayerDataRows(Map<String, dynamic> matchDetail,
-      String puuid, Content content, bool isUserTeam, String userPUUID) {
+  static List<List<Widget>> buildPlayerDataRows(
+      Map<String, dynamic> matchDetail,
+      String puuid,
+      Content content,
+      bool isUserTeam,
+      String userPUUID) {
     List<Map<String, dynamic>> players = [];
     List<ContentItem> ranks = content.ranks;
     List<ContentItem> agents = content.agents;
@@ -42,11 +45,11 @@ class TableUtils {
       return double.parse(b['kast']).compareTo(double.parse(a['kast']));
     });
 
-    List<DataRow> rows = [];
+    List<List<Widget>> rows = [];
 
     for (Map<String, dynamic> player in players) {
       String playerPUUID = player['puuid'];
-      DataCell profile = buildPlayerProfileDataCell(
+      Widget profile = buildPlayerProfileCell(
           matchDetail, player, ranks, agents, playerPUUID == userPUUID);
       PlayerStats stats =
           HistoryUtils.extractPlayerStat(matchDetail, playerPUUID);
@@ -57,17 +60,19 @@ class TableUtils {
       String kast = MatchAnalysis.findKAST(matchDetail, playerPUUID);
       int numTrades = stats.trades.values
           .fold(0, (previousValue, element) => previousValue + element.length);
-      rows.add(DataRow(cells: [
-        profile, // Profile under the team name column
-        DataCell(Text('$kast%')), // ACS
-        DataCell(Text(stats.kd.toString())), // KD
-        DataCell(Text(stats.kills.toString())), // K
-        DataCell(Text(stats.deaths.toString())), // D
-        DataCell(Text(stats.assists.toString())), // A
-        DataCell(Text(numTrades.toString())),
-        const DataCell(Text('0')), // ADR
-        DataCell(Text(hs)), // HS%
-      ]));
+
+      List<Widget> row = [
+        profile,
+        Text('$kast%'),
+        Text(stats.kd.toString()),
+        Text(stats.kills.toString()),
+        Text(stats.deaths.toString()),
+        Text(stats.assists.toString()),
+        Text(numTrades.toString()),
+        const Text('0'),
+        Text(hs),
+      ];
+      rows.add(row);
     }
 
     // Now we make sure to sort
@@ -75,7 +80,7 @@ class TableUtils {
     return rows;
   }
 
-  static DataCell buildPlayerProfileDataCell(
+  static Widget buildPlayerProfileCell(
       Map<String, dynamic> matchDetail,
       Map<String, dynamic> player,
       List<ContentItem> ranks,
@@ -86,7 +91,7 @@ class TableUtils {
         HistoryUtils.extractPlayerNameByPUUID(matchDetail, puuid);
     ContentItem playerRank = RankUtils.getPlayerRank(matchDetail, ranks, puuid);
 
-    return DataCell(Stack(children: <Widget>[
+    return Stack(children: <Widget>[
       Positioned(
         left: 0,
         top: 0,
@@ -107,51 +112,26 @@ class TableUtils {
               )
             : const SizedBox.shrink(),
       ),
-      ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 120),
-          child: Padding(
-              padding: const EdgeInsets.only(top: 7, bottom: 7, left: 7),
-              child: Row(
-                children: [
-                  CachedImage(
-                    imageUrl:
-                        AgentUtils.getImageFromId(matchDetail, puuid, agents) ??
-                            '',
-                    width: 25,
-                    height: 25,
-                  ),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        MarqueeText(
-                            direction: Axis.horizontal,
-                            child: Text(
-                              playerName,
-                              style: const TextStyle(fontSize: 13),
-                              overflow: TextOverflow.ellipsis,
-                            )),
-                        Row(
-                          children: [
-                            CachedImage(
-                              imageUrl: playerRank.iconUrl ?? '',
-                              width: 10,
-                              height: 10,
-                            ),
-                            Flexible(
-                              child: Text(playerRank.name,
-                                  style:
-                                      const TextStyle(fontSize: 9, height: 1),
-                                  overflow: TextOverflow.ellipsis),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              )))
-    ]));
+      Padding(
+        padding: const EdgeInsets.only(top: 7, bottom: 7, left: 7),
+        child: Row(
+          children: [
+            CachedImage(
+              imageUrl:
+                  AgentUtils.getImageFromId(matchDetail, puuid, agents) ?? '',
+              width: 25,
+              height: 25,
+            ),
+            MarqueeText(
+                direction: Axis.horizontal,
+                child: Text(
+                  playerName,
+                  style: const TextStyle(fontSize: 13),
+                  overflow: TextOverflow.ellipsis,
+                )),
+          ],
+        ),
+      ),
+    ]);
   }
 }
