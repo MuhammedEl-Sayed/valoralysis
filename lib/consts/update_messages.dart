@@ -1,4 +1,4 @@
 const updateMessages = [
-  "- Adjusted text in search bar.",
-  "- Fixed incorrect rank icons in match history."
+  "- Updated with a new and improved table! Removed rank names and made rank icons more prominent.",
+  "- Added KD to the history tiles."
 ];

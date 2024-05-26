@@ -4,6 +4,7 @@ import 'package:table_sticky_headers/table_sticky_headers.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/table_utils.dart';
+import 'package:valoralysis/widgets/ui/team_details_table/team_table_cell.dart';
 
 class TeamDetailsTable extends StatelessWidget {
   final String puuid;
@@ -31,19 +32,27 @@ class TeamDetailsTable extends StatelessWidget {
         return ClipRect(
             child: ConstrainedBox(
                 constraints: BoxConstraints(
-                    maxWidth: constraints.maxWidth, maxHeight: 35 * 5.0 + 26.0),
+                    maxWidth: constraints.maxWidth, maxHeight: 45 * 5.0 + 26.0),
                 child: StickyHeadersTable(
                   showHorizontalScrollbar: false,
                   showVerticalScrollbar: false,
                   columnsLength: 8,
+                  cellAlignments: const CellAlignments.fixed(
+                      contentCellAlignment: Alignment.center,
+                      stickyColumnAlignment: Alignment.centerLeft,
+                      stickyRowAlignment: Alignment.center,
+                      stickyLegendAlignment: Alignment.center),
                   cellDimensions: const CellDimensions.variableRowHeight(
-                    contentCellWidth: 45.0,
-                    rowHeights: [35.0, 35.0, 35.0, 35.0, 35.0],
+                    contentCellWidth: 50.0,
+                    rowHeights: [45.0, 45.0, 45.0, 45.0, 45.0],
                     stickyLegendWidth: 150.0,
                     stickyLegendHeight: 26.0,
                   ),
                   rowsLength: 5,
-                  legendCell: Text(isUserTeam ? 'Your team' : 'Enemy team'),
+                  legendCell: TeamTableCell.stickyColumn(
+                      hasBorder: false,
+                      backgroundColor: Theme.of(context).canvasColor,
+                      Text(isUserTeam ? 'Your team' : 'Enemy team')),
                   columnsTitleBuilder: (int index) {
                     String title;
                     switch (index) {
@@ -74,7 +83,10 @@ class TeamDetailsTable extends StatelessWidget {
                       default:
                         title = '';
                     }
-                    return Text(title);
+                    return TeamTableCell.stickyColumn(
+                        hasBorder: false,
+                        backgroundColor: Theme.of(context).canvasColor,
+                        Text(title));
                   },
                   rowsTitleBuilder: (int index) {
                     return playerDataRows[index][0];
