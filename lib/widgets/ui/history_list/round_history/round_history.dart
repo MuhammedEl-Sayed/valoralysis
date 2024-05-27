@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:valoralysis/consts/round_result.dart';
 import 'package:valoralysis/utils/history_utils.dart';
@@ -61,8 +59,9 @@ class RoundHistory extends StatelessWidget {
         HistoryUtils.extractRoundResultPerTeam(matchDetail, puuid);
     String userTeam =
         HistoryUtils.extractTeamFromPUUID(matchDetail, puuid)['teamId'];
-    int lastRound = max(
-        roundResults['Your Team'].length, roundResults['Enemy Team'].length);
+    int numRounds = HistoryUtils.getNumberOfRounds(matchDetail);
+    int lastRound =
+        roundResults['Your Team'].length + roundResults['Enemy Team'].length;
 
     List<int> roundsWonPlayer = [];
     List<int> roundsWonEnemy = [];
@@ -88,6 +87,7 @@ class RoundHistory extends StatelessWidget {
         .sort((a, b) => (a['roundNum'] as int).compareTo(b['roundNum'] as int));
     roundResults['Enemy Team']
         .sort((a, b) => (a['roundNum'] as int).compareTo(b['roundNum'] as int));
+    print('roundResults: $roundResults');
     return SizedBox(
       height: 90,
       width: MediaQuery.of(context).size.width,
