@@ -73,6 +73,23 @@ class HistoryUtils {
     return '${player['gameName']}#${player['tagLine']}';
   }
 
+  static Map<int, List<DamageDto>> extractPlayerDamage(
+      Map<String, dynamic> matchDetail, String puuid) {
+    Map<int, List<DamageDto>> roundToPlayerDamage = {};
+    List<PlayerRoundStats> playerRoundStats =
+        extractPlayerRoundStats(matchDetail, puuid);
+    for (int index = 0; index < playerRoundStats.length; index++) {
+      PlayerRoundStats playerRoundStat = playerRoundStats[index];
+      if (playerRoundStat.damage.isNotEmpty) {
+        roundToPlayerDamage[index] = playerRoundStat.damage;
+      } else {
+        roundToPlayerDamage[index] = [];
+      }
+    }
+
+    return roundToPlayerDamage;
+  }
+
   static Map<int, List<KillDto>> extractPlayerKills(
       Map<String, dynamic> matchDetail, String puuid) {
     Map<int, List<KillDto>> roundToPlayerKills = {};

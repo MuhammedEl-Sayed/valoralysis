@@ -6,45 +6,52 @@ import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/providers/category_provider.dart';
 import 'package:valoralysis/utils/text_utils.dart';
 
-class CategoryTypeSelector extends StatelessWidget {
-  const CategoryTypeSelector({super.key});
+class CategoryTypeSelector extends StatefulWidget {
+  final Function(Item) onSelectCategory;
+  final String selectedCategory;
 
+  const CategoryTypeSelector({
+    Key? key,
+    required this.onSelectCategory,
+    required this.selectedCategory,
+  }) : super(key: key);
+
+  @override
+  _CategoryTypeSelectorState createState() => _CategoryTypeSelectorState();
+}
+
+class _CategoryTypeSelectorState extends State<CategoryTypeSelector> {
   @override
   Widget build(BuildContext context) {
     double margin = getStandardMargins(context);
-    return Consumer<CategoryTypeProvider>(
-      builder: (context, categoryTypeProvider, child) {
-        return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: categoryTypeProvider.queueTypes.map((item) {
-                bool isSelected =
-                    categoryTypeProvider.selectedQueue == item.realValue;
-                return GestureDetector(
-                  onTap: () => categoryTypeProvider.selectQueue(item.realValue),
-                  child: LayoutBuilder(
-                    builder:
-                        (BuildContext context, BoxConstraints constraints) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                            right: margin / 3, left: margin / 3),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            buildAnimatedText(context, isSelected, item),
-                            const SizedBox(height: 4),
-                            buildAnimatedContainer(context, isSelected, item),
-                          ],
-                        ),
-                      );
-                    },
+    CategoryTypeProvider categoryTypeProvider = Provider.of(context);
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: categoryTypeProvider.queueTypes.map((item) {
+          bool isSelected = widget.selectedCategory == item.realValue;
+          return GestureDetector(
+            onTap: () => widget.onSelectCategory(item),
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return Padding(
+                  padding: EdgeInsets.only(right: margin / 3, left: margin / 3),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      buildAnimatedText(context, isSelected, item),
+                      const SizedBox(height: 4),
+                      buildAnimatedContainer(context, isSelected, item),
+                    ],
                   ),
                 );
-              }).toList(),
-            ));
-      },
+              },
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 

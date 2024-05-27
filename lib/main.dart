@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_version/new_version.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:show_fps/show_fps.dart';
@@ -21,7 +22,6 @@ void main() async {
   await dotenv.load();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
-
   final userProvider = UserProvider(prefs);
   final contentProvider = ContentProvider();
 
@@ -60,6 +60,13 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _initProvidersFuture = _initProviders(context);
+    final newVersion = NewVersion();
+
+    basicStatusCheck(newVersion);
+  }
+
+  basicStatusCheck(NewVersion newVersion) {
+    newVersion.showAlertIfNecessary(context: context);
   }
 
   Future<void> _initProviders(BuildContext context) async {
