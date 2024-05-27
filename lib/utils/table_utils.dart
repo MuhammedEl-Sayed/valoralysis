@@ -60,6 +60,7 @@ class TableUtils {
               [matchDetail], playerPUUID),
           ShotType.Headshot);
       String kast = MatchAnalysis.findKAST(matchDetail, playerPUUID);
+      int adr = MatchAnalysis.findADR(matchDetail, playerPUUID);
       int numTrades = stats.trades.values
           .fold(0, (previousValue, element) => previousValue + element.length);
       Widget wrapWithTeamTableCellContent(Widget child) {
@@ -78,7 +79,7 @@ class TableUtils {
         wrapWithTeamTableCellContent(Text(stats.deaths.toString())),
         wrapWithTeamTableCellContent(Text(stats.assists.toString())),
         wrapWithTeamTableCellContent(Text(numTrades.toString())),
-        wrapWithTeamTableCellContent(const Text('0')),
+        wrapWithTeamTableCellContent(Text(adr.toString())),
         wrapWithTeamTableCellContent(Text(hs)),
       ];
       rows.add(row);

@@ -1,5 +1,4 @@
 import 'package:valoralysis/models/player_round_stats.dart';
-import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 
 class MatchAnalysis {
@@ -9,13 +8,6 @@ class MatchAnalysis {
     if (player == {} || player['characterId'] == null) {
       return '0';
     }
-    PlayerStats stats = HistoryUtils.extractPlayerStat(matchDetail, puuid);
-    // This needs to be completely reworked. KAST is per round if anything of those things happen.
-    // So for each round we need to see if:
-    // player has KillDto in map, value is 100
-    // player is listed as an assist in teammates KillDto, value is 100
-    // player did not get a kill or assist but survived, value is 100
-    // player got traded, value is 100
 
     Map<int, List<KillDto>> kills =
         HistoryUtils.extractPlayerKills(matchDetail, puuid);
@@ -42,5 +34,24 @@ class MatchAnalysis {
     return ((1 - (numOfRoundsPlayerFuckingSucked / kills.keys.length)) * 100)
         .toInt()
         .toString();
+  }
+
+  static int findADR(Map<String, dynamic> matchDetail, String puuid) {
+    Map<String, dynamic> player =
+        HistoryUtils.getPlayerByPUUID(matchDetail, puuid);
+    if (player == {} || player['characterId'] == null) {
+      return 0;
+    }
+    List<PlayerRoundStats> stats =
+        HistoryUtils.extractPlayerRoundStats(matchDetail, puuid);
+    int numRounds = HistoryUtils.getNumberOfRounds(matchDetail);
+    return (stats.fold(
+                0,
+                (sum, roundStat) =>
+                    sum +
+                    roundStat.damage.fold(
+                        0, (sum, enemyDamage) => sum + enemyDamage.damage)) /
+            numRounds)
+        .round();
   }
 }

@@ -10,6 +10,7 @@ class PlayerStats {
   double kd;
   Map<int, List<KillDto>> trades;
   String? kast;
+  int? adr;
 
   PlayerStats(
       {required this.score,
@@ -20,6 +21,7 @@ class PlayerStats {
       required this.playtimeMillis,
       required this.kd,
       this.kast,
+      this.adr,
       required this.trades});
 
   factory PlayerStats.fromJsonWithKD(
