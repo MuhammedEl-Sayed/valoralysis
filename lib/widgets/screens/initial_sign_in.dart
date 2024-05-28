@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:upgrader/upgrader.dart';
 import 'package:valoralysis/api/services/auth_service.dart';
 import 'package:valoralysis/consts/images.dart';
 import 'package:valoralysis/consts/margins.dart';
@@ -131,76 +132,87 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
   @override
   Widget build(BuildContext context) {
     double margin = getStandardMargins(context);
-
+    final upgrader = Upgrader(
+        debugLogging: true,
+        storeController: UpgraderStoreController(
+            onAndroid: () => UpgraderAppcastStore(
+                appcastURL:
+                    'https://raw.githubusercontent.com/MuhammedEl-Sayed/valoralysis/main/appcast.xml'),
+            oniOS: () => UpgraderAppcastStore(
+                appcastURL:
+                    'https://raw.githubusercontent.com/MuhammedEl-Sayed/valoralysis/main/appcast.xml')));
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: Stack(fit: StackFit.expand, children: [
-        Image.asset(
-          randomName,
-          fit: BoxFit.cover,
-          opacity: const AlwaysStoppedAnimation(0.2),
-        ),
-        Center(
-          widthFactor: 2,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(height: margin * 2),
-                Image.asset(
-                  'assets/images/valoralysis_transparent.png',
-                  width: 200,
-                ),
-                BlinkingText(),
-                const Text('Valoralysis', style: TextStyle(fontSize: 45)),
-                const SizedBox(height: 20),
-                if (showError)
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: margin * 2,
-                        right: margin * 2,
-                        top: margin,
-                        bottom: margin),
-                    padding: EdgeInsets.all(margin / 2),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.onError,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.error,
-                            color: Theme.of(context).colorScheme.error),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(errorMessage),
-                        ),
-                      ],
-                    ),
-                  ),
-                Padding(
-                  padding: EdgeInsets.only(left: margin * 2, right: margin * 2),
-                  child: LoginSearchBar(
-                    onUserNameChanged: (newUserName) {
-                      setState(() {
-                        userName = newUserName;
-                      });
-                    },
-                    onSearchSubmitted: (newUserName) {
-                      login(newUserName);
-                    },
-                  ),
-                ),
-                const SizedBox(height: 20),
-                FilledButton(
-                  onPressed: () => login(userName),
-                  child: const Text('Search for player'),
-                ),
-              ],
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: UpgradeAlert(
+          upgrader: upgrader,
+          child: Stack(fit: StackFit.expand, children: [
+            Image.asset(
+              randomName,
+              fit: BoxFit.cover,
+              opacity: const AlwaysStoppedAnimation(0.2),
             ),
-          ),
-        ),
-      ]),
-    );
+            Center(
+              widthFactor: 2,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(height: margin * 2),
+                    Image.asset(
+                      'assets/images/valoralysis_transparent.png',
+                      width: 200,
+                    ),
+                    BlinkingText(),
+                    const Text('Valoralysis', style: TextStyle(fontSize: 45)),
+                    const SizedBox(height: 20),
+                    if (showError)
+                      Container(
+                        margin: EdgeInsets.only(
+                            left: margin * 2,
+                            right: margin * 2,
+                            top: margin,
+                            bottom: margin),
+                        padding: EdgeInsets.all(margin / 2),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.onError,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.error,
+                                color: Theme.of(context).colorScheme.error),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(errorMessage),
+                            ),
+                          ],
+                        ),
+                      ),
+                    Padding(
+                      padding:
+                          EdgeInsets.only(left: margin * 2, right: margin * 2),
+                      child: LoginSearchBar(
+                        onUserNameChanged: (newUserName) {
+                          setState(() {
+                            userName = newUserName;
+                          });
+                        },
+                        onSearchSubmitted: (newUserName) {
+                          login(newUserName);
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    FilledButton(
+                      onPressed: () => login(userName),
+                      child: const Text('Search for player'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ]),
+        ));
   }
 }
