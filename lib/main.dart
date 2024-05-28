@@ -72,6 +72,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final upgrader = Upgrader(
+        storeController: UpgraderStoreController(
+            onAndroid: () => UpgraderAppcastStore(
+                appcastURL:
+                    'https://raw.githubusercontent.com/MuhammedEl-Sayed/valoralysis/main/appcast.xml'),
+            oniOS: () => UpgraderAppcastStore(
+                appcastURL:
+                    'https://raw.githubusercontent.com/MuhammedEl-Sayed/valoralysis/main/appcast.xml')));
     return ScreenUtilInit(
       builder: (BuildContext context, Widget? child) {
         return FutureBuilder(
@@ -95,6 +103,7 @@ class _MyAppState extends State<MyApp> {
                 theme: darkTheme,
                 home: const InitialSignIn(),
                 builder: (context, child) => UpgradeAlert(
+                  upgrader: upgrader,
                   child: Overlay(
                     initialEntries: [
                       OverlayEntry(
