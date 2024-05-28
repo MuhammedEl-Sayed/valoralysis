@@ -18,12 +18,6 @@ jobs:
             echo "message<<EOF" >> $GITHUB_ENV
             echo "$COMMIT_MESSAGE" >> $GITHUB_ENV
             echo "EOF" >> $GITHUB_ENV
-      - name: Print pubspec.yaml content  
-        run: cat pubspec.yaml  
-      - name: Print working directory and list files  
-        run: |  
-            pwd  
-            ls -al  
       - name: Extract version from pubspec.yaml
         id: version
         run: |
@@ -35,24 +29,25 @@ jobs:
             NEW_BUILD_NUMBER=$((BUILD_NUMBER + 1))
             # Update the version with the new build number
             NEW_VERSION=$(echo $VERSION | cut -d'+' -f1)"+$NEW_BUILD_NUMBER"
+            echo "version=${NEW_VERSION}" >> $GITHUB_ENV
             # Update the version in the pubspec.yaml
             sed -i "s/version: $VERSION/version: $NEW_VERSION/" pubspec.yaml
             # Commit the changes
             git config --global user.name "github-actions"
             git config --global user.email "github-actions@github.com"
             git add pubspec.yaml
-            git commit -m "Bump version to $NEW_VERSION"
+          
 
       - name: Update appcast.xml
         run: |
             PUBDATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
             # Update Android entry in appcast.xml
-            sed -i "/<item>/,/<\/item>/ { /<title>Version/ s/<title>Version .*<\/title>/<title>Version $NEW_VERSION<\/title>/; /<description>/ s/<description>.*<\/description>/<description>${{ env.message }}<\/description>/; /<pubDate>/ s/<pubDate>.*<\/pubDate>/<pubDate>${PUBDATE}<\/pubDate>/; /<enclosure/ s/sparkle:version=\".*\"/sparkle:version=\"$NEW_VERSION\"/ }" appcast.xml
+            sed -i "/<item>/,/<\/item>/ { /<title>Version/ s/<title>Version .*<\/title>/<title>Version ${{ env.version }}<\/title>/; /<description>/ s/<description>.*<\/description>/<description>${{ env.message }}<\/description>/; /<pubDate>/ s/<pubDate>.*<\/pubDate>/<pubDate>${PUBDATE}<\/pubDate>/; /<enclosure/ s/sparkle:version=\".*\"/sparkle:version=\"${{ env.version }}\"/ }" appcast.xml
             # Update iOS entry in appcast.xml
-            sed -i "/<item>/,/<\/item>/ { /sparkle:os=\"ios\"/ { /<title>Version/ s/<title>Version .*<\/title>/<title>Version $NEW_VERSION<\/title>/; /<description>/ s/<description>.*<\/description>/<description>${{ env.message }}<\/description>/; /<pubDate>/ s/<pubDate>.*<\/pubDate>/<pubDate>${PUBDATE}<\/pubDate>/; /<enclosure/ s/sparkle:version=\".*\"/sparkle:version=\"$NEW_VERSION\"/ } }" appcast.xml
+            sed -i "/<item>/,/<\/item>/ { /sparkle:os=\"ios\"/ { /<title>Version/ s/<title>Version .*<\/title>/<title>Version ${{ env.version }}<\/title>/; /<description>/ s/<description>.*<\/description>/<description>${{ env.message }}<\/description>/; /<pubDate>/ s/<pubDate>.*<\/pubDate>/<pubDate>${PUBDATE}<\/pubDate>/; /<enclosure/ s/sparkle:version=\".*\"/sparkle:version=\"${{ env.version }}"/ } }" appcast.xml
             # Commit and push changes
             git add appcast.xml
-            git commit -m "${{ env.message }}"
+            git commit -m "${{ env.version}}: ${{ env.message }}"
             git push
 
   build_ios:
@@ -149,8 +144,14 @@ jobs:
     needs: [build_ios, build_android]
     if: ${{ failure() }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Revert last commit
-        run: git reset --hard HEAD^
+        run: |
+            git config --global user.name "github-actions"
+            git config --global user.email "github-actions@github.com"
+            git reset --hard HEAD^
         
   notify:
     runs-on: ubuntu-latest
