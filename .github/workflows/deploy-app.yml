@@ -115,8 +115,8 @@ jobs:
       - name: Update appcast.xml
         run: |
           APPCAST_PATH="appcast.xml"
-          VERSION=${{ env.version }}
-          DESCRIPTION=${{ env.message }}
+          VERSION=${{ steps.version.outputs.version }}
+          DESCRIPTION=${{ steps.commit.outputs.message }}
           PUBDATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
 
           # Update Android entry in appcast.xml
@@ -137,4 +137,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@0.3.2
         with:
-          args: ${{ env.message }}
+          args: ${{ steps.commit.outputs.message }}
