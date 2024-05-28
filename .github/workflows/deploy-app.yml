@@ -18,6 +18,8 @@ jobs:
           echo "message<<EOF" >> $GITHUB_ENV
           echo "$COMMIT_MESSAGE" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+        env:
+          GITHUB_ENV: ${{ env.GITHUB_ENV }}
 
       - name: Extract version from pubspec.yaml
         id: version
@@ -25,12 +27,14 @@ jobs:
           VERSION=$(grep 'version: ' pubspec.yaml | sed 's/version: //')
           echo "Extracted version: $VERSION"
           echo "version=${VERSION}" >> $GITHUB_ENV
+        env:
+          GITHUB_ENV: ${{ env.GITHUB_ENV }}
 
       - name: Update appcast.xml
         run: |
           APPCAST_PATH="appcast.xml"
-          VERSION=${{ env.version }}
-          DESCRIPTION=${{ env.message }}
+          VERSION=${{ steps.version.outputs.version }}
+          DESCRIPTION=${{ steps.commit.outputs.message }}
           PUBDATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
 
           echo "Updating appcast.xml with version: $VERSION and description: $DESCRIPTION"
@@ -53,3 +57,5 @@ jobs:
 
           git commit -m "${DESCRIPTION}"
           git push
+        env:
+          GITHUB_ENV: ${{ env.GITHUB_ENV }}
