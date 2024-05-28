@@ -3,6 +3,7 @@ import 'package:valoralysis/models/item.dart';
 
 class ModeProvider with ChangeNotifier {
   Item competitive = Item('Competitive', 'competitive');
+  Item premier = Item('Premier', 'premier');
   Item unrated = Item('Unrated', 'unrated');
   Item deathmatch = Item('Deathmatch', 'deathmatch');
   Item spikeRush = Item('Spike Rush', 'spikerush');
@@ -10,7 +11,7 @@ class ModeProvider with ChangeNotifier {
   List<Item> modes = [];
 
   ModeProvider() {
-    modes = [competitive, unrated, deathmatch, spikeRush];
+    modes = [competitive, premier, unrated, deathmatch, spikeRush];
   }
 
   String _selectedMode = 'competitive';
