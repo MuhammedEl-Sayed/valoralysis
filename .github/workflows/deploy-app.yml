@@ -31,7 +31,7 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_ENV
       - name: Update appcast.xml
         run: |
-          APPCAST_PATH="appcast.xml"
+          APPCAST_PATH="./appcast.xml"
           VERSION=${{ env.version }}
           DESCRIPTION=${{ env.message }}
           PUBDATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
