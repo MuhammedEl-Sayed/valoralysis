@@ -61,9 +61,7 @@ dependencies:
   crypto: ^3.0.3
   table_sticky_headers: ^2.0.5
   fl_chart: ^0.68.0
-  new_version: ^0.3.1
-  webview_windows: ^0.4.0
-  bitsdojo_window: ^0.1.5
+  upgrader: ^10.3.0
 
 dev_dependencies:
   flutter_test:

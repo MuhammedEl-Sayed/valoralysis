@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_version/new_version.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:show_fps/show_fps.dart';
+import 'package:upgrader/upgrader.dart';
 import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/providers/category_provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
@@ -15,7 +15,6 @@ import 'package:valoralysis/widgets/screens/home.dart';
 import 'package:valoralysis/widgets/screens/initial_sign_in.dart';
 import 'package:valoralysis/widgets/screens/settings.dart';
 import 'package:valoralysis/widgets/ui/navigation_bar/navigation_bar.dart';
-import 'package:valoralysis/widgets/ui/title_bar/page_bar_wrappers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,13 +59,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _initProvidersFuture = _initProviders(context);
-    final newVersion = NewVersion();
-
-    basicStatusCheck(newVersion);
-  }
-
-  basicStatusCheck(NewVersion newVersion) {
-    newVersion.showAlertIfNecessary(context: context);
   }
 
   Future<void> _initProviders(BuildContext context) async {
@@ -101,60 +93,62 @@ class _MyAppState extends State<MyApp> {
                   routeObserver
                 ],
                 theme: darkTheme,
-                home: const PageWithBar(child: InitialSignIn()),
-                builder: (context, child) => Overlay(
-                  initialEntries: [
-                    OverlayEntry(
-                      builder: (context) => ShowFPS(
-                        child: Scaffold(
-                          bottomNavigationBar: const NavBar(),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.background,
-                          body: Navigator(
-                            key: Provider.of<NavigationProvider>(context,
-                                    listen: false)
-                                .navigatorKey,
-                            initialRoute: '/',
-                            onGenerateRoute: (RouteSettings settings) {
-                              WidgetBuilder builder;
+                home: const InitialSignIn(),
+                builder: (context, child) => UpgradeAlert(
+                  child: Overlay(
+                    initialEntries: [
+                      OverlayEntry(
+                        builder: (context) => ShowFPS(
+                          child: Scaffold(
+                            bottomNavigationBar: const NavBar(),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.background,
+                            body: Navigator(
+                              key: Provider.of<NavigationProvider>(context,
+                                      listen: false)
+                                  .navigatorKey,
+                              initialRoute: '/',
+                              onGenerateRoute: (RouteSettings settings) {
+                                WidgetBuilder builder;
 
-                              switch (settings.name) {
-                                case '/':
-                                  builder = (BuildContext context) =>
-                                      const RouteAwareWidget(
-                                        name: '/',
-                                        child: InitialSignIn(),
-                                      );
-                                  break;
-                                case '/home':
-                                  builder = (BuildContext context) =>
-                                      const RouteAwareWidget(
-                                        name: '/home',
-                                        child: HomeScreen(),
-                                      );
-                                  break;
-                                case '/settings':
-                                  builder = (BuildContext context) =>
-                                      const RouteAwareWidget(
-                                        name: '/settings',
-                                        child: SettingsScreen(),
-                                      );
-                                  break;
-                                default:
-                                  throw Exception(
-                                      'Invalid route: ${settings.name}');
-                              }
+                                switch (settings.name) {
+                                  case '/':
+                                    builder = (BuildContext context) =>
+                                        const RouteAwareWidget(
+                                          name: '/',
+                                          child: InitialSignIn(),
+                                        );
+                                    break;
+                                  case '/home':
+                                    builder = (BuildContext context) =>
+                                        const RouteAwareWidget(
+                                          name: '/home',
+                                          child: HomeScreen(),
+                                        );
+                                    break;
+                                  case '/settings':
+                                    builder = (BuildContext context) =>
+                                        const RouteAwareWidget(
+                                          name: '/settings',
+                                          child: SettingsScreen(),
+                                        );
+                                    break;
+                                  default:
+                                    throw Exception(
+                                        'Invalid route: ${settings.name}');
+                                }
 
-                              return MaterialPageRoute(
-                                builder: builder,
-                                settings: settings,
-                              );
-                            },
+                                return MaterialPageRoute(
+                                  builder: builder,
+                                  settings: settings,
+                                );
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
                 themeMode: ThemeMode.system,
               );
@@ -162,7 +156,7 @@ class _MyAppState extends State<MyApp> {
           },
         );
       },
-      child: const PageWithBar(child: InitialSignIn()),
+      child: const InitialSignIn(),
     );
   }
 }
