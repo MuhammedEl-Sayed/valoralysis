@@ -20,6 +20,10 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
       - name: Print pubspec.yaml content  
         run: cat pubspec.yaml  
+      - name: Print working directory and list files  
+        run: |  
+          pwd  
+          ls -al  
       - name: Extract version from pubspec.yaml
         id: version
         run: |
