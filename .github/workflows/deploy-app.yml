@@ -7,6 +7,10 @@ jobs:
   update_pubspec_and_appcast: 
     runs-on: ubuntu-latest
     steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Get last commit description
         id: commit
         run: |
