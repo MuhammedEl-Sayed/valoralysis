@@ -4,52 +4,49 @@ on:
   workflow_dispatch:
 
 jobs:
+
   notify:
     runs-on: ubuntu-latest
+    needs: [build_ios, build_android]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
+  
       - name: Get last commit description
-        id: get_commit
+        id: commit
         run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-          echo "Commit message: $COMMIT_MESSAGE"
-          echo "commit_message=${COMMIT_MESSAGE}" >> $GITHUB_ENV
-
+          echo "message<<EOF" >> $HOME/commit.txt
+          echo "$COMMIT_MESSAGE" >> $HOME/commit.txt
+          echo "EOF" >> $HOME/commit.txt
+  
       - name: Extract version from pubspec.yaml
-        id: get_version
+        id: version
         run: |
           VERSION=$(grep 'version: ' pubspec.yaml | sed 's/version: //')
-          echo "Extracted version: $VERSION"
-          echo "version=${VERSION}" >> $GITHUB_ENV
-
+          echo "version=${VERSION}" >> $HOME/version.txt
+  
       - name: Update appcast.xml
         run: |
           APPCAST_PATH="appcast.xml"
-          VERSION=${{ env.version }}
-          DESCRIPTION=${{ env.commit_message }}
+          VERSION=$(cat $HOME/version.txt)
+          DESCRIPTION=$(cat $HOME/commit.txt)
           PUBDATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
-
-          echo "Updating appcast.xml with version: $VERSION and description: $DESCRIPTION"
-
+  
           # Update Android entry in appcast.xml
           sed -i "/<item>/,/<\/item>/ { /<title>Version/ s/<title>Version .*<\/title>/<title>Version ${VERSION}<\/title>/; /<description>/ s/<description>.*<\/description>/<description>${DESCRIPTION}<\/description>/; /<pubDate>/ s/<pubDate>.*<\/pubDate>/<pubDate>${PUBDATE}<\/pubDate>/; /<enclosure/ s/sparkle:version=\".*\"/sparkle:version=\"${VERSION}\"/ }" $APPCAST_PATH
-          
+  
           # Update iOS entry in appcast.xml
           sed -i "/<item>/,/<\/item>/ { /sparkle:os=\"ios\"/ { /<title>Version/ s/<title>Version .*<\/title>/<title>Version ${VERSION}<\/title>/; /<description>/ s/<description>.*<\/description>/<description>${DESCRIPTION}<\/description>/; /<pubDate>/ s/<pubDate>.*<\/pubDate>/<pubDate>${PUBDATE}<\/pubDate>/; /<enclosure/ s/sparkle:version=\".*\"/sparkle:version=\"${VERSION}\"/ } }" $APPCAST_PATH
-
+  
           # Commit and push changes
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add $APPCAST_PATH
-
-          if [ -z "$DESCRIPTION" ]; then
-            echo "Aborting commit due to empty commit message."
-            exit 1
-          fi
-
           git commit -m "${DESCRIPTION}"
           git push
-        env:
-          GITHUB_ENV: ${{ env.GITHUB_ENV }}
+  
+      - name: Send Discord notification
+        uses: Ilshidur/action-discord@0.3.2
+        with:
+          args: "$(cat $HOME/commit.txt)"
