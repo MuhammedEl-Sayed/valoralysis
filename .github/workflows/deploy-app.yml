@@ -42,9 +42,13 @@ jobs:
         run: |
             PUBDATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
             # Update Android entry in appcast.xml
-            sed -i "/<item>/,/<\/item>/ { /<title>Version/ s/<title>Version .*<\/title>/<title>Version ${{ env.version }}<\/title>/; /<description>/ s/<description>.*<\/description>/<description>${{ env.message }}<\/description>/; /<pubDate>/ s/<pubDate>.*<\/pubDate>/<pubDate>${PUBDATE}<\/pubDate>/; /<enclosure/ s/sparkle:version=\".*\"/sparkle:version=\"${{ env.version }}\"/ }" appcast.xml
-            # Update iOS entry in appcast.xml
-            sed -i "/<item>/,/<\/item>/ { /sparkle:os=\"ios\"/ { /<title>Version/ s/<title>Version .*<\/title>/<title>Version $NEW_VERSION<\/title>/; /<description>/ s/<description>.*<\/description>/<description>${{ env.message }}<\/description>/; /<pubDate>/ s/<pubDate>.*<\/pubDate>/<pubDate>${PUBDATE}<\/pubDate>/; /<enclosure/ s/sparkle:version=\".*\"/sparkle:version=\"$NEW_VERSION\"/ } }" appcast.xml            # Commit and push changes
+            sed -i "  
+            s|<title>Version .*<\/title>|<title>Version ${{ env.version }}<\/title>|g;  
+            s|<description>.*<\/description>|<description>${{ env.version }}: ${{ env.message }}<\/description>|g;  
+            s|<pubDate>.*<\/pubDate>|<pubDate>${PUBDATE}<\/pubDate>|g;  
+            s|sparkle:version=\"[^\"]*\"|sparkle:version=\"${{ env.buildNumber }}\"|g;  
+            s|sparkle:shortVersionString=\"[^\"]*\"|sparkle:shortVersionString=\"${{ env.version }}\"|g;  
+            " appcast.xml  
             git add appcast.xml
             git commit -m "${{ env.version}}: ${{ env.message }}"
             git push
