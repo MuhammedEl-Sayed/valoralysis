@@ -3,16 +3,16 @@
     <channel>
         <title>Valoralysis App - Appcast</title>
         <item>
-            <title>Version 1.0.6+45</title>
-            <description>1.0.6+44: Update deploy-app.yml</description>
-            <pubDate>Tue, 28 May 2024 18:37:19 +0000</pubDate>
-            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="45" sparkle:shortVersionString="1.0.6" sparkle:os="android"/>
+            <title>Version 1.0.6+46</title>
+            <description>1.0.6+46: Update deploy-app.yml</description>
+            <pubDate>Tue, 28 May 2024 19:49:39 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="" sparkle:shortVersionString="1.0.6+46" sparkle:os="android"/>
         </item>
            <item>
-            <title>Version 1.0.6+45</title>
-            <description>1.0.6+44: Update deploy-app.yml</description>
-            <pubDate>Tue, 28 May 2024 18:37:19 +0000</pubDate>
-            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="45" sparkle:shortVersionString="1.0.6" sparkle:os="ios" />
+            <title>Version 1.0.6+46</title>
+            <description>1.0.6+46: Update deploy-app.yml</description>
+            <pubDate>Tue, 28 May 2024 19:49:39 +0000</pubDate>
+            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="" sparkle:shortVersionString="1.0.6+46" sparkle:os="ios" />
         </item>
     </channel>
 </rss>
