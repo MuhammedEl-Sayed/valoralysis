@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
 
 jobs:
-
   notify:
     runs-on: ubuntu-latest
     steps:
@@ -15,6 +14,7 @@ jobs:
         id: commit
         run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          echo "Commit message: $COMMIT_MESSAGE"
           echo "message<<EOF" >> $GITHUB_ENV
           echo "$COMMIT_MESSAGE" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
@@ -23,24 +23,33 @@ jobs:
         id: version
         run: |
           VERSION=$(grep 'version: ' pubspec.yaml | sed 's/version: //')
+          echo "Extracted version: $VERSION"
           echo "version=${VERSION}" >> $GITHUB_ENV
 
       - name: Update appcast.xml
         run: |
           APPCAST_PATH="appcast.xml"
-          VERSION=${{ steps.version.outputs.version }}
-          DESCRIPTION=${{ steps.commit.outputs.message }}
+          VERSION=${{ env.version }}
+          DESCRIPTION=${{ env.message }}
           PUBDATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
+
+          echo "Updating appcast.xml with version: $VERSION and description: $DESCRIPTION"
 
           # Update Android entry in appcast.xml
           sed -i "/<item>/,/<\/item>/ { /<title>Version/ s/<title>Version .*<\/title>/<title>Version ${VERSION}<\/title>/; /<description>/ s/<description>.*<\/description>/<description>${DESCRIPTION}<\/description>/; /<pubDate>/ s/<pubDate>.*<\/pubDate>/<pubDate>${PUBDATE}<\/pubDate>/; /<enclosure/ s/sparkle:version=\".*\"/sparkle:version=\"${VERSION}\"/ }" $APPCAST_PATH
-
+          
           # Update iOS entry in appcast.xml
           sed -i "/<item>/,/<\/item>/ { /sparkle:os=\"ios\"/ { /<title>Version/ s/<title>Version .*<\/title>/<title>Version ${VERSION}<\/title>/; /<description>/ s/<description>.*<\/description>/<description>${DESCRIPTION}<\/description>/; /<pubDate>/ s/<pubDate>.*<\/pubDate>/<pubDate>${PUBDATE}<\/pubDate>/; /<enclosure/ s/sparkle:version=\".*\"/sparkle:version=\"${VERSION}\"/ } }" $APPCAST_PATH
-
+          
           # Commit and push changes
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add $APPCAST_PATH
+
+          if [ -z "$DESCRIPTION" ]; then
+            echo "Aborting commit due to empty commit message."
+            exit 1
+          fi
+
           git commit -m "${DESCRIPTION}"
           git push
