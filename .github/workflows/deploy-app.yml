@@ -114,7 +114,7 @@ jobs:
 
       - name: Update appcast.xml
         run: |
-          APPCAST_PATH="path/to/appcast.xml"
+          APPCAST_PATH="appcast.xml"
           VERSION=${{ env.version }}
           DESCRIPTION=${{ env.message }}
           PUBDATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
