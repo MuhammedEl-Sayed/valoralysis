@@ -43,48 +43,8 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
   void didChangeDependencies() {
     super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _maybeShowUpdateDialog();
       await _checkIfUserLoggedIn();
     });
-  }
-
-  Future<void> _maybeShowUpdateDialog() async {
-    final prefs = await SharedPreferences.getInstance();
-    final hasShownUpdateDialog = prefs.getBool('hasShownUpdateDialog') ?? false;
-
-    if (!hasShownUpdateDialog) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        showUpdateDialog(context);
-      });
-      await prefs.setBool('hasShownUpdateDialog', true);
-    }
-  }
-
-  void showUpdateDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Updates'),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: updateMessages
-                  .map((message) => Text(message, textAlign: TextAlign.left))
-                  .toList(),
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   Future<void> _checkIfUserLoggedIn() async {
