@@ -25,12 +25,16 @@ jobs:
           VERSION=$(grep 'version: ' pubspec.yaml | sed 's/version: //')
           echo "version=${VERSION}" >> $HOME/version.txt
   
+
       - name: Update appcast.xml
         run: |
           APPCAST_PATH="appcast.xml"
           VERSION=$(cat $HOME/version.txt)
           DESCRIPTION=$(cat $HOME/commit.txt)
           PUBDATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
+  
+          # Escape special characters in DESCRIPTION
+          DESCRIPTION=$(echo "$DESCRIPTION" | sed 's/[\/&]/\\&/g')
   
           # Update Android entry in appcast.xml
           sed -i "/<item>/,/<\/item>/ { /<title>Version/ s/<title>Version .*<\/title>/<title>Version ${VERSION}<\/title>/; /<description>/ s/<description>.*<\/description>/<description>${DESCRIPTION}<\/description>/; /<pubDate>/ s/<pubDate>.*<\/pubDate>/<pubDate>${PUBDATE}<\/pubDate>/; /<enclosure/ s/sparkle:version=\".*\"/sparkle:version=\"${VERSION}\"/ }" $APPCAST_PATH
