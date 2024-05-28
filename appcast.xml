@@ -3,10 +3,10 @@
     <channel>
         <title>Valoralysis App - Appcast</title>
         <item>
-            <title>Version </title>
+            <title>Version 1.0.6+44</title>
             <description>Update deploy-app.yml</description>
-            <pubDate>Tue, 28 May 2024 18:05:39 +0000</pubDate>
-            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="" />
+            <pubDate>Tue, 28 May 2024 18:19:22 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+44" />
         </item>
     </channel>
 </rss>
