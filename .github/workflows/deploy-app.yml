@@ -30,6 +30,7 @@ jobs:
             # Update the version with the new build number
             NEW_VERSION=$(echo $VERSION | cut -d'+' -f1)"+$NEW_BUILD_NUMBER"
             echo "version=${NEW_VERSION}" >> $GITHUB_ENV
+            echo "buildNumber=${NEW_BUILD_NUMBER}" >> $GITHUB_ENV
             # Update the version in the pubspec.yaml
             sed -i "s/version: $VERSION/version: $NEW_VERSION/" pubspec.yaml
             # Commit the changes
