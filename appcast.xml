@@ -6,7 +6,13 @@
             <title>Version 1.0.6+45</title>
             <description>1.0.6+44: Update deploy-app.yml</description>
             <pubDate>Tue, 28 May 2024 18:37:19 +0000</pubDate>
-            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+45" />
+            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="45" sparkle:shortVersionString="1.0.6" sparkle:os="android"/>
+        </item>
+           <item>
+            <title>Version 1.0.6+45</title>
+            <description>1.0.6+44: Update deploy-app.yml</description>
+            <pubDate>Tue, 28 May 2024 18:37:19 +0000</pubDate>
+            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="45" sparkle:shortVersionString="1.0.6" sparkle:os="ios" />
         </item>
     </channel>
 </rss>
