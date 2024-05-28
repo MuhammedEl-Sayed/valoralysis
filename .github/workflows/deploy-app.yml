@@ -41,6 +41,6 @@ jobs:
           # Commit and push changes
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git add $APPCAST_PATH
+          git add appcast.xml
           git commit -m "${DESCRIPTION}"
           git push
