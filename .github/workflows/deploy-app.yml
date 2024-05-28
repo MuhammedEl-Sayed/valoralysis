@@ -164,6 +164,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         
+      - name: Get last commit description
+        id: commit
+        run: |
+            COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+            echo "message<<EOF" >> $GITHUB_ENV
+            echo "$COMMIT_MESSAGE" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+            
       - name: Send Discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
