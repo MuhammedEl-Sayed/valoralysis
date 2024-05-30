@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:valoralysis/consts/round_result.dart';
 import 'package:valoralysis/utils/history_utils.dart';
+import 'package:valoralysis/utils/round_utils.dart';
 
 class RoundHistory extends StatelessWidget {
   final String puuid;
@@ -9,57 +9,12 @@ class RoundHistory extends StatelessWidget {
   const RoundHistory(
       {super.key, required this.puuid, required this.matchDetail});
 
-  Widget resultToImageMap(
-      bool playerTeam, String result, BuildContext context) {
-    String baseUrl = 'assets/images/round_result/';
-    String imageSuffix = playerTeam ? '_win.png' : '_loss.png';
-    String imageName;
-
-    switch (result) {
-      case (eliminated):
-        imageName = 'elimination';
-        break;
-      case (bombDefused):
-        imageName = 'diffuse';
-        break;
-      case (bombDetonated):
-        imageName = 'explosion';
-        break;
-      case (timeSinceRoundStartMillisrExpired):
-        imageName = 'time';
-        break;
-      default:
-        return SizedBox(
-          width: 22.0,
-          height: 22.0,
-          child: Center(
-            child: Container(
-              width: 8.0,
-              height: 8.0,
-              decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-        );
-    }
-
-    return SizedBox(
-      width: 22.0,
-      height: 22.0,
-      child: Image.asset('$baseUrl$imageName$imageSuffix'),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     //First we'll find how many rounds were played
     Map<String, dynamic> roundResults =
         HistoryUtils.extractRoundResultPerTeam(matchDetail, puuid);
-    String userTeam =
-        HistoryUtils.extractTeamFromPUUID(matchDetail, puuid)['teamId'];
-    int numRounds = HistoryUtils.getNumberOfRounds(matchDetail);
+
     int lastRound =
         roundResults['Your Team'].length + roundResults['Enemy Team'].length;
 
@@ -111,13 +66,13 @@ class RoundHistory extends StatelessWidget {
                           right: i == 11 || i == 23 ? 5 : 0),
                       child: Column(
                         children: [
-                          resultToImageMap(
+                          RoundUtils.resultToImageMap(
                               true,
                               i < roundResults['Your Team'].length
                                   ? roundResults['Your Team'][i]['roundResult']
                                   : null,
                               context),
-                          resultToImageMap(
+                          RoundUtils.resultToImageMap(
                               false,
                               i < roundResults['Enemy Team'].length
                                   ? roundResults['Enemy Team'][i]['roundResult']

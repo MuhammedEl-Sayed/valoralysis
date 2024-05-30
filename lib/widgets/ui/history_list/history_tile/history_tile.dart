@@ -32,8 +32,7 @@ class _HistoryTileState extends State<HistoryTile> {
     bool didWin;
     Widget roundsWon;
     Widget content;
-    PlayerStats playerStats = HistoryUtils.extractPlayerStat(
-        widget.matchDetail, userProvider.user.puuid);
+    PlayerStats playerStats;
 
     if (widget.fake) {
       didWin = true;
@@ -43,6 +42,8 @@ class _HistoryTileState extends State<HistoryTile> {
       didWin = HistoryUtils.didTeamWinByPUUID(widget.matchDetail, puuid);
       roundsWon =
           FormattingUtils.convertTeamWinMapToString(widget.matchDetail, puuid);
+      playerStats = HistoryUtils.extractPlayerStat(
+          widget.matchDetail, userProvider.user.puuid);
       content = Consumer<ContentProvider>(
         builder: (context, contentProvider, child) {
           return Row(

@@ -331,6 +331,14 @@ class HistoryUtils {
     return roundResultsPerTeam;
   }
 
+  //add function to check if player won a round given the round index
+  static bool didPlayerWinRound(
+      Map<String, dynamic> matchDetail, String puuid, int roundIndex) {
+    Map<String, dynamic> roundResult = getRoundResults(matchDetail)[roundIndex];
+    String playerTeamId = extractTeamIdFromPUUID(matchDetail, puuid);
+    return roundResult['winningTeam'] == playerTeamId;
+  }
+
   // Method related to filtering match details
   static List<Map<String, dynamic>> filterMatchDetails(
       List<Map<String, dynamic>> matchDetails,
