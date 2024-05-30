@@ -18,7 +18,6 @@ jobs:
             echo "message<<EOF" >> $GITHUB_ENV
             echo "$COMMIT_MESSAGE" >> $GITHUB_ENV
             echo "EOF" >> $GITHUB_ENV
-
       - name: Extract version from pubspec.yaml
         id: version
         run: |
@@ -29,34 +28,31 @@ jobs:
             # Increment the build number
             NEW_BUILD_NUMBER=$((BUILD_NUMBER + 1))
             # Update the version with the new build number
-            NEW_VERSION_WITHOUT_BUILD=$(echo $VERSION | cut -d'+' -f1)
-            NEW_VERSION="${NEW_VERSION_WITHOUT_BUILD}+${NEW_BUILD_NUMBER}"
-            echo "NEW_VERSION_WITHOUT_BUILD=$NEW_VERSION_WITHOUT_BUILD" >> $GITHUB_ENV
-            echo "NEW_BUILD_NUMBER=$NEW_BUILD_NUMBER" >> $GITHUB_ENV
-            echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+            NEW_VERSION=$(echo $VERSION | cut -d'+' -f1)"+$NEW_BUILD_NUMBER"
+            echo "version=${NEW_VERSION}" >> $GITHUB_ENV
+            echo "buildNumber=${NEW_BUILD_NUMBER}" >> $GITHUB_ENV
             # Update the version in the pubspec.yaml
             sed -i "s/version: $VERSION/version: $NEW_VERSION/" pubspec.yaml
+            echo "versionWithoutBuild=$(echo $VERSION | cut -d'+' -f1)" >> $GITHUB_ENV
             # Commit the changes
             git config --global user.name "github-actions"
             git config --global user.email "github-actions@github.com"
             git add pubspec.yaml
-            git commit -m "Bump version to $NEW_VERSION"
-
+          
       - name: Update appcast.xml
         run: |
             PUBDATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
             # Update Android entry in appcast.xml
             sed -i "  
-            s|<title>Version .*<\/title>|<title>Version ${NEW_VERSION}<\/title>|g;  
-            s|<description>.*<\/description>|<description>${NEW_VERSION}: ${message}<\/description>|g;  
+            s|<title>Version .*<\/title>|<title>Version ${{ env.version }}<\/title>|g;  
+            s|<description>.*<\/description>|<description>${{ env.version }}: ${{ env.message }}<\/description>|g;  
             s|<pubDate>.*<\/pubDate>|<pubDate>${PUBDATE}<\/pubDate>|g;  
-            s|sparkle:version=\"[^\"]*\"|sparkle:version=\"${NEW_BUILD_NUMBER}\"|g;  
-            s|sparkle:shortVersionString=\"[^\"]*\"|sparkle:shortVersionString=\"${NEW_VERSION_WITHOUT_BUILD}\"|g;  
+            s|sparkle:version=\"[^\"]*\"|sparkle:version=\"${{ env.buildNumber }}\"|g;  
+            s|sparkle:shortVersionString=\"[^\"]*\"|sparkle:shortVersionString=\"${{ env.versionWithoutBuild }}\"|g;  
             " appcast.xml  
             git add appcast.xml
-            git commit -m "${NEW_VERSION}: ${message}"
+            git commit -m "${{ env.version}}: ${{ env.message }}"
             git push
-            
   build_ios:
     runs-on: macos-latest
     needs: update_pubspec_and_appcast
@@ -79,7 +75,6 @@ jobs:
         run: |
           echo "Contents of the build folder:"
           ls -R build/ios
-
       - name: "Upload app to TestFlight"
         uses: apple-actions/upload-testflight-build@v1
         with:
