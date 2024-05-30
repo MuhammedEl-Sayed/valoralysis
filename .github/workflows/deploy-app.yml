@@ -18,6 +18,7 @@ jobs:
             echo "message<<EOF" >> $GITHUB_ENV
             echo "$COMMIT_MESSAGE" >> $GITHUB_ENV
             echo "EOF" >> $GITHUB_ENV
+
       - name: Extract version from pubspec.yaml
         id: version
         run: |
@@ -29,63 +30,32 @@ jobs:
             NEW_BUILD_NUMBER=$((BUILD_NUMBER + 1))
             # Update the version with the new build number
             NEW_VERSION_WITHOUT_BUILD=$(echo $VERSION | cut -d'+' -f1)
-            NEW_VERSION=${NEW_VERSION_WITHOUT_BUILD}"+$NEW_BUILD_NUMBER"
-            echo "versionWithoutBuild=${NEW_VERSION_WITHOUT_BUILD}" >> $GITHUB_ENV
-            echo "buildNumber=${NEW_BUILD_NUMBER}" >> $GITHUB_ENV
-            echo "version=${NEW_VERSION}" >> $GITHUB_ENV
+            NEW_VERSION="${NEW_VERSION_WITHOUT_BUILD}+${NEW_BUILD_NUMBER}"
+            echo "NEW_VERSION_WITHOUT_BUILD=$NEW_VERSION_WITHOUT_BUILD" >> $GITHUB_ENV
+            echo "NEW_BUILD_NUMBER=$NEW_BUILD_NUMBER" >> $GITHUB_ENV
+            echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
             # Update the version in the pubspec.yaml
             sed -i "s/version: $VERSION/version: $NEW_VERSION/" pubspec.yaml
             # Commit the changes
             git config --global user.name "github-actions"
             git config --global user.email "github-actions@github.com"
             git add pubspec.yaml
-          
+            git commit -m "Bump version to $NEW_VERSION"
 
       - name: Update appcast.xml
         run: |
             PUBDATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
             # Update Android entry in appcast.xml
             sed -i "  
-            s|<title>Version .*<\/title>|<title>Version ${{ env.version }}<\/title>|g;  
-            s|<description>.*<\/description>|<description>${{ env.version }}: ${{ env.message }}<\/description>|g;  
+            s|<title>Version .*<\/title>|<title>Version ${NEW_VERSION}<\/title>|g;  
+            s|<description>.*<\/description>|<description>${NEW_VERSION}: ${message}<\/description>|g;  
             s|<pubDate>.*<\/pubDate>|<pubDate>${PUBDATE}<\/pubDate>|g;  
-            s|sparkle:version=\"[^\"]*\"|sparkle:version=\"${{ env.buildNumber }}\"|g;  
-            s|sparkle:shortVersionString=\"[^\"]*\"|sparkle:shortVersionString=\"${{ env.versionWithoutBuild }}\"|g;  
+            s|sparkle:version=\"[^\"]*\"|sparkle:version=\"${NEW_BUILD_NUMBER}\"|g;  
+            s|sparkle:shortVersionString=\"[^\"]*\"|sparkle:shortVersionString=\"${NEW_VERSION_WITHOUT_BUILD}\"|g;  
             " appcast.xml  
             git add appcast.xml
-            git commit -m "${{ env.version}}: ${{ env.message }}"
+            git commit -m "${NEW_VERSION}: ${message}"
             git push
-
-  build_ios:
-    runs-on: macos-latest
-    needs: update_pubspec_and_appcast
-    steps:
-      - name: Check Xcode version
-        run: /usr/bin/xcodebuild -version
-
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - uses: cedvdb/action-flutter-build-ios@v1
-        with:
-          build-cmd: touch .env && echo "RIOT_API_KEY=${{ secrets.RIOT_API_KEY }}" >> .env && flutter build ipa --release --export-options-plist=ios/GithubActionsExportOptions.plist
-          certificate-base64: ${{ secrets.APPLE_SIGNING_CERTIFICATE }}
-          certificate-password: ${{ secrets.APPLE_SIGNING_PASSWORD }}
-          provisioning-profile-base64: ${{ secrets.APPLE_PROVISIONING_PROFILE }}
-          keychain-password: ${{ secrets.APPLE_SIGNING_PASSWORD }}
-
-      - name: Print contents of build folder
-        run: |
-          echo "Contents of the build folder:"
-          ls -R build/ios
-
-      - name: "Upload app to TestFlight"
-        uses: apple-actions/upload-testflight-build@v1
-        with:
-          app-path: "/Users/runner/work/valoralysis/valoralysis/build/ios/ipa/valoralysis.ipa"
-          issuer-id: ${{ secrets.APP_ISSUER_ID }}
-          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
-          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
 
   build_android:
     runs-on: ubuntu-latest
