@@ -53,6 +53,7 @@ jobs:
             git add appcast.xml
             git commit -m "${{ env.version}}: ${{ env.message }}"
             git push
+            
   build_ios:
     runs-on: macos-latest
     needs: update_pubspec_and_appcast
