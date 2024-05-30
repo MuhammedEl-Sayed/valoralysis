@@ -29,9 +29,10 @@ jobs:
             NEW_BUILD_NUMBER=$((BUILD_NUMBER + 1))
             # Update the version with the new build number
             NEW_VERSION_WITHOUT_BUILD=$(echo $VERSION | cut -d'+' -f1)
+            NEW_VERSION=${NEW_VERSION_WITHOUT_BUILD}"+$NEW_BUILD_NUMBER"
             echo "versionWithoutBuild=${NEW_VERSION_WITHOUT_BUILD}" >> $GITHUB_ENV
             echo "buildNumber=${NEW_BUILD_NUMBER}" >> $GITHUB_ENV
-            echo "version=${{ env.versionWithoutBuild }}"+$NEW_BUILD_NUMBER"" >> $GITHUB_ENV
+            echo "version=${NEW_VERSION} >> $GITHUB_ENV
             # Update the version in the pubspec.yaml
             sed -i "s/version: $VERSION/version: $NEW_VERSION/" pubspec.yaml
             # Commit the changes
