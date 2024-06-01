@@ -105,9 +105,7 @@ class FileUtils {
 
       // Read the file
       final contents = await file.readAsString();
-      print('read image map: $contents');
-
-      print('read image map: ${Content.fromJson(jsonDecode(contents))}');
+      print('read image map');
 
       return Content.fromJson(jsonDecode(contents));
     } catch (e) {

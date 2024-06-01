@@ -4,8 +4,10 @@ class ContentItem {
   String hash;
   String? iconUrl;
   String? assetUrl;
+  String? silhouetteUrl;
 
-  ContentItem(this.name, this.uuid, this.hash, {this.iconUrl, this.assetUrl});
+  ContentItem(this.name, this.uuid, this.hash,
+      {this.iconUrl, this.assetUrl, this.silhouetteUrl});
 
   factory ContentItem.fromJson(Map<String, dynamic> json, String hash,
       {String? iconUrl}) {
@@ -48,16 +50,14 @@ class ContentItem {
   }
 
   factory ContentItem.fromJsonWeapon(Map<String, dynamic> json, String hash,
-      {String? iconUrl}) {
+      {String? iconUrl, String? silhouetteUrl}) {
     if (json['displayName'] == null || json['uuid'] == null) {
       throw ArgumentError('Invalid JSON: $json');
     }
-    return ContentItem(
-      json['displayName'] ?? 'Unknown',
-      json['uuid'].toString().toLowerCase(),
-      hash,
-      iconUrl: iconUrl ?? json['displayIcon'],
-    );
+    return ContentItem(json['displayName'] ?? 'Unknown',
+        json['uuid'].toString().toLowerCase(), hash,
+        iconUrl: iconUrl ?? json['displayIcon'],
+        silhouetteUrl: silhouetteUrl ?? json['killStreamIcon']);
   }
 
   Map<String, dynamic> toJson() {
@@ -141,6 +141,7 @@ class Content {
                 item['hash'],
                 iconUrl: item['iconUrl'] ?? '',
                 assetUrl: item['assetUrl'] ?? '',
+                silhouetteUrl: item['silhouetteUrl'] ?? '',
               ))
           .toList(),
     );

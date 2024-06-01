@@ -73,6 +73,10 @@ class HistoryUtils {
     return '${player['gameName']}#${player['tagLine']}';
   }
 
+  static String getKillGunId(KillDto kill) {
+    return kill.finishingDamage.damageItem;
+  }
+
   static Map<int, List<DamageDto>> extractPlayerDamage(
       Map<String, dynamic> matchDetail, String puuid) {
     Map<int, List<DamageDto>> roundToPlayerDamage = {};
@@ -253,7 +257,15 @@ class HistoryUtils {
 
   // Methods related to extracting content details
   static getContentImageFromId(String puuid, List<ContentItem> content) {
-    return content.firstWhere((item) => item.uuid == puuid).iconUrl;
+    return content
+        .firstWhere((item) => item.uuid.toLowerCase() == puuid.toLowerCase())
+        .iconUrl;
+  }
+
+  static getSilhouetteImageFromId(String puuid, List<ContentItem> content) {
+    return content
+        .firstWhere((item) => item.uuid.toLowerCase() == puuid.toLowerCase())
+        .silhouetteUrl;
   }
 
   static getContentImageFromName(String name, List<ContentItem> content) {

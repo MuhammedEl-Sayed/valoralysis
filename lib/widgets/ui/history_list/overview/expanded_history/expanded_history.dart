@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/models/item.dart';
+import 'package:valoralysis/models/player_round_stats.dart';
+import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/widgets/ui/category_selector/category_selector.dart';
 import 'package:valoralysis/widgets/ui/expandable_section/expandable_section.dart';
 import 'package:valoralysis/widgets/ui/history_list/performance/performance_chart/performance_chart.dart';
+import 'package:valoralysis/widgets/ui/history_list/performance/round_kill_feed/round_kill_feed.dart';
 import 'package:valoralysis/widgets/ui/history_list/round_history/round_history.dart';
 import 'package:valoralysis/widgets/ui/team_details_table/team_details_table.dart';
 
@@ -28,6 +31,7 @@ class ExpandedHistory extends StatefulWidget {
 class _ExpandedHistoryState extends State<ExpandedHistory> {
   bool visible = false;
   late Item selectedCategory;
+  int selectedRound = 0;
 
   @override
   void initState() {
@@ -106,24 +110,42 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                   puuid: widget.puuid, matchDetail: widget.matchDetail),
             ),
             Visibility(
-              visible: visible,
-              maintainState: false,
-              child: selectedCategory.realValue == 'overview'
-                  ? Column(
-                      children: [
-                        TeamDetailsTable(
+                visible: visible,
+                maintainState: false,
+                child: selectedCategory.realValue == 'overview'
+                    ? Column(
+                        children: [
+                          TeamDetailsTable(
+                              puuid: widget.puuid,
+                              matchDetail: widget.matchDetail,
+                              isUserTeam: true),
+                          TeamDetailsTable(
+                              puuid: widget.puuid,
+                              matchDetail: widget.matchDetail,
+                              isUserTeam: false),
+                        ],
+                      )
+                    : Column(children: [
+                        PerformanceChart(
                             puuid: widget.puuid,
                             matchDetail: widget.matchDetail,
-                            isUserTeam: true),
-                        TeamDetailsTable(
+                            selectedRound: selectedRound,
+                            onSelectedRoundChanged: (int round) {
+                              setState(() {
+                                selectedRound = round;
+                              });
+                            }),
+                        RoundKillFeed(
                             puuid: widget.puuid,
-                            matchDetail: widget.matchDetail,
-                            isUserTeam: false),
-                      ],
-                    )
-                  : PerformanceChart(
-                      puuid: widget.puuid, matchDetail: widget.matchDetail),
-            ),
+                            kills: HistoryUtils.extractPlayerKills(
+                                widget.matchDetail,
+                                widget.puuid)[selectedRound] as List<KillDto>,
+                            deaths: HistoryUtils.extractRoundDeathsByPUUID(
+                                widget.matchDetail,
+                                widget.puuid)[selectedRound] as List<KillDto>,
+                            roundNumber: selectedRound,
+                            matchDetail: widget.matchDetail)
+                      ])),
           ],
         ),
       ),

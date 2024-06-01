@@ -10,8 +10,8 @@ class ContentService {
       // Fetch all content in parallel
       final results = await Future.wait([
         fetchContentData('https://valorant-api.com/v1/agents'),
-        getRanks(),
-        fetchContentData('https://valorant-api.com/v1/weapons'),
+        fetchRanks(),
+        fetchWeapons(),
         fetchContentData('https://valorant-api.com/v1/maps'),
         fetchContentData('https://valorant-api.com/v1/gamemodes'),
         fetchContentData('https://valorant-api.com/v1/seasons'),
@@ -31,7 +31,7 @@ class ContentService {
     }
   }
 
-  static Future<List<ContentItem>> getRanks() async {
+  static Future<List<ContentItem>> fetchRanks() async {
     Dio dio = Dio();
     try {
       var response =
@@ -64,10 +64,48 @@ class ContentService {
     }
   }
 
+  static Future<List<ContentItem>> fetchWeapons() async {
+    Dio dio = Dio();
+    try {
+      var response = await dio.get('https://valorant-api.com/v1/weapons');
+      List<ContentItem> contentItems = [];
+      List<String> iconUrls = [];
+      List<String> silhouetteUrl = [];
+      List<String> ids = [];
+      for (var item in response.data['data']) {
+        if (item['uuid'] == null || item['displayIcon'] == null) {
+          continue;
+        }
+        String uuid = item['uuid'];
+        String imageUrl = item['displayIcon'];
+        String silhoutteUrl = item['killStreamIcon'];
+        ids.add(uuid);
+        iconUrls.add(imageUrl);
+        silhouetteUrl.add(silhoutteUrl);
+      }
+      List<File?> iconImages =
+          await ImageCacheUtils.downloadImageFiles(iconUrls, ids);
+      List<File?> silhouetteImages =
+          await ImageCacheUtils.downloadImageFiles(silhouetteUrl, ids);
+      for (var i = 0; i < iconImages.length; i++) {
+        if (silhouetteImages[i] != null && iconImages[i] != null) {
+          String hash = ImageCacheUtils.generateImageHash(iconImages[i]!);
+          contentItems.add(ContentItem.fromJsonWeapon(
+              response.data['data'][i], hash,
+              iconUrl: iconImages[i]!.path,
+              silhouetteUrl: silhouetteImages[i]!.path));
+        }
+      }
+      return contentItems;
+    } catch (e) {
+      print('Error fetching weapons: $e');
+      return [];
+    }
+  }
+
   static Future<List<ContentItem>> fetchContentData(String url) async {
     Dio dio = Dio();
     String type = url.split('/').last;
-    bool isWeapon = type == 'weapons';
     bool isMap = type == 'maps';
 
     try {
@@ -88,11 +126,7 @@ class ContentService {
       for (var i = 0; i < images.length; i++) {
         if (images[i] != null) {
           String hash = ImageCacheUtils.generateImageHash(images[i]!);
-          if (isWeapon) {
-            contentItems.add(ContentItem.fromJsonWeapon(
-                response.data['data'][i], hash,
-                iconUrl: images[i]!.path));
-          } else if (isMap) {
+          if (isMap) {
             contentItems.add(ContentItem.fromJsonMap(
                 response.data['data'][i], hash,
                 iconUrl: images[i]!.path));
