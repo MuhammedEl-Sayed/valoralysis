@@ -33,12 +33,12 @@ jobs:
             echo "buildNumber=${NEW_BUILD_NUMBER}" >> $GITHUB_ENV
             # Update the version in the pubspec.yaml
             sed -i "s/version: $VERSION/version: $NEW_VERSION/" pubspec.yaml
+            echo "versionWithoutBuild=$(echo $VERSION | cut -d'+' -f1)" >> $GITHUB_ENV
             # Commit the changes
             git config --global user.name "github-actions"
             git config --global user.email "github-actions@github.com"
             git add pubspec.yaml
           
-
       - name: Update appcast.xml
         run: |
             PUBDATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
@@ -48,12 +48,12 @@ jobs:
             s|<description>.*<\/description>|<description>${{ env.version }}: ${{ env.message }}<\/description>|g;  
             s|<pubDate>.*<\/pubDate>|<pubDate>${PUBDATE}<\/pubDate>|g;  
             s|sparkle:version=\"[^\"]*\"|sparkle:version=\"${{ env.buildNumber }}\"|g;  
-            s|sparkle:shortVersionString=\"[^\"]*\"|sparkle:shortVersionString=\"${{ env.version }}\"|g;  
+            s|sparkle:shortVersionString=\"[^\"]*\"|sparkle:shortVersionString=\"${{ env.versionWithoutBuild }}\"|g;  
             " appcast.xml  
             git add appcast.xml
             git commit -m "${{ env.version}}: ${{ env.message }}"
             git push
-
+            
   build_ios:
     runs-on: macos-latest
     needs: update_pubspec_and_appcast
@@ -76,7 +76,6 @@ jobs:
         run: |
           echo "Contents of the build folder:"
           ls -R build/ios
-
       - name: "Upload app to TestFlight"
         uses: apple-actions/upload-testflight-build@v1
         with:
