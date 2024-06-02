@@ -70,9 +70,11 @@ class UserProvider with ChangeNotifier {
 
   void logout(BuildContext context, NavigationProvider navigationProvider) {
     _user.puuid = '';
+    _user.consentGiven = false;
+    _user.name = '';
+    _user.matchDetails = {};
     prefs.setInt('preferredPUUID', -1);
     navigationProvider.navigateTo('/');
-    resetUser();
     notifyListeners();
   }
 
