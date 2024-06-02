@@ -85,8 +85,8 @@ class ContentService {
       }
       List<File?> iconImages =
           await ImageCacheUtils.downloadImageFiles(iconUrls, ids);
-      List<File?> silhouetteImages =
-          await ImageCacheUtils.downloadImageFiles(silhouetteUrl, ids);
+      List<File?> silhouetteImages = await ImageCacheUtils.downloadImageFiles(
+          silhouetteUrl, ids.map((id) => '${id}_silhouette').toList());
       for (var i = 0; i < iconImages.length; i++) {
         if (silhouetteImages[i] != null && iconImages[i] != null) {
           String hash = ImageCacheUtils.generateImageHash(iconImages[i]!);

@@ -17,10 +17,18 @@ class LoginSearchBar extends StatefulWidget {
 }
 
 class _LoginSearchBarState extends State<LoginSearchBar> {
+  late UserProvider userProvider;
+  late List<String> names;
+
+  @override
+  void initState() {
+    super.initState();
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    names = userProvider.getNameHistory();
+  }
+
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = Provider.of<UserProvider>(context);
-    List<String> names = userProvider.getNameHistory();
     return SearchAnchor(viewOnChanged: (value) {
       widget.onUserNameChanged(value);
     }, viewOnSubmitted: (value) {
