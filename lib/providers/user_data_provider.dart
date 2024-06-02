@@ -80,9 +80,12 @@ class UserProvider with ChangeNotifier {
 
   Future<void> saveUser() async {
     prefs.setInt('preferredPUUID', await FileUtils.writeUser(_user));
+    // update the users list
+    _users = await FileUtils.readUsers();
   }
 
   List<String> getNameHistory() {
+    print('users: $_users');
     return _users.map((User user) => user.name).toList();
   }
 }

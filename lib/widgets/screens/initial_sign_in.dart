@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:valoralysis/api/services/auth_service.dart';
 import 'package:valoralysis/consts/images.dart';
 import 'package:valoralysis/consts/margins.dart';
-import 'package:valoralysis/consts/update_messages.dart';
 import 'package:valoralysis/models/user.dart';
 import 'package:valoralysis/providers/navigation_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
@@ -76,6 +74,16 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
         errorMessage = '';
         showError = false;
       });
+      //check userProvider.users for existing user if exists, set that user as current user
+      if (userProvider.users.isNotEmpty) {
+        for (var user in userProvider.users) {
+          if (user.puuid == puuid) {
+            userProvider.setUser(user);
+            navigationProvider.navigateTo('/home');
+            return;
+          }
+        }
+      }
       userProvider.setUser(User(
         name: gameNameAndTag,
         puuid: puuid,

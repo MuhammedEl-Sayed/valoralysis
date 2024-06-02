@@ -69,13 +69,13 @@ class RoundUtils {
       int bTime = b['data'].timeSinceRoundStartMillis;
       return aTime.compareTo(bTime);
     });
-    return Column(
-        children: sortedKillsAndDeaths.map((event) {
-      bool isKill = event['type'] == 'kill';
-      KillDto kill = event['data'];
-      return Padding(
-          padding: const EdgeInsets.only(bottom: 5, top: 5),
-          child: Row(
+    return Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+            children: sortedKillsAndDeaths.map((event) {
+          bool isKill = event['type'] == 'kill';
+          KillDto kill = event['data'];
+          return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AgentIcon(
@@ -85,13 +85,16 @@ class RoundUtils {
                 small: true,
               ),
               SizedBox(
-                width: 80, // Set your desired width here
+                width: 70, // Set your desired width here
                 child: MarqueeText(
                     direction: Axis.horizontal,
                     child: Text(
                       HistoryUtils.extractPlayerNameByPUUID(matchDetail, puuid),
                       style: const TextStyle(fontSize: 13),
                     )),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(right: 5),
               ),
               WeaponSilhouetteImage(
                 imageUrl: HistoryUtils.getSilhouetteImageFromId(
@@ -100,8 +103,11 @@ class RoundUtils {
                 width: 75,
                 isGreen: isKill,
               ),
+              const Padding(
+                padding: EdgeInsets.only(left: 5),
+              ),
               SizedBox(
-                width: 80, // Set your desired width here
+                width: 70, // Set your desired width here
                 child: MarqueeText(
                     direction: Axis.horizontal,
                     child: Text(
@@ -118,7 +124,7 @@ class RoundUtils {
                 small: true,
               ),
             ],
-          ));
-    }).toList());
+          );
+        }).toList()));
   }
 }
