@@ -24,9 +24,10 @@ class RoundKillFeed extends StatelessWidget {
     //So what I need to get back is
     // 1. list ordered by timeSinceRoundStartMillis
     // 2. player agent icon + player name  red/green gun icon + enemy name + enemy agent icon
-    ContentProvider contentProvider = Provider.of<ContentProvider>(context);
-
+    ContentProvider contentProvider =
+        Provider.of<ContentProvider>(context, listen: false);
     return RoundUtils.buildRoundKillFeed(
-        puuid, kills, deaths, matchDetail, contentProvider);
+    return RoundUtils.buildRoundKillFeed(puuid, kills, deaths, matchDetail,
+        contentProvider.weapons, contentProvider.agents);
   }
 }

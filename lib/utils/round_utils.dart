@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:valoralysis/consts/round_result.dart';
+import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/player_round_stats.dart';
-import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/widgets/ui/agent_tag/agent_icon.dart';
@@ -57,7 +57,8 @@ class RoundUtils {
       List<KillDto> kills,
       List<KillDto> deaths,
       Map<String, dynamic> matchDetail,
-      ContentProvider contentProvider) {
+      List<ContentItem> weapons,
+      List<ContentItem> agents) {
     //add type field to kills and deaths
     List<dynamic> sortedKillsAndDeaths = [
       ...kills.map((kill) => {'type': 'kill', 'data': kill}),
@@ -69,6 +70,8 @@ class RoundUtils {
       int bTime = b['data'].timeSinceRoundStartMillis;
       return aTime.compareTo(bTime);
     });
+    print('provider');
+    print(weapons[1].toJson());
     return Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -83,7 +86,7 @@ class RoundUtils {
                   AgentIcon(
                     iconUrl: HistoryUtils.getContentImageFromId(
                         AgentUtils.extractAgentIdByPUUID(matchDetail, puuid),
-                        contentProvider.agents),
+                        agents),
                     small: true,
                   ),
                   SizedBox(
@@ -103,8 +106,7 @@ class RoundUtils {
                   ),
                   WeaponSilhouetteImage(
                     imageUrl: HistoryUtils.getSilhouetteImageFromId(
-                        HistoryUtils.getKillGunId(kill),
-                        contentProvider.weapons),
+                        HistoryUtils.getKillGunId(kill), weapons),
                     height: 40,
                     width: 75,
                     isGreen: isKill,
@@ -126,7 +128,7 @@ class RoundUtils {
                     iconUrl: HistoryUtils.getContentImageFromId(
                         AgentUtils.extractAgentIdByPUUID(
                             matchDetail, isKill ? kill.victim : kill.killer),
-                        contentProvider.agents),
+                        agents),
                     small: true,
                   ),
                 ],

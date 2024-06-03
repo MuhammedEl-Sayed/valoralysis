@@ -67,6 +67,7 @@ class ContentItem {
       'iconUrl': iconUrl,
       'assetUrl': assetUrl,
       'hash': hash,
+      'silhouetteUrl': silhouetteUrl,
     };
   }
 }
