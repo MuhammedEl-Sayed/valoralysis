@@ -343,6 +343,14 @@ class HistoryUtils {
     return roundResultsPerTeam;
   }
 
+  static Map<String, dynamic> sortMatchDetailsByStartTime(
+      Map<String, dynamic> matchDetails) {
+    List<dynamic> sortedMatchDetails = matchDetails['matches'];
+    sortedMatchDetails.sort((a, b) => a['matchInfo']['gameStartMillis']
+        .compareTo(b['matchInfo']['gameStartMillis']));
+    return {'matches': sortedMatchDetails};
+  }
+
   //add function to check if player won a round given the round index
   static bool didPlayerWinRound(
       Map<String, dynamic> matchDetail, String puuid, int roundIndex) {

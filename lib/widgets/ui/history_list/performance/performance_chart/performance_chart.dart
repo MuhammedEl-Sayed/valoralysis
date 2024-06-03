@@ -118,6 +118,7 @@ class _PerformanceChartState extends State<PerformanceChart> {
         ));
   }
 }
+
 class PerformanceChartSection extends StatelessWidget {
   final BarChartGroupData playerKillAndDeaths;
   final int roundNumber;
@@ -133,39 +134,41 @@ class PerformanceChartSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 10), // Ensure this padding is appropriate
-      child: BarChart(BarChartData(
-          maxY: 5,
-          barGroups: [playerKillAndDeaths],
-          borderData: FlBorderData(show: false),
-          gridData: const FlGridData(show: false),
-          titlesData: FlTitlesData(
-            bottomTitles: AxisTitles(
-              axisNameWidget: Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Text(roundNumber.toString())),
-              axisNameSize: 20,
+        padding: const EdgeInsets.only(
+            top: 10, bottom: 10), // Ensure this padding is appropriate
+        child: BarChart(BarChartData(
+            maxY: 5,
+            barGroups: [playerKillAndDeaths],
+            borderData: FlBorderData(show: false),
+            gridData: const FlGridData(show: false),
+            titlesData: FlTitlesData(
+              bottomTitles: AxisTitles(
+                axisNameWidget: Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: Text(roundNumber.toString())),
+                axisNameSize: 20,
+              ),
+              topTitles: AxisTitles(axisNameWidget: resultImage),
+              leftTitles: AxisTitles(axisNameWidget: Container()),
+              rightTitles: AxisTitles(axisNameWidget: Container()),
             ),
-            topTitles: AxisTitles(axisNameWidget: resultImage),
-            leftTitles: AxisTitles(axisNameWidget: Container()),
-            rightTitles: AxisTitles(axisNameWidget: Container()),
-          ),
-          barTouchData: BarTouchData(
-              touchTooltipData: BarTouchTooltipData(
-                  tooltipPadding: const EdgeInsets.all(0),
-                  tooltipMargin: 0,
-                  getTooltipColor: (group) => Colors.transparent,
-                  getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                    return rod.toY.toInt() > 0
-                        ? BarTooltipItem(
-                            rod.toY.toInt().toString(),
-                            const TextStyle(
-                              color: Colors.white,
-                            ))
-                        : BarTooltipItem(
-                            '',
-                            const TextStyle(
-                              color: Colors.white,
-                            ));
-                  })));  }
+            barTouchData: BarTouchData(
+                touchTooltipData: BarTouchTooltipData(
+                    tooltipPadding: const EdgeInsets.all(0),
+                    tooltipMargin: 0,
+                    getTooltipColor: (group) => Colors.transparent,
+                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                      return rod.toY.toInt() > 0
+                          ? BarTooltipItem(
+                              rod.toY.toInt().toString(),
+                              const TextStyle(
+                                color: Colors.white,
+                              ))
+                          : BarTooltipItem(
+                              '',
+                              const TextStyle(
+                                color: Colors.white,
+                              ));
+                    })))));
+  }
 }

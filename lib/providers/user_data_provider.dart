@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valoralysis/models/user.dart';
 import 'package:valoralysis/providers/navigation_provider.dart';
 import 'package:valoralysis/utils/file_utils.dart';
+import 'package:valoralysis/utils/history_utils.dart';
 
 class UserProvider with ChangeNotifier {
   User _user = User(puuid: '', consentGiven: false, name: '', matchDetails: {});
@@ -64,6 +65,8 @@ class UserProvider with ChangeNotifier {
         _user.matchDetails.addEntries([MapEntry(key, value)]);
       }
     });
+    _user.matchDetails =
+        HistoryUtils.sortMatchDetailsByStartTime(_user.matchDetails);
     FileUtils.writeUser(_user);
     notifyListeners();
   }
