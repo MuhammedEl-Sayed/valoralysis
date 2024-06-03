@@ -26,7 +26,6 @@ class RoundKillFeed extends StatelessWidget {
     // 2. player agent icon + player name  red/green gun icon + enemy name + enemy agent icon
     ContentProvider contentProvider =
         Provider.of<ContentProvider>(context, listen: false);
-    return RoundUtils.buildRoundKillFeed(
     return RoundUtils.buildRoundKillFeed(puuid, kills, deaths, matchDetail,
         contentProvider.weapons, contentProvider.agents);
   }
