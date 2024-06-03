@@ -75,56 +75,62 @@ class RoundUtils {
             children: sortedKillsAndDeaths.map((event) {
           bool isKill = event['type'] == 'kill';
           KillDto kill = event['data'];
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AgentIcon(
-                iconUrl: HistoryUtils.getContentImageFromId(
-                    AgentUtils.extractAgentIdByPUUID(matchDetail, puuid),
-                    contentProvider.agents),
-                small: true,
-              ),
-              SizedBox(
-                width: 70, // Set your desired width here
-                child: MarqueeText(
-                    direction: Axis.horizontal,
-                    child: Text(
-                      HistoryUtils.extractPlayerNameByPUUID(matchDetail, puuid),
-                      style: const TextStyle(fontSize: 13),
-                    )),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(right: 5),
-              ),
-              WeaponSilhouetteImage(
-                imageUrl: HistoryUtils.getSilhouetteImageFromId(
-                    HistoryUtils.getKillGunId(kill), contentProvider.weapons),
-                height: 40,
-                width: 75,
-                isGreen: isKill,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 5),
-              ),
-              SizedBox(
-                width: 70, // Set your desired width here
-                child: MarqueeText(
-                    direction: Axis.horizontal,
-                    child: Text(
-                      HistoryUtils.extractPlayerNameByPUUID(
-                          matchDetail, isKill ? kill.victim : kill.killer),
-                      style: const TextStyle(fontSize: 13),
-                    )),
-              ),
-              AgentIcon(
-                iconUrl: HistoryUtils.getContentImageFromId(
-                    AgentUtils.extractAgentIdByPUUID(
-                        matchDetail, isKill ? kill.victim : kill.killer),
-                    contentProvider.agents),
-                small: true,
-              ),
-            ],
-          );
+          return Padding(
+              padding: const EdgeInsets.only(bottom: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AgentIcon(
+                    iconUrl: HistoryUtils.getContentImageFromId(
+                        AgentUtils.extractAgentIdByPUUID(matchDetail, puuid),
+                        contentProvider.agents),
+                    small: true,
+                  ),
+                  SizedBox(
+                    width: 70, // Set your desired width here
+                    child: MarqueeText(
+                        direction: Axis.horizontal,
+                        child: Text(
+                          HistoryUtils.extractPlayerNameByPUUID(
+                              matchDetail, puuid),
+                          style: const TextStyle(fontSize: 13),
+                        )),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(
+                      right: 5,
+                    ),
+                  ),
+                  WeaponSilhouetteImage(
+                    imageUrl: HistoryUtils.getSilhouetteImageFromId(
+                        HistoryUtils.getKillGunId(kill),
+                        contentProvider.weapons),
+                    height: 40,
+                    width: 75,
+                    isGreen: isKill,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5),
+                  ),
+                  SizedBox(
+                    width: 70, // Set your desired width here
+                    child: MarqueeText(
+                        direction: Axis.horizontal,
+                        child: Text(
+                          HistoryUtils.extractPlayerNameByPUUID(
+                              matchDetail, isKill ? kill.victim : kill.killer),
+                          style: const TextStyle(fontSize: 13),
+                        )),
+                  ),
+                  AgentIcon(
+                    iconUrl: HistoryUtils.getContentImageFromId(
+                        AgentUtils.extractAgentIdByPUUID(
+                            matchDetail, isKill ? kill.victim : kill.killer),
+                        contentProvider.agents),
+                    small: true,
+                  ),
+                ],
+              ));
         }).toList()));
   }
 }

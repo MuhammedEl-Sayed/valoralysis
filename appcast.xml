@@ -3,16 +3,16 @@
     <channel>
         <title>Valoralysis App - Appcast</title>
         <item>
-            <title>Version 1.0.6+54</title>
-            <description>1.0.6+54: Fixing login/logout. Now it should try to load your local data instead of fetching it all over again if you logout and into an account you've looked at before. Also fixed issue with guns not showing up after reloading the app in the performance view (WIP).</description>
-            <pubDate>Sun, 02 Jun 2024 03:18:26 +0000</pubDate>
-            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="54" sparkle:shortVersionString="1.0.6" sparkle:os="android"/>
+            <title>Version 1.0.6+55</title>
+            <description>1.0.6+55: Made it easier to click on performance charts, added more styling. Still some kinks to workout</description>
+            <pubDate>Sun, 02 Jun 2024 09:07:27 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="55" sparkle:shortVersionString="1.0.6" sparkle:os="android"/>
         </item>
            <item>
-            <title>Version 1.0.6+54</title>
-            <description>1.0.6+54: Fixing login/logout. Now it should try to load your local data instead of fetching it all over again if you logout and into an account you've looked at before. Also fixed issue with guns not showing up after reloading the app in the performance view (WIP).</description>
-            <pubDate>Sun, 02 Jun 2024 03:18:26 +0000</pubDate>
-            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="54" sparkle:shortVersionString="1.0.6" sparkle:os="ios" />
+            <title>Version 1.0.6+55</title>
+            <description>1.0.6+55: Made it easier to click on performance charts, added more styling. Still some kinks to workout</description>
+            <pubDate>Sun, 02 Jun 2024 09:07:27 +0000</pubDate>
+            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="55" sparkle:shortVersionString="1.0.6" sparkle:os="ios" />
         </item>
     </channel>
 </rss>
