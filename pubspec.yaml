@@ -61,7 +61,8 @@ dependencies:
   crypto: ^3.0.3
   table_sticky_headers: ^2.0.5
   fl_chart: ^0.68.0
-  upgrader: ^10.3.0
+  upgrader: 
+    path: ./upgrader-10.3.0
 
 dev_dependencies:
   flutter_test:
