@@ -47,8 +47,8 @@ jobs:
             s|<title>Version .*<\/title>|<title>Version ${{ env.version }}<\/title>|g;  
             s|<description>.*<\/description>|<description>${{ env.version }}: ${{ env.message }}<\/description>|g;  
             s|<pubDate>.*<\/pubDate>|<pubDate>${PUBDATE}<\/pubDate>|g;  
-            s|sparkle:version=\"[^\"]*\"|sparkle:version=\"${{ env.buildNumber }}\"|g;  
-            s|sparkle:shortVersionString=\"[^\"]*\"|sparkle:shortVersionString=\"${{ env.versionWithoutBuild }}\"|g;  
+            s|sparkle:version=\"[^\"]*\"|sparkle:version=\"${{ env.version }}\"|g;  
+            s|sparkle:shortVersionString=\"[^\"]*\"|sparkle:shortVersionString=\"${{ env.version }}\"|g;  
             " appcast.xml  
             git add appcast.xml
             git commit -m "${{ env.version}}: ${{ env.message }}"
