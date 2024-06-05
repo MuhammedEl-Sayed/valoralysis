@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:valoralysis/api/services/history_service.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/models/match_history.dart';
 import 'package:valoralysis/providers/category_provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
@@ -46,12 +47,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     var entries = await Future.wait(futures);
 
-    Map<String, dynamic> matchHistoryDetailsMap = Map.fromEntries(entries);
+    Map<String, MatchDto> matchHistoryDetailsMap = Map.fromEntries(entries);
 
-    userProvider.updateStoredMatches(matchHistoryDetailsMap);
+    await userProvider.updateStoredMatches(matchHistoryDetailsMap);
 
-    userProvider.updateName(UserUtils.getUsername(
-        userProvider.user.matchDetails.values.toList()[0],
+    await userProvider.updateName(UserUtils.getUsername(
+        userProvider.user.matchDetailsMap.values.toList()[0],
         userProvider.user.puuid));
   }
 
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, snapshot) {
           UserProvider userProvider =
               Provider.of<UserProvider>(context, listen: false);
-          bool showSkeleton = userProvider.user.matchDetails.isEmpty;
+          bool showSkeleton = userProvider.user.matchDetailsMap.isEmpty;
 
           if (snapshot.connectionState == ConnectionState.waiting &&
               showSkeleton) {

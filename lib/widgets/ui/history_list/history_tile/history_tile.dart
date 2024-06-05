@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/margins.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
@@ -13,7 +14,7 @@ import 'package:valoralysis/widgets/ui/agent_tag/agent_icon.dart';
 import 'package:valoralysis/widgets/ui/history_list/overview/expanded_history/expanded_history.dart';
 
 class HistoryTile extends StatefulWidget {
-  final Map<String, dynamic> matchDetail;
+  final MatchDto matchDetail;
   final bool fake;
   const HistoryTile({Key? key, required this.matchDetail, this.fake = false})
       : super(key: key);

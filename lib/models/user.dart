@@ -1,14 +1,16 @@
+import 'package:valoralysis/models/match_details.dart';
+
 class User {
   String puuid = '';
   bool consentGiven = false;
   String name = '';
-  Map<String, dynamic> matchDetails = {};
+  Map<String, MatchDto> matchDetailsMap = {};
 
   User({
     required this.puuid,
     required this.consentGiven,
     required this.name,
-    required this.matchDetails,
+    required this.matchDetailsMap,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -16,7 +18,10 @@ class User {
       puuid: json['puuid'] as String,
       consentGiven: json['consentGiven'] as bool,
       name: json['name'] as String,
-      matchDetails: json['matchDetails'] as Map<String, dynamic>,
+      matchDetailsMap: (json['matchDetailsMap'] as Map<String, dynamic>).map(
+        (key, value) =>
+            MapEntry(key, MatchDto.fromJson(value as Map<String, dynamic>)),
+      ),
     );
   }
   Map<String, dynamic> toJson() {
@@ -24,7 +29,7 @@ class User {
       'puuid': puuid,
       'consentGiven': consentGiven,
       'name': name,
-      'matchDetails': matchDetails,
+      'matchDetailsMap': matchDetailsMap,
     };
   }
 }

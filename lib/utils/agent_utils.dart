@@ -1,19 +1,18 @@
 import 'package:valoralysis/models/content.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 
 class AgentUtils {
-  static String? getImageFromId(Map<String, dynamic> matchDetails, String puuid,
-      List<ContentItem> agents) {
+  static String? getImageFromId(
+      MatchDto matchDetail, String puuid, List<ContentItem> agents) {
     return agents
         .firstWhere(
-            (agent) => agent.uuid == extractAgentIdByPUUID(matchDetails, puuid))
+            (agent) => agent.uuid == extractAgentIdByPUUID(matchDetail, puuid))
         .iconUrl;
   }
 
-  static String extractAgentIdByPUUID(
-      Map<String, dynamic> matchDetails, String puuid) {
-    Map<String, dynamic> player =
-        HistoryUtils.getPlayerByPUUID(matchDetails, puuid);
-    return player != {} ? player['characterId'] : null;
+  static String extractAgentIdByPUUID(MatchDto matchDetail, String puuid) {
+    PlayerDto player = HistoryUtils.getPlayerByPUUID(matchDetail, puuid);
+    return player.characterId;
   }
 }

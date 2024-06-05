@@ -1,3 +1,5 @@
+import 'package:valoralysis/models/match_details.dart';
+
 class PlayerRoundStats {
   String puuid;
   List<KillDto> kills;
@@ -24,43 +26,6 @@ class PlayerRoundStats {
       score: json['score'],
       economy: EconomyDto.fromJson(json['economy']),
       ability: AbilityDto.fromJson(json['ability']),
-    );
-  }
-}
-
-class KillDto {
-  int timeSinceGameStartMillis;
-  int timeSinceRoundStartMillis;
-  String killer;
-  String victim;
-  LocationDto victimLocation;
-  List<String> assistants;
-  List<PlayerLocationsDto> playerLocations;
-  FinishingDamageDto finishingDamage;
-
-  KillDto({
-    required this.timeSinceGameStartMillis,
-    required this.timeSinceRoundStartMillis,
-    required this.killer,
-    required this.victim,
-    required this.victimLocation,
-    required this.assistants,
-    required this.playerLocations,
-    required this.finishingDamage,
-  });
-
-  factory KillDto.fromJson(Map<String, dynamic> json) {
-    return KillDto(
-      timeSinceGameStartMillis: json['timeSinceGameStartMillis'],
-      timeSinceRoundStartMillis: json['timeSinceRoundStartMillis'],
-      killer: json['killer'],
-      victim: json['victim'],
-      victimLocation: LocationDto.fromJson(json['victimLocation']),
-      assistants: List<String>.from(json['assistants']),
-      playerLocations: (json['playerLocations'] as List)
-          .map((e) => PlayerLocationsDto.fromJson(e))
-          .toList(),
-      finishingDamage: FinishingDamageDto.fromJson(json['finishingDamage']),
     );
   }
 }
@@ -146,32 +111,6 @@ class PlayerLocationsDto {
           ? (json['viewRadians'] as int).toDouble()
           : json['viewRadians'],
       location: LocationDto.fromJson(json['location']),
-    );
-  }
-}
-
-class DamageDto {
-  String receiver;
-  int damage;
-  int legshots;
-  int bodyshots;
-  int headshots;
-
-  DamageDto({
-    required this.receiver,
-    required this.damage,
-    required this.legshots,
-    required this.bodyshots,
-    required this.headshots,
-  });
-
-  factory DamageDto.fromJson(Map<String, dynamic> json) {
-    return DamageDto(
-      receiver: json['receiver'],
-      damage: json['damage'],
-      legshots: json['legshots'],
-      bodyshots: json['bodyshots'],
-      headshots: json['headshots'],
     );
   }
 }

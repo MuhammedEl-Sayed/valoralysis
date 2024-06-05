@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/models/item.dart';
-import 'package:valoralysis/models/player_round_stats.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/widgets/ui/category_selector/category_selector.dart';
 import 'package:valoralysis/widgets/ui/expandable_section/expandable_section.dart';
@@ -14,7 +14,7 @@ import 'package:valoralysis/widgets/ui/team_details_table/team_details_table.dar
 
 class ExpandedHistory extends StatefulWidget {
   final bool opened;
-  final Map<String, dynamic> matchDetail;
+  final MatchDto matchDetail;
   final String puuid;
 
   const ExpandedHistory({

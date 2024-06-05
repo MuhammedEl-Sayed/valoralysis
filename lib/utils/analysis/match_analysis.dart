@@ -1,11 +1,11 @@
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/models/player_round_stats.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 
 class MatchAnalysis {
-  static String findKAST(Map<String, dynamic> matchDetail, String puuid) {
-    Map<String, dynamic> player =
-        HistoryUtils.getPlayerByPUUID(matchDetail, puuid);
-    if (player == {} || player['characterId'] == null) {
+  static String findKAST(MatchDto matchDetail, String puuid) {
+    PlayerDto player = HistoryUtils.getPlayerByPUUID(matchDetail, puuid);
+    if (player.characterId.isEmpty) {
       return '0';
     }
 
@@ -36,10 +36,9 @@ class MatchAnalysis {
         .toString();
   }
 
-  static int findADR(Map<String, dynamic> matchDetail, String puuid) {
-    Map<String, dynamic> player =
-        HistoryUtils.getPlayerByPUUID(matchDetail, puuid);
-    if (player == {} || player['characterId'] == null) {
+  static int findADR(MatchDto matchDetail, String puuid) {
+    PlayerDto player = HistoryUtils.getPlayerByPUUID(matchDetail, puuid);
+    if (player.characterId.isEmpty) {
       return 0;
     }
     List<PlayerRoundStats> stats =

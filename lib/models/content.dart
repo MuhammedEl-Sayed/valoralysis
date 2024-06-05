@@ -88,7 +88,6 @@ class Content {
       required this.ranks,
       required this.weapons});
   factory Content.fromJson(Map<String, dynamic> json) {
-    print(json['ranks']);
     return Content(
       maps: (json['maps'] as List<dynamic>)
           .map((item) => ContentItem(

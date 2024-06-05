@@ -1,6 +1,7 @@
 //ignore_for_file: constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:valoralysis/models/content.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 
 enum ShotType { Headshot, Bodyshot, Legshot }
@@ -26,10 +27,9 @@ class FormattingUtils {
   }
 
   // Need puuid to figure out which team to show on the right
-  static Widget convertTeamWinMapToString(
-      Map<String, dynamic> matchDetail, String puuid) {
+  static Widget convertTeamWinMapToString(MatchDto matchDetail, String puuid) {
     String playerTeam =
-        HistoryUtils.extractTeamFromPUUID(matchDetail, puuid)['teamId'];
+        HistoryUtils.extractTeamFromPUUID(matchDetail, puuid).teamId;
     Map<String, int> winsPerTeam =
         HistoryUtils.extractRoundWinsPerTeam(matchDetail);
 

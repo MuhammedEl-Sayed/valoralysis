@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:valoralysis/consts/round_result.dart';
 import 'package:valoralysis/models/content.dart';
-import 'package:valoralysis/models/player_round_stats.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/widgets/ui/agent_tag/agent_icon.dart';
@@ -56,7 +56,7 @@ class RoundUtils {
       String puuid,
       List<KillDto> kills,
       List<KillDto> deaths,
-      Map<String, dynamic> matchDetail,
+      MatchDto matchDetail,
       List<ContentItem> weapons,
       List<ContentItem> agents) {
     //add type field to kills and deaths
@@ -106,7 +106,8 @@ class RoundUtils {
                   ),
                   WeaponSilhouetteImage(
                     imageUrl: HistoryUtils.getSilhouetteImageFromId(
-                        HistoryUtils.getKillGunId(kill), weapons),
+                            HistoryUtils.getKillGunId(kill), weapons) ??
+                        '',
                     height: 40,
                     width: 75,
                     isGreen: isKill,

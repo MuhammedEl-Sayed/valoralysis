@@ -1,9 +1,7 @@
+import 'package:valoralysis/models/match_details.dart';
+
 class UserUtils {
-  static String getUsername(Map<String, dynamic> matchDetails, String puuid) {
-    return matchDetails['players']
-            .firstWhere((player) => player['puuid'] == puuid)['gameName'] +
-        '#' +
-        matchDetails['players']
-            .firstWhere((player) => player['puuid'] == puuid)['tagLine'];
+  static String getUsername(MatchDto matchDetail, String puuid) {
+    return '${matchDetail.players.firstWhere((player) => player.puuid == puuid).gameName}#${matchDetail.players.firstWhere((player) => player.partyId == puuid).tagLine}';
   }
 }

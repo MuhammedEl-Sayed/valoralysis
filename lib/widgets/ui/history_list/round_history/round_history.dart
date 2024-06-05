@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/round_utils.dart';
 
 class RoundHistory extends StatelessWidget {
   final String puuid;
-  final Map<String, dynamic> matchDetail;
+  final MatchDto matchDetail;
 
   const RoundHistory(
       {super.key, required this.puuid, required this.matchDetail});
@@ -12,35 +13,35 @@ class RoundHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //First we'll find how many rounds were played
-    Map<String, dynamic> roundResults =
+    Map<String, List<dynamic>> roundResults =
         HistoryUtils.extractRoundResultPerTeam(matchDetail, puuid);
 
     int lastRound =
-        roundResults['Your Team'].length + roundResults['Enemy Team'].length;
+        roundResults['Your Team']!.length + roundResults['Enemy Team']!.length;
 
     List<int> roundsWonPlayer = [];
     List<int> roundsWonEnemy = [];
 
-    for (var roundResult in roundResults['Your Team']) {
+    for (var roundResult in roundResults['Your Team']!) {
       roundsWonPlayer.add(roundResult['roundNum']);
     }
 
-    for (var roundResult in roundResults['Enemy Team']) {
+    for (var roundResult in roundResults['Enemy Team']!) {
       roundsWonEnemy.add(roundResult['roundNum']);
     }
 
     for (int i = 0; i < lastRound; i++) {
       if (!roundsWonPlayer.contains(i)) {
-        roundResults['Your Team'].add({'roundNum': i, 'roundResult': 'Lost'});
+        roundResults['Your Team']!.add({'roundNum': i, 'roundResult': 'Lost'});
       }
       if (!roundsWonEnemy.contains(i)) {
-        roundResults['Enemy Team'].add({'roundNum': i, 'roundResult': 'Lost'});
+        roundResults['Enemy Team']!.add({'roundNum': i, 'roundResult': 'Lost'});
       }
     }
 
-    roundResults['Your Team']
+    roundResults['Your Team']!
         .sort((a, b) => (a['roundNum'] as int).compareTo(b['roundNum'] as int));
-    roundResults['Enemy Team']
+    roundResults['Enemy Team']!
         .sort((a, b) => (a['roundNum'] as int).compareTo(b['roundNum'] as int));
     return SizedBox(
       height: 90,
@@ -68,14 +69,15 @@ class RoundHistory extends StatelessWidget {
                         children: [
                           RoundUtils.resultToImageMap(
                               true,
-                              i < roundResults['Your Team'].length
-                                  ? roundResults['Your Team'][i]['roundResult']
+                              i < roundResults['Your Team']!.length
+                                  ? roundResults['Your Team']![i]['roundResult']
                                   : null,
                               context),
                           RoundUtils.resultToImageMap(
                               false,
-                              i < roundResults['Enemy Team'].length
-                                  ? roundResults['Enemy Team'][i]['roundResult']
+                              i < roundResults['Enemy Team']!.length
+                                  ? roundResults['Enemy Team']![i]
+                                      ['roundResult']
                                   : null,
                               context),
                           Text((i + 1).toString()),

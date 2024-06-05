@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:valoralysis/models/player_round_stats.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/utils/round_utils.dart';
 
@@ -9,7 +9,7 @@ class RoundKillFeed extends StatelessWidget {
   final List<KillDto> kills;
   final List<KillDto> deaths;
   final int roundNumber;
-  final Map<String, dynamic> matchDetail;
+  final MatchDto matchDetail;
   const RoundKillFeed(
       {Key? key,
       required this.puuid,

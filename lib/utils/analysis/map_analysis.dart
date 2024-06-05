@@ -1,13 +1,12 @@
 import 'package:valoralysis/models/content.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/utils/analysis/winrate_analysis.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 
 class MapAnalysis {
   static Map<String, double> getKDPerMap(
-      List<Map<String, dynamic>> matchDetails,
-      String puuid,
-      List<ContentItem> maps) {
+      List<MatchDto> matchDetails, String puuid, List<ContentItem> maps) {
     Map<String, double> kdPerMap = {};
     for (ContentItem map in maps) {
       List<PlayerStats> stats = HistoryUtils.extractPlayerStats(
@@ -24,9 +23,7 @@ class MapAnalysis {
   }
 
   static Map<String, double> getWRPerMap(
-      List<Map<String, dynamic>> matchDetails,
-      String puuid,
-      List<ContentItem> maps) {
+      List<MatchDto> matchDetails, String puuid, List<ContentItem> maps) {
     Map<String, double> wrPerMap = {};
 
     for (ContentItem map in maps) {

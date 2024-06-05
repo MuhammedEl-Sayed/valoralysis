@@ -1,20 +1,18 @@
 import 'dart:math';
 
 import 'package:valoralysis/models/content.dart';
+import 'package:valoralysis/models/match_details.dart';
 
 class WeaponsUtils {
   static List<dynamic> getPlayerStats(
-      List<Map<String, dynamic>> matches, String puuid, String statKey) {
+      List<MatchDto> matches, String puuid, String statKey) {
     List<dynamic> playerStats = [];
-    for (Map<String, dynamic> matchDetails in matches) {
-      if (matchDetails['roundResults'] != null) {
-        for (Map<String, dynamic> round in matchDetails['roundResults']) {
-          if (round['playerStats'] != null) {
-            for (Map<String, dynamic> playerStat in round['playerStats']) {
-              if (playerStat['puuid'] == puuid && playerStat[statKey] != null) {
-                playerStats.addAll(playerStat[statKey]);
-              }
-            }
+    for (MatchDto matchDetails in matches) {
+      for (RoundResultDto round in matchDetails.roundResults) {
+        for (PlayerRoundStatsDto playerStat in round.playerStats) {
+          //define statkey as a key of playerStat
+          if (playerStat.puuid == puuid && playerStat.containsKey(statKey)) {
+            playerStats.addAll(playerStat[statKey]);
           }
         }
       }
@@ -23,8 +21,8 @@ class WeaponsUtils {
   }
 
   static Map<String, double> weaponsHeadshotAccuracyAnaylsis(
-      List<Map<String, dynamic>> matches, String puuid) {
-    List<dynamic> playerDamage = getPlayerStats(matches, puuid, 'damage');
+      List<MatchDto> matchDetails, String puuid) {
+    List<dynamic> playerDamage = getPlayerStats(matchDetails, puuid, 'damage');
 
     double totalHeadshots = 0;
     double totalBodyshots = 0;
@@ -53,9 +51,7 @@ class WeaponsUtils {
   }
 
   static Map<String, double> getKDPerWeapon(
-      List<Map<String, dynamic>> matchDetails,
-      String puuid,
-      List<ContentItem> weapons) {
+      List<MatchDto> matchDetails, String puuid, List<ContentItem> weapons) {
     List<dynamic> playerKills = getPlayerStats(matchDetails, puuid, 'kills');
     List<dynamic> finishingDamage = [];
     for (dynamic kill in playerKills) {

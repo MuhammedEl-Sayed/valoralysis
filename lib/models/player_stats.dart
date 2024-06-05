@@ -1,4 +1,4 @@
-import 'package:valoralysis/models/player_round_stats.dart';
+import 'package:valoralysis/models/match_details.dart';
 
 class PlayerStats {
   int score;

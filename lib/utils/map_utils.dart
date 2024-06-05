@@ -1,8 +1,9 @@
 import 'package:valoralysis/models/content.dart';
+import 'package:valoralysis/models/match_details.dart';
 
 class MapUtils {
-  static String extractMapPath(Map<String, dynamic> matchDetails) {
-    return matchDetails['matchInfo']['mapId'] as String;
+  static String extractMapPath(MatchDto matchDetails) {
+    return matchDetails.matchInfo.mapId;
   }
 
   static String getMapNameFromPath(String path, List<ContentItem> maps) {

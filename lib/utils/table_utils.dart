@@ -2,6 +2,7 @@ import 'package:flutter/material.dart'
     hide DataColumn, DataCell, DataRow, DataTable;
 import 'package:table_sticky_headers/table_sticky_headers.dart';
 import 'package:valoralysis/models/content.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
 import 'package:valoralysis/utils/analysis/match_analysis.dart';
@@ -14,22 +15,18 @@ import 'package:valoralysis/widgets/ui/marquee_text/marquee_text.dart';
 import 'package:valoralysis/widgets/ui/team_details_table/team_table_cell.dart';
 
 class TableUtils {
-  static List<List<Widget>> buildPlayerDataRows(
-      Map<String, dynamic> matchDetail,
-      String puuid,
-      Content content,
-      bool isUserTeam,
-      String userPUUID) {
-    List<Map<String, dynamic>> players = [];
+  static List<List<Widget>> buildPlayerDataRows(MatchDto matchDetail,
+      String puuid, Content content, bool isUserTeam, String userPUUID) {
+    List<PlayerDto> players = [];
     List<ContentItem> ranks = content.ranks;
     List<ContentItem> agents = content.agents;
     print('content: ${content.agents.length}');
 
     String userTeam =
-        HistoryUtils.extractTeamFromPUUID(matchDetail, puuid)['teamId'];
-    for (Map<String, dynamic> player in matchDetail['players']) {
-      String playerTeam = HistoryUtils.extractTeamFromPUUID(
-          matchDetail, player['puuid'])['teamId'];
+        HistoryUtils.extractTeamFromPUUID(matchDetail, puuid).teamId;
+    for (PlayerDto player in matchDetail.players) {
+      String playerTeam =
+          HistoryUtils.extractTeamFromPUUID(matchDetail, player.puuid).teamId;
       if (isUserTeam && playerTeam == userTeam) {
         players.add(player);
       } else if (!isUserTeam && playerTeam != userTeam) {
@@ -37,20 +34,26 @@ class TableUtils {
       }
     }
 
-    // Now we sort the players by their kills
-    for (Map<String, dynamic> player in players) {
-      player['kast'] = MatchAnalysis.findKAST(matchDetail, player['puuid']);
-    }
+    // Create a list of tuples (player, kast)
+    List<Map<String, dynamic>> playerKastList = players.map((player) {
+      String kast = MatchAnalysis.findKAST(matchDetail, player.puuid);
+      return {
+        'player': player,
+        'kast': kast,
+      };
+    }).toList();
 
-// Now we sort the players by their KAST
-    players.sort((a, b) {
+    // Sort the players by their KAST
+    playerKastList.sort((a, b) {
       return double.parse(b['kast']).compareTo(double.parse(a['kast']));
     });
 
     List<List<Widget>> rows = [];
 
-    for (Map<String, dynamic> player in players) {
-      String playerPUUID = player['puuid'];
+    for (var entry in playerKastList) {
+      PlayerDto player = entry['player'];
+      String kast = entry['kast'];
+      String playerPUUID = player.puuid;
       Widget profile = buildPlayerProfileCell(matchDetail, player, ranks,
           agents, playerPUUID == userPUUID, isUserTeam);
       PlayerStats stats =
@@ -59,7 +62,6 @@ class TableUtils {
           WeaponsUtils.weaponsHeadshotAccuracyAnaylsis(
               [matchDetail], playerPUUID),
           ShotType.Headshot);
-      String kast = MatchAnalysis.findKAST(matchDetail, playerPUUID);
       int adr = MatchAnalysis.findADR(matchDetail, playerPUUID);
       int numTrades = stats.trades.values
           .fold(0, (previousValue, element) => previousValue + element.length);
@@ -91,13 +93,13 @@ class TableUtils {
   }
 
   static Widget buildPlayerProfileCell(
-      Map<String, dynamic> matchDetail,
-      Map<String, dynamic> player,
+      MatchDto matchDetail,
+      PlayerDto player,
       List<ContentItem> ranks,
       List<ContentItem> agents,
       bool isUser,
       bool isUserTeam) {
-    String puuid = player['puuid'];
+    String puuid = player.puuid;
     String playerName =
         HistoryUtils.extractPlayerNameByPUUID(matchDetail, puuid);
     ContentItem playerRank = RankUtils.getPlayerRank(matchDetail, ranks, puuid);

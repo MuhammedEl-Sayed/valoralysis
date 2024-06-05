@@ -1,12 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:valoralysis/models/player_round_stats.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/round_utils.dart';
 
 class PerformanceChart extends StatefulWidget {
   final String puuid;
-  final Map<String, dynamic> matchDetail;
+  final MatchDto matchDetail;
   final int selectedRound;
   final Function(int) onSelectedRoundChanged;
 
@@ -32,7 +32,7 @@ class _PerformanceChartState extends State<PerformanceChart> {
             widget.matchDetail, widget.puuid);
     Map<int, List<DamageDto>> playerDamagePerRound =
         HistoryUtils.extractPlayerDamage(widget.matchDetail, widget.puuid);
-    List<Map<String, dynamic>> roundResults =
+    List<RoundResultDto> roundResults =
         HistoryUtils.getRoundResults(widget.matchDetail);
 
     int numRounds = HistoryUtils.getNumberOfRounds(widget.matchDetail);
@@ -114,7 +114,7 @@ class _PerformanceChartState extends State<PerformanceChart> {
                     resultImage: RoundUtils.resultToImageMap(
                       HistoryUtils.didPlayerWinRound(
                           widget.matchDetail, widget.puuid, index),
-                      roundResults[index]['roundResult'],
+                      roundResults[index].roundResult,
                       context,
                     ),
                   )),

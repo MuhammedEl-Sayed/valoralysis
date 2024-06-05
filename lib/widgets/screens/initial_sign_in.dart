@@ -88,7 +88,7 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
         name: gameNameAndTag,
         puuid: puuid,
         consentGiven: true,
-        matchDetails: userProvider.user.matchDetails,
+        matchDetailsMap: userProvider.user.matchDetailsMap,
       ));
       if (mounted) {
         userProvider.updatePuuid(puuid);
@@ -101,7 +101,6 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
   Widget build(BuildContext context) {
     double margin = getStandardMargins(context);
     final upgrader = Upgrader(
-        debugLogging: true,
         storeController: UpgraderStoreController(
             onAndroid: () => UpgraderAppcastStore(
                 appcastURL:

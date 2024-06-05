@@ -6,7 +6,8 @@ import 'package:valoralysis/utils/file_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 
 class UserProvider with ChangeNotifier {
-  User _user = User(puuid: '', consentGiven: false, name: '', matchDetails: {});
+  User _user =
+      User(puuid: '', consentGiven: false, name: '', matchDetailsMap: {});
   List<User> _users = [];
 
   User get user => _user;
@@ -21,7 +22,8 @@ class UserProvider with ChangeNotifier {
     _users = await FileUtils.readUsers();
 
     if (preferredPUUID == -1 || _users.isEmpty) {
-      setUser(User(puuid: '', consentGiven: false, name: '', matchDetails: {}));
+      setUser(
+          User(puuid: '', consentGiven: false, name: '', matchDetailsMap: {}));
       return;
     }
     setUser(_users[preferredPUUID]);
@@ -39,7 +41,8 @@ class UserProvider with ChangeNotifier {
   }
 
   void resetUser() {
-    setUser(User(puuid: '', consentGiven: false, name: '', matchDetails: {}));
+    setUser(
+        User(puuid: '', consentGiven: false, name: '', matchDetailsMap: {}));
   }
 
   void updatePuuid(String puuid) {
@@ -48,9 +51,9 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateName(String name) {
+  Future<void> updateName(String name) async {
     _user.name = name;
-    saveUser();
+    await saveUser();
   }
 
   void updateConsentGiven(bool consentGiven) {
@@ -59,15 +62,19 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateStoredMatches(Map<String, dynamic> matchHistory) {
+  Future<void> updateStoredMatches(Map<String, dynamic> matchHistory) async {
     matchHistory.forEach((key, value) {
-      if (!_user.matchDetails.containsKey(key)) {
-        _user.matchDetails.addEntries([MapEntry(key, value)]);
+      if (!_user.matchDetailsMap.containsKey(key)) {
+        _user.matchDetailsMap.addEntries([MapEntry(key, value)]);
       }
     });
-    _user.matchDetails =
-        HistoryUtils.sortMatchDetailsByStartTime(_user.matchDetails);
-    FileUtils.writeUser(_user);
+    try {
+      _user.matchDetailsMap =
+          HistoryUtils.sortMatchDetailsByStartTime(_user.matchDetailsMap);
+    } catch (e) {
+      print('Exception in updateStoredMatches: $e');
+    }
+    await saveUser();
     notifyListeners();
   }
 
@@ -75,7 +82,7 @@ class UserProvider with ChangeNotifier {
     _user.puuid = '';
     _user.consentGiven = false;
     _user.name = '';
-    _user.matchDetails = {};
+    _user.matchDetailsMap = {};
     prefs.setInt('preferredPUUID', -1);
     navigationProvider.navigateTo('/');
     notifyListeners();
@@ -88,7 +95,6 @@ class UserProvider with ChangeNotifier {
   }
 
   List<String> getNameHistory() {
-    print('users: $_users');
     return _users.map((User user) => user.name).toList();
   }
 }

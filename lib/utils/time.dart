@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 
 class TimeUtils {
@@ -21,11 +22,11 @@ class TimeUtils {
     }
   }
 
-  static Map<String, dynamic> buildMatchesByDayMap(
-      List<Map<String, dynamic>> matchDetails) {
-    Map<String, dynamic> matchesByDay = {};
+  static Map<String, List<MatchDto>> buildMatchesByDayMap(
+      List<MatchDto> matchDetails) {
+    Map<String, List<MatchDto>> matchesByDay = {};
 
-    for (Map<String, dynamic> matchDetail in matchDetails) {
+    for (MatchDto matchDetail in matchDetails) {
       DateTime date = DateTime.fromMillisecondsSinceEpoch(
           HistoryUtils.extractStartTime(matchDetail));
       int daysSince = DateTime.now().difference(date).inDays;
@@ -44,7 +45,7 @@ class TimeUtils {
       if (!matchesByDay.keys.contains(key)) {
         matchesByDay[key] = [];
       }
-      matchesByDay[key].add(matchDetail);
+      matchesByDay[key]?.add(matchDetail);
     }
     return matchesByDay;
   }

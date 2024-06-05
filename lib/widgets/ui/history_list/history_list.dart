@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/consts/mock_data.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/providers/mode_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/history_utils.dart';
@@ -25,30 +26,29 @@ class HistoryList extends StatelessWidget {
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: fake ? getMockData() : null,
       builder: (context, snapshot) {
-        List<Map<String, dynamic>> relevantMatches = [];
+        List<MatchDto> relevantMatches = [];
 
-        List<Map<String, dynamic>> filterMatches() {
-          return userProvider.user.matchDetails.values
+        List<MatchDto> filterMatches() {
+          return userProvider.user.matchDetailsMap.values
               .where((matchDetail) =>
                   HistoryUtils.extractGamemode(matchDetail, modeProvider.modes)
                       .realValue ==
                   modeProvider.selectedMode)
-              .toList()
-              .cast<Map<String, dynamic>>();
+              .toList();
         }
 
         if (snapshot.connectionState == ConnectionState.waiting &&
-            userProvider.user.matchDetails.isNotEmpty) {
+            userProvider.user.matchDetailsMap.isNotEmpty) {
           filterMatches();
         } else if (snapshot.hasData &&
             fake &&
-            userProvider.user.matchDetails.isEmpty) {
-          relevantMatches = snapshot.data!;
+            userProvider.user.matchDetailsMap.isEmpty) {
+          relevantMatches = snapshot.data! as List<MatchDto>;
         } else {
           relevantMatches = filterMatches();
         }
 
-        Map<String, dynamic> matchesByDay =
+        Map<String, List<MatchDto>> matchesByDay =
             TimeUtils.buildMatchesByDayMap(relevantMatches);
 
         double margin = getStandardMargins(context);
@@ -68,11 +68,11 @@ class HistoryList extends StatelessWidget {
                 String key = matchesByDay.keys.elementAt(index);
                 return Column(children: [
                   HistorySectionTitle(
-                      numOfMatches: matchesByDay[key].length,
+                      numOfMatches: matchesByDay[key]!.length,
                       dateTitle: key,
                       hasDropdown: index == 0 ? true : false),
                   Column(
-                    children: matchesByDay[key]
+                    children: matchesByDay[key]!
                         .map<Widget>((matchDetail) =>
                             HistoryTile(matchDetail: matchDetail, fake: fake))
                         .toList(),

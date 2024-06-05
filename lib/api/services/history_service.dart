@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:valoralysis/api/services/auth_service.dart';
+import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/models/match_history.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/rate_limiter.dart';
@@ -20,24 +21,24 @@ class HistoryService {
         .toList();
   }
 
-  static Future<Map<String, dynamic>> getMatchDetailsByMatchID(
-      String matchID) async {
+  static Future<MatchDto> getMatchDetailsByMatchID(String matchID) async {
     return rateLimiter.run(() => _getMatchDetailsByMatchID(matchID));
   }
 
-  static Future<Map<String, dynamic>> _getMatchDetailsByMatchID(
-      String matchID) async {
+  static Future<MatchDto> _getMatchDetailsByMatchID(String matchID) async {
     Dio dio = AuthService.prepareDio(PlatformId.NA);
     try {
       var response = await dio.get('/val/match/v1/matches/$matchID');
-      return response.data;
+      MatchDto match = MatchDto.fromJson(response.data);
+      print('matchone $match'); // print the match
+      return match;
     } catch (e) {
       // print(e.toString());
-      return {};
+      return MatchDto.empty();
     }
   }
 
-  static Future<List<Map<String, dynamic>>> getAllMatchDetails(
+  static Future<List<MatchDto>> getAllMatchDetails(
       List<MatchHistory> matchHistory) async {
     var trimmedMatches =
         HistoryUtils.extractMatchIDs(matchHistory).getRange(0, 20);

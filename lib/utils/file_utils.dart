@@ -38,7 +38,7 @@ class FileUtils {
         return -1;
       }
       final file = await _localUserFile;
-
+      print('writing user: ${user.puuid}');
       List<User> existingUsers = await readUsers();
 
       int index = existingUsers
