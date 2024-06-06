@@ -30,9 +30,10 @@ class HistoryService {
     try {
       var response = await dio.get('/val/match/v1/matches/$matchID');
       MatchDto match = MatchDto.fromJson(response.data);
+      print('call: ${match.players[0].gameName}');
       return match;
     } catch (e) {
-      // print(e.toString());
+      // print('call: ${e.toString()}');
       return MatchDto.empty();
     }
   }

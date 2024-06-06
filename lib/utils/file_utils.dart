@@ -38,11 +38,12 @@ class FileUtils {
         return -1;
       }
       final file = await _localUserFile;
-      print('writing user: ${user.puuid}');
       List<User> existingUsers = await readUsers();
 
       int index = existingUsers
           .indexWhere((existingUser) => existingUser.puuid == user.puuid);
+      //print user matchDetailsMap   as jsonEncode(user.matchDetailsMap)
+      print('writing user: ${json.encode(user.matchDetailsMap)}');
       if (index != -1) {
         // If user exists, update it
         existingUsers[index] = user;
@@ -72,7 +73,7 @@ class FileUtils {
       }
 
       List<dynamic> decodedJson = jsonDecode(contents);
-      print('read: ${decodedJson.map((user) => User.fromJson(user)).toList()}');
+      //empty here
       return decodedJson.map((user) => User.fromJson(user)).toList();
     } catch (e) {
       print(e);
@@ -89,7 +90,6 @@ class FileUtils {
   static Future<int> writeImageMap(Content content) async {
     try {
       final file = await _localImageMapFile;
-      print('writing image map: ${content.toJson()}');
       file.writeAsString(jsonEncode(content.toJson()));
 
       return 0;
@@ -105,7 +105,6 @@ class FileUtils {
 
       // Read the file
       final contents = await file.readAsString();
-      print('read image map');
 
       return Content.fromJson(jsonDecode(contents));
     } catch (e) {

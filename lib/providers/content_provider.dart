@@ -9,7 +9,6 @@ class ContentProvider with ChangeNotifier {
   Content _content = Content(
       maps: [], agents: [], gameModes: [], acts: [], ranks: [], weapons: []);
   List<MatchHistory> _matchHistory = [];
-  List<Map<String, dynamic>> _matchDetails = [];
 
   List<ContentItem> get maps => _content.maps;
   List<ContentItem> get agents => _content.agents;
@@ -18,7 +17,6 @@ class ContentProvider with ChangeNotifier {
   List<ContentItem> get weapons => _content.weapons;
   List<ContentItem> get ranks => _content.ranks;
   List<MatchHistory> get matchHistory => _matchHistory;
-  List<Map<String, dynamic>> get matchDetails => _matchDetails;
   Content get content => _content;
   Content _contentCache = Content(
       maps: [], agents: [], gameModes: [], acts: [], ranks: [], weapons: []);
@@ -31,7 +29,6 @@ class ContentProvider with ChangeNotifier {
     _content.weapons = <ContentItem>[];
     _content.ranks = <ContentItem>[];
     _matchHistory = <MatchHistory>[];
-    _matchDetails = <Map<String, dynamic>>[];
   }
 
   Future<void> init() async {

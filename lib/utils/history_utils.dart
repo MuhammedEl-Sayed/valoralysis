@@ -55,7 +55,9 @@ class HistoryUtils {
   }
 
   static PlayerDto getPlayerByPUUID(MatchDto matchDto, String puuid) {
-    print(matchDto.players[0]);
+    for (var player in matchDto.players) {
+      print('puuid: ${player.puuid}');
+    }
     return matchDto.players.firstWhere((player) => player.puuid == puuid);
   }
 
@@ -153,6 +155,7 @@ class HistoryUtils {
       MatchDto matchDto, List<String> puuids) {
     Map<String, Map<int, List<KillDto>>> puuidsToKillListMap = {};
     List<String> enemyTeamPUUIDS = extractEnemyTeamPUUIDs(matchDto, puuids[0]);
+
     List<RoundResultDto> roundResults = matchDto.roundResults;
 
     for (String puuid in puuids) {
@@ -301,23 +304,26 @@ class HistoryUtils {
 
     String playerTeamId = extractTeamIdFromPUUID(matchDto, puuid);
 
-    for (RoundResultDto roundResult in matchDto.roundResults) {
+    for (var roundResult in matchDto.roundResults) {
+      //print typoof roundResult
+      print(roundResult.runtimeType);
       if (roundResult.winningTeam == playerTeamId) {
-        roundResultsPerTeam["Your Team"]?.add(roundResult);
+        roundResultsPerTeam["Your Team"]!.add(roundResult);
       } else {
-        roundResultsPerTeam["Enemy Team"]?.add(roundResult);
+        roundResultsPerTeam["Enemy Team"]!.add(roundResult);
       }
     }
+    print(roundResultsPerTeam["Your Team"]!.length);
 
     return roundResultsPerTeam;
   }
 
   static Map<String, MatchDto> sortMatchDetailsByStartTime(
       Map<String, MatchDto> matchDetails) {
+    //sort by matchInfo.gameStartMillis
     return Map.fromEntries(matchDetails.entries.toList()
-      ..where((entry) => entry.value != null)
-      ..sort((a, b) => a.value.matchInfo.gameStartMillis
-          .compareTo(b.value.matchInfo.gameStartMillis)));
+      ..sort((e1, e2) => e2.value.matchInfo.gameStartMillis
+          .compareTo(e1.value.matchInfo.gameStartMillis)));
   }
 
   // Add function to check if player won a round given the round index

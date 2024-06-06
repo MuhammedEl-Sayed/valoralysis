@@ -4,41 +4,34 @@ import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/match_details.dart';
 
 class WeaponsUtils {
-  static List<dynamic> getPlayerStats(
-      List<MatchDto> matches, String puuid, String statKey) {
-    List<dynamic> playerStats = [];
-    for (MatchDto matchDetails in matches) {
+  static Map<String, double> weaponsHeadshotAccuracyAnaylsis(
+      List<MatchDto> matchDetails, String puuid) {
+    List<DamageDto> playerDamage = [];
+    for (MatchDto matchDetails in matchDetails) {
       for (RoundResultDto round in matchDetails.roundResults) {
         for (PlayerRoundStatsDto playerStat in round.playerStats) {
           //define statkey as a key of playerStat
-          if (playerStat.puuid == puuid && playerStat.containsKey(statKey)) {
-            playerStats.addAll(playerStat[statKey]);
+          if (playerStat.puuid == puuid) {
+            playerDamage.addAll(playerStat.damage);
           }
         }
       }
     }
-    return playerStats;
-  }
-
-  static Map<String, double> weaponsHeadshotAccuracyAnaylsis(
-      List<MatchDto> matchDetails, String puuid) {
-    List<dynamic> playerDamage = getPlayerStats(matchDetails, puuid, 'damage');
-
     double totalHeadshots = 0;
     double totalBodyshots = 0;
     double totalLegshots = 0;
 
-    for (Map<String, dynamic> pd in playerDamage) {
-      if (!pd['headshots'].isNaN) {
-        totalHeadshots += pd['headshots'];
+    for (DamageDto pd in playerDamage) {
+      if (!pd.headshots.isNaN && pd.headshots > 0) {
+        totalHeadshots += pd.headshots;
       }
 
-      if (!pd['bodyshots'].isNaN) {
-        totalBodyshots += pd['bodyshots'];
+      if (!pd.bodyshots.isNaN && pd.headshots > 0) {
+        totalBodyshots += pd.bodyshots;
       }
 
-      if (!pd['legshots'].isNaN) {
-        totalLegshots += pd['legshots'];
+      if (!pd.legshots.isNaN && pd.headshots > 0) {
+        totalLegshots += pd.legshots;
       }
     }
 
@@ -52,18 +45,22 @@ class WeaponsUtils {
 
   static Map<String, double> getKDPerWeapon(
       List<MatchDto> matchDetails, String puuid, List<ContentItem> weapons) {
-    List<dynamic> playerKills = getPlayerStats(matchDetails, puuid, 'kills');
-    List<dynamic> finishingDamage = [];
-    for (dynamic kill in playerKills) {
-      if (kill['finishingDamage']) {
-        finishingDamage.add(kill['finishingDamage']);
+    List<FinishingDamageDto> playerDamage = [];
+    for (MatchDto matchDetails in matchDetails) {
+      for (RoundResultDto round in matchDetails.roundResults) {
+        for (PlayerRoundStatsDto playerStat in round.playerStats) {
+          //define statkey as a key of playerStat
+          if (playerStat.puuid == puuid) {
+            playerDamage.addAll(playerStat.kills.map((e) => e.finishingDamage));
+          }
+        }
       }
     }
     Map<String, double> kdPerWeapon = {};
     for (ContentItem weapon in weapons) {
       double kd = 0;
-      kd += finishingDamage
-          .where((damage) => damage['damageItem'] == weapon.uuid)
+      kd += playerDamage
+          .where((damage) => damage.damageItem == weapon.uuid)
           .toList()
           .length;
     }

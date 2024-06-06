@@ -13,25 +13,46 @@ class MatchDto {
     required this.roundResults,
   });
 
-  factory MatchDto.fromJson(Map<String, dynamic> json) => MatchDto(
-        matchInfo: MatchInfoDto.fromJson(json['matchInfo'] ?? {}),
-        players: List<PlayerDto>.from(
-            (json['players']).map((x) => PlayerDto.fromJson(x))),
-        coaches: List<CoachDto>.from(
-            (json['coaches'] ?? []).map((x) => CoachDto.fromJson(x))),
-        teams: List<TeamDto>.from(
-            (json['teams'] ?? []).map((x) => TeamDto.fromJson(x))),
-        roundResults: List<RoundResultDto>.from((json['roundResults'] ?? [])
-            .map((x) => RoundResultDto.fromJson(x))),
-      );
+  factory MatchDto.fromJson(Map<String, dynamic> json) {
+    try {
+      //print each of the following separately to see which one is causing the error
 
-  Map<String, dynamic> toJson() => {
-        'matchInfo': matchInfo.toJson(),
-        'players': List<dynamic>.from(players.map((x) => x.toJson())),
-        'coaches': List<dynamic>.from(coaches.map((x) => x.toJson())),
-        'teams': List<dynamic>.from(teams.map((x) => x.toJson())),
-        'roundResults': List<dynamic>.from(roundResults.map((x) => x.toJson())),
-      };
+      return MatchDto(
+        matchInfo: MatchInfoDto.fromJson(json['matchInfo'] ?? {}),
+        players: (json['players'] as List<dynamic>?)
+                ?.map((e) => PlayerDto.fromJson(e as Map<String, dynamic>))
+                .toList() ??
+            [],
+        coaches: (json['coaches'] as List<dynamic>?)
+                ?.map((e) => CoachDto.fromJson(e as Map<String, dynamic>))
+                .toList() ??
+            [],
+        teams: (json['teams'] as List<dynamic>?)
+                ?.map((e) => TeamDto.fromJson(e as Map<String, dynamic>))
+                .toList() ??
+            [],
+        roundResults: (json['roundResults'] as List<dynamic>?)
+                ?.map((e) => RoundResultDto.fromJson(e as Map<String, dynamic>))
+                .toList() ??
+            [],
+      );
+    } catch (e) {
+      print('Error parsing MatchDto from JSON: $e');
+      rethrow;
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    var json = {
+      'matchInfo': matchInfo.toJson(),
+      'players': List<dynamic>.from(players.map((x) => x.toJson())),
+      'coaches': List<dynamic>.from(coaches.map((x) => x.toJson())),
+      'teams': List<dynamic>.from(teams.map((x) => x.toJson())),
+      'roundResults': List<dynamic>.from(roundResults.map((x) => x.toJson())),
+    };
+
+    return json;
+  }
 
   factory MatchDto.empty() => MatchDto(
         matchInfo: MatchInfoDto.empty(),
@@ -149,7 +170,6 @@ class PlayerDto {
       playerCard: json['playerCard'] ?? '',
       playerTitle: json['playerTitle'] ?? '',
     );
-    print(player); // print the player
     return player;
   }
   Map<String, dynamic> toJson() => {
@@ -365,36 +385,39 @@ class RoundResultDto {
     required this.roundResultCode,
   });
 
-  factory RoundResultDto.fromJson(Map<String, dynamic> json) => RoundResultDto(
-        roundNum: json['roundNum'] ?? 0,
-        roundResult: json['roundResult'] ?? '',
-        roundCeremony: json['roundCeremony'] ?? '',
-        winningTeam: json['winningTeam'] ?? '',
-        bombPlanter: json['bombPlanter'] ?? '',
-        bombDefuser: json['bombDefuser'] ?? '',
-        plantRoundTime: json['plantRoundTime'] ?? 0,
-        plantPlayerLocations: json['plantPlayerLocations'] != null
-            ? List<PlayerLocationsDto>.from(json['plantPlayerLocations']
-                .map((x) => PlayerLocationsDto.fromJson(x)))
-            : [],
-        plantLocation: json['plantLocation'] != null
-            ? LocationDto.fromJson(json['plantLocation'])
-            : LocationDto.empty(),
-        plantSite: json['plantSite'] ?? '',
-        defuseRoundTime: json['defuseRoundTime'] ?? 0,
-        defusePlayerLocations: json['defusePlayerLocations'] != null
-            ? List<PlayerLocationsDto>.from(json['defusePlayerLocations']
-                .map((x) => PlayerLocationsDto.fromJson(x)))
-            : [],
-        defuseLocation: json['defuseLocation'] != null
-            ? LocationDto.fromJson(json['defuseLocation'])
-            : LocationDto.empty(),
-        playerStats: json['playerStats'] != null
-            ? List<PlayerRoundStatsDto>.from(
-                json['playerStats'].map((x) => PlayerRoundStatsDto.fromJson(x)))
-            : [],
-        roundResultCode: json['roundResultCode'] ?? '',
-      );
+  factory RoundResultDto.fromJson(Map<String, dynamic> json) {
+    RoundResultDto roundResult = RoundResultDto(
+      roundNum: json['roundNum'] ?? 0,
+      roundResult: json['roundResult'] ?? '',
+      roundCeremony: json['roundCeremony'] ?? '',
+      winningTeam: json['winningTeam'] ?? '',
+      bombPlanter: json['bombPlanter'] ?? '',
+      bombDefuser: json['bombDefuser'] ?? '',
+      plantRoundTime: json['plantRoundTime'] ?? 0,
+      plantPlayerLocations: json['plantPlayerLocations'] != null
+          ? List<PlayerLocationsDto>.from(json['plantPlayerLocations']
+              .map((x) => PlayerLocationsDto.fromJson(x)))
+          : [],
+      plantLocation: json['plantLocation'] != null
+          ? LocationDto.fromJson(json['plantLocation'])
+          : LocationDto.empty(),
+      plantSite: json['plantSite'] ?? '',
+      defuseRoundTime: json['defuseRoundTime'] ?? 0,
+      defusePlayerLocations: json['defusePlayerLocations'] != null
+          ? List<PlayerLocationsDto>.from(json['defusePlayerLocations']
+              .map((x) => PlayerLocationsDto.fromJson(x)))
+          : [],
+      defuseLocation: json['defuseLocation'] != null
+          ? LocationDto.fromJson(json['defuseLocation'])
+          : LocationDto.empty(),
+      playerStats: json['playerStats'] != null
+          ? List<PlayerRoundStatsDto>.from(
+              json['playerStats'].map((x) => PlayerRoundStatsDto.fromJson(x)))
+          : [],
+      roundResultCode: json['roundResultCode'] ?? '',
+    );
+    return roundResult;
+  }
 
   Map<String, dynamic> toJson() => {
         'roundNum': roundNum,
@@ -433,6 +456,61 @@ class RoundResultDto {
         playerStats: [],
         roundResultCode: '',
       );
+
+  // []
+  dynamic operator [](String key) {
+    if (key == 'roundNum') {
+      return roundNum;
+    } else if (key == 'roundResult') {
+      return roundResult;
+    } else if (key == 'roundCeremony') {
+      return roundCeremony;
+    } else if (key == 'winningTeam') {
+      return winningTeam;
+    } else if (key == 'bombPlanter') {
+      return bombPlanter;
+    } else if (key == 'bombDefuser') {
+      return bombDefuser;
+    } else if (key == 'plantRoundTime') {
+      return plantRoundTime;
+    } else if (key == 'plantPlayerLocations') {
+      return plantPlayerLocations;
+    } else if (key == 'plantLocation') {
+      return plantLocation;
+    } else if (key == 'plantSite') {
+      return plantSite;
+    } else if (key == 'defuseRoundTime') {
+      return defuseRoundTime;
+    } else if (key == 'defusePlayerLocations') {
+      return defusePlayerLocations;
+    } else if (key == 'defuseLocation') {
+      return defuseLocation;
+    } else if (key == 'playerStats') {
+      return playerStats;
+    } else if (key == 'roundResultCode') {
+      return roundResultCode;
+    }
+  }
+
+  static RoundResultDto createLostRound(int roundNum) {
+    return RoundResultDto(
+      roundNum: roundNum,
+      roundResult: 'Lost',
+      roundCeremony: '',
+      winningTeam: '',
+      bombPlanter: '',
+      bombDefuser: '',
+      plantRoundTime: 0,
+      plantPlayerLocations: [],
+      plantLocation: LocationDto.empty(),
+      plantSite: '',
+      defuseRoundTime: 0,
+      defusePlayerLocations: [],
+      defuseLocation: LocationDto.empty(),
+      playerStats: [],
+      roundResultCode: '',
+    );
+  }
 }
 
 class PlayerLocationsDto {

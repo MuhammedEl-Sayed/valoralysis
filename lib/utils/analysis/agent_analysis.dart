@@ -10,7 +10,9 @@ class AgentAnalysis {
     Map<String, int> agentFrequency = {};
 
     for (MatchDto matchDetails in matches.values) {
+      print('before player: ${matchDetails.players.length}');
       PlayerDto player = HistoryUtils.getPlayerByPUUID(matchDetails, puuid);
+      print('after player');
       if (player.characterId.isEmpty) {
         continue;
       }
@@ -27,7 +29,6 @@ class AgentAnalysis {
         mostFrequentValue = value;
       }
     });
-    print('agentContent: $mostFrequentAgent');
     return agentContent
         .firstWhere((agent) => agent.uuid.toLowerCase() == mostFrequentAgent)
         .name;

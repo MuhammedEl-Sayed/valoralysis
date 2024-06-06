@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -48,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var entries = await Future.wait(futures);
 
     Map<String, MatchDto> matchHistoryDetailsMap = Map.fromEntries(entries);
-
+    print('first${json.encode(matchHistoryDetailsMap.values.first)}');
     await userProvider.updateStoredMatches(matchHistoryDetailsMap);
 
     await userProvider.updateName(UserUtils.getUsername(
@@ -102,18 +104,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       constraints: BoxConstraints(
                         maxHeight: MediaQuery.of(context).size.height,
                       ),
-                      child: Column(
+                      child: const Column(
                         children: [
-                          const Padding(padding: EdgeInsets.only(top: 20)),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * 0.05,
-                            ),
-                            child: const AgentTag(),
-                          ),
-                          const Padding(padding: EdgeInsets.only(top: 20)),
-                          const HistoryList(),
-                          const Padding(padding: EdgeInsets.only(bottom: 130)),
+                          Padding(padding: EdgeInsets.only(top: 20)),
+                          Padding(padding: EdgeInsets.only(top: 20)),
+                          HistoryList(),
+                          Padding(padding: EdgeInsets.only(bottom: 130)),
                         ],
                       ),
                     ),

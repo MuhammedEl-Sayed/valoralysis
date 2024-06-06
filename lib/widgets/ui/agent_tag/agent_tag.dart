@@ -17,6 +17,7 @@ class AgentTag extends StatelessWidget {
     String userName = userProvider.user.name;
     ContentProvider contentProvider =
         Provider.of<ContentProvider>(context, listen: true);
+
     return (userProvider.user.matchDetailsMap.values.toList().isNotEmpty ||
             fake)
         ? Row(children: [

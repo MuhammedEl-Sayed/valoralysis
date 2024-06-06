@@ -70,8 +70,7 @@ class RoundUtils {
       int bTime = b['data'].timeSinceRoundStartMillis;
       return aTime.compareTo(bTime);
     });
-    print('provider');
-    print(weapons[1].toJson());
+
     return Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
