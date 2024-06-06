@@ -17,8 +17,8 @@ class AgentTag extends StatelessWidget {
     String userName = userProvider.user.name;
     ContentProvider contentProvider =
         Provider.of<ContentProvider>(context, listen: true);
-
-    return (userProvider.user.matchDetailsMap.isNotEmpty || fake)
+    return (userProvider.user.matchDetailsMap.values.toList().isNotEmpty ||
+            fake)
         ? Row(children: [
             ClipOval(
                 child: Container(
@@ -29,7 +29,7 @@ class AgentTag extends StatelessWidget {
                         width: 2,
                       ),
                     ),
-                    child: !fake
+                    child: !fake && userProvider.user.matchDetailsMap.isNotEmpty
                         ? AgentIcon(
                             iconUrl: HistoryUtils.getContentImageFromName(
                                 AgentAnalysis.findTopAgent(

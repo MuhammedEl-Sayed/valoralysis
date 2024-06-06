@@ -16,7 +16,7 @@ class MatchDto {
   factory MatchDto.fromJson(Map<String, dynamic> json) => MatchDto(
         matchInfo: MatchInfoDto.fromJson(json['matchInfo'] ?? {}),
         players: List<PlayerDto>.from(
-            (json['players'] ?? []).map((x) => PlayerDto.fromJson(x))),
+            (json['players']).map((x) => PlayerDto.fromJson(x))),
         coaches: List<CoachDto>.from(
             (json['coaches'] ?? []).map((x) => CoachDto.fromJson(x))),
         teams: List<TeamDto>.from(
@@ -136,20 +136,22 @@ class PlayerDto {
     required this.playerCard,
     required this.playerTitle,
   });
-
-  factory PlayerDto.fromJson(Map<String, dynamic> json) => PlayerDto(
-        puuid: json['puuid'] ?? '',
-        gameName: json['gameName'] ?? '',
-        tagLine: json['tagLine'] ?? '',
-        teamId: json['teamId'] ?? '',
-        partyId: json['partyId'] ?? '',
-        characterId: json['characterId'] ?? '',
-        stats: PlayerStatsDto.fromJson(json['stats'] ?? {}),
-        competitiveTier: json['competitiveTier'] ?? 0,
-        playerCard: json['playerCard'] ?? '',
-        playerTitle: json['playerTitle'] ?? '',
-      );
-
+  factory PlayerDto.fromJson(Map<String, dynamic> json) {
+    PlayerDto player = PlayerDto(
+      puuid: json['puuid'] ?? '',
+      gameName: json['gameName'] ?? '',
+      tagLine: json['tagLine'] ?? '',
+      teamId: json['teamId'] ?? '',
+      partyId: json['partyId'] ?? '',
+      characterId: json['characterId'] ?? '',
+      stats: PlayerStatsDto.fromJson(json['stats'] ?? {}),
+      competitiveTier: json['competitiveTier'] ?? 0,
+      playerCard: json['playerCard'] ?? '',
+      playerTitle: json['playerTitle'] ?? '',
+    );
+    print(player); // print the player
+    return player;
+  }
   Map<String, dynamic> toJson() => {
         'puuid': puuid,
         'gameName': gameName,
@@ -371,23 +373,26 @@ class RoundResultDto {
         bombPlanter: json['bombPlanter'] ?? '',
         bombDefuser: json['bombDefuser'] ?? '',
         plantRoundTime: json['plantRoundTime'] ?? 0,
-        plantPlayerLocations: List<PlayerLocationsDto>.from(
-                json['plantPlayerLocations']
-                    .map((x) => PlayerLocationsDto.fromJson(x))) ??
-            [],
-        plantLocation:
-            LocationDto.fromJson(json['plantLocation']) ?? LocationDto.empty(),
+        plantPlayerLocations: json['plantPlayerLocations'] != null
+            ? List<PlayerLocationsDto>.from(json['plantPlayerLocations']
+                .map((x) => PlayerLocationsDto.fromJson(x)))
+            : [],
+        plantLocation: json['plantLocation'] != null
+            ? LocationDto.fromJson(json['plantLocation'])
+            : LocationDto.empty(),
         plantSite: json['plantSite'] ?? '',
         defuseRoundTime: json['defuseRoundTime'] ?? 0,
-        defusePlayerLocations: List<PlayerLocationsDto>.from(
-                json['defusePlayerLocations']
-                    .map((x) => PlayerLocationsDto.fromJson(x))) ??
-            [],
-        defuseLocation:
-            LocationDto.fromJson(json['defuseLocation']) ?? LocationDto.empty(),
-        playerStats: List<PlayerRoundStatsDto>.from(json['playerStats']
-                .map((x) => PlayerRoundStatsDto.fromJson(x))) ??
-            [],
+        defusePlayerLocations: json['defusePlayerLocations'] != null
+            ? List<PlayerLocationsDto>.from(json['defusePlayerLocations']
+                .map((x) => PlayerLocationsDto.fromJson(x)))
+            : [],
+        defuseLocation: json['defuseLocation'] != null
+            ? LocationDto.fromJson(json['defuseLocation'])
+            : LocationDto.empty(),
+        playerStats: json['playerStats'] != null
+            ? List<PlayerRoundStatsDto>.from(
+                json['playerStats'].map((x) => PlayerRoundStatsDto.fromJson(x)))
+            : [],
         roundResultCode: json['roundResultCode'] ?? '',
       );
 

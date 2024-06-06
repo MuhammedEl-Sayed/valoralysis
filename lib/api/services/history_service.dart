@@ -30,7 +30,6 @@ class HistoryService {
     try {
       var response = await dio.get('/val/match/v1/matches/$matchID');
       MatchDto match = MatchDto.fromJson(response.data);
-      print('matchone $match'); // print the match
       return match;
     } catch (e) {
       // print(e.toString());

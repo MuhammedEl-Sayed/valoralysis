@@ -55,6 +55,7 @@ class HistoryUtils {
   }
 
   static PlayerDto getPlayerByPUUID(MatchDto matchDto, String puuid) {
+    print(matchDto.players[0]);
     return matchDto.players.firstWhere((player) => player.puuid == puuid);
   }
 

@@ -760,10 +760,9 @@ packages:
   upgrader:
     dependency: "direct main"
     description:
-      name: upgrader
-      sha256: d45483694620883107c2f5ca1dff7cdd4237b16810337a9c9c234203eb79eb5f
-      url: "https://pub.dev"
-    source: hosted
+      path: "upgrader-10.3.0"
+      relative: true
+    source: path
     version: "10.3.0"
   url_launcher:
     dependency: transitive

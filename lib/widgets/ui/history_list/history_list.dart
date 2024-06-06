@@ -43,7 +43,9 @@ class HistoryList extends StatelessWidget {
         } else if (snapshot.hasData &&
             fake &&
             userProvider.user.matchDetailsMap.isEmpty) {
-          relevantMatches = snapshot.data! as List<MatchDto>;
+          relevantMatches = (snapshot.data as List)
+              .map((item) => MatchDto.fromJson(item))
+              .toList();
         } else {
           relevantMatches = filterMatches();
         }
