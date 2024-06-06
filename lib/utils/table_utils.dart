@@ -6,8 +6,10 @@ import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
 import 'package:valoralysis/utils/analysis/match_analysis.dart';
+import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
+import 'package:valoralysis/utils/weapons_utils.dart';
 import 'package:valoralysis/widgets/ui/cached_image/cached_image.dart';
 import 'package:valoralysis/widgets/ui/marquee_text/marquee_text.dart';
 import 'package:valoralysis/widgets/ui/team_details_table/team_table_cell.dart';
@@ -56,8 +58,10 @@ class TableUtils {
           agents, playerPUUID == userPUUID, isUserTeam);
       PlayerStats stats =
           HistoryUtils.extractPlayerStat(matchDetail, playerPUUID);
-      String hs = '0';
-
+      String hs = FormattingUtils.convertShotToPercentage(
+          WeaponsUtils.weaponsHeadshotAccuracyAnaylsis(
+              [matchDetail], playerPUUID),
+          ShotType.Headshot);
       int adr = MatchAnalysis.findADR(matchDetail, playerPUUID);
       int numTrades = stats.trades.values
           .fold(0, (previousValue, element) => previousValue + element.length);

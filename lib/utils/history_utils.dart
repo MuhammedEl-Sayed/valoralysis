@@ -55,9 +55,7 @@ class HistoryUtils {
   }
 
   static PlayerDto getPlayerByPUUID(MatchDto matchDto, String puuid) {
-    for (var player in matchDto.players) {
-      print('puuid: ${player.puuid}');
-    }
+    for (var player in matchDto.players) {}
     return matchDto.players.firstWhere((player) => player.puuid == puuid);
   }
 
@@ -306,14 +304,12 @@ class HistoryUtils {
 
     for (var roundResult in matchDto.roundResults) {
       //print typoof roundResult
-      print(roundResult.runtimeType);
       if (roundResult.winningTeam == playerTeamId) {
         roundResultsPerTeam["Your Team"]!.add(roundResult);
       } else {
         roundResultsPerTeam["Enemy Team"]!.add(roundResult);
       }
     }
-    print(roundResultsPerTeam["Your Team"]!.length);
 
     return roundResultsPerTeam;
   }

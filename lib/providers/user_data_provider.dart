@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valoralysis/models/match_details.dart';
@@ -66,20 +64,15 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<void> updateStoredMatches(Map<String, MatchDto> matchHistory) async {
-    print('pre pdated map: ${json.encode(matchHistory)}');
-
     matchHistory.forEach((key, value) {
       if (!_user.matchDetailsMap.containsKey(key)) {
         _user.matchDetailsMap.addEntries([MapEntry(key, value)]);
       }
     });
-    try {
-      _user.matchDetailsMap =
-          HistoryUtils.sortMatchDetailsByStartTime(_user.matchDetailsMap);
-      print('updated map: ${json.encode(_user.matchDetailsMap)}');
-    } catch (e) {
-      print('Exception in updateStoredMatches: $e');
-    }
+
+    _user.matchDetailsMap =
+        HistoryUtils.sortMatchDetailsByStartTime(_user.matchDetailsMap);
+
     await saveUser();
     notifyListeners();
   }

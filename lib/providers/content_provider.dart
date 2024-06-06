@@ -54,7 +54,6 @@ class ContentProvider with ChangeNotifier {
   Future<void> updateAllContent() async {
     print('Updating all content');
     _content = await ContentService.fetchContent();
-    print(_content.agents.length);
     await FileUtils.writeImageMap(_content);
     notifyListeners();
   }

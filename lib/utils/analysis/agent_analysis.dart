@@ -10,12 +10,11 @@ class AgentAnalysis {
     Map<String, int> agentFrequency = {};
 
     for (MatchDto matchDetails in matches.values) {
-      print('before player: ${matchDetails.players.length}');
-      PlayerDto player = HistoryUtils.getPlayerByPUUID(matchDetails, puuid);
-      print('after player');
-      if (player.characterId.isEmpty) {
+      if (matchDetails.players.isEmpty) {
         continue;
       }
+      PlayerDto player = HistoryUtils.getPlayerByPUUID(matchDetails, puuid);
+
       agentFrequency.update(player.characterId, (value) => value + 1,
           ifAbsent: () => 1);
     }
