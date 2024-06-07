@@ -73,92 +73,118 @@ class RoundUtils {
     });
 
     return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(
-                top: 10, bottom: 10), // Adjust the padding as needed
-            child: Center(
-              child: Text(
-                'Kills/Deaths',
-                style: TextStyle(fontSize: 17), // Adjust the style as needed
+        padding: const EdgeInsets.all(10),
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.surfaceVariant,
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
               ),
-            ),
+            ],
+            color: Theme.of(context).canvasColor,
+            borderRadius: BorderRadius.circular(5),
           ),
-          ...sortedKillsAndDeaths.map((event) {
-            bool isKill = event['type'] == 'kill';
-            KillDto kill = event['data'];
-            return Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).canvasColor,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            AgentIcon(
-                              iconUrl: HistoryUtils.getContentImageFromId(
-                                  AgentUtils.extractAgentIdByPUUID(
-                                      matchDetail, puuid),
-                                  agents),
-                              small: true,
-                            ),
-                            SizedBox(
-                              width: 70, // Set your desired width here
-                              child: MarqueeText(
-                                  direction: Axis.horizontal,
-                                  child: Text(
-                                    HistoryUtils.extractPlayerNameByPUUID(
-                                        matchDetail, puuid),
-                                    style: const TextStyle(fontSize: 13),
-                                  )),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(
-                                right: 5,
-                              ),
-                            ),
-                            WeaponSilhouetteImage(
-                              imageUrl: HistoryUtils.getSilhouetteImageFromId(
-                                      HistoryUtils.getKillGunId(kill),
-                                      weapons) ??
-                                  '',
-                              height: 40,
-                              width: 75,
-                              isGreen: isKill,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(left: 5),
-                            ),
-                            SizedBox(
-                              width: 70, // Set your desired width here
-                              child: MarqueeText(
-                                  direction: Axis.horizontal,
-                                  child: Text(
-                                    HistoryUtils.extractPlayerNameByPUUID(
-                                        matchDetail,
-                                        isKill ? kill.victim : kill.killer),
-                                    style: const TextStyle(fontSize: 13),
-                                  )),
-                            ),
-                            AgentIcon(
-                              iconUrl: HistoryUtils.getContentImageFromId(
-                                  AgentUtils.extractAgentIdByPUUID(matchDetail,
-                                      isKill ? kill.victim : kill.killer),
-                                  agents),
-                              small: true,
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(
+                    top: 10, bottom: 10), // Adjust the padding as needed
+                child: Center(
+                  child: Text(
+                    'Kills/Deaths',
+                    style:
+                        TextStyle(fontSize: 17), // Adjust the style as needed
+                  ),
+                ),
+              ),
+              ...sortedKillsAndDeaths.map((event) {
+                bool isKill = event['type'] == 'kill';
+                KillDto kill = event['data'];
+                return Padding(
+                    padding:
+                        const EdgeInsets.only(bottom: 15, left: 10, right: 10),
+                    child: Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color:
+                                  Theme.of(context).colorScheme.surfaceVariant,
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
                             ),
                           ],
-                        ))));
-          }).toList(),
-        ],
-      ),
-    );
+                          color: Theme.of(context).colorScheme.surfaceVariant,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                AgentIcon(
+                                  iconUrl: HistoryUtils.getContentImageFromId(
+                                      AgentUtils.extractAgentIdByPUUID(
+                                          matchDetail, puuid),
+                                      agents),
+                                  small: true,
+                                ),
+                                SizedBox(
+                                  width: 70, // Set your desired width here
+                                  child: MarqueeText(
+                                      direction: Axis.horizontal,
+                                      child: Text(
+                                        HistoryUtils.extractPlayerNameByPUUID(
+                                            matchDetail, puuid),
+                                        style: const TextStyle(fontSize: 13),
+                                      )),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                    right: 5,
+                                  ),
+                                ),
+                                WeaponSilhouetteImage(
+                                  imageUrl:
+                                      HistoryUtils.getSilhouetteImageFromId(
+                                              HistoryUtils.getKillGunId(kill),
+                                              weapons) ??
+                                          '',
+                                  height: 30,
+                                  width: 60,
+                                  isGreen: isKill,
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 5),
+                                ),
+                                SizedBox(
+                                  width: 70, // Set your desired width here
+                                  child: MarqueeText(
+                                      direction: Axis.horizontal,
+                                      child: Text(
+                                        HistoryUtils.extractPlayerNameByPUUID(
+                                            matchDetail,
+                                            isKill ? kill.victim : kill.killer),
+                                        style: const TextStyle(fontSize: 13),
+                                      )),
+                                ),
+                                AgentIcon(
+                                  iconUrl: HistoryUtils.getContentImageFromId(
+                                      AgentUtils.extractAgentIdByPUUID(
+                                          matchDetail,
+                                          isKill ? kill.victim : kill.killer),
+                                      agents),
+                                  small: true,
+                                ),
+                              ],
+                            ))));
+              }).toList(),
+            ],
+          ),
+        ));
   }
 }
 
