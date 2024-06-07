@@ -43,7 +43,6 @@ class FileUtils {
       int index = existingUsers
           .indexWhere((existingUser) => existingUser.puuid == user.puuid);
       //print user matchDetailsMap   as jsonEncode(user.matchDetailsMap)
-      print('writing user: ${json.encode(user.matchDetailsMap)}');
       if (index != -1) {
         // If user exists, update it
         existingUsers[index] = user;

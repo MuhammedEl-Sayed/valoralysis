@@ -279,7 +279,9 @@ class Upgrader with WidgetsBindingObserver {
     msg = msg.replaceAll(
         '{{currentAppStoreVersion}}', currentAppStoreVersion ?? '');
     msg = msg.replaceAll(
-        '{{currentInstalledVersion}}', currentInstalledVersion ?? '');
+        '{{currentInstalledVersion}}',
+        '${state.packageInfo!.version}+${state.packageInfo!.buildNumber}' ??
+            '');
     return msg;
   }
 
@@ -375,8 +377,12 @@ class Upgrader with WidgetsBindingObserver {
 
     try {
       final installedVersion = Version.parse(state.packageInfo!.version);
-
-      final available = versionInfo!.appStoreVersion! > installedVersion;
+      final majorMinPatch = Version.parse(
+          '${versionInfo!.appStoreVersion!.major}.${versionInfo!.appStoreVersion!.minor}.${versionInfo!.appStoreVersion!.patch}');
+      final available = majorMinPatch > installedVersion ||
+          int.parse(state.packageInfo!.buildNumber) <
+              int.parse(versionInfo!.appStoreVersion!.build);
+      print('upgrader: available: $available');
       _updateAvailable = available ? versionInfo?.appStoreVersion : null;
     } on Exception catch (e) {
       if (state.debugLogging) {
