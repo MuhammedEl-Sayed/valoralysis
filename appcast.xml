@@ -12,7 +12,7 @@
             <title>Version 1.0.6+59</title>
             <description>1.0.6+59: Reworked a lot of stuff in the backend, hopefully sorting works now</description>
             <pubDate>Thu, 06 Jun 2024 22:50:32 +0000</pubDate>
-            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+59" sparkle:shortVersionString="1.0.6+59" sparkle:os="ios" />
+            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+58" sparkle:shortVersionString="1.0.6+59" sparkle:os="ios" />
         </item>
     </channel>
 </rss>
