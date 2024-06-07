@@ -21,28 +21,38 @@ class AgentTag extends StatelessWidget {
     return (userProvider.user.matchDetailsMap.values.toList().isNotEmpty ||
             fake)
         ? Row(children: [
-            ClipOval(
-                child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2,
-                      ),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                ClipOval(
+                  child: !fake && userProvider.user.matchDetailsMap.isNotEmpty
+                      ? AgentIcon(
+                          iconUrl: HistoryUtils.getContentImageFromName(
+                              AgentAnalysis.findTopAgent(
+                                  userProvider.user.matchDetailsMap,
+                                  userProvider.user.puuid,
+                                  contentProvider.agents),
+                              contentProvider.agents),
+                        )
+                      : const Icon(
+                          Icons.person,
+                          size: 60,
+                        ),
+                ),
+                Container(
+                  width: 62, // Adjust width to match the size of the icon/image
+                  height:
+                      62, // Adjust height to match the size of the icon/image
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
                     ),
-                    child: !fake && userProvider.user.matchDetailsMap.isNotEmpty
-                        ? AgentIcon(
-                            iconUrl: HistoryUtils.getContentImageFromName(
-                                AgentAnalysis.findTopAgent(
-                                    userProvider.user.matchDetailsMap,
-                                    userProvider.user.puuid,
-                                    contentProvider.agents),
-                                contentProvider.agents),
-                          )
-                        : const Icon(
-                            Icons.person,
-                            size: 60,
-                          ))),
+                  ),
+                ),
+              ],
+            ),
             const Padding(
               padding: EdgeInsets.only(left: 17),
             ),
