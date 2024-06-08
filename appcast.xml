@@ -3,16 +3,16 @@
     <channel>
         <title>Valoralysis App - Appcast</title>
         <item>
-            <title>Version 1.0.6+61</title>
-            <description>1.0.6+61: Variation C from valoralysis-suggestions</description>
-            <pubDate>Fri, 07 Jun 2024 06:18:58 +0000</pubDate>
-            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+61" sparkle:shortVersionString="1.0.6+61" sparkle:os="android"/>
+            <title>Version 1.0.6+62</title>
+            <description>1.0.6+62: New kill feed design (thanks sauce_man)</description>
+            <pubDate>Fri, 07 Jun 2024 16:23:07 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+62" sparkle:shortVersionString="1.0.6+62" sparkle:os="android"/>
         </item>
            <item>
-            <title>Version 1.0.6+61</title>
-            <description>1.0.6+61: Variation C from valoralysis-suggestions</description>
-            <pubDate>Fri, 07 Jun 2024 06:18:58 +0000</pubDate>
-            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+61" sparkle:shortVersionString="1.0.6+61" sparkle:os="ios" />
+            <title>Version 1.0.6+62</title>
+            <description>1.0.6+62: New kill feed design (thanks sauce_man)</description>
+            <pubDate>Fri, 07 Jun 2024 16:23:07 +0000</pubDate>
+            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+62" sparkle:shortVersionString="1.0.6+62" sparkle:os="ios" />
         </item>
     </channel>
 </rss>
