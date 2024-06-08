@@ -104,7 +104,9 @@ class _HistoryTileState extends State<HistoryTile> {
                   const Spacer(),
                   Center(
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_drop_down),
+                      icon: Icon(!opened
+                          ? Icons.arrow_drop_down
+                          : Icons.arrow_drop_up),
                       onPressed: () => setState(() {
                         opened = !opened;
                       }),
@@ -123,52 +125,60 @@ class _HistoryTileState extends State<HistoryTile> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5, top: 5),
       child: Column(children: [
-        Container(
-          margin: EdgeInsets.only(left: margin, right: margin),
-          height: 65,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              color: Theme.of(context).canvasColor,
-              borderRadius: opened
-                  ? const BorderRadius.only(
-                      topLeft: Radius.circular(5), topRight: Radius.circular(5))
-                  : const BorderRadius.all(Radius.circular(5)),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 2.0,
-                  spreadRadius: 0.0,
-                  offset: Offset(2.0, 2.0), // shadow direction: bottom right
-                )
-              ]),
-          child: Stack(
-            children: [
-              Container(
-                height: 65,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    stops: const [0, 0.6],
-                    colors: <Color>[
-                      didWin
-                          ? const Color(0xff2BD900).withOpacity(0.3)
-                          : const Color(0xff730000)
-                              .withOpacity(0.3), // green color
-                      Theme.of(context)
-                          .canvasColor
-                          .withOpacity(0) // transparent color
-                    ],
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              opened = !opened;
+            });
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: margin, right: margin),
+            height: 65,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: opened
+                    ? const BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5))
+                    : const BorderRadius.all(Radius.circular(5)),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 2.0,
+                    spreadRadius: 0.0,
+                    offset: Offset(2.0, 2.0), // shadow direction: bottom right
+                  )
+                ]),
+            child: Stack(
+              children: [
+                Container(
+                  height: 65,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      stops: const [0, 0.6],
+                      colors: <Color>[
+                        didWin
+                            ? const Color(0xff2BD900).withOpacity(0.3)
+                            : const Color(0xff730000)
+                                .withOpacity(0.3), // green color
+                        Theme.of(context)
+                            .canvasColor
+                            .withOpacity(0) // transparent color
+                      ],
+                    ),
+                    borderRadius: opened
+                        ? const BorderRadius.only(
+                            topLeft: Radius.circular(5),
+                            topRight: Radius.circular(5))
+                        : const BorderRadius.all(Radius.circular(5)),
                   ),
-                  borderRadius: opened
-                      ? const BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          topRight: Radius.circular(5))
-                      : const BorderRadius.all(Radius.circular(5)),
                 ),
-              ),
-              content,
-            ],
+                content,
+              ],
+            ),
           ),
         ),
         !widget.fake

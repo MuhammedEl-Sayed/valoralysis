@@ -93,65 +93,68 @@ class _MyAppState extends State<MyApp> {
                 ],
                 theme: darkTheme,
                 home: const InitialSignIn(),
-                builder: (context, child) => Overlay(
-                  initialEntries: [
-                    OverlayEntry(
-                      builder: (context) => ShowFPS(
-                        child: Scaffold(
-                          bottomNavigationBar: const NavBar(),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.background,
-                          body: Navigator(
-                              key: Provider.of<NavigationProvider>(context,
-                                      listen: false)
-                                  .navigatorKey,
-                              initialRoute: '/',
-                              onGenerateRoute: (RouteSettings settings) {
-                                WidgetBuilder builder;
+                builder: (context, child) => Overlay(initialEntries: [
+                  OverlayEntry(
+                      builder: (context) => SafeArea(
+                            child: ShowFPS(
+                              alignment: Alignment.topRight,
+                              child: Scaffold(
+                                bottomNavigationBar: const NavBar(),
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.background,
+                                body: Navigator(
+                                    key: Provider.of<NavigationProvider>(
+                                            context,
+                                            listen: false)
+                                        .navigatorKey,
+                                    initialRoute: '/',
+                                    onGenerateRoute: (RouteSettings settings) {
+                                      WidgetBuilder builder;
 
-                                switch (settings.name) {
-                                  case '/':
-                                    builder =
-                                        (BuildContext context) => Visibility(
-                                              visible: settings.name == '/',
-                                              child: const RouteAwareWidget(
-                                                name: '/',
-                                                child: InitialSignIn(),
-                                              ),
-                                            );
-                                    break;
-                                  case '/home':
-                                    builder =
-                                        (BuildContext context) => Visibility(
-                                              visible: settings.name == '/home',
-                                              child: const RouteAwareWidget(
-                                                name: '/home',
-                                                child: HomeScreen(),
-                                              ),
-                                            );
-                                    break;
-                                  case '/settings':
-                                    builder = (BuildContext context) =>
-                                        Visibility(
-                                          visible: settings.name == '/settings',
-                                          child: const RouteAwareWidget(
-                                            name: '/settings',
-                                            child: SettingsScreen(),
-                                          ),
-                                        );
-                                    break;
-                                  default:
-                                    throw Exception(
-                                        'Invalid route: ${settings.name}');
-                                }
-                                return MaterialPageRoute(
-                                    builder: builder, settings: settings);
-                              }),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                                      switch (settings.name) {
+                                        case '/':
+                                          builder = (BuildContext context) =>
+                                              Visibility(
+                                                visible: settings.name == '/',
+                                                child: const RouteAwareWidget(
+                                                  name: '/',
+                                                  child: InitialSignIn(),
+                                                ),
+                                              );
+                                          break;
+                                        case '/home':
+                                          builder = (BuildContext context) =>
+                                              Visibility(
+                                                visible:
+                                                    settings.name == '/home',
+                                                child: const RouteAwareWidget(
+                                                  name: '/home',
+                                                  child: HomeScreen(),
+                                                ),
+                                              );
+                                          break;
+                                        case '/settings':
+                                          builder = (BuildContext context) =>
+                                              Visibility(
+                                                visible: settings.name ==
+                                                    '/settings',
+                                                child: const RouteAwareWidget(
+                                                  name: '/settings',
+                                                  child: SettingsScreen(),
+                                                ),
+                                              );
+                                          break;
+                                        default:
+                                          throw Exception(
+                                              'Invalid route: ${settings.name}');
+                                      }
+                                      return MaterialPageRoute(
+                                          builder: builder, settings: settings);
+                                    }),
+                              ),
+                            ),
+                          ))
+                ]),
                 themeMode: ThemeMode.system,
               );
             }
