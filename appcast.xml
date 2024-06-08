@@ -3,16 +3,16 @@
     <channel>
         <title>Valoralysis App - Appcast</title>
         <item>
-            <title>Version 1.0.6+63</title>
-            <description>1.0.6+63: Merge branch 'main' of https://github.com/MuhammedEl-Sayed/valoralysis</description>
-            <pubDate>Sat, 08 Jun 2024 02:46:58 +0000</pubDate>
-            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+63" sparkle:shortVersionString="1.0.6+63" sparkle:os="android"/>
+            <title>Version 1.0.6+64</title>
+            <description>1.0.6+64: 1.0.6+63: Merge branch 'main' of https://github.com/MuhammedEl-Sayed/valoralysis</description>
+            <pubDate>Sat, 08 Jun 2024 03:32:22 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+64" sparkle:shortVersionString="1.0.6+64" sparkle:os="android"/>
         </item>
            <item>
-            <title>Version 1.0.6+63</title>
-            <description>1.0.6+63: Merge branch 'main' of https://github.com/MuhammedEl-Sayed/valoralysis</description>
-            <pubDate>Sat, 08 Jun 2024 02:46:58 +0000</pubDate>
-            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+63" sparkle:shortVersionString="1.0.6+63" sparkle:os="ios" />
+            <title>Version 1.0.6+64</title>
+            <description>1.0.6+64: 1.0.6+63: Merge branch 'main' of https://github.com/MuhammedEl-Sayed/valoralysis</description>
+            <pubDate>Sat, 08 Jun 2024 03:32:22 +0000</pubDate>
+            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+64" sparkle:shortVersionString="1.0.6+64" sparkle:os="ios" />
         </item>
     </channel>
 </rss>
