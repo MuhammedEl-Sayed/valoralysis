@@ -44,11 +44,12 @@ final ThemeData darkTheme = ThemeData(
       buttonColor: ThemeColors.darkTertiary,
     ),
     textTheme: const TextTheme(
-      bodyLarge: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
-      bodyMedium: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
-      labelMedium: TextStyle(color: ThemeColors.textColor),
-      titleMedium: TextStyle(color: Color(0xffffffff), fontSize: 15),
-    ),
+        bodyLarge: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
+        bodyMedium: TextStyle(color: ThemeColors.darkOnSurfaceVariant),
+        labelMedium: TextStyle(color: ThemeColors.textColor),
+        titleMedium: TextStyle(color: Color(0xffffffff), fontSize: 15),
+        labelSmall:
+            TextStyle(color: ThemeColors.darkSurfaceVariant, fontSize: 13)),
     dataTableTheme:
         const DataTableThemeData(dataRowMinHeight: 0, dataRowMaxHeight: 0),
     dividerColor: ThemeColors.canvasColor);

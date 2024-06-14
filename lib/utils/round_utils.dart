@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:valoralysis/consts/round_result.dart';
+import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
@@ -9,20 +10,20 @@ import 'package:valoralysis/widgets/ui/marquee_text/marquee_text.dart';
 import 'package:valoralysis/widgets/ui/weapon_silhouette_image/weapon_silhouette_image.dart';
 
 class RoundUtils {
-  //make a map for these three:
-  /*
-  {
-    "39099FB5-4293-DEF4-1E09-2E9080CE7456": "Tour De Force", // use killer agents ultimate
-    "856D9A7E-4B06-DC37-15DC-9D809C37CB90": "Headhunter", // use killer agents Ability1
-
-    "95336AE4-45D4-1032-CFAF-6BAD01910607": "Overdrive" // use killer ultimate
-}*/
+  static String getKilledByTime(KillDto kill) {
+    int time = kill.timeSinceRoundStartMillis;
+    int seconds = (time / 1000).floor();
+    int minutes = (seconds / 60).floor();
+    seconds = seconds % 60;
+    return '$minutes:${seconds != 0 ? seconds : '00'}';
+  }
 
   static Widget getKilledByIcon(MatchDto matchDetail, KillDto kill,
       List<ContentItem> weapons, List<ContentItem> agents, bool isGreen) {
     print('kill: ${kill.finishingDamage.damageItem}');
     final killer = AgentUtils.extractAgentIdByPUUID(matchDetail, kill.killer);
     switch (kill.finishingDamage.damageItem) {
+      // This is Chamber Ult
       case '39099FB5-4293-DEF4-1E09-2E9080CE7456':
         return WeaponSilhouetteImage(
           imageUrl: HistoryUtils.getAbilityImageFromSlotAndId(
@@ -32,6 +33,7 @@ class RoundUtils {
           width: 60,
           isGreen: isGreen,
         );
+      // This is Chamber Sheriff
       case '856D9A7E-4B06-DC37-15DC-9D809C37CB90':
         return WeaponSilhouetteImage(
           imageUrl: HistoryUtils.getAbilityImageFromSlotAndId(
@@ -41,6 +43,7 @@ class RoundUtils {
           width: 60,
           isGreen: isGreen,
         );
+      // This is Neon Ult
       case '95336AE4-45D4-1032-CFAF-6BAD01910607':
         return WeaponSilhouetteImage(
           imageUrl: HistoryUtils.getAbilityImageFromSlotAndId(
@@ -209,8 +212,16 @@ class RoundUtils {
                                     right: 5,
                                   ),
                                 ),
-                                getKilledByIcon(
-                                    matchDetail, kill, weapons, agents, isKill),
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      getKilledByIcon(matchDetail, kill,
+                                          weapons, agents, isKill),
+                                      Text(getKilledByTime(kill),
+                                          style: TextStyle(
+                                              color: ThemeColors().fadedText,
+                                              fontSize: 13)),
+                                    ]),
                                 const Padding(
                                   padding: EdgeInsets.only(left: 5),
                                 ),
