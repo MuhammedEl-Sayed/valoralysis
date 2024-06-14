@@ -1,3 +1,5 @@
+import 'package:valoralysis/models/abilities.dart';
+
 class ContentItem {
   String name;
   String uuid;
@@ -5,9 +7,10 @@ class ContentItem {
   String? iconUrl;
   String? assetUrl;
   String? silhouetteUrl;
+  Abilities? abilities;
 
   ContentItem(this.name, this.uuid, this.hash,
-      {this.iconUrl, this.assetUrl, this.silhouetteUrl});
+      {this.iconUrl, this.assetUrl, this.silhouetteUrl, this.abilities});
 
   factory ContentItem.fromJson(Map<String, dynamic> json, String hash,
       {String? iconUrl}) {
@@ -19,6 +22,37 @@ class ContentItem {
       json['uuid'].toString().toLowerCase(),
       hash,
       iconUrl: iconUrl ?? json['displayIcon'],
+    );
+  }
+
+  factory ContentItem.fromJsonAgents(Map<String, dynamic> json, String hash,
+      {String? iconUrl, List<String>? abilities}) {
+    if (json['displayName'] == null || json['uuid'] == null) {
+      throw ArgumentError('Invalid JSON: $json');
+    }
+
+    return ContentItem(
+      json['displayName'] ?? 'Unknown',
+      json['uuid'].toString().toLowerCase(),
+      hash,
+      iconUrl: iconUrl ?? json['displayIcon'],
+      abilities: Abilities(
+          ability1: Ability.fromJson(
+              json['abilities']
+                  .firstWhere((ability) => ability['slot'] == 'Ability1'),
+              abilities?[0] ?? ''),
+          ability2: Ability.fromJson(
+              json['abilities']
+                  .firstWhere((ability) => ability['slot'] == 'Ability2'),
+              abilities?[1] ?? ''),
+          gernade: Ability.fromJson(
+              json['abilities']
+                  .firstWhere((ability) => ability['slot'] == 'Grenade'),
+              abilities?[2] ?? ''),
+          ultimate: Ability.fromJson(
+              json['abilities']
+                  .firstWhere((ability) => ability['slot'] == 'Ultimate'),
+              abilities?[3] ?? '')),
     );
   }
 
@@ -105,6 +139,7 @@ class Content {
                 item['hash'],
                 iconUrl: item['iconUrl'] ?? '',
                 assetUrl: item['assetUrl'] ?? '',
+                abilities: Abilities.fromJson(item),
               ))
           .toList(),
       gameModes: (json['gameModes'] as List<dynamic>)

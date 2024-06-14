@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/models/match_details.dart';
@@ -238,6 +240,40 @@ class HistoryUtils {
     return content
         .firstWhere((item) => item.uuid.toLowerCase() == puuid.toLowerCase())
         .iconUrl;
+  }
+
+  static String? getAbilityImageFromSlotAndId(
+      String slot, String puuid, List<ContentItem> content) {
+    print('slot $slot');
+    switch (slot) {
+      case ('Ability1'):
+        return content
+            .firstWhere((item) => item.uuid == puuid.toLowerCase())
+            .abilities!
+            .ability1
+            .iconUrl;
+      case ('Ability2'):
+        return content
+            .firstWhere((item) => item.uuid == puuid.toLowerCase())
+            .abilities!
+            .ability2
+            .iconUrl;
+      case ('Grenade'):
+        return content
+            .firstWhere((item) => item.uuid == puuid.toLowerCase())
+            .abilities!
+            .gernade
+            .iconUrl;
+      case ('Ultimate'):
+        print(json.encode(
+            content.firstWhere((item) => item.uuid == puuid.toLowerCase())));
+        return content
+            .firstWhere((item) => item.uuid == puuid.toLowerCase())
+            .abilities!
+            .ultimate
+            .iconUrl;
+    }
+    return null;
   }
 
   static String? getSilhouetteImageFromId(

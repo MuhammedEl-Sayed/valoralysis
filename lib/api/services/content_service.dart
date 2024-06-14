@@ -9,7 +9,7 @@ class ContentService {
     try {
       // Fetch all content in parallel
       final results = await Future.wait([
-        fetchContentData('https://valorant-api.com/v1/agents'),
+        fetchAgents(),
         fetchRanks(),
         fetchWeapons(),
         fetchContentData('https://valorant-api.com/v1/maps'),
@@ -28,6 +28,62 @@ class ContentService {
     } catch (e) {
       print('Error fetching content: $e');
       rethrow;
+    }
+  }
+
+  static Future<List<ContentItem>> fetchAgents() async {
+    Dio dio = Dio();
+
+    try {
+      var response = await dio.get('https://valorant-api.com/v1/agents');
+      List<ContentItem> contentItems = [];
+      List<String> urls = [];
+      List<String> ids = [];
+      List<Map<String, String>> abilityUrls = [];
+
+      for (var item in response.data['data']) {
+        if (item['uuid'] == null || item['displayIcon'] == null) {
+          continue;
+        }
+        String uuid = item['uuid'];
+        String imageUrl = item['displayIcon'];
+        //get abilities displayIcon, in array under abilities under displayIcon
+        // Ability1, Ability2, Grenade, Ultimate.
+        Map<String, String> abilityMap = {};
+        for (var ability in item['abilities']) {
+          if (ability['displayIcon'] != null) {
+            abilityMap[ability['slot']] = ability['displayIcon'];
+          }
+        }
+        abilityUrls.add(abilityMap);
+        ids.add(uuid);
+        urls.add(imageUrl);
+      }
+      print('map: $abilityUrls');
+
+      List<File?> images = await ImageCacheUtils.downloadImageFiles(urls, ids);
+      try {
+        for (var i = 0; i < images.length; i++) {
+          if (images[i] != null) {
+            String hash = ImageCacheUtils.generateImageHash(images[i]!);
+
+            List<File?> abilityImages =
+                await ImageCacheUtils.downloadAbilityFiles(
+                    abilityUrls[i], response.data['data'][i]['uuid']);
+            contentItems.add(ContentItem.fromJsonAgents(
+                response.data['data'][i], hash,
+                iconUrl: images[i]!.path,
+                abilities: abilityImages.map((e) => e!.path).toList()));
+          }
+        }
+        return contentItems;
+      } catch (e) {
+        print('Error fetching ability images: $e');
+      }
+      return [];
+    } catch (e) {
+      print('Error fetching agents: $e');
+      return [];
     }
   }
 
@@ -83,19 +139,24 @@ class ContentService {
         iconUrls.add(imageUrl);
         silhouetteUrl.add(silhoutteUrl);
       }
-      List<File?> iconImages =
-          await ImageCacheUtils.downloadImageFiles(iconUrls, ids);
-      List<File?> silhouetteImages = await ImageCacheUtils.downloadImageFiles(
-          silhouetteUrl, ids.map((id) => '${id}_silhouette').toList());
-      for (var i = 0; i < iconImages.length; i++) {
-        if (silhouetteImages[i] != null && iconImages[i] != null) {
-          String hash = ImageCacheUtils.generateImageHash(iconImages[i]!);
-          contentItems.add(ContentItem.fromJsonWeapon(
-              response.data['data'][i], hash,
-              iconUrl: iconImages[i]!.path,
-              silhouetteUrl: silhouetteImages[i]!.path));
+      Future.wait([
+        ImageCacheUtils.downloadImageFiles(iconUrls, ids),
+        ImageCacheUtils.downloadImageFiles(
+            silhouetteUrl, ids.map((id) => '${id}_silhouette').toList())
+      ]).then((results) {
+        List<File?> iconImages = results[0];
+        List<File?> silhouetteImages = results[1];
+        for (var i = 0; i < iconImages.length; i++) {
+          if (silhouetteImages[i] != null && iconImages[i] != null) {
+            String hash = ImageCacheUtils.generateImageHash(iconImages[i]!);
+            contentItems.add(ContentItem.fromJsonWeapon(
+                response.data['data'][i], hash,
+                iconUrl: iconImages[i]!.path,
+                silhouetteUrl: silhouetteImages[i]!.path));
+          }
         }
-      }
+        return contentItems;
+      });
       return contentItems;
     } catch (e) {
       print('Error fetching weapons: $e');

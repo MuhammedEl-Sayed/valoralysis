@@ -66,4 +66,12 @@ class ImageCacheUtils {
       return downloadImageFile(url, ids[index]);
     }).toList());
   }
+
+  static Future<List<File?>> downloadAbilityFiles(
+      Map<String, String> abilitiesUrlMap, String id) async {
+    return Future.wait(abilitiesUrlMap.entries.map((entry) {
+      String suffix = entry.key;
+      return downloadImageFile(entry.value, id + suffix);
+    }).toList());
+  }
 }

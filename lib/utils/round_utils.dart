@@ -9,6 +9,30 @@ import 'package:valoralysis/widgets/ui/marquee_text/marquee_text.dart';
 import 'package:valoralysis/widgets/ui/weapon_silhouette_image/weapon_silhouette_image.dart';
 
 class RoundUtils {
+  static Widget getKilledByIcon(MatchDto matchDetail, KillDto kill,
+      List<ContentItem> weapons, List<ContentItem> agents, bool isGreen) {
+    print('kill: ${kill.finishingDamage.damageItem}');
+    final killer = AgentUtils.extractAgentIdByPUUID(matchDetail, kill.killer);
+
+    return kill.finishingDamage.damageType == 'Ability'
+        ? WeaponSilhouetteImage(
+            imageUrl: HistoryUtils.getAbilityImageFromSlotAndId(
+                    kill.finishingDamage.damageItem, killer, agents) ??
+                '',
+            height: 30,
+            width: 60,
+            isGreen: isGreen,
+          )
+        : WeaponSilhouetteImage(
+            imageUrl: HistoryUtils.getSilhouetteImageFromId(
+                    HistoryUtils.getKillGunId(kill), weapons) ??
+                '',
+            height: 30,
+            width: 60,
+            isGreen: isGreen,
+          );
+  }
+
   static Widget resultToImageMap(
       bool playerTeam, String result, BuildContext context) {
     String baseUrl = 'assets/images/round_result/';
@@ -147,16 +171,8 @@ class RoundUtils {
                                     right: 5,
                                   ),
                                 ),
-                                WeaponSilhouetteImage(
-                                  imageUrl:
-                                      HistoryUtils.getSilhouetteImageFromId(
-                                              HistoryUtils.getKillGunId(kill),
-                                              weapons) ??
-                                          '',
-                                  height: 30,
-                                  width: 60,
-                                  isGreen: isKill,
-                                ),
+                                getKilledByIcon(
+                                    matchDetail, kill, weapons, agents, isKill),
                                 const Padding(
                                   padding: EdgeInsets.only(left: 5),
                                 ),

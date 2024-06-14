@@ -713,13 +713,13 @@ class FinishingDamageDto {
     required this.isSecondaryFireMode,
   });
 
-  factory FinishingDamageDto.fromJson(Map<String, dynamic> json) =>
-      FinishingDamageDto(
-        damageType: json['damageType'] ?? '',
-        damageItem: json['damageItem'] ?? '',
-        isSecondaryFireMode: json['isSecondaryFireMode'] ?? false,
-      );
-
+  factory FinishingDamageDto.fromJson(Map<String, dynamic> json) {
+    return FinishingDamageDto(
+      damageType: json['damageType'] ?? '',
+      damageItem: json['damageItem'] ?? '',
+      isSecondaryFireMode: json['isSecondaryFireMode'] ?? false,
+    );
+  }
   Map<String, dynamic> toJson() => {
         'damageType': damageType,
         'damageItem': damageItem,
