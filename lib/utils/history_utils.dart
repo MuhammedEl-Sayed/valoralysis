@@ -253,6 +253,11 @@ class HistoryUtils {
             .ability1
             .iconUrl;
       case ('Ability2'):
+        print(content
+            .firstWhere((item) => item.uuid == puuid.toLowerCase())
+            .abilities!
+            .ability2
+            .name);
         return content
             .firstWhere((item) => item.uuid == puuid.toLowerCase())
             .abilities!

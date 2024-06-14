@@ -26,7 +26,7 @@ class ContentItem {
   }
 
   factory ContentItem.fromJsonAgents(Map<String, dynamic> json, String hash,
-      {String? iconUrl, List<String>? abilities}) {
+      {String? iconUrl, Map<String, String>? abilityUrls}) {
     if (json['displayName'] == null || json['uuid'] == null) {
       throw ArgumentError('Invalid JSON: $json');
     }
@@ -40,19 +40,19 @@ class ContentItem {
           ability1: Ability.fromJson(
               json['abilities']
                   .firstWhere((ability) => ability['slot'] == 'Ability1'),
-              abilities?[0] ?? ''),
+              abilityUrls!['Ability1'] ?? ''),
           ability2: Ability.fromJson(
               json['abilities']
                   .firstWhere((ability) => ability['slot'] == 'Ability2'),
-              abilities?[1] ?? ''),
+              abilityUrls['Ability2'] ?? ''),
           gernade: Ability.fromJson(
               json['abilities']
                   .firstWhere((ability) => ability['slot'] == 'Grenade'),
-              abilities?[2] ?? ''),
+              abilityUrls['Grenade'] ?? ''),
           ultimate: Ability.fromJson(
               json['abilities']
                   .firstWhere((ability) => ability['slot'] == 'Ultimate'),
-              abilities?[3] ?? '')),
+              abilityUrls['Ultimate'] ?? '')),
     );
   }
 

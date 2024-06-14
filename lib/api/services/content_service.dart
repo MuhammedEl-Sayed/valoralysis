@@ -72,8 +72,7 @@ class ContentService {
                     abilityUrls[i], response.data['data'][i]['uuid']);
             contentItems.add(ContentItem.fromJsonAgents(
                 response.data['data'][i], hash,
-                iconUrl: images[i]!.path,
-                abilities: abilityImages.map((e) => e!.path).toList()));
+                iconUrl: images[i]!.path, abilityUrls: abilityUrls[i]));
           }
         }
         return contentItems;

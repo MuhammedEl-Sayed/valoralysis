@@ -9,28 +9,66 @@ import 'package:valoralysis/widgets/ui/marquee_text/marquee_text.dart';
 import 'package:valoralysis/widgets/ui/weapon_silhouette_image/weapon_silhouette_image.dart';
 
 class RoundUtils {
+  //make a map for these three:
+  /*
+  {
+    "39099FB5-4293-DEF4-1E09-2E9080CE7456": "Tour De Force", // use killer agents ultimate
+    "856D9A7E-4B06-DC37-15DC-9D809C37CB90": "Headhunter", // use killer agents Ability1
+
+    "95336AE4-45D4-1032-CFAF-6BAD01910607": "Overdrive" // use killer ultimate
+}*/
+
   static Widget getKilledByIcon(MatchDto matchDetail, KillDto kill,
       List<ContentItem> weapons, List<ContentItem> agents, bool isGreen) {
     print('kill: ${kill.finishingDamage.damageItem}');
     final killer = AgentUtils.extractAgentIdByPUUID(matchDetail, kill.killer);
-
-    return kill.finishingDamage.damageType == 'Ability'
-        ? WeaponSilhouetteImage(
-            imageUrl: HistoryUtils.getAbilityImageFromSlotAndId(
-                    kill.finishingDamage.damageItem, killer, agents) ??
-                '',
-            height: 30,
-            width: 60,
-            isGreen: isGreen,
-          )
-        : WeaponSilhouetteImage(
-            imageUrl: HistoryUtils.getSilhouetteImageFromId(
-                    HistoryUtils.getKillGunId(kill), weapons) ??
-                '',
-            height: 30,
-            width: 60,
-            isGreen: isGreen,
-          );
+    switch (kill.finishingDamage.damageItem) {
+      case '39099FB5-4293-DEF4-1E09-2E9080CE7456':
+        return WeaponSilhouetteImage(
+          imageUrl: HistoryUtils.getAbilityImageFromSlotAndId(
+                  'Ultimate', killer, agents) ??
+              '',
+          height: 30,
+          width: 60,
+          isGreen: isGreen,
+        );
+      case '856D9A7E-4B06-DC37-15DC-9D809C37CB90':
+        return WeaponSilhouetteImage(
+          imageUrl: HistoryUtils.getAbilityImageFromSlotAndId(
+                  'Ability1', killer, agents) ??
+              '',
+          height: 30,
+          width: 60,
+          isGreen: isGreen,
+        );
+      case '95336AE4-45D4-1032-CFAF-6BAD01910607':
+        return WeaponSilhouetteImage(
+          imageUrl: HistoryUtils.getAbilityImageFromSlotAndId(
+                  'Ultimate', killer, agents) ??
+              '',
+          height: 30,
+          width: 60,
+          isGreen: isGreen,
+        );
+      default:
+        return kill.finishingDamage.damageType == 'Ability'
+            ? WeaponSilhouetteImage(
+                imageUrl: HistoryUtils.getAbilityImageFromSlotAndId(
+                        kill.finishingDamage.damageItem, killer, agents) ??
+                    '',
+                height: 30,
+                width: 60,
+                isGreen: isGreen,
+              )
+            : WeaponSilhouetteImage(
+                imageUrl: HistoryUtils.getSilhouetteImageFromId(
+                        HistoryUtils.getKillGunId(kill), weapons) ??
+                    '',
+                height: 30,
+                width: 60,
+                isGreen: isGreen,
+              );
+    }
   }
 
   static Widget resultToImageMap(
