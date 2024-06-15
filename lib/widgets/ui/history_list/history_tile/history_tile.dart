@@ -68,9 +68,8 @@ class _HistoryTileState extends State<HistoryTile> {
                       children: [
                         Text(
                             MapUtils.getMapNameFromPath(
-                                    MapUtils.extractMapPath(widget.matchDetail),
-                                    contentProvider.maps) ??
-                                '',
+                                MapUtils.extractMapPath(widget.matchDetail),
+                                contentProvider.maps),
                             style: Theme.of(context).textTheme.titleMedium),
                         Text(
                             TimeUtils.timeAgo(HistoryUtils.extractStartTime(

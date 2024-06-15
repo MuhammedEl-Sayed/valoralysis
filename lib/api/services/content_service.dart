@@ -67,12 +67,12 @@ class ContentService {
           if (images[i] != null) {
             String hash = ImageCacheUtils.generateImageHash(images[i]!);
 
-            List<File?> abilityImages =
+            Map<String, File?> abilityImages =
                 await ImageCacheUtils.downloadAbilityFiles(
                     abilityUrls[i], response.data['data'][i]['uuid']);
             contentItems.add(ContentItem.fromJsonAgents(
                 response.data['data'][i], hash,
-                iconUrl: images[i]!.path, abilityUrls: abilityUrls[i]));
+                iconUrl: images[i]!.path, abilityImages: abilityImages));
           }
         }
         return contentItems;
@@ -174,11 +174,11 @@ class ContentService {
       List<String> urls = [];
       List<String> ids = [];
       for (var item in response.data['data']) {
-        if (item['uuid'] == null || item['displayIcon'] == null) {
+        if (item['uuid'] == null || item['displayName'] == null) {
           continue;
         }
         String uuid = item['uuid'];
-        String imageUrl = item['displayIcon'];
+        String imageUrl = isMap ? item['splash'] : item['displayIcon'];
         ids.add(uuid);
         urls.add(imageUrl);
       }

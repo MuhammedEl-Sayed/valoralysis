@@ -36,23 +36,27 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
       return;
     }
+    try {
+      List<MatchHistory> matchList =
+          await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
+      // This chunk should be its own function
+      var futures = matchList.map((match) async {
+        var details =
+            await HistoryService.getMatchDetailsByMatchID(match.matchID);
+        return MapEntry(match.matchID, details);
+      });
 
-    List<MatchHistory> matchList =
-        await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
-    // This chunk should be its own function
-    var futures = matchList.map((match) async {
-      var details =
-          await HistoryService.getMatchDetailsByMatchID(match.matchID);
-      return MapEntry(match.matchID, details);
-    });
-    var entries = await Future.wait(futures);
+      var entries = await Future.wait(futures);
 
-    Map<String, MatchDto> matchHistoryDetailsMap = Map.fromEntries(entries);
-    await userProvider.updateStoredMatches(matchHistoryDetailsMap);
+      Map<String, MatchDto> matchHistoryDetailsMap = Map.fromEntries(entries);
+      await userProvider.updateStoredMatches(matchHistoryDetailsMap);
 
-    await userProvider.updateName(UserUtils.getUsername(
-        userProvider.user.matchDetailsMap.values.toList()[0],
-        userProvider.user.puuid));
+      await userProvider.updateName(UserUtils.getUsername(
+          userProvider.user.matchDetailsMap.values.toList()[0],
+          userProvider.user.puuid));
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:valoralysis/models/abilities.dart';
 
 class ContentItem {
@@ -26,7 +28,7 @@ class ContentItem {
   }
 
   factory ContentItem.fromJsonAgents(Map<String, dynamic> json, String hash,
-      {String? iconUrl, Map<String, String>? abilityUrls}) {
+      {String? iconUrl, Map<String, File?>? abilityImages}) {
     if (json['displayName'] == null || json['uuid'] == null) {
       throw ArgumentError('Invalid JSON: $json');
     }
@@ -40,26 +42,26 @@ class ContentItem {
           ability1: Ability.fromJson(
               json['abilities']
                   .firstWhere((ability) => ability['slot'] == 'Ability1'),
-              abilityUrls!['Ability1'] ?? ''),
+              abilityImages!['Ability1']!.path),
           ability2: Ability.fromJson(
               json['abilities']
                   .firstWhere((ability) => ability['slot'] == 'Ability2'),
-              abilityUrls['Ability2'] ?? ''),
+              abilityImages['Ability2']!.path),
           gernade: Ability.fromJson(
               json['abilities']
                   .firstWhere((ability) => ability['slot'] == 'Grenade'),
-              abilityUrls['Grenade'] ?? ''),
+              abilityImages['Grenade']!.path),
           ultimate: Ability.fromJson(
               json['abilities']
                   .firstWhere((ability) => ability['slot'] == 'Ultimate'),
-              abilityUrls['Ultimate'] ?? '')),
+              abilityImages['Ultimate']!.path)),
     );
   }
 
   factory ContentItem.fromJsonMap(Map<String, dynamic> json, String hash,
       {String? iconUrl}) {
-    if (json['displayName'] == null || json['uuid'] == null) {
-      throw ArgumentError('Invalid JSON: $json');
+    if (json['displayName'] == 'Haven') {
+      print(json);
     }
     return ContentItem(
       json['displayName'] ?? json['name'] ?? 'Unknown',

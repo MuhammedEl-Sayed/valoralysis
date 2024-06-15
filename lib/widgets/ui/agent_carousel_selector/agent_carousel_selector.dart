@@ -74,24 +74,36 @@ class _AgentCarouselSelectorState extends State<AgentCarouselSelector> {
       ),
       child: Row(
         children: teamPUUIDToAgentUUID.entries.map((entry) {
+          bool isSelected = entry.key == widget.puuid;
           return GestureDetector(
             onTap: () {
               widget.onPUUIDSelected(entry.key);
             },
             child: Stack(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
+                Center(
+                    child: Container(
+                  padding: const EdgeInsets.only(right: 5, left: 5),
+                  decoration: isSelected
+                      ? BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                              width: 2,
+                            ),
+                          ),
+                        )
+                      : null,
                   child: AgentIcon(
                     width: 30,
                     height: 30,
                     iconUrl: AgentUtils.getImageFromAgentId(
                         entry.value, contentProvider.agents),
                   ),
-                ),
-                Visibility(
-                  visible: entry.key == widget.puuid,
-                  child: Container(
+                )),
+                if (isSelected)
+                  Container(
+                    padding: const EdgeInsets.only(right: 5, left: 5),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.bottomCenter,
@@ -107,7 +119,6 @@ class _AgentCarouselSelectorState extends State<AgentCarouselSelector> {
                     ),
                     child: const SizedBox(width: 30, height: 30),
                   ),
-                ),
               ],
             ),
           );

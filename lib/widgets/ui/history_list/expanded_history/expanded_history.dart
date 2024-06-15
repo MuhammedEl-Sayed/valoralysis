@@ -136,16 +136,22 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                 maintainState: false,
                 child: Column(
                   children: [
-                    AgentCarouselSelector(
-                      playerTeamPUUIDToAgentUUID: playerTeamPUUIDToAgentUUID,
-                      enemyTeamPUUIDToAgentUUID: enemyTeamPUUIDToAgentUUID,
-                      onPUUIDSelected: (String puuid) {
-                        setState(() {
-                          selectedPUUID = puuid;
-                        });
-                      },
-                      puuid: selectedPUUID,
-                    ),
+                    Visibility(
+                        visible: visible,
+                        child: selectedCategory.realValue != 'overview'
+                            ? AgentCarouselSelector(
+                                playerTeamPUUIDToAgentUUID:
+                                    playerTeamPUUIDToAgentUUID,
+                                enemyTeamPUUIDToAgentUUID:
+                                    enemyTeamPUUIDToAgentUUID,
+                                onPUUIDSelected: (String puuid) {
+                                  setState(() {
+                                    selectedPUUID = puuid;
+                                  });
+                                },
+                                puuid: selectedPUUID,
+                              )
+                            : const SizedBox()),
                     RoundHistory(
                         puuid: widget.puuid, matchDetail: widget.matchDetail),
                   ],
