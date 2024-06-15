@@ -181,7 +181,7 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                               setState(() {
                                 selectedRound = round;
                               });
-                            }),
+                            }), //
                         RoundKillFeed(
                             puuid: selectedPUUID,
                             kills: HistoryUtils.extractPlayerKills(
