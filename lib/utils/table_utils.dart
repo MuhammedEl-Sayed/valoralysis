@@ -20,7 +20,6 @@ class TableUtils {
     List<PlayerDto> players = [];
     List<ContentItem> ranks = content.ranks;
     List<ContentItem> agents = content.agents;
-    print('content: ${content.agents.length}');
 
     String userTeam =
         HistoryUtils.extractTeamFromPUUID(matchDetail, puuid).teamId;

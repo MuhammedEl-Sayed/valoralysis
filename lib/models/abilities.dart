@@ -7,7 +7,6 @@ class Ability {
       {required this.name, required this.description, required this.iconUrl});
   // This is used for pulling from API
   factory Ability.fromJson(Map<String, dynamic> json, String? iconUrl) {
-    print('Icon URL: $json');
     return Ability(
       name: json['displayName'] ?? '',
       description: json['description'],

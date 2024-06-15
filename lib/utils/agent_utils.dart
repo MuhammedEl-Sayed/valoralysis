@@ -15,4 +15,11 @@ class AgentUtils {
     PlayerDto player = HistoryUtils.getPlayerByPUUID(matchDetail, puuid);
     return player.characterId;
   }
+
+  static String? getImageFromAgentId(String agentId, List<ContentItem> agents) {
+    return agents
+        .firstWhere(
+            (agent) => agent.uuid.toLowerCase() == agentId.toLowerCase())
+        .iconUrl;
+  }
 }

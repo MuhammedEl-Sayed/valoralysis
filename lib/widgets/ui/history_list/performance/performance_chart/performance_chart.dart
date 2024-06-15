@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/round_utils.dart';
@@ -49,12 +50,12 @@ class _PerformanceChartState extends State<PerformanceChart> {
           barRods: [
             BarChartRodData(
               toY: kills.toDouble(),
-              color: Colors.green,
+              color: ThemeColors().green,
               width: 8,
             ),
             BarChartRodData(
               toY: deaths.toDouble(),
-              color: Colors.red,
+              color: ThemeColors().red,
               width: 8,
             ),
           ],
@@ -100,13 +101,21 @@ class _PerformanceChartState extends State<PerformanceChart> {
                         ? Border.all(
                             color: HistoryUtils.didPlayerWinRound(
                                     widget.matchDetail, widget.puuid, index)
-                                ? Colors.green
-                                : Colors.red,
+                                ? ThemeColors().green
+                                : ThemeColors().red,
                             width: 2,
                           )
                         : null,
                     borderRadius: const BorderRadius.all(Radius.circular(5)),
                     color: Theme.of(context).canvasColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      ),
+                    ],
                   ),
                   child: PerformanceChartSection(
                     playerKillAndDeaths: barGroups[index],

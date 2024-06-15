@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/models/match_details.dart';
+import 'package:valoralysis/utils/agent_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
+import 'package:valoralysis/widgets/ui/agent_carousel_selector/agent_carousel_selector.dart';
 import 'package:valoralysis/widgets/ui/category_selector/category_selector.dart';
 import 'package:valoralysis/widgets/ui/expandable_section/expandable_section.dart';
 import 'package:valoralysis/widgets/ui/history_list/performance/performance_chart/performance_chart.dart';
@@ -32,11 +34,13 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
   bool visible = false;
   late Item selectedCategory;
   int selectedRound = 0;
+  String selectedPUUID = '';
 
   @override
   void initState() {
     super.initState();
     selectedCategory = Item('Overview', 'overview');
+    selectedPUUID = widget.puuid;
   }
 
   @override
@@ -62,7 +66,31 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
   @override
   Widget build(BuildContext context) {
     double margin = getStandardMargins(context);
+    Map<String, String> playerTeamPUUIDToAgentUUID =
+        Map<String, String>.fromEntries(
+      HistoryUtils.extractPlayerTeamPUUIDs(widget.matchDetail, widget.puuid)
+          .map(
+            (puuid) => MapEntry(
+              puuid,
+              AgentUtils.extractAgentIdByPUUID(widget.matchDetail, puuid),
+            ),
+          )
+          .toList()
+        ..add(MapEntry(
+            widget.puuid,
+            AgentUtils.extractAgentIdByPUUID(
+                widget.matchDetail, widget.puuid))),
+    );
 
+    Map<String, String> enemyTeamPUUIDToAgentUUID =
+        Map<String, String>.fromEntries(
+      HistoryUtils.extractEnemyTeamPUUIDs(widget.matchDetail, widget.puuid).map(
+        (puuid) => MapEntry(
+          puuid,
+          AgentUtils.extractAgentIdByPUUID(widget.matchDetail, puuid),
+        ),
+      ),
+    );
     return ExpandableSection(
       expanded: widget.opened,
       child: Container(
@@ -104,11 +132,24 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
               ),
             ),
             Visibility(
-              visible: visible,
-              maintainState: false,
-              child: RoundHistory(
-                  puuid: widget.puuid, matchDetail: widget.matchDetail),
-            ),
+                visible: visible,
+                maintainState: false,
+                child: Column(
+                  children: [
+                    AgentCarouselSelector(
+                      playerTeamPUUIDToAgentUUID: playerTeamPUUIDToAgentUUID,
+                      enemyTeamPUUIDToAgentUUID: enemyTeamPUUIDToAgentUUID,
+                      onPUUIDSelected: (String puuid) {
+                        setState(() {
+                          selectedPUUID = puuid;
+                        });
+                      },
+                      puuid: selectedPUUID,
+                    ),
+                    RoundHistory(
+                        puuid: widget.puuid, matchDetail: widget.matchDetail),
+                  ],
+                )),
             Visibility(
                 visible: visible,
                 maintainState: false,
@@ -127,7 +168,7 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                       )
                     : Column(children: [
                         PerformanceChart(
-                            puuid: widget.puuid,
+                            puuid: selectedPUUID,
                             matchDetail: widget.matchDetail,
                             selectedRound: selectedRound,
                             onSelectedRoundChanged: (int round) {
@@ -136,13 +177,13 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                               });
                             }),
                         RoundKillFeed(
-                            puuid: widget.puuid,
+                            puuid: selectedPUUID,
                             kills: HistoryUtils.extractPlayerKills(
                                 widget.matchDetail,
-                                widget.puuid)[selectedRound] as List<KillDto>,
+                                selectedPUUID)[selectedRound] as List<KillDto>,
                             deaths: HistoryUtils.extractRoundDeathsByPUUID(
                                 widget.matchDetail,
-                                widget.puuid)[selectedRound] as List<KillDto>,
+                                selectedPUUID)[selectedRound] as List<KillDto>,
                             roundNumber: selectedRound,
                             matchDetail: widget.matchDetail)
                       ])),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/widgets/ui/cached_image/cached_image.dart';
 
 class WeaponSilhouetteImage extends StatelessWidget {
@@ -19,7 +20,7 @@ class WeaponSilhouetteImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ColorFiltered(
       colorFilter: ColorFilter.mode(
-        isGreen ? Colors.green : Colors.red,
+        isGreen ? ThemeColors().green : ThemeColors().red,
         BlendMode.modulate,
       ),
       child: Transform(

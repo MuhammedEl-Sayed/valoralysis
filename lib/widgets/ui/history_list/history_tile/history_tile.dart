@@ -11,7 +11,7 @@ import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/map_utils.dart';
 import 'package:valoralysis/utils/time.dart';
 import 'package:valoralysis/widgets/ui/agent_tag/agent_icon.dart';
-import 'package:valoralysis/widgets/ui/history_list/overview/expanded_history/expanded_history.dart';
+import 'package:valoralysis/widgets/ui/history_list/expanded_history/expanded_history.dart';
 
 class HistoryTile extends StatefulWidget {
   final MatchDto matchDetail;
@@ -55,12 +55,12 @@ class _HistoryTileState extends State<HistoryTile> {
                   children: [
                     const Padding(padding: EdgeInsets.only(left: 10)),
                     AgentIcon(
-                      iconUrl: HistoryUtils.getContentImageFromId(
-                          AgentUtils.extractAgentIdByPUUID(
-                              widget.matchDetail, puuid),
-                          contentProvider.agents),
-                      small: true,
-                    ),
+                        iconUrl: HistoryUtils.getContentImageFromId(
+                            AgentUtils.extractAgentIdByPUUID(
+                                widget.matchDetail, puuid),
+                            contentProvider.agents),
+                        width: 45,
+                        height: 45),
                     const Padding(padding: EdgeInsets.only(top: 2, left: 5)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
