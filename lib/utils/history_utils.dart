@@ -67,6 +67,9 @@ class HistoryUtils {
   }
 
   static String getKillGunId(KillDto kill) {
+    if (kill.finishingDamage.damageType == 'Melee') {
+      return '2f59173c-4bed-b6c3-2191-dea9b58be9c7';
+    }
     return kill.finishingDamage.damageItem;
   }
 
