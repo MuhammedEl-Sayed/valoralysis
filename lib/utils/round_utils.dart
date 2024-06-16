@@ -22,6 +22,9 @@ class RoundUtils {
       List<ContentItem> weapons, List<ContentItem> agents, bool isGreen) {
     print('kill: ${kill.finishingDamage.damageType}');
     final killer = AgentUtils.extractAgentIdByPUUID(matchDetail, kill.killer);
+    if (kill.finishingDamage.damageType == 'Bomb') {
+      return resultToImageMap(isGreen, 'Bomb detonated', null);
+    }
     switch (kill.finishingDamage.damageItem) {
       // This is Chamber Ult
       case '39099FB5-4293-DEF4-1E09-2E9080CE7456':
@@ -75,7 +78,7 @@ class RoundUtils {
   }
 
   static Widget resultToImageMap(
-      bool playerTeam, String result, BuildContext context) {
+      bool playerTeam, String result, BuildContext? context) {
     String baseUrl = 'assets/images/round_result/';
     String imageSuffix = playerTeam ? '_win.png' : '_loss.png';
     String imageName;
@@ -102,7 +105,9 @@ class RoundUtils {
               width: 8.0,
               height: 8.0,
               decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
+                color: context != null
+                    ? Theme.of(context).canvasColor
+                    : ThemeColors().fadedText,
                 shape: BoxShape.circle,
               ),
             ),
@@ -110,11 +115,18 @@ class RoundUtils {
         );
     }
 
-    return SizedBox(
-      width: 22.0,
-      height: 22.0,
-      child: Image.asset('$baseUrl$imageName$imageSuffix'),
-    );
+    return ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          playerTeam
+              ? ThemeColors().green.withOpacity(0.9)
+              : ThemeColors().red.withOpacity(0.9),
+          BlendMode.modulate,
+        ),
+        child: SizedBox(
+          width: 22.0,
+          height: 22.0,
+          child: Image.asset('$baseUrl$imageName$imageSuffix'),
+        ));
   }
 
   static Widget buildRoundKillFeed(

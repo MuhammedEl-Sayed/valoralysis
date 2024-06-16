@@ -19,6 +19,7 @@ class ThemeColors {
   Color fadedText = const Color(0xffffedea).withAlpha(120);
   Color red = Colors.red;
   Color green = Colors.green;
+  Color gold = const Color(0xFFFFD700);
 }
 
 final ThemeData darkTheme = ThemeData(

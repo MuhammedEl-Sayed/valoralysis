@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/margins.dart';
+import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/providers/content_provider.dart';
+import 'package:valoralysis/providers/mode_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
 import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/map_utils.dart';
+import 'package:valoralysis/utils/rank_utils.dart';
 import 'package:valoralysis/utils/time.dart';
 import 'package:valoralysis/widgets/ui/agent_tag/agent_icon.dart';
+import 'package:valoralysis/widgets/ui/cached_image/cached_image.dart';
 import 'package:valoralysis/widgets/ui/history_list/expanded_history/expanded_history.dart';
 
 class HistoryTile extends StatefulWidget {
   final MatchDto matchDetail;
   final bool fake;
-  const HistoryTile({Key? key, required this.matchDetail, this.fake = false})
+  final Item selectedMode;
+  const HistoryTile(
+      {Key? key,
+      required this.matchDetail,
+      this.fake = false,
+      required this.selectedMode})
       : super(key: key);
 
   @override
@@ -41,8 +50,8 @@ class _HistoryTileState extends State<HistoryTile> {
       content = const SizedBox.shrink();
     } else {
       didWin = HistoryUtils.didTeamWinByPUUID(widget.matchDetail, puuid);
-      roundsWon =
-          FormattingUtils.convertTeamWinMapToString(widget.matchDetail, puuid);
+      roundsWon = FormattingUtils.convertTeamWinMapToString(
+          widget.matchDetail, puuid, context);
       playerStats = HistoryUtils.extractPlayerStat(
           widget.matchDetail, userProvider.user.puuid);
       content = Consumer<ContentProvider>(
@@ -80,38 +89,43 @@ class _HistoryTileState extends State<HistoryTile> {
                   ],
                 ),
               ),
+              widget.selectedMode.realValue ==
+                      ModeProvider().competitive.realValue
+                  ? CachedImage(
+                      imageUrl: RankUtils.getPlayerRank(widget.matchDetail,
+                                  contentProvider.ranks, puuid)
+                              .iconUrl ??
+                          '',
+                      width: 35,
+                      height: 35)
+                  : const SizedBox.shrink(),
               Expanded(
-                child: Row(children: [
-                  const Spacer(),
-                  roundsWon,
-                  const Spacer(),
-                ]),
-              ),
-              const Spacer(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text('K/D/A', style: Theme.of(context).textTheme.labelMedium),
-                  Text(
-                      '${playerStats.kills}/${playerStats.deaths}/${playerStats.assists}',
-                      style: Theme.of(context).textTheme.titleMedium),
-                ],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [roundsWon],
+                ),
               ),
               Expanded(
-                child: Row(children: [
-                  const Spacer(),
-                  Center(
-                    child: IconButton(
-                      icon: Icon(!opened
-                          ? Icons.arrow_drop_down
-                          : Icons.arrow_drop_up),
-                      onPressed: () => setState(() {
-                        opened = !opened;
-                      }),
-                    ),
-                  )
-                ]),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text('K/D/A',
+                        style: Theme.of(context).textTheme.labelMedium),
+                    Text(
+                        '${playerStats.kills}/${playerStats.deaths}/${playerStats.assists}',
+                        style: Theme.of(context).textTheme.titleMedium),
+                  ],
+                ),
+              ),
+              Center(
+                child: IconButton(
+                  icon: Icon(
+                      !opened ? Icons.arrow_drop_down : Icons.arrow_drop_up),
+                  onPressed: () => setState(() {
+                    opened = !opened;
+                  }),
+                ),
               ),
             ],
           );

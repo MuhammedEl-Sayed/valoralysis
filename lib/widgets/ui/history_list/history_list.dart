@@ -106,7 +106,9 @@ class _HistoryListState extends State<HistoryList> {
                   Column(
                     children: matchesByDay[key]!
                         .map<Widget>((matchDetail) => HistoryTile(
-                            matchDetail: matchDetail, fake: widget.fake))
+                            matchDetail: matchDetail,
+                            fake: widget.fake,
+                            selectedMode: selectedMode as Item))
                         .toList(),
                   ),
                   const Padding(

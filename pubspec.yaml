@@ -63,6 +63,7 @@ dependencies:
   fl_chart: ^0.68.0
   upgrader: 
     path: ./upgrader-10.3.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

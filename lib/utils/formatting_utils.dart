@@ -27,7 +27,8 @@ class FormattingUtils {
   }
 
   // Need puuid to figure out which team to show on the right
-  static Widget convertTeamWinMapToString(MatchDto matchDetail, String puuid) {
+  static Widget convertTeamWinMapToString(
+      MatchDto matchDetail, String puuid, BuildContext context) {
     String playerTeam =
         HistoryUtils.extractTeamFromPUUID(matchDetail, puuid).teamId;
     Map<String, int> winsPerTeam =
@@ -46,8 +47,8 @@ class FormattingUtils {
         style: TextStyle(
           fontSize: 17,
           color: int.parse(playerTeamWins) > int.parse(opponentTeamWins)
-              ? const Color(0xffE5FFE4)
-              : const Color(0xffFFE4E4),
+              ? const Color.fromARGB(255, 202, 250, 201)
+              : const Color.fromARGB(255, 246, 198, 198),
         ),
       ),
       const Text(
@@ -62,8 +63,8 @@ class FormattingUtils {
         style: TextStyle(
           fontSize: 17,
           color: int.parse(opponentTeamWins) > int.parse(playerTeamWins)
-              ? const Color(0xffE5FFE4)
-              : const Color(0xffFFE4E4),
+              ? const Color.fromARGB(255, 202, 250, 201)
+              : const Color.fromARGB(255, 246, 198, 198),
         ),
       ),
     ]);

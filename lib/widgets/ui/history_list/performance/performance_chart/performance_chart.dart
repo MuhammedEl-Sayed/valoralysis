@@ -49,6 +49,14 @@ class _PerformanceChartState extends State<PerformanceChart> {
           x: round,
           barRods: [
             BarChartRodData(
+              //make a golden green gradient
+              gradient: kills.toDouble() >= 5
+                  ? LinearGradient(colors: [
+                      ThemeColors().gold,
+                      ThemeColors().green,
+                      ThemeColors().green,
+                    ], begin: Alignment.bottomCenter, end: Alignment.topCenter)
+                  : null,
               toY: kills.toDouble(),
               color: ThemeColors().green,
               width: 8,
@@ -163,7 +171,7 @@ class PerformanceChartSection extends StatelessWidget {
             top: 10, bottom: 10), // Ensure this padding is appropriate
         child: BarChart(
           BarChartData(
-              maxY: 5,
+              maxY: 7,
               barGroups: [playerKillAndDeaths],
               borderData: FlBorderData(show: false),
               gridData: const FlGridData(show: false),
