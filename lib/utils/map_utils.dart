@@ -15,14 +15,6 @@ class MapUtils {
     try {
       return maps.firstWhere((map) => map.assetUrl == path).name;
     } catch (e) {
-      print('Error in getMapNameFromPath: $e');
-      //print all the assetUrls and the path
-      print('AssetUrls:');
-      for (var element in maps) {
-        print(element.assetUrl);
-      }
-      print('Path:');
-      print(path);
       return 'Unknown';
     }
   }

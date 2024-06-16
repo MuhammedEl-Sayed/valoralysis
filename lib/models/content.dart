@@ -47,7 +47,7 @@ class ContentItem {
               json['abilities']
                   .firstWhere((ability) => ability['slot'] == 'Ability2'),
               abilityImages['Ability2']!.path),
-          gernade: Ability.fromJson(
+          grenade: Ability.fromJson(
               json['abilities']
                   .firstWhere((ability) => ability['slot'] == 'Grenade'),
               abilityImages['Grenade']!.path),
@@ -60,9 +60,6 @@ class ContentItem {
 
   factory ContentItem.fromJsonMap(Map<String, dynamic> json, String hash,
       {String? iconUrl}) {
-    if (json['displayName'] == 'Haven') {
-      print(json);
-    }
     return ContentItem(
       json['displayName'] ?? json['name'] ?? 'Unknown',
       json['uuid'].toString().toLowerCase(),
@@ -104,6 +101,7 @@ class ContentItem {
       'assetUrl': assetUrl,
       'hash': hash,
       'silhouetteUrl': silhouetteUrl,
+      'abilities': abilities?.toJson(),
     };
   }
 }
@@ -141,7 +139,7 @@ class Content {
                 item['hash'],
                 iconUrl: item['iconUrl'] ?? '',
                 assetUrl: item['assetUrl'] ?? '',
-                abilities: Abilities.fromJson(item),
+                abilities: Abilities.fromJson(item['abilities']),
               ))
           .toList(),
       gameModes: (json['gameModes'] as List<dynamic>)

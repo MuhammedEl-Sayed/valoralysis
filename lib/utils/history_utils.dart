@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/models/match_details.dart';
@@ -247,7 +245,6 @@ class HistoryUtils {
 
   static String? getAbilityImageFromSlotAndId(
       String slot, String puuid, List<ContentItem> content) {
-    print('slot $slot');
     switch (slot) {
       case ('Ability1'):
         return content
@@ -256,11 +253,6 @@ class HistoryUtils {
             .ability1
             .iconUrl;
       case ('Ability2'):
-        print(content
-            .firstWhere((item) => item.uuid == puuid.toLowerCase())
-            .abilities!
-            .ability2
-            .name);
         return content
             .firstWhere((item) => item.uuid == puuid.toLowerCase())
             .abilities!
@@ -270,11 +262,9 @@ class HistoryUtils {
         return content
             .firstWhere((item) => item.uuid == puuid.toLowerCase())
             .abilities!
-            .gernade
+            .grenade
             .iconUrl;
       case ('Ultimate'):
-        print(json.encode(
-            content.firstWhere((item) => item.uuid == puuid.toLowerCase())));
         return content
             .firstWhere((item) => item.uuid == puuid.toLowerCase())
             .abilities!

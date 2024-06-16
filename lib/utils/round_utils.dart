@@ -20,7 +20,6 @@ class RoundUtils {
 
   static Widget getKilledByIcon(MatchDto matchDetail, KillDto kill,
       List<ContentItem> weapons, List<ContentItem> agents, bool isGreen) {
-    print('kill: ${kill.finishingDamage.damageType}');
     final killer = AgentUtils.extractAgentIdByPUUID(matchDetail, kill.killer);
     if (kill.finishingDamage.damageType == 'Bomb') {
       return resultToImageMap(isGreen, 'Bomb detonated', null);

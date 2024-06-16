@@ -59,7 +59,6 @@ class ContentService {
         ids.add(uuid);
         urls.add(imageUrl);
       }
-      print('map: $abilityUrls');
 
       List<File?> images = await ImageCacheUtils.downloadImageFiles(urls, ids);
       try {
@@ -174,7 +173,9 @@ class ContentService {
       List<String> urls = [];
       List<String> ids = [];
       for (var item in response.data['data']) {
-        if (item['uuid'] == null || item['displayName'] == null) {
+        if (item['uuid'] == null ||
+            (isMap && item['displayName'] == null) ||
+            (!isMap && item['displayIcon'] == null)) {
           continue;
         }
         String uuid = item['uuid'];
