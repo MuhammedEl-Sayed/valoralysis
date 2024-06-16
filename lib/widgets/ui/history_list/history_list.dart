@@ -42,7 +42,6 @@ class _HistoryListState extends State<HistoryList> {
       future: widget.fake ? getMockData() : null,
       builder: (context, snapshot) {
         List<MatchDto> relevantMatches = [];
-
         List<MatchDto> filterMatches() {
           return userProvider.user.matchDetailsMap.values
               .where((matchDetail) =>
