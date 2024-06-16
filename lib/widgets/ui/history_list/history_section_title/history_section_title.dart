@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/margins.dart';
+import 'package:valoralysis/models/item.dart';
+import 'package:valoralysis/providers/mode_provider.dart';
 import 'package:valoralysis/widgets/ui/mode_dropdown/mode_dropdown.dart';
 
 class HistorySectionTitle extends StatelessWidget {
   final int numOfMatches;
   final String dateTitle;
   final bool hasDropdown;
+  final Item selectedMode;
+  final Function(Item) onModeSelected;
   const HistorySectionTitle(
-      {super.key,
+      {Key? key,
       required this.numOfMatches,
       required this.dateTitle,
-      required this.hasDropdown});
+      required this.hasDropdown,
+      required this.selectedMode,
+      required this.onModeSelected})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double margin = getStandardMargins(context);
+    ModeProvider modeProvider =
+        Provider.of<ModeProvider>(context, listen: true);
     return Padding(
         padding:
             EdgeInsets.only(left: margin, right: margin, bottom: margin / 2),
@@ -39,7 +49,14 @@ class HistorySectionTitle extends StatelessWidget {
               )),
             ),
             const Spacer(),
-            hasDropdown ? const ModeDropdown() : const SizedBox.shrink()
+            hasDropdown
+                ? ModeDropdown(
+                    key: UniqueKey(),
+                    selectedMode: selectedMode,
+                    onModeSelected: onModeSelected,
+                    modes: modeProvider.modes,
+                  )
+                : const SizedBox.shrink()
           ],
         ));
   }

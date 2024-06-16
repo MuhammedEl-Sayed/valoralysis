@@ -15,10 +15,8 @@ class RoundUtils {
     int seconds = (time / 1000).floor();
     int minutes = (seconds / 60).floor();
     seconds = seconds % 60;
-    return '$minutes:${seconds != 0 ? seconds : '00'}';
+    return '$minutes:${seconds < 10 ? '0$seconds' : seconds}';
   }
-  /* if (kill.finishingDamage.damageType == 'Melee')
-      return '2f59173c-4bed-b6c3-2191-dea9b58be9c7';*/
 
   static Widget getKilledByIcon(MatchDto matchDetail, KillDto kill,
       List<ContentItem> weapons, List<ContentItem> agents, bool isGreen) {
