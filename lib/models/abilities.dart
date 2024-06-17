@@ -28,7 +28,6 @@ class Abilities {
       required this.ultimate});
   // This is used for pulling from cache JSON
   factory Abilities.fromJson(Map<String, dynamic> json) {
-    print(json);
     return Abilities(
       ability1: Ability(
           name: json['ability1']['name'],

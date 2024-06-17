@@ -73,12 +73,13 @@ class _PerformanceChartState extends State<PerformanceChart> {
       );
     }
 
-    return SingleChildScrollView(
+    return SizedBox(
+      height: 150,
+      child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        child: Row(
-            children: List.generate(
-          numRounds,
-          (index) => Padding(
+        itemCount: numRounds,
+        itemBuilder: (context, index) {
+          return Padding(
             padding: EdgeInsets.only(
                 left: index == 0
                     ? 10
@@ -86,8 +87,9 @@ class _PerformanceChartState extends State<PerformanceChart> {
                         ? 0
                         : 10,
                 right: index >= numRounds - 2 ? 10 : 0),
-            child: Stack(children: [
-              Container(
+            child: Stack(
+              children: [
+                Container(
                   width: 45,
                   height: 150,
                   decoration: BoxDecoration(
@@ -134,8 +136,9 @@ class _PerformanceChartState extends State<PerformanceChart> {
                       roundResults[index].roundResult,
                       context,
                     ),
-                  )),
-              GestureDetector(
+                  ),
+                ),
+                GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () {
                     setState(() {
@@ -145,10 +148,14 @@ class _PerformanceChartState extends State<PerformanceChart> {
                   child: const SizedBox(
                     width: 45,
                     height: 150,
-                  )),
-            ]),
-          ),
-        )));
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 
@@ -167,43 +174,50 @@ class PerformanceChartSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(
-            top: 10, bottom: 10), // Ensure this padding is appropriate
-        child: BarChart(
-          BarChartData(
-              maxY: 7,
-              barGroups: [playerKillAndDeaths],
-              borderData: FlBorderData(show: false),
-              gridData: const FlGridData(show: false),
-              titlesData: FlTitlesData(
-                bottomTitles: AxisTitles(
-                  axisNameWidget: Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Text(roundNumber.toString())),
-                  axisNameSize: 20,
-                ),
-                topTitles: AxisTitles(axisNameWidget: resultImage),
-                leftTitles: AxisTitles(axisNameWidget: Container()),
-                rightTitles: AxisTitles(axisNameWidget: Container()),
+      padding: const EdgeInsets.only(
+          top: 10, bottom: 10), // Ensure this padding is appropriate
+      child: BarChart(
+        BarChartData(
+          maxY: 7,
+          barGroups: [playerKillAndDeaths],
+          borderData: FlBorderData(show: false),
+          gridData: const FlGridData(show: false),
+          titlesData: FlTitlesData(
+            bottomTitles: AxisTitles(
+              axisNameWidget: Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: Text(roundNumber.toString()),
               ),
-              barTouchData: BarTouchData(
-                  touchTooltipData: BarTouchTooltipData(
-                      tooltipPadding: const EdgeInsets.all(0),
-                      tooltipMargin: 0,
-                      getTooltipColor: (group) => Colors.transparent,
-                      getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                        return rod.toY.toInt() > 0
-                            ? BarTooltipItem(
-                                rod.toY.toInt().toString(),
-                                const TextStyle(
-                                  color: Colors.white,
-                                ))
-                            : BarTooltipItem(
-                                '',
-                                const TextStyle(
-                                  color: Colors.white,
-                                ));
-                      }))),
-        ));
+              axisNameSize: 20,
+            ),
+            topTitles: AxisTitles(axisNameWidget: resultImage),
+            leftTitles: AxisTitles(axisNameWidget: Container()),
+            rightTitles: AxisTitles(axisNameWidget: Container()),
+          ),
+          barTouchData: BarTouchData(
+            touchTooltipData: BarTouchTooltipData(
+              tooltipPadding: const EdgeInsets.all(0),
+              tooltipMargin: 0,
+              getTooltipColor: (group) => Colors.transparent,
+              getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                return rod.toY.toInt() > 0
+                    ? BarTooltipItem(
+                        rod.toY.toInt().toString(),
+                        const TextStyle(
+                          color: Colors.white,
+                        ),
+                      )
+                    : BarTooltipItem(
+                        '',
+                        const TextStyle(
+                          color: Colors.white,
+                        ),
+                      );
+              },
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

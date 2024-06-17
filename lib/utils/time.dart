@@ -33,7 +33,7 @@ class TimeUtils {
 
       String key;
       if (daysSince == 0) {
-        key = 'Today';
+        key = 'Last 24 hours';
       } else if (daysSince == 1) {
         key = 'Yesterday';
       } else if (daysSince < 7) {

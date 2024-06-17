@@ -90,10 +90,9 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
         consentGiven: true,
         matchDetailsMap: userProvider.user.matchDetailsMap,
       ));
-      if (mounted) {
-        userProvider.updatePuuid(puuid);
-        navigationProvider.navigateTo('/home');
-      }
+      print('nav');
+      userProvider.updatePuuid(puuid);
+      navigationProvider.navigateTo('/home');
     }
   }
 

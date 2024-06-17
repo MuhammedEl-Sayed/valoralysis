@@ -38,7 +38,7 @@ class HistorySectionTitle extends StatelessWidget {
               padding: EdgeInsets.only(left: 10),
             ),
             Container(
-              constraints: const BoxConstraints(minWidth: 20, minHeight: 16),
+              constraints: const BoxConstraints(minWidth: 25, minHeight: 25),
               decoration: BoxDecoration(
                   color: Theme.of(context).canvasColor,
                   borderRadius: const BorderRadius.all(Radius.circular(2))),
