@@ -41,6 +41,12 @@ class _HomeScreenState extends State<HomeScreen> {
       List<MatchHistory> matchList =
           await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
 
+      if (userProvider.user.matchDetailsMap.isNotEmpty) {
+        //get rid of matchIds we already have
+        matchList.removeWhere((match) =>
+            userProvider.user.matchDetailsMap.containsKey(match.matchID));
+      }
+
       // Fetch match details in parallel and limit to initial batch
       var futures = matchList.take(20).map((match) async {
         var details =
