@@ -68,7 +68,7 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
       print('error');
       setState(() {
         errorMessage =
-            'Error: Problem fetching user data. Please try again. Make sure you entered the correct name and tag, in the format "name#tagline';
+            'Error: Problem fetching user data. Please try again. Make sure you entered the correct name and tag, in the format "name#tagline. If it still doesn\'t work, try again later.';
         showError = true;
       });
     } else {
