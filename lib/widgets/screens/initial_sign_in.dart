@@ -67,7 +67,8 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
     if (puuid.contains('Error:')) {
       print('error');
       setState(() {
-        errorMessage = puuid;
+        errorMessage =
+            'Error: Problem fetching user data. Please try again. Make sure you entered the correct name and tag, in the format "name#tagline';
         showError = true;
       });
     } else {
