@@ -36,6 +36,13 @@ class _HistoryListState extends State<HistoryList> {
     selectedMode = modeProvider.modes.first;
   }
 
+  // Asynchronous method to handle the scroll event
+  Future<void> _handleScroll() async {
+    if (widget.onScroll != null) {
+      await widget.onScroll!();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ModeProvider modeProvider =
@@ -96,13 +103,11 @@ class _HistoryListState extends State<HistoryList> {
                 // Check if user is at the bottom of the list
                 if (scrollNotification.metrics.pixels ==
                     scrollNotification.metrics.maxScrollExtent) {
-                  widget.onScroll!();
+                  _handleScroll(); // Call the asynchronous method
                 }
                 return true;
               },
               child: Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.only(bottom: 200),
                 child: ListView.builder(
                   // Increase count if loading more
                   itemCount:
@@ -110,9 +115,11 @@ class _HistoryListState extends State<HistoryList> {
                   itemBuilder: (context, index) {
                     // Check if it's the last item for loading indicator
                     if (index == matchesByDay.length && widget.isLoadingMore) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      return const Padding(
+                          padding: EdgeInsets.only(bottom: 200),
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ));
                     }
                     String key = matchesByDay.keys.elementAt(index);
                     return Column(children: [
@@ -135,13 +142,15 @@ class _HistoryListState extends State<HistoryList> {
                                 selectedMode: selectedMode as Item))
                             .toList(),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.all(5),
-                      )
+                      if (index == matchesByDay.length - 1 &&
+                          !widget.isLoadingMore)
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 200),
+                        )
                     ]);
                   },
                 ),
-              )));
+              ));
         }
       },
     );

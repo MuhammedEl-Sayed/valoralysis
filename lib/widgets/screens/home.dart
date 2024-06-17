@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
           userProvider.user.puuid,
           page: _currentPage + 1);
 
-      var futures = matchList.map((match) async {
+      var futures = matchList.take(20).map((match) async {
         var details =
             await HistoryService.getMatchDetailsByMatchID(match.matchID);
         return MapEntry(match.matchID, details);
@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       Map<String, MatchDto> matchHistoryDetailsMap = Map.fromEntries(entries);
       await userProvider.updateStoredMatches(matchHistoryDetailsMap);
-
+      print('Loaded page ${_currentPage + 1}');
       _currentPage++;
     } catch (e) {
       print(e);
