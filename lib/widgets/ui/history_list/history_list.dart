@@ -14,8 +14,13 @@ import 'package:valoralysis/widgets/ui/mode_dropdown/mode_dropdown.dart';
 
 class HistoryList extends StatefulWidget {
   final bool fake;
+  final Function? onScroll;
+  final bool isLoadingMore;
 
-  const HistoryList({Key? key, this.fake = false}) : super(key: key);
+  const HistoryList(
+      {Key? key, this.fake = false, this.onScroll, this.isLoadingMore = false})
+      : super(key: key);
+
   @override
   _HistoryListState createState() => _HistoryListState();
 }
@@ -86,38 +91,57 @@ class _HistoryListState extends State<HistoryList> {
                 ),
               ));
         } else {
-          return Expanded(
-            child: ListView.builder(
-              itemCount: matchesByDay.length,
-              itemBuilder: (context, index) {
-                String key = matchesByDay.keys.elementAt(index);
-                return Column(children: [
-                  HistorySectionTitle(
-                      key: UniqueKey(),
-                      numOfMatches: matchesByDay[key]!.length,
-                      dateTitle: key,
-                      hasDropdown: index == 0 ? true : false,
-                      selectedMode: selectedMode as Item,
-                      onModeSelected: (Item mode) {
-                        setState(() {
-                          selectedMode = mode;
-                        });
-                      }),
-                  Column(
-                    children: matchesByDay[key]!
-                        .map<Widget>((matchDetail) => HistoryTile(
-                            matchDetail: matchDetail,
-                            fake: widget.fake,
-                            selectedMode: selectedMode as Item))
-                        .toList(),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(5),
-                  )
-                ]);
+          return NotificationListener<ScrollNotification>(
+              onNotification: (scrollNotification) {
+                // Check if user is at the bottom of the list
+                if (scrollNotification.metrics.pixels ==
+                    scrollNotification.metrics.maxScrollExtent) {
+                  widget.onScroll!();
+                }
+                return true;
               },
-            ),
-          );
+              child: Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.only(bottom: 200),
+                child: ListView.builder(
+                  // Increase count if loading more
+                  itemCount:
+                      matchesByDay.length + (widget.isLoadingMore ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    // Check if it's the last item for loading indicator
+                    if (index == matchesByDay.length && widget.isLoadingMore) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    String key = matchesByDay.keys.elementAt(index);
+                    return Column(children: [
+                      HistorySectionTitle(
+                          key: UniqueKey(),
+                          numOfMatches: matchesByDay[key]!.length,
+                          dateTitle: key,
+                          hasDropdown: index == 0 ? true : false,
+                          selectedMode: selectedMode as Item,
+                          onModeSelected: (Item mode) {
+                            setState(() {
+                              selectedMode = mode;
+                            });
+                          }),
+                      Column(
+                        children: matchesByDay[key]!
+                            .map<Widget>((matchDetail) => HistoryTile(
+                                matchDetail: matchDetail,
+                                fake: widget.fake,
+                                selectedMode: selectedMode as Item))
+                            .toList(),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(5),
+                      )
+                    ]);
+                  },
+                ),
+              )));
         }
       },
     );

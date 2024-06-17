@@ -65,11 +65,13 @@ class _InitialSignInState extends State<InitialSignIn> with RouteAware {
     String puuid = await AuthService.getUserPUUID(gameNameAndTag);
 
     if (puuid.contains('Error:')) {
+      print('error');
       setState(() {
         errorMessage = puuid;
         showError = true;
       });
     } else {
+      print('no error');
       setState(() {
         errorMessage = '';
         showError = false;

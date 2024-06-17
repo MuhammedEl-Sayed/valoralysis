@@ -7,15 +7,21 @@ import 'package:valoralysis/utils/rate_limiter.dart';
 import 'package:valoralysis/utils/riot_api_builder.dart';
 
 class HistoryService {
-  static final rateLimiter = RateLimiter(20, 100);
+  static final rateLimiter = RateLimiter(20, 200);
 
-  static Future<List<MatchHistory>> getMatchListByPuuid(String puuid) async {
-    return rateLimiter.run(() => _getMatchListByPuuid(puuid));
+  static Future<List<MatchHistory>> getMatchListByPuuid(String puuid,
+      {int page = 0, int pageSize = 20}) async {
+    return rateLimiter.run(() => _getMatchListByPuuid(puuid, page, pageSize));
   }
 
-  static Future<List<MatchHistory>> _getMatchListByPuuid(String puuid) async {
+  static Future<List<MatchHistory>> _getMatchListByPuuid(
+      String puuid, int page, int pageSize) async {
     Dio dio = AuthService.prepareDio(PlatformId.NA);
-    var response = await dio.get('/val/match/v1/matchlists/by-puuid/$puuid');
+    var response = await dio
+        .get('/val/match/v1/matchlists/by-puuid/$puuid', queryParameters: {
+      'start': page * pageSize,
+      'count': pageSize,
+    });
     return (response.data['history'] as List)
         .map((match) => MatchHistory.fromJson(match))
         .toList();

@@ -20,11 +20,12 @@ class HomeScreen extends StatefulWidget with RouteAware {
 
 class _HomeScreenState extends State<HomeScreen> {
   Future<void>? _loadingFuture;
+  int _currentPage = 0;
+  bool _isLoadingMore = false;
 
   @override
   void initState() {
     super.initState();
-
     _loadingFuture = _loadData();
   }
 
@@ -39,8 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       List<MatchHistory> matchList =
           await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
-      // This chunk should be its own function
-      var futures = matchList.map((match) async {
+
+      // Fetch match details in parallel and limit to initial batch
+      var futures = matchList.take(20).map((match) async {
         var details =
             await HistoryService.getMatchDetailsByMatchID(match.matchID);
         return MapEntry(match.matchID, details);
@@ -56,6 +58,40 @@ class _HomeScreenState extends State<HomeScreen> {
           userProvider.user.puuid));
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<void> _loadMoreData() async {
+    if (_isLoadingMore) return;
+    setState(() {
+      _isLoadingMore = true;
+    });
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+
+    try {
+      List<MatchHistory> matchList = await HistoryService.getMatchListByPuuid(
+          userProvider.user.puuid,
+          page: _currentPage + 1);
+
+      var futures = matchList.map((match) async {
+        var details =
+            await HistoryService.getMatchDetailsByMatchID(match.matchID);
+        return MapEntry(match.matchID, details);
+      });
+
+      var entries = await Future.wait(futures);
+
+      Map<String, MatchDto> matchHistoryDetailsMap = Map.fromEntries(entries);
+      await userProvider.updateStoredMatches(matchHistoryDetailsMap);
+
+      _currentPage++;
+    } catch (e) {
+      print(e);
+    } finally {
+      setState(() {
+        _isLoadingMore = false;
+      });
     }
   }
 
@@ -115,8 +151,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: const AgentTag(),
                           ),
                           const Padding(padding: EdgeInsets.only(top: 20)),
-                          const HistoryList(),
-                          const Padding(padding: EdgeInsets.only(bottom: 130)),
+                          HistoryList(
+                            onScroll: _loadMoreData,
+                            isLoadingMore: _isLoadingMore,
+                          ),
                         ],
                       ),
                     ),
