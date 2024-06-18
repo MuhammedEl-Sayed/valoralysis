@@ -117,7 +117,7 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     if (!isVisible) {
-      return const SizedBox(); // Do not build the widget if not visible
+      return const SizedBox();
     }
 
     double margin = getStandardMargins(context);
