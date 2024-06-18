@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -10,6 +12,7 @@ import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/user_utils.dart';
 import 'package:valoralysis/widgets/ui/agent_tag/agent_tag.dart';
 import 'package:valoralysis/widgets/ui/history_list/history_list.dart';
+import 'package:valoralysis/widgets/ui/toast/toast.dart';
 
 class HomeScreen extends StatefulWidget with RouteAware {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,8 +23,11 @@ class HomeScreen extends StatefulWidget with RouteAware {
 
 class _HomeScreenState extends State<HomeScreen> {
   Future<void>? _loadingFuture;
-  int _currentPage = 0;
   bool _isLoadingMore = false;
+  int _currentBatch = 0;
+  List<MatchHistory> matchList = [];
+  bool showToast = false;
+  String errorMessage = '';
 
   @override
   void initState() {
@@ -29,39 +35,37 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadingFuture = _loadData();
   }
 
+  Future<void> _fetchAndUpdateMatches(UserProvider userProvider,
+      List<MatchHistory> matchList, int start, int end) async {
+    var futures = matchList.sublist(start, end).map((match) async {
+      var details =
+          await HistoryService.getMatchDetailsByMatchID(match.matchID);
+      return MapEntry(match.matchID, details);
+    });
+    var entries = await Future.wait(futures);
+    Map<String, MatchDto> matchHistoryDetailsMap = Map.fromEntries(entries);
+    await userProvider.updateStoredMatches(matchHistoryDetailsMap);
+  }
+
   Future<void> _loadData() async {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
-
     if (userProvider.user.puuid == '') {
       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
       return;
     }
     try {
-      List<MatchHistory> matchList =
+      matchList =
           await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
-
       if (userProvider.user.matchDetailsMap.isNotEmpty) {
-        //get rid of matchIds we already have
         matchList.removeWhere((match) =>
             userProvider.user.matchDetailsMap.containsKey(match.matchID));
       }
-
-      // Fetch match details in parallel and limit to initial batch
-      var futures = matchList.take(20).map((match) async {
-        var details =
-            await HistoryService.getMatchDetailsByMatchID(match.matchID);
-        return MapEntry(match.matchID, details);
-      });
-
-      var entries = await Future.wait(futures);
-
-      Map<String, MatchDto> matchHistoryDetailsMap = Map.fromEntries(entries);
-      await userProvider.updateStoredMatches(matchHistoryDetailsMap);
-
+      await _fetchAndUpdateMatches(userProvider, matchList, 0, 20);
       await userProvider.updateName(UserUtils.getUsername(
           userProvider.user.matchDetailsMap.values.toList()[0],
           userProvider.user.puuid));
+      _currentBatch = 1;
     } catch (e) {
       print(e);
     }
@@ -72,28 +76,47 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _isLoadingMore = true;
     });
+
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
-
     try {
-      List<MatchHistory> matchList = await HistoryService.getMatchListByPuuid(
-          userProvider.user.puuid,
-          page: _currentPage + 1);
+      List<MatchHistory> newMatchList =
+          await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
+      int start = _currentBatch * 20;
+      int end = start + 20;
 
-      var futures = matchList.take(20).map((match) async {
-        var details =
-            await HistoryService.getMatchDetailsByMatchID(match.matchID);
-        return MapEntry(match.matchID, details);
+      if (start >= newMatchList.length) {
+        setState(() {
+          _isLoadingMore = false;
+          showToast = true;
+          errorMessage = 'No more matches to load.';
+        });
+
+        Timer(const Duration(seconds: 4), () {
+          setState(() {
+            showToast = false;
+          });
+        });
+        return;
+      }
+
+      await _fetchAndUpdateMatches(userProvider, newMatchList, start, end);
+      setState(() {
+        _currentBatch++;
       });
-
-      var entries = await Future.wait(futures);
-
-      Map<String, MatchDto> matchHistoryDetailsMap = Map.fromEntries(entries);
-      await userProvider.updateStoredMatches(matchHistoryDetailsMap);
-      print('Loaded page ${_currentPage + 1}');
-      _currentPage++;
     } catch (e) {
       print(e);
+      setState(() {
+        showToast = true;
+        errorMessage =
+            'Unable to find new matches. Either you have no new matches or there was an error. Try again later.';
+      });
+
+      Timer(const Duration(seconds: 4), () {
+        setState(() {
+          showToast = false;
+        });
+      });
     } finally {
       setState(() {
         _isLoadingMore = false;
@@ -147,22 +170,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       constraints: BoxConstraints(
                         maxHeight: MediaQuery.of(context).size.height,
                       ),
-                      child: Column(
-                        children: [
-                          const Padding(padding: EdgeInsets.only(top: 20)),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * 0.05,
+                      child: Stack(children: [
+                        Column(
+                          children: [
+                            const Padding(padding: EdgeInsets.only(top: 20)),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width * 0.05,
+                              ),
+                              child: const AgentTag(),
                             ),
-                            child: const AgentTag(),
-                          ),
-                          const Padding(padding: EdgeInsets.only(top: 20)),
-                          HistoryList(
-                            onScroll: _loadMoreData,
-                            isLoadingMore: _isLoadingMore,
-                          ),
-                        ],
-                      ),
+                            const Padding(padding: EdgeInsets.only(top: 20)),
+                            HistoryList(
+                              onScroll: _loadMoreData,
+                              isLoadingMore: _isLoadingMore,
+                            ),
+                          ],
+                        ),
+                        Toast(
+                          errorMessage: errorMessage,
+                          show: showToast,
+                          type: ToastTypes.info,
+                        ),
+                      ]),
                     ),
                   );
                 },
