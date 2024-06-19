@@ -24,7 +24,7 @@ class HomeScreen extends StatefulWidget with RouteAware {
 class _HomeScreenState extends State<HomeScreen> {
   Future<void>? _loadingFuture;
   bool _isLoadingMore = false;
-  int _currentBatch = 0;
+  int _currentBatch = 1;
   List<MatchHistory> matchList = [];
   bool showToast = false;
   String errorMessage = '';
@@ -65,7 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
       await userProvider.updateName(UserUtils.getUsername(
           userProvider.user.matchDetailsMap.values.toList()[0],
           userProvider.user.puuid));
-      _currentBatch = 1;
     } catch (e) {
       print(e);
     }
@@ -82,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       List<MatchHistory> newMatchList =
           await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
+      print('_currentBatch: $_currentBatch');
       int start = _currentBatch * 20;
       int end = start + 20;
 
