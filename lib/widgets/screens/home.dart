@@ -15,6 +15,8 @@ import 'package:valoralysis/widgets/ui/agent_tag/agent_tag.dart';
 import 'package:valoralysis/widgets/ui/history_list/history_list.dart';
 import 'package:valoralysis/widgets/ui/toast/toast.dart';
 
+const pageSize = 30;
+
 class HomeScreen extends StatefulWidget with RouteAware {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -62,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         matchList.removeWhere((match) =>
             userProvider.user.matchDetailsMap.containsKey(match.matchID));
       }
-      await _fetchAndUpdateMatches(userProvider, matchList, 0, 20);
+      await _fetchAndUpdateMatches(userProvider, matchList, 0, pageSize);
       await userProvider.updateName(UserUtils.getUsername(
           userProvider.user.matchDetailsMap.values.toList()[0],
           userProvider.user.puuid));
@@ -80,13 +82,18 @@ class _HomeScreenState extends State<HomeScreen> {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     try {
+      Timer(const Duration(seconds: 4), () {
+        setState(() {
+          showToast = false;
+        });
+      });
       List<MatchHistory> newMatchList =
           await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
       print('_currentBatch: $_currentBatch');
-      int start = _currentBatch * 20;
+      int start = _currentBatch * pageSize;
       // Adjust end to be the minimum between start+20 and the list's length
-      int end =
-          min(start + 20, newMatchList.length); // Import 'dart:math' for min
+      int end = min(
+          start + pageSize, newMatchList.length); // Import 'dart:math' for min
 
       if (start >= newMatchList.length) {
         setState(() {
@@ -94,15 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
           showToast = true;
           errorMessage = 'No more matches to load.';
         });
-
-        Timer(const Duration(seconds: 4), () {
-          setState(() {
-            showToast = false;
-          });
-        });
         return;
       }
-
       await _fetchAndUpdateMatches(userProvider, newMatchList, start, end);
       setState(() {
         _currentBatch++;
