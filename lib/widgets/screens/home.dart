@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -83,7 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
           await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
       print('_currentBatch: $_currentBatch');
       int start = _currentBatch * 20;
-      int end = start + 20;
+      // Adjust end to be the minimum between start+20 and the list's length
+      int end =
+          min(start + 20, newMatchList.length); // Import 'dart:math' for min
 
       if (start >= newMatchList.length) {
         setState(() {

@@ -26,6 +26,7 @@ class HistoryList extends StatefulWidget {
 }
 
 class _HistoryListState extends State<HistoryList> {
+  final ScrollController _scrollController = ScrollController();
   Item? selectedMode;
 
   @override
@@ -34,13 +35,21 @@ class _HistoryListState extends State<HistoryList> {
     ModeProvider modeProvider =
         Provider.of<ModeProvider>(context, listen: false);
     selectedMode = modeProvider.modes.first;
+    _scrollController.addListener(_handleScroll);
   }
 
-  // Asynchronous method to handle the scroll event
-  Future<void> _handleScroll() async {
-    if (widget.onScroll != null) {
-      await widget.onScroll!();
+  void _handleScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      print('At the bottom');
+      widget.onScroll!();
     }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -98,59 +107,49 @@ class _HistoryListState extends State<HistoryList> {
                 ),
               ));
         } else {
-          return NotificationListener<ScrollNotification>(
-              onNotification: (scrollNotification) {
-                // Check if user is at the bottom of the list
-                if (scrollNotification.metrics.pixels ==
-                    scrollNotification.metrics.maxScrollExtent) {
-                  _handleScroll(); // Call the asynchronous method
+          return Expanded(
+            child: ListView.builder(
+              controller: _scrollController,
+              // Increase count if loading more
+              itemCount: matchesByDay.length + (widget.isLoadingMore ? 1 : 0),
+              itemBuilder: (context, index) {
+                // Check if it's the last item for loading indicator
+                if (index == matchesByDay.length && widget.isLoadingMore) {
+                  return const Padding(
+                      padding: EdgeInsets.only(bottom: 200, top: 15),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ));
                 }
-                return true;
+                String key = matchesByDay.keys.elementAt(index);
+                return Column(children: [
+                  HistorySectionTitle(
+                      key: UniqueKey(),
+                      numOfMatches: matchesByDay[key]!.length,
+                      dateTitle: key,
+                      hasDropdown: index == 0 ? true : false,
+                      selectedMode: selectedMode as Item,
+                      onModeSelected: (Item mode) {
+                        setState(() {
+                          selectedMode = mode;
+                        });
+                      }),
+                  Column(
+                    children: matchesByDay[key]!
+                        .map<Widget>((matchDetail) => HistoryTile(
+                            matchDetail: matchDetail,
+                            fake: widget.fake,
+                            selectedMode: selectedMode as Item))
+                        .toList(),
+                  ),
+                  if (index == matchesByDay.length - 1 && !widget.isLoadingMore)
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 200),
+                    )
+                ]);
               },
-              child: Expanded(
-                child: ListView.builder(
-                  // Increase count if loading more
-                  itemCount:
-                      matchesByDay.length + (widget.isLoadingMore ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    // Check if it's the last item for loading indicator
-                    if (index == matchesByDay.length && widget.isLoadingMore) {
-                      return const Padding(
-                          padding: EdgeInsets.only(bottom: 200),
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ));
-                    }
-                    String key = matchesByDay.keys.elementAt(index);
-                    return Column(children: [
-                      HistorySectionTitle(
-                          key: UniqueKey(),
-                          numOfMatches: matchesByDay[key]!.length,
-                          dateTitle: key,
-                          hasDropdown: index == 0 ? true : false,
-                          selectedMode: selectedMode as Item,
-                          onModeSelected: (Item mode) {
-                            setState(() {
-                              selectedMode = mode;
-                            });
-                          }),
-                      Column(
-                        children: matchesByDay[key]!
-                            .map<Widget>((matchDetail) => HistoryTile(
-                                matchDetail: matchDetail,
-                                fake: widget.fake,
-                                selectedMode: selectedMode as Item))
-                            .toList(),
-                      ),
-                      if (index == matchesByDay.length - 1 &&
-                          !widget.isLoadingMore)
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 200),
-                        )
-                    ]);
-                  },
-                ),
-              ));
+            ),
+          );
         }
       },
     );

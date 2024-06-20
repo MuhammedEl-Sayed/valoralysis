@@ -8,30 +8,23 @@ import 'package:valoralysis/models/user.dart';
 class FileUtils {
   static Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
-
     return directory.path;
   }
 
   static Future<File> get _localUserFile async {
     final path = await _localPath;
     final file = File('$path/users.txt');
-
     await file.create(recursive: true);
-
     return file;
   }
 
   static Future<File> get _localImageMapFile async {
     final path = await _localPath;
     final file = File('$path/imageMap.txt');
-
     await file.create(recursive: true);
-
     return file;
   }
 
-//Re-work this to insert the user into the array and resave it. do same for read.
-// then bring back prefs so you can save preferredPUUID
   static Future<int> writeUser(User user) async {
     try {
       if (user.puuid == '') {
@@ -42,18 +35,15 @@ class FileUtils {
 
       int index = existingUsers
           .indexWhere((existingUser) => existingUser.puuid == user.puuid);
-      //print user matchDetailsMap   as jsonEncode(user.matchDetailsMap)
       if (index != -1) {
         // If user exists, update it
         existingUsers[index] = user;
-        file.writeAsString(jsonEncode(existingUsers));
-        return existingUsers.length - 1;
       } else {
         // If user does not exist, add it
         existingUsers.add(user);
-        file.writeAsString(jsonEncode(existingUsers));
-        return existingUsers.length - 1;
       }
+      await file.writeAsString(jsonEncode(existingUsers));
+      return existingUsers.length - 1;
     } catch (e) {
       print('An error occurred: $e');
       return -1;
@@ -65,32 +55,35 @@ class FileUtils {
       final file = await _localUserFile;
 
       // Read the file
-      final contents = await file.readAsString();
+      final contents = await file
+          .openRead()
+          .transform(utf8.decoder)
+          .transform(json.decoder)
+          .first;
 
-      if (contents.isEmpty) {
+      if (contents == null) {
         return [];
       }
 
-      List<dynamic> decodedJson = jsonDecode(contents);
-      //empty here
-      return decodedJson.map((user) => User.fromJson(user)).toList();
+      List<User> users =
+          (contents as List).map((user) => User.fromJson(user)).toList();
+      return users;
     } catch (e) {
       print(e);
-      // If encountering an error, return 0
+      // If encountering an error, return an empty list
       return [];
     }
   }
 
   static Future<void> clearUsers() async {
     final file = await _localUserFile;
-    file.writeAsString('');
+    await file.writeAsString('');
   }
 
   static Future<int> writeImageMap(Content content) async {
     try {
       final file = await _localImageMapFile;
-      file.writeAsString(jsonEncode(content.toJson()));
-
+      await file.writeAsString(jsonEncode(content.toJson()));
       return 0;
     } catch (e) {
       print('An error occurred: $e');
@@ -103,9 +96,13 @@ class FileUtils {
       final file = await _localImageMapFile;
 
       // Read the file
-      final contents = await file.readAsString();
+      final contents = await file
+          .openRead()
+          .transform(utf8.decoder)
+          .transform(json.decoder)
+          .first;
 
-      return Content.fromJson(jsonDecode(contents));
+      return Content.fromJson(contents as Map<String, dynamic>);
     } catch (e) {
       print('error reading: $e');
       // If encountering an error, return empty Content
@@ -122,6 +119,6 @@ class FileUtils {
 
   static Future<void> clearImageMap() async {
     final file = await _localImageMapFile;
-    file.writeAsString('');
+    await file.writeAsString('');
   }
 }
