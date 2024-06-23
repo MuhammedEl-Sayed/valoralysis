@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/history_utils.dart';
@@ -49,14 +50,6 @@ class _PerformanceChartState extends State<PerformanceChart> {
           x: round,
           barRods: [
             BarChartRodData(
-              //make a golden green gradient
-              gradient: kills.toDouble() >= 5
-                  ? LinearGradient(colors: [
-                      ThemeColors().gold,
-                      ThemeColors().green,
-                      ThemeColors().green,
-                    ], begin: Alignment.bottomCenter, end: Alignment.topCenter)
-                  : null,
               toY: kills.toDouble(),
               color: ThemeColors().green,
               width: 8,
@@ -136,6 +129,8 @@ class _PerformanceChartState extends State<PerformanceChart> {
                       roundResults[index].roundResult,
                       context,
                     ),
+                    //apply shimmer when kills > 4
+                    applyShimmer: (playerKillsPerRound[index]?.length ?? 0) > 4,
                   ),
                 ),
                 GestureDetector(
@@ -163,19 +158,20 @@ class PerformanceChartSection extends StatelessWidget {
   final BarChartGroupData playerKillAndDeaths;
   final int roundNumber;
   final Widget resultImage;
+  final bool applyShimmer;
 
   const PerformanceChartSection({
     super.key,
     required this.playerKillAndDeaths,
     required this.roundNumber,
     required this.resultImage,
+    required this.applyShimmer,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-          top: 10, bottom: 10), // Ensure this padding is appropriate
+    Widget chart = Padding(
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
       child: BarChart(
         BarChartData(
           maxY: 7,
@@ -219,5 +215,18 @@ class PerformanceChartSection extends StatelessWidget {
         ),
       ),
     );
+
+    if (applyShimmer) {
+      return Shimmer.fromColors(
+        baseColor: Colors.green,
+        //gold #FFD700 but 300 opacity so its #FFD7004D
+        highlightColor: const Color(0xFFFFD700),
+        period: const Duration(milliseconds: 1500),
+        direction: ShimmerDirection.btt,
+        child: chart,
+      );
+    }
+
+    return chart;
   }
 }
