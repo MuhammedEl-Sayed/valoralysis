@@ -26,7 +26,7 @@ class RoundUtils {
     }
     switch (kill.finishingDamage.damageItem) {
       // This is Chamber Ult
-      case '39099FB5-4293-DEF4-1E09-2E9080CE7456':
+      case '':
         return WeaponSilhouetteImage(
           imageUrl: HistoryUtils.getAbilityImageFromSlotAndId(
                   'Ultimate', killer, agents) ??
