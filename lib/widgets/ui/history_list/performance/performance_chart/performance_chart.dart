@@ -170,6 +170,7 @@ class PerformanceChartSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Chart widget without shimmer
     Widget chart = Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 10),
       child: BarChart(
@@ -186,7 +187,9 @@ class PerformanceChartSection extends StatelessWidget {
               ),
               axisNameSize: 20,
             ),
-            topTitles: AxisTitles(axisNameWidget: resultImage),
+            topTitles: AxisTitles(
+                axisNameWidget:
+                    Container()), // Remove the result image from here
             leftTitles: AxisTitles(axisNameWidget: Container()),
             rightTitles: AxisTitles(axisNameWidget: Container()),
           ),
@@ -216,17 +219,27 @@ class PerformanceChartSection extends StatelessWidget {
       ),
     );
 
-    if (applyShimmer) {
-      return Shimmer.fromColors(
-        baseColor: Colors.green,
-        //gold #FFD700 but 300 opacity so its #FFD7004D
-        highlightColor: const Color(0xFFFFD700),
-        period: const Duration(milliseconds: 1500),
-        direction: ShimmerDirection.btt,
-        child: chart,
-      );
-    }
+    // Apply shimmer only if needed
+    Widget content = applyShimmer
+        ? Shimmer.fromColors(
+            baseColor: Colors.green,
+            highlightColor: const Color(0xFFFFD700),
+            period: const Duration(milliseconds: 1500),
+            direction: ShimmerDirection.btt,
+            child: chart,
+          )
+        : chart;
 
-    return chart;
+    // Stack to overlay the result image on top of the chart
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        content, // The chart (with optional shimmer)
+        Padding(
+          padding: const EdgeInsets.only(top: 5), // Adjust padding as needed
+          child: resultImage, // The result image positioned on top
+        ),
+      ],
+    );
   }
 }
