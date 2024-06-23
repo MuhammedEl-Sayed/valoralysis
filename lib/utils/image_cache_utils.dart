@@ -69,17 +69,21 @@ class ImageCacheUtils {
 
   static Future<Map<String, File?>> downloadAbilityFiles(
       Map<String, String> abilitiesUrlMap, String id) async {
-    /*return Future.wait(abilitiesUrlMap.entries.map((entry) {
-      String suffix = entry.key;
-      return downloadImageFile(entry.value, id + suffix);
-    }).toList());*/
-
     Map<String, File?> abilityFiles = {};
+    List<Future<void>> downloadTasks = [];
+
     for (var entry in abilitiesUrlMap.entries) {
       String suffix = entry.key;
-      File? file = await downloadImageFile(entry.value, id + suffix);
-      abilityFiles[suffix] = file;
+      downloadTasks.add(
+        downloadImageFile(entry.value, id + suffix).then((file) {
+          abilityFiles[suffix] = file;
+        }),
+      );
     }
+
+    // Wait for all download tasks to complete
+    await Future.wait(downloadTasks);
+
     return abilityFiles;
   }
 }

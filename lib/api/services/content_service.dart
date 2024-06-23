@@ -7,15 +7,18 @@ import 'package:valoralysis/utils/image_cache_utils.dart';
 class ContentService {
   static Future<Content> fetchContent() async {
     try {
+      final stopwatch = Stopwatch()..start();
       // Fetch all content in parallel
       final results = await Future.wait([
         fetchAgents(),
         fetchRanks(),
         fetchWeapons(),
-        fetchContentData('https://valorant-api.com/v1/maps'),
+        fetchMaps(),
         fetchContentData('https://valorant-api.com/v1/gamemodes'),
         fetchContentData('https://valorant-api.com/v1/seasons'),
       ]);
+      stopwatch.stop();
+      print('fetchContent took ${stopwatch.elapsedMilliseconds}ms');
 
       return Content(
         agents: results[0],
@@ -32,6 +35,7 @@ class ContentService {
   }
 
   static Future<List<ContentItem>> fetchAgents() async {
+    final stopwatch = Stopwatch()..start();
     Dio dio = Dio();
 
     try {
@@ -74,18 +78,25 @@ class ContentService {
                 iconUrl: images[i]!.path, abilityImages: abilityImages));
           }
         }
+        stopwatch.stop();
+        print('fetchAgents took ${stopwatch.elapsedMilliseconds}ms');
         return contentItems;
       } catch (e) {
         print('Error fetching ability images: $e');
       }
+      stopwatch.stop();
+      print('fetchAgents took ${stopwatch.elapsedMilliseconds}ms');
       return [];
     } catch (e) {
       print('Error fetching agents: $e');
+      stopwatch.stop();
+      print('fetchAgents took ${stopwatch.elapsedMilliseconds}ms');
       return [];
     }
   }
 
   static Future<List<ContentItem>> fetchRanks() async {
+    final stopwatch = Stopwatch()..start();
     Dio dio = Dio();
     try {
       var response =
@@ -111,14 +122,19 @@ class ContentService {
               iconUrl: images[i]!.path));
         }
       }
+      stopwatch.stop();
+      print('fetchRanks took ${stopwatch.elapsedMilliseconds}ms');
       return ranks;
     } catch (e) {
       print('Error fetching ranks: $e');
+      stopwatch.stop();
+      print('fetchRanks took ${stopwatch.elapsedMilliseconds}ms');
       return [];
     }
   }
 
   static Future<List<ContentItem>> fetchWeapons() async {
+    final stopwatch = Stopwatch()..start();
     Dio dio = Dio();
     try {
       var response = await dio.get('https://valorant-api.com/v1/weapons');
@@ -153,33 +169,34 @@ class ContentService {
                 silhouetteUrl: silhouetteImages[i]!.path));
           }
         }
+        stopwatch.stop();
+        print('fetchWeapons took ${stopwatch.elapsedMilliseconds}ms');
         return contentItems;
       });
       return contentItems;
     } catch (e) {
       print('Error fetching weapons: $e');
+      stopwatch.stop();
+      print('fetchWeapons took ${stopwatch.elapsedMilliseconds}ms');
       return [];
     }
   }
 
-  static Future<List<ContentItem>> fetchContentData(String url) async {
+  static Future<List<ContentItem>> fetchMaps() async {
+    final stopwatch = Stopwatch()..start();
     Dio dio = Dio();
-    String type = url.split('/').last;
-    bool isMap = type == 'maps';
 
     try {
-      var response = await dio.get(url);
+      var response = await dio.get('https://valorant-api.com/v1/maps');
       List<ContentItem> contentItems = [];
       List<String> urls = [];
       List<String> ids = [];
       for (var item in response.data['data']) {
-        if (item['uuid'] == null ||
-            (isMap && item['displayName'] == null) ||
-            (!isMap && item['displayIcon'] == null)) {
+        if (item['uuid'] == null || item['displayName'] == null) {
           continue;
         }
         String uuid = item['uuid'];
-        String imageUrl = isMap ? item['splash'] : item['displayIcon'];
+        String imageUrl = item['listViewIcon'];
         ids.add(uuid);
         urls.add(imageUrl);
       }
@@ -187,26 +204,67 @@ class ContentService {
       for (var i = 0; i < images.length; i++) {
         if (images[i] != null) {
           String hash = ImageCacheUtils.generateImageHash(images[i]!);
-          if (isMap) {
-            contentItems.add(ContentItem.fromJsonMap(
-                response.data['data'][i], hash,
-                iconUrl: images[i]!.path));
-          } else {
-            contentItems.add(ContentItem.fromJson(
-                response.data['data'][i], hash,
-                iconUrl: images[i]!.path));
-          }
+          contentItems.add(ContentItem.fromJsonMap(
+              response.data['data'][i], hash,
+              iconUrl: images[i]!.path));
         }
       }
+      stopwatch.stop();
+      print('fetchMaps took ${stopwatch.elapsedMilliseconds}ms');
+      return contentItems;
+    } catch (e) {
+      print('Error fetching maps: $e');
+      stopwatch.stop();
+      print('fetchMaps took ${stopwatch.elapsedMilliseconds}ms');
+      return [];
+    }
+  }
+
+  static Future<List<ContentItem>> fetchContentData(String url) async {
+    final stopwatch = Stopwatch()..start();
+    Dio dio = Dio();
+    String type = url.split('/').last;
+
+    try {
+      var response = await dio.get(url);
+      List<ContentItem> contentItems = [];
+      List<String> urls = [];
+      List<String> ids = [];
+      for (var item in response.data['data']) {
+        if (item['uuid'] == null || item['displayIcon'] == null) {
+          continue;
+        }
+        String uuid = item['uuid'];
+        String imageUrl = item['displayIcon'];
+        ids.add(uuid);
+        urls.add(imageUrl);
+      }
+      List<File?> images = await ImageCacheUtils.downloadImageFiles(urls, ids);
+      for (var i = 0; i < images.length; i++) {
+        if (images[i] != null) {
+          String hash = ImageCacheUtils.generateImageHash(images[i]!);
+          contentItems.add(ContentItem.fromJson(response.data['data'][i], hash,
+              iconUrl: images[i]!.path));
+        }
+      }
+      stopwatch.stop();
+      print(
+          'fetchContentData for $type took ${stopwatch.elapsedMilliseconds}ms');
       return contentItems;
     } catch (e) {
       print('Error fetching $type: $e');
+      stopwatch.stop();
+      print(
+          'fetchContentData for $type took ${stopwatch.elapsedMilliseconds}ms');
       return [];
     }
   }
 
   static Future<File?> downloadImage(String url, String id) async {
+    final stopwatch = Stopwatch()..start();
     File? image = await ImageCacheUtils.downloadImageFile(url, id);
+    stopwatch.stop();
+    print('downloadImage took ${stopwatch.elapsedMilliseconds}ms');
     return image;
   }
 }
