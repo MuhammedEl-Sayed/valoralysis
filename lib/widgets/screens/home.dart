@@ -10,7 +10,7 @@ import 'package:valoralysis/models/match_history.dart';
 import 'package:valoralysis/providers/category_provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/user_data_provider.dart';
-import 'package:valoralysis/utils/user_utils.dart';
+import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/widgets/ui/agent_tag/agent_tag.dart';
 import 'package:valoralysis/widgets/ui/history_list/history_list.dart';
 import 'package:valoralysis/widgets/ui/toast/toast.dart';
@@ -30,7 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentBatch = 1;
   List<MatchHistory> matchList = [];
   bool showToast = false;
-  String errorMessage = '';
+  String toastMessage = '';
+  ToastTypes toastType = ToastTypes.info;
 
   @override
   void initState() {
@@ -40,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _fetchAndUpdateMatches(UserProvider userProvider,
       List<MatchHistory> matchList, int start, int end) async {
+    if (start >= end || matchList.isEmpty) return;
     var futures = matchList.sublist(start, end).map((match) async {
       var details =
           await HistoryService.getMatchDetailsByMatchID(match.matchID);
@@ -57,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
       return;
     }
+    print('Loading data...');
     try {
       matchList =
           await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
@@ -64,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
         matchList.removeWhere((match) =>
             userProvider.user.matchDetailsMap.containsKey(match.matchID));
       }
+      print('Loaded ${matchList.length} new matches.');
       int end = min(pageSize, matchList.length);
       await _fetchAndUpdateMatches(
         userProvider,
@@ -71,10 +75,29 @@ class _HomeScreenState extends State<HomeScreen> {
         0,
         end,
       );
-      await userProvider.updateName(UserUtils.getUsername(
-          userProvider.user.matchDetailsMap.values.toList()[0],
+      print('Updating user name...');
+      await userProvider.updateName(HistoryUtils.extractPlayerNameByPUUID(
+          userProvider.user.matchDetailsMap.values.first,
           userProvider.user.puuid));
+
+      setState(() {
+        showToast = true;
+        toastMessage = 'Added $end new matches to your history.';
+        toastType = ToastTypes.success;
+      });
+      print('Loaded $end new matches to history.');
+      Timer(const Duration(seconds: 2), () {
+        setState(() {
+          showToast = false;
+        });
+      });
     } catch (e) {
+      setState(() {
+        showToast = true;
+        toastMessage =
+            'Unable to load matches. Either you have no matches or there was an error. Try again later.';
+        toastType = ToastTypes.error;
+      });
       print(e);
     }
   }
@@ -105,20 +128,25 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           _isLoadingMore = false;
           showToast = true;
-          errorMessage = 'No more matches to load.';
+          toastMessage = 'No more matches to load.';
+          toastType = ToastTypes.info;
         });
         return;
       }
       await _fetchAndUpdateMatches(userProvider, newMatchList, start, end);
       setState(() {
         _currentBatch++;
+        showToast = true;
+        toastMessage = 'Added ${end - start} new matches to your history.';
+        toastType = ToastTypes.success;
       });
     } catch (e) {
       print(e);
       setState(() {
         showToast = true;
-        errorMessage =
+        toastMessage =
             'Unable to find new matches. Either you have no new matches or there was an error. Try again later.';
+        toastType = ToastTypes.error;
       });
 
       Timer(const Duration(seconds: 4), () {
@@ -198,9 +226,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         Toast(
-                          errorMessage: errorMessage,
+                          toastMessage: toastMessage,
                           show: showToast,
-                          type: ToastTypes.info,
+                          type: toastType,
                         ),
                       ]),
                     ),

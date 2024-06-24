@@ -4,13 +4,13 @@ import 'package:valoralysis/consts/margins.dart';
 enum ToastTypes { error, success, info }
 
 class Toast extends StatefulWidget {
-  final String errorMessage;
+  final String toastMessage;
   final ToastTypes type;
   final bool show; // Added boolean to control visibility
 
   const Toast({
     Key? key,
-    required this.errorMessage,
+    required this.toastMessage,
     required this.type,
     this.show = false,
   }) : super(key: key);
@@ -132,7 +132,7 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
             Icon(Icons.error, color: Theme.of(context).colorScheme.error);
         break;
       case ToastTypes.success:
-        backgroundColor = Colors.green;
+        backgroundColor = const Color(0xff2e5a22);
         leadingIcon = const Icon(Icons.check_circle, color: Colors.white);
         break;
       case ToastTypes.info:
@@ -166,7 +166,7 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
                   const SizedBox(width: 8),
                   Expanded(
                       child: Text(
-                    widget.errorMessage,
+                    widget.toastMessage,
                     style: TextStyle(
                         fontSize: 15,
                         color: ToastTypes.error == widget.type

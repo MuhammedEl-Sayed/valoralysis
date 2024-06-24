@@ -8,7 +8,7 @@ class ThemeColors {
   static const darkTertiary = Color(0xff86d2e1);
   static const darkTertiaryContainer = Color(0xff004e59);
   static const darkAppBarColor = Color(0xff872100);
-  static const darkError = Color(0xffcf6679);
+  static const darkError = Color(0xff441e21);
   static const darkErrorContainer = Color(0xff93000a);
   static const darkBackground = Color(0xff161314);
   static const darkSurfaceVariant = Color(0xff1F1A1C);
