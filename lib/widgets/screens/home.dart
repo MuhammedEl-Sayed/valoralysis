@@ -123,8 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
       // Adjust end to be the minimum between start+20 and the list's length
       int end = min(
           start + pageSize, newMatchList.length); // Import 'dart:math' for min
-
-      if (start >= newMatchList.length) {
+      if (userProvider.user.matchDetailsMap.isNotEmpty) {
+        newMatchList.removeWhere((match) =>
+            userProvider.user.matchDetailsMap.containsKey(match.matchID));
+      }
+      if (start >= end || newMatchList.isEmpty) {
         setState(() {
           _isLoadingMore = false;
           showToast = true;
@@ -133,11 +136,13 @@ class _HomeScreenState extends State<HomeScreen> {
         });
         return;
       }
+
       await _fetchAndUpdateMatches(userProvider, newMatchList, start, end);
       setState(() {
         _currentBatch++;
         showToast = true;
-        toastMessage = 'Added ${end - start} new matches to your history.';
+        toastMessage =
+            'Added ${newMatchList.length} new matches to your history.';
         toastType = ToastTypes.success;
       });
     } catch (e) {
