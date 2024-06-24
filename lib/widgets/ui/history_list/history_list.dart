@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/consts/mock_data.dart';
@@ -16,9 +17,14 @@ class HistoryList extends StatefulWidget {
   final bool fake;
   final Function? onScroll;
   final bool isLoadingMore;
+  final Function? onRefresh;
 
   const HistoryList(
-      {Key? key, this.fake = false, this.onScroll, this.isLoadingMore = false})
+      {Key? key,
+      this.fake = false,
+      this.onScroll,
+      this.isLoadingMore = false,
+      this.onRefresh})
       : super(key: key);
 
   @override
@@ -108,46 +114,61 @@ class _HistoryListState extends State<HistoryList> {
               ));
         } else {
           return Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              // Increase count if loading more
-              itemCount: matchesByDay.length + (widget.isLoadingMore ? 1 : 0),
-              itemBuilder: (context, index) {
-                // Check if it's the last item for loading indicator
-                if (index == matchesByDay.length && widget.isLoadingMore) {
-                  return const Padding(
-                      padding: EdgeInsets.only(bottom: 200, top: 15),
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ));
+            child: LiquidPullToRefresh(
+              showChildOpacityTransition: false,
+              animSpeedFactor: 3,
+              onRefresh: () async {
+                //timer, if it takes less than 1 second, show the loading indicator for at least 1 second
+                final stopwatch = Stopwatch()..start();
+
+                await widget.onRefresh!();
+
+                if (stopwatch.elapsedMilliseconds < 1000) {
+                  await Future.delayed(const Duration(milliseconds: 1000));
                 }
-                String key = matchesByDay.keys.elementAt(index);
-                return Column(children: [
-                  HistorySectionTitle(
-                      key: UniqueKey(),
-                      numOfMatches: matchesByDay[key]!.length,
-                      dateTitle: key,
-                      hasDropdown: index == 0 ? true : false,
-                      selectedMode: selectedMode as Item,
-                      onModeSelected: (Item mode) {
-                        setState(() {
-                          selectedMode = mode;
-                        });
-                      }),
-                  Column(
-                    children: matchesByDay[key]!
-                        .map<Widget>((matchDetail) => HistoryTile(
-                            matchDetail: matchDetail,
-                            fake: widget.fake,
-                            selectedMode: selectedMode as Item))
-                        .toList(),
-                  ),
-                  if (index == matchesByDay.length - 1 && !widget.isLoadingMore)
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 200),
-                    )
-                ]);
               },
+              child: ListView.builder(
+                controller: _scrollController,
+                // Increase count if loading more
+                itemCount: matchesByDay.length + (widget.isLoadingMore ? 1 : 0),
+                itemBuilder: (context, index) {
+                  // Check if it's the last item for loading indicator
+                  if (index == matchesByDay.length && widget.isLoadingMore) {
+                    return const Padding(
+                        padding: EdgeInsets.only(bottom: 200, top: 15),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ));
+                  }
+                  String key = matchesByDay.keys.elementAt(index);
+                  return Column(children: [
+                    HistorySectionTitle(
+                        key: UniqueKey(),
+                        numOfMatches: matchesByDay[key]!.length,
+                        dateTitle: key,
+                        hasDropdown: index == 0 ? true : false,
+                        selectedMode: selectedMode as Item,
+                        onModeSelected: (Item mode) {
+                          setState(() {
+                            selectedMode = mode;
+                          });
+                        }),
+                    Column(
+                      children: matchesByDay[key]!
+                          .map<Widget>((matchDetail) => HistoryTile(
+                              matchDetail: matchDetail,
+                              fake: widget.fake,
+                              selectedMode: selectedMode as Item))
+                          .toList(),
+                    ),
+                    if (index == matchesByDay.length - 1 &&
+                        !widget.isLoadingMore)
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 200),
+                      )
+                  ]);
+                },
+              ),
             ),
           );
         }

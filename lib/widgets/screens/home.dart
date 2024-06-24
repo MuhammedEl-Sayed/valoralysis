@@ -64,7 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
         matchList.removeWhere((match) =>
             userProvider.user.matchDetailsMap.containsKey(match.matchID));
       }
-      await _fetchAndUpdateMatches(userProvider, matchList, 0, pageSize);
+      int end = min(pageSize, matchList.length);
+      await _fetchAndUpdateMatches(
+        userProvider,
+        matchList,
+        0,
+        end,
+      );
       await userProvider.updateName(UserUtils.getUsername(
           userProvider.user.matchDetailsMap.values.toList()[0],
           userProvider.user.puuid));
@@ -187,6 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             HistoryList(
                               onScroll: _loadMoreData,
                               isLoadingMore: _isLoadingMore,
+                              onRefresh: _loadData,
                             ),
                           ],
                         ),
