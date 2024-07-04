@@ -38,6 +38,7 @@ class _RoundKillFeedState extends State<RoundKillFeed> {
         widget.deaths,
         widget.matchDetail,
         contentProvider.weapons,
-        contentProvider.agents);
+        contentProvider.agents,
+        widget.roundNumber);
   }
 }

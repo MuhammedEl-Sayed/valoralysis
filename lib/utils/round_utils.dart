@@ -4,6 +4,7 @@ import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
+import 'package:valoralysis/utils/economy_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/widgets/ui/agent_tag/agent_icon.dart';
 import 'package:valoralysis/widgets/ui/marquee_text/marquee_text.dart';
@@ -135,7 +136,8 @@ class RoundUtils {
       List<KillDto> deaths,
       MatchDto matchDetail,
       List<ContentItem> weapons,
-      List<ContentItem> agents) {
+      List<ContentItem> agents,
+      int roundNumber) {
     //add type field to kills and deaths
     List<dynamic> sortedKillsAndDeaths = [
       ...kills.map((kill) => {'type': 'kill', 'data': kill}),
@@ -201,6 +203,8 @@ class RoundUtils {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                EconomyUtils.getBuyIconFromRound(
+                                    matchDetail, puuid, roundNumber),
                                 AgentIcon(
                                     iconUrl: HistoryUtils.getContentImageFromId(
                                         AgentUtils.extractAgentIdByPUUID(
