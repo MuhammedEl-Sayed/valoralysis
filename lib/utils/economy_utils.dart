@@ -1,27 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/history_utils.dart';
+import 'package:valoralysis/widgets/ui/history_list/performance/round_economy_chart/round_economy_chart.dart';
 
-enum BuyType { fullBuy, forceBuy, halfBuy, eco, unknown }
+enum BuyType { fullBuy, halfBuy, forceBuy, eco, bonus, unknown }
 
 Map lossStreakMap = {
-  0: 1900,
-  1: 2400,
-  2: 2900,
+  0: 0,
+  1: 1900,
+  2: 2400,
+  3: 2900,
+};
+
+Map buyTypeToStringMap = {
+  BuyType.fullBuy: 'Full Buy',
+  BuyType.forceBuy: 'Force Buy',
+  BuyType.halfBuy: 'Half Buy',
+  BuyType.eco: 'Eco',
+  BuyType.bonus: 'Bonus',
+  BuyType.unknown: 'Unknown',
 };
 
 class EconomyUtils {
   static int fullBuyValue = 3900;
   /*
-  * 1. Full Buy. Simple, check for the full buy value and return the result.
-  * 2. Force Buy.  Check if we spent under 3900 and cant buy next round.
-  * 3. Half Buy. Check if we spent under 3900 and can still buy next round.
-  * 4. Eco. Check if we spent under 2000 and can still buy next round.
-
-  * Therefore, we should take:
-  * 1. user's own spent money
-
-  * 2. user's total money
+   We are changing the approach.
+   To determine buy type:
+   1. Look at load
   */
   static Widget getBuyIconFromRound(
       MatchDto matchDto, String puuid, int roundIndex) {
@@ -32,62 +39,185 @@ class EconomyUtils {
   static Widget getBuyIconFromType(BuyType buyType) {
     switch (buyType) {
       case BuyType.fullBuy:
-        //use full_buy.svg in assets/images/misc
-        return Image.asset('assets/images/misc/full_buy.svg');
-      case BuyType.forceBuy:
-        //For this one use same path but credits.svg
-        return Image.asset('assets/images/misc/credits.svg');
+        // Use full_buy.svg in assets/images/misc use flutter_svg to render
+        return SizedBox(
+          width: 20, // Smaller size
+          height: 20, // Smaller size
+          child: SvgPicture.asset(
+            'assets/images/misc/full_buy.svg',
+            color: const Color(0xFFFFEDEA), // Attempt to set color
+          ),
+        );
       case BuyType.halfBuy:
-        //return a donut made without image with a hole in the middle
-        return Stack(
-          children: [
-            Container(
-              width: 30,
-              height: 30,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.black,
-              ),
-            ),
-            Container(
-              width: 20,
-              height: 20,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white,
-              ),
-            ),
-          ],
+        // For this one use same path but credits.svg
+        return SizedBox(
+          width: 20, // Smaller size
+          height: 20, // Smaller size
+          child: SvgPicture.asset(
+            'assets/images/misc/credits.svg',
+            color: const Color(0xFFFFEDEA), // Attempt to set color
+          ),
+        );
+      case BuyType.forceBuy:
+        // Return a donut with a hole in the middle
+        return const Icon(
+          Icons.trip_origin,
+          color: Color(0xFFFFEDEA),
+          size: 20,
         );
       case BuyType.eco:
-        //just the inner circle
+        // Just the inner circle
         return Container(
-          width: 20,
-          height: 20,
+          width: 10, // Smaller size
+          height: 10, // Smaller size
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.white,
+            color: Color(0xFFFFEDEA), // Main color
           ),
+        );
+      //have bonus just be built in icon star
+      case BuyType.bonus:
+        return const Icon(
+          Icons.star,
+          color: Color(0xFFFFEDEA),
+          size: 20,
         );
       default:
         return Container();
     }
   }
 
+  static Widget buildBuyTypeLegend() {
+    return SizedBox(
+      height: 50,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: BuyType.values.map((type) {
+          if (type == BuyType.unknown) return const SizedBox.shrink();
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                height: 30, // Set a fixed height for the icons
+                child: EconomyUtils.getBuyIconFromType(type),
+              ),
+              Text(
+                buyTypeToStringMap[type]!,
+                style: const TextStyle(fontSize: 12),
+              ),
+            ],
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  static Widget buildBuyColorLegend(
+      RoundEconomyChartType type, BuildContext context) {
+    Color baseColor;
+
+    switch (type) {
+      case RoundEconomyChartType.player:
+        baseColor = Theme.of(context).colorScheme.primary;
+        break;
+      case RoundEconomyChartType.team:
+        baseColor = ThemeColors().green;
+        break;
+      case RoundEconomyChartType.enemy:
+        baseColor = ThemeColors().red;
+        break;
+      default:
+        baseColor = Colors.grey; // Fallback color
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(2),
+      child: SizedBox(
+        height: 30,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // Light opacity
+            Column(
+              children: [
+                Container(
+                  width: 10,
+                  height: 10,
+                  decoration: ShapeDecoration(
+                    shape: const CircleBorder(),
+                    color: baseColor.withOpacity(0.1),
+                  ),
+                ),
+                const Text('Total Credits', style: TextStyle(fontSize: 12)),
+              ],
+            ),
+            // Medium opacity
+            Column(
+              children: [
+                Container(
+                    width: 10,
+                    height: 10,
+                    decoration: ShapeDecoration(
+                      shape: const CircleBorder(),
+                      color: baseColor.withOpacity(0.5),
+                    )),
+                const Text('Loadout Value', style: TextStyle(fontSize: 12)),
+              ],
+            ),
+            // Full opacity
+            Column(
+              children: [
+                Container(
+                    width: 10,
+                    height: 10,
+                    decoration: ShapeDecoration(
+                      shape: const CircleBorder(),
+                      color: baseColor,
+                    )),
+                const Text('Spent Credits', style: TextStyle(fontSize: 12)),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   static BuyType getBuyTypeFromMoney(
-    int userSpentMoney,
-    int userTotalMoney,
-  ) {
-    if (userSpentMoney >= fullBuyValue) {
+      int userSpentMoney, int userFutureMoney, int userLoadoutValue) {
+    /*
+    print('-------------------');
+    print('User spent money: $userSpentMoney');
+    print('User future money: $userFutureMoney');
+    print('User loadout value: $userLoadoutValue');*/
+    //Trying to see if we save (you can buy sheriff round 1 and bonus round 2), but also if you have a full loadout
+    if ((userLoadoutValue > 1000 && userSpentMoney < 1000) ||
+        (userLoadoutValue >= 3900 && userSpentMoney < 3900)) {
+      return BuyType.bonus;
+    } else if (userSpentMoney >= fullBuyValue) {
       return BuyType.fullBuy;
-    } else if (userSpentMoney < fullBuyValue && userTotalMoney < fullBuyValue) {
-      return BuyType.forceBuy;
+      // Checking if:
+      // 1. User has not spent less than full buy value
+      // 2. User will not have enough money for full buy next round
+      // 3. User has a loadout value of at least 1500
     } else if (userSpentMoney < fullBuyValue &&
-        userTotalMoney >= fullBuyValue) {
+        userFutureMoney < fullBuyValue &&
+        userLoadoutValue < fullBuyValue &&
+        userLoadoutValue >= 1500) {
+      return BuyType.forceBuy;
+      // Checking if:
+      // 1. User has not spent less than full buy value
+      // 2. User will have enough money for full buy next round
+      // 3. User has a loadout value of at least 1500
+    } else if (userSpentMoney < fullBuyValue &&
+        userFutureMoney >= fullBuyValue &&
+        userLoadoutValue < fullBuyValue &&
+        userLoadoutValue >= 1500) {
       return BuyType.halfBuy;
-    } else if (userSpentMoney < 2000) {
+    } else if (userSpentMoney < 2000 && userLoadoutValue < 2000) {
       return BuyType.eco;
     } else {
+      print('Failed to determine buy type ');
       return BuyType.unknown;
     }
   }
@@ -98,30 +228,138 @@ class EconomyUtils {
     int currIndex = roundIndex;
     for (int i = 1; i < 4; i++) {
       // This modulus needs to change per game mode
-      if (currIndex == 0 || currIndex % 13 == 0) break;
+      if (currIndex == 0 || currIndex == 12 || numLosses == 3) {
+        break;
+      }
       currIndex--;
       if (HistoryUtils.didPlayerWinRound(matchDto, puuid, currIndex)) {
         numLosses++;
+      } else {
+        break;
       }
     }
+    print('Loss streak: ${lossStreakMap[numLosses]}');
     return lossStreakMap[numLosses];
   }
 
-  static BuyType getBuyTypeFromRound(
+  static int getUserLoadoutValue(
       MatchDto matchDto, String puuid, int roundIndex) {
-    int userSpentMoney = 0;
+    return matchDto.roundResults[roundIndex].playerStats
+        .firstWhere((element) => element.puuid == puuid)
+        .economy
+        .loadoutValue;
+  }
 
-    int userFutureMoney = getLossStreakMoney(matchDto, puuid, roundIndex) +
-        matchDto.roundResults[roundIndex - 1].playerStats
-            .firstWhere((element) => element.puuid == puuid)
-            .economy
-            .remaining;
-    RoundResultDto roundDto = matchDto.roundResults[roundIndex - 1];
-    userSpentMoney = roundDto.playerStats
+  static int getUserSpentMoney(
+      MatchDto matchDto, String puuid, int roundIndex) {
+    return matchDto.roundResults[roundIndex].playerStats
         .firstWhere((element) => element.puuid == puuid)
         .economy
         .spent;
+  }
 
-    return getBuyTypeFromMoney(userSpentMoney, userFutureMoney);
+  static int getUserRemainingMoney(
+      MatchDto matchDto, String puuid, int roundIndex) {
+    return matchDto.roundResults[roundIndex].playerStats
+        .firstWhere((element) => element.puuid == puuid)
+        .economy
+        .remaining;
+  }
+// Add these methods inside the same class that contains getBuyTypeFromRound
+
+  static int getUserFutureMoney(
+      MatchDto matchDto, String puuid, int roundIndex) {
+    return getLossStreakMoney(matchDto, puuid, roundIndex) +
+        getUserRemainingMoney(matchDto, puuid, roundIndex);
+  }
+
+  static getTeamSpentMoney(MatchDto matchDto, String puuid, int roundIndex) {
+    List<String> teamPUUIDs =
+        HistoryUtils.extractPlayerTeamPUUIDs(matchDto, puuid);
+    //average the spent money of the team
+    return teamPUUIDs
+            .map((teamPUUID) =>
+                getUserSpentMoney(matchDto, teamPUUID, roundIndex))
+            .reduce((value, element) => value + element) ~/
+        teamPUUIDs.length;
+  }
+
+  static getTeamLoadoutValue(MatchDto matchDto, String puuid, int roundIndex) {
+    List<String> teamPUUIDs =
+        HistoryUtils.extractPlayerTeamPUUIDs(matchDto, puuid);
+    //average the loadout value of the team
+    return teamPUUIDs
+            .map((teamPUUID) =>
+                getUserLoadoutValue(matchDto, teamPUUID, roundIndex))
+            .reduce((value, element) => value + element) ~/
+        teamPUUIDs.length;
+  }
+
+  static getTeamRemainingMoney(
+      MatchDto matchDto, String puuid, int roundIndex) {
+    List<String> teamPUUIDs =
+        HistoryUtils.extractPlayerTeamPUUIDs(matchDto, puuid);
+    //average the remaining money of the team
+    return teamPUUIDs
+            .map((teamPUUID) =>
+                getUserRemainingMoney(matchDto, teamPUUID, roundIndex))
+            .reduce((value, element) => value + element) ~/
+        teamPUUIDs.length;
+  }
+
+  static getEnemySpentMoney(MatchDto matchDto, String puuid, int roundIndex) {
+    List<String> enemyPUUIDs =
+        HistoryUtils.extractEnemyTeamPUUIDs(matchDto, puuid);
+    //average the spent money of the enemy
+    return enemyPUUIDs
+            .map((enemyPUUID) =>
+                getUserSpentMoney(matchDto, enemyPUUID, roundIndex))
+            .reduce((value, element) => value + element) ~/
+        enemyPUUIDs.length;
+  }
+
+  static getEnemyLoadoutValue(MatchDto matchDto, String puuid, int roundIndex) {
+    List<String> enemyPUUIDs =
+        HistoryUtils.extractEnemyTeamPUUIDs(matchDto, puuid);
+    //average the loadout value of the enemy
+    return enemyPUUIDs
+            .map((enemyPUUID) =>
+                getUserLoadoutValue(matchDto, enemyPUUID, roundIndex))
+            .reduce((value, element) => value + element) ~/
+        enemyPUUIDs.length;
+  }
+
+  static getEnemyRemainingMoney(
+      MatchDto matchDto, String puuid, int roundIndex) {
+    List<String> enemyPUUIDs =
+        HistoryUtils.extractEnemyTeamPUUIDs(matchDto, puuid);
+    //average the remaining money of the enemy
+    return enemyPUUIDs
+            .map((enemyPUUID) =>
+                getUserRemainingMoney(matchDto, enemyPUUID, roundIndex))
+            .reduce((value, element) => value + element) ~/
+        enemyPUUIDs.length;
+  }
+
+// Refactor getBuyTypeFromRound to use the new methods
+  static BuyType getBuyTypeFromRound(
+      MatchDto matchDto, String puuid, int roundIndex) {
+    int userSpentMoney = getUserSpentMoney(matchDto, puuid, roundIndex);
+    int userFutureMoney = getUserFutureMoney(matchDto, puuid, roundIndex);
+    int userLoadoutValue = getUserLoadoutValue(matchDto, puuid, roundIndex);
+
+    // Handle first round of half cases
+    if (roundIndex == 0 || roundIndex == 12) {
+      if (userSpentMoney == 800) {
+        return BuyType.fullBuy;
+      }
+      if (userSpentMoney >= 450 && userSpentMoney < 800) {
+        return BuyType.forceBuy;
+      }
+      return BuyType.eco;
+    }
+
+    return getBuyTypeFromMoney(
+        userSpentMoney, userFutureMoney, userLoadoutValue);
   }
 }

@@ -8,14 +8,14 @@ class RoundKillFeed extends StatefulWidget {
   final String puuid;
   final List<KillDto> kills;
   final List<KillDto> deaths;
-  final int roundNumber;
+  final int roundIndex;
   final MatchDto matchDetail;
   const RoundKillFeed(
       {Key? key,
       required this.puuid,
       required this.kills,
       required this.deaths,
-      required this.roundNumber,
+      required this.roundIndex,
       required this.matchDetail})
       : super(key: key);
 
@@ -39,6 +39,6 @@ class _RoundKillFeedState extends State<RoundKillFeed> {
         widget.matchDetail,
         contentProvider.weapons,
         contentProvider.agents,
-        widget.roundNumber);
+        widget.roundIndex);
   }
 }

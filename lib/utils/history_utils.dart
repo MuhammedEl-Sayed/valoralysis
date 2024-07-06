@@ -92,8 +92,17 @@ class HistoryUtils {
         extractPlayerRoundStats(matchDto, puuid);
     for (int index = 0; index < playerRoundStats.length; index++) {
       PlayerRoundStats playerRoundStat = playerRoundStats[index];
-      roundToPlayerKills[index] =
-          playerRoundStat.kills.isNotEmpty ? playerRoundStat.kills : [];
+      // We need to check to see if the player killed themselves
+      List<KillDto> kills = playerRoundStat.kills;
+
+      List<KillDto> killsToRemove = [];
+      for (KillDto kill in kills) {
+        if (kill.victim == puuid) {
+          killsToRemove.add(kill);
+        }
+      }
+      kills.removeWhere((kill) => killsToRemove.contains(kill));
+      roundToPlayerKills[index] = playerRoundStat.kills.isNotEmpty ? kills : [];
     }
 
     return roundToPlayerKills;
@@ -140,6 +149,15 @@ class HistoryUtils {
       var roundResult = roundResults[roundIndex];
       for (var playerStat in roundResult.playerStats) {
         if (enemyTeamPUUIDS.contains(playerStat.puuid)) {
+          for (KillDto kill in playerStat.kills) {
+            if (kill.victim == puuid) {
+              roundToDeathListMap[roundIndex]!.add(kill);
+            }
+          }
+        }
+        //check if player killed themselves
+
+        if (playerStat.puuid == puuid) {
           for (KillDto kill in playerStat.kills) {
             if (kill.victim == puuid) {
               roundToDeathListMap[roundIndex]!.add(kill);
@@ -275,9 +293,9 @@ class HistoryUtils {
   }
 
   static String? getSilhouetteImageFromId(
-      String puuid, List<ContentItem> content) {
+      String uuid, List<ContentItem> content) {
     return content
-        .firstWhere((item) => item.uuid.toLowerCase() == puuid.toLowerCase())
+        .firstWhere((item) => item.uuid.toLowerCase() == uuid.toLowerCase())
         .silhouetteUrl;
   }
 

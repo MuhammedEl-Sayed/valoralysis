@@ -190,7 +190,7 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                             deaths: HistoryUtils.extractRoundDeathsByPUUID(
                                 widget.matchDetail,
                                 selectedPUUID)[selectedRound] as List<KillDto>,
-                            roundNumber: selectedRound,
+                            roundIndex: selectedRound,
                             matchDetail: widget.matchDetail)
                       ])),
           ],
