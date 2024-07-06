@@ -3,16 +3,16 @@
     <channel>
         <title>Valoralysis App - Appcast</title>
         <item>
-            <title>Version 1.0.6+86</title>
-            <description>1.0.6+86: Added basic economy to the performance tab. Classifying buy types. Edit the style of the duels. Fixed some issues with the performance charts returning completely grey fields. Hopefully fixed toasts</description>
-            <pubDate>Sat, 06 Jul 2024 23:31:19 +0000</pubDate>
-            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+86" sparkle:shortVersionString="1.0.6+86" sparkle:os="android"/>
+            <title>Version 1.0.6+87</title>
+            <description>1.0.6+87: 1.0.6+86: Added basic economy to the performance tab. Classifying buy types. Edit the style of the duels. Fixed some issues with the performance charts returning completely grey fields. Hopefully fixed toasts</description>
+            <pubDate>Sat, 06 Jul 2024 23:37:25 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+87" sparkle:shortVersionString="1.0.6+87" sparkle:os="android"/>
         </item>
            <item>
-            <title>Version 1.0.6+86</title>
-            <description>1.0.6+86: Added basic economy to the performance tab. Classifying buy types. Edit the style of the duels. Fixed some issues with the performance charts returning completely grey fields. Hopefully fixed toasts</description>
-            <pubDate>Sat, 06 Jul 2024 23:31:19 +0000</pubDate>
-            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+86" sparkle:shortVersionString="1.0.6+86" sparkle:os="ios" />
+            <title>Version 1.0.6+87</title>
+            <description>1.0.6+87: 1.0.6+86: Added basic economy to the performance tab. Classifying buy types. Edit the style of the duels. Fixed some issues with the performance charts returning completely grey fields. Hopefully fixed toasts</description>
+            <pubDate>Sat, 06 Jul 2024 23:37:25 +0000</pubDate>
+            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+87" sparkle:shortVersionString="1.0.6+87" sparkle:os="ios" />
         </item>
     </channel>
 </rss>
