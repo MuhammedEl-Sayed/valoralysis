@@ -52,6 +52,19 @@ class _HomeScreenState extends State<HomeScreen> {
     await userProvider.updateStoredMatches(matchHistoryDetailsMap);
   }
 
+  void _showToast(String message, ToastTypes type) {
+    setState(() {
+      showToast = true;
+      toastMessage = message;
+      toastType = type;
+    });
+    Timer(const Duration(seconds: 2), () {
+      setState(() {
+        showToast = false;
+      });
+    });
+  }
+
   Future<void> _loadData() async {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
@@ -79,25 +92,13 @@ class _HomeScreenState extends State<HomeScreen> {
       await userProvider.updateName(HistoryUtils.extractPlayerNameByPUUID(
           userProvider.user.matchDetailsMap.values.first,
           userProvider.user.puuid));
-
-      setState(() {
-        showToast = true;
-        toastMessage = 'Added $end new matches to your history.';
-        toastType = ToastTypes.success;
-      });
-      print('Loaded $end new matches to history.');
-      Timer(const Duration(seconds: 2), () {
-        setState(() {
-          showToast = false;
-        });
-      });
+//Added $end new matches to your history. ToastTypes.success;
+      _showToast('Added $end new matches to your history.', ToastTypes.success);
     } catch (e) {
-      setState(() {
-        showToast = true;
-        toastMessage =
-            'Unable to load matches. Either you have no matches or there was an error. Try again later.';
-        toastType = ToastTypes.error;
-      });
+      //Unable to load matches. Either you have no matches or there was an error. Try again later.';
+      _showToast(
+          'Unable to load matches. Either you have no matches or there was an error. Try again later.',
+          ToastTypes.error);
       print(e);
     }
   }
@@ -111,54 +112,52 @@ class _HomeScreenState extends State<HomeScreen> {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     try {
-      Timer(const Duration(seconds: 4), () {
-        setState(() {
-          showToast = false;
-        });
-      });
-      List<MatchHistory> newMatchList =
-          await HistoryService.getMatchListByPuuid(userProvider.user.puuid);
-      print('_currentBatch: $_currentBatch');
-      int start = _currentBatch * pageSize;
-      // Adjust end to be the minimum between start+20 and the list's length
-      int end = min(
-          start + pageSize, newMatchList.length); // Import 'dart:math' for min
-      if (userProvider.user.matchDetailsMap.isNotEmpty) {
-        newMatchList.removeWhere((match) =>
-            userProvider.user.matchDetailsMap.containsKey(match.matchID));
-      }
-      if (start >= end || newMatchList.isEmpty) {
-        setState(() {
-          _isLoadingMore = false;
-          showToast = true;
-          toastMessage = 'No more matches to load.';
-          toastType = ToastTypes.info;
-        });
-        return;
-      }
+      var timeoutDuration =
+          const Duration(microseconds: 7); // Adjust timeout duration as needed
+      await Future.any([
+        HistoryService.getMatchListByPuuid(userProvider.user.puuid),
+        Future.delayed(timeoutDuration).then((_) {
+          throw TimeoutException('Loading more data took too long');
+        }),
+      ]).then((results) async {
+        List<MatchHistory> newMatchList = results;
 
-      await _fetchAndUpdateMatches(userProvider, newMatchList, start, end);
-      setState(() {
-        _currentBatch++;
-        showToast = true;
-        toastMessage =
-            'Added ${newMatchList.length} new matches to your history.';
-        toastType = ToastTypes.success;
+        if (userProvider.user.matchDetailsMap.isNotEmpty) {
+          newMatchList.removeWhere((match) =>
+              userProvider.user.matchDetailsMap.containsKey(match.matchID));
+        }
+
+        int start = 0;
+        int end = min(start + pageSize, newMatchList.length);
+        print('_currentBatch: $_currentBatch');
+        print('start: $start');
+        print('end: $end');
+        print('newMatchList.length: ${newMatchList.length}');
+
+        if (start >= end || newMatchList.isEmpty) {
+          setState(() {
+            _isLoadingMore = false;
+          });
+          //No more matches to load.
+          _showToast('No more matches to load.', ToastTypes.info);
+          return;
+        }
+
+        await _fetchAndUpdateMatches(userProvider, newMatchList, start, end);
+        setState(() {
+          _currentBatch++;
+        });
+        _showToast(
+            'Added $end new matches to your history.', ToastTypes.success);
       });
+    } on TimeoutException catch (e) {
+      _showToast('Timeout: Unable to load more matches. Try again later.',
+          ToastTypes.error);
+      print('Timeout: Unable to load more matches. Try again later.');
     } catch (e) {
       print(e);
-      setState(() {
-        showToast = true;
-        toastMessage =
-            'Unable to find new matches. Either you have no new matches or there was an error. Try again later.';
-        toastType = ToastTypes.error;
-      });
-
-      Timer(const Duration(seconds: 4), () {
-        setState(() {
-          showToast = false;
-        });
-      });
+      _showToast(
+          'Unable to load more matches. Try again later.', ToastTypes.error);
     } finally {
       setState(() {
         _isLoadingMore = false;
@@ -208,36 +207,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder:
                     (context, categoryTypeProvider, contentProvider, child) {
                   return SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height,
-                      ),
-                      child: Stack(children: [
-                        Column(
-                          children: [
-                            const Padding(padding: EdgeInsets.only(top: 20)),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.05,
-                              ),
-                              child: const AgentTag(),
+                      child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height,
+                          ),
+                          child: Stack(children: [
+                            Column(
+                              children: [
+                                const Padding(
+                                    padding: EdgeInsets.only(top: 20)),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: MediaQuery.of(context).size.width *
+                                        0.05,
+                                  ),
+                                  child: const AgentTag(),
+                                ),
+                                const Padding(
+                                    padding: EdgeInsets.only(top: 20)),
+                                HistoryList(
+                                  onScroll: _loadMoreData,
+                                  isLoadingMore: _isLoadingMore,
+                                  onRefresh: _loadData,
+                                ),
+                              ],
                             ),
-                            const Padding(padding: EdgeInsets.only(top: 20)),
-                            HistoryList(
-                              onScroll: _loadMoreData,
-                              isLoadingMore: _isLoadingMore,
-                              onRefresh: _loadData,
+                            Toast(
+                              toastMessage: toastMessage,
+                              show: showToast,
+                              type: toastType,
                             ),
-                          ],
-                        ),
-                        Toast(
-                          toastMessage: toastMessage,
-                          show: showToast,
-                          type: toastType,
-                        ),
-                      ]),
-                    ),
-                  );
+                          ])));
                 },
               ),
             );

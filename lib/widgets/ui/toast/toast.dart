@@ -109,12 +109,6 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
   }
 
   @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (!isVisible) {
       return const SizedBox();
@@ -124,21 +118,24 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
 
     Color backgroundColor;
     Icon leadingIcon;
-
+    Color textColor;
+    print('widget.type: ${widget.type}');
     switch (widget.type) {
       case ToastTypes.error:
         backgroundColor = Theme.of(context).colorScheme.onError;
-        leadingIcon =
-            Icon(Icons.error, color: Theme.of(context).colorScheme.error);
+        leadingIcon = const Icon(Icons.error, color: Colors.white);
+        textColor = Colors.white;
         break;
       case ToastTypes.success:
         backgroundColor = const Color(0xff2e5a22);
         leadingIcon = const Icon(Icons.check_circle, color: Colors.white);
+        textColor = Colors.white;
         break;
       case ToastTypes.info:
         backgroundColor = Theme.of(context).colorScheme.primary;
         leadingIcon =
             Icon(Icons.info, color: Theme.of(context).colorScheme.onPrimary);
+        textColor = Theme.of(context).colorScheme.onPrimary;
         break;
     }
 
@@ -165,14 +162,11 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
                   leadingIcon,
                   const SizedBox(width: 8),
                   Expanded(
-                      child: Text(
-                    widget.toastMessage,
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: ToastTypes.error == widget.type
-                            ? Theme.of(context).colorScheme.onError
-                            : Theme.of(context).colorScheme.onPrimary),
-                  )),
+                      child: Text(widget.toastMessage,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: textColor,
+                          ))),
                 ],
               ),
             ),
