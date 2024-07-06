@@ -4,13 +4,12 @@ import 'package:valoralysis/models/item.dart';
 class CategoryTypeProvider with ChangeNotifier {
   Item overview = Item('Overview', 'overview');
   Item performance = Item('Performance', 'performance');
-  Item economy = Item('Economy', 'economy');
   Item gunfights = Item('Gunfights', 'gunfights');
 
   List<Item> queueTypes = [];
 
   CategoryTypeProvider() {
-    queueTypes = [overview, performance, economy, gunfights];
+    queueTypes = [overview, performance, gunfights];
   }
 
   String _selectedQueue = 'overview';
