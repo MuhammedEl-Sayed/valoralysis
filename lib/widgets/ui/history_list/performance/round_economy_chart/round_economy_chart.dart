@@ -26,6 +26,7 @@ class RoundEconomyChart extends StatelessWidget {
     int spentMoney = 0;
     int loadoutValue = 0;
     int totalMoney = 0;
+    Widget endIcon;
     switch (type) {
       case RoundEconomyChartType.player:
         color = Theme.of(context).colorScheme.primary;
@@ -37,6 +38,8 @@ class RoundEconomyChart extends StatelessWidget {
         totalMoney =
             EconomyUtils.getUserRemainingMoney(matchDetail, puuid, roundIndex) +
                 spentMoney;
+        endIcon =
+            EconomyUtils.getBuyIconFromRound(matchDetail, puuid, roundIndex);
       case RoundEconomyChartType.team:
         color = ThemeColors().green.withOpacity(0.5);
         labelText = 'Team';
@@ -47,6 +50,9 @@ class RoundEconomyChart extends StatelessWidget {
         totalMoney =
             EconomyUtils.getTeamRemainingMoney(matchDetail, puuid, roundIndex) +
                 spentMoney;
+        endIcon = EconomyUtils.getTeamBuyTypeFromRound(
+            matchDetail, puuid, roundIndex);
+
       case RoundEconomyChartType.enemy:
         color = ThemeColors().red.withOpacity(0.5);
         labelText = 'Enemy';
@@ -57,6 +63,8 @@ class RoundEconomyChart extends StatelessWidget {
         totalMoney = EconomyUtils.getEnemyRemainingMoney(
                 matchDetail, puuid, roundIndex) +
             spentMoney;
+        endIcon = EconomyUtils.getEnemyBuyTypeFromRound(
+            matchDetail, puuid, roundIndex);
     }
 
     //horizontal bar chart, label on the left, bar on the right, more text on top of the bar, use fl_chart for this
@@ -111,8 +119,7 @@ class RoundEconomyChart extends StatelessWidget {
                           getTitlesWidget: (value, meta) {
                             return Padding(
                                 padding: const EdgeInsets.only(bottom: 5),
-                                child: EconomyUtils.getBuyIconFromRound(
-                                    matchDetail, puuid, roundIndex));
+                                child: endIcon);
                           })),
                 ),
                 barGroups: [

@@ -36,6 +36,13 @@ class EconomyUtils {
     return getBuyIconFromType(buyType);
   }
 
+  static Widget getBuyIconFromMoney(
+      int userSpentMoney, int userFutureMoney, int userLoadoutValue) {
+    BuyType buyType =
+        getBuyTypeFromMoney(userSpentMoney, userFutureMoney, userLoadoutValue);
+    return getBuyIconFromType(buyType);
+  }
+
   static Widget getBuyIconFromType(BuyType buyType) {
     switch (buyType) {
       case BuyType.fullBuy:
@@ -307,6 +314,16 @@ class EconomyUtils {
         teamPUUIDs.length;
   }
 
+  static getTeamBuyTypeFromRound(
+      MatchDto matchDto, String puuid, int roundIndex) {
+    int teamSpentMoney = getTeamSpentMoney(matchDto, puuid, roundIndex);
+    int teamFutureMoney = getTeamRemainingMoney(matchDto, puuid, roundIndex);
+    int teamLoadoutValue = getTeamLoadoutValue(matchDto, puuid, roundIndex);
+
+    return getBuyTypeFromMoney(
+        teamSpentMoney, teamFutureMoney, teamLoadoutValue);
+  }
+
   static getEnemySpentMoney(MatchDto matchDto, String puuid, int roundIndex) {
     List<String> enemyPUUIDs =
         HistoryUtils.extractEnemyTeamPUUIDs(matchDto, puuid);
@@ -339,6 +356,16 @@ class EconomyUtils {
                 getUserRemainingMoney(matchDto, enemyPUUID, roundIndex))
             .reduce((value, element) => value + element) ~/
         enemyPUUIDs.length;
+  }
+
+  static getEnemyBuyTypeFromRound(
+      MatchDto matchDto, String puuid, int roundIndex) {
+    int enemySpentMoney = getEnemySpentMoney(matchDto, puuid, roundIndex);
+    int enemyFutureMoney = getEnemyRemainingMoney(matchDto, puuid, roundIndex);
+    int enemyLoadoutValue = getEnemyLoadoutValue(matchDto, puuid, roundIndex);
+
+    return getBuyTypeFromMoney(
+        enemySpentMoney, enemyFutureMoney, enemyLoadoutValue);
   }
 
 // Refactor getBuyTypeFromRound to use the new methods
