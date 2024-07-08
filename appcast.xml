@@ -3,16 +3,16 @@
     <channel>
         <title>Valoralysis App - Appcast</title>
         <item>
-            <title>Version 1.0.6+92</title>
-            <description>1.0.6+92: Fixing econ graphs. Test it out!</description>
-            <pubDate>Mon, 08 Jul 2024 02:24:27 +0000</pubDate>
-            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+92" sparkle:shortVersionString="1.0.6+92" sparkle:os="android"/>
+            <title>Version 1.0.6+94</title>
+            <description>1.0.6+94: 1.0.6+93: Fixed some inaccuracies with the econ chart, now you can filter based on which data by clicking on the legend!</description>
+            <pubDate>Mon, 08 Jul 2024 05:33:29 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+94" sparkle:shortVersionString="1.0.6+94" sparkle:os="android"/>
         </item>
            <item>
-            <title>Version 1.0.6+92</title>
-            <description>1.0.6+92: Fixing econ graphs. Test it out!</description>
-            <pubDate>Mon, 08 Jul 2024 02:24:27 +0000</pubDate>
-            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+92" sparkle:shortVersionString="1.0.6+92" sparkle:os="ios" />
+            <title>Version 1.0.6+94</title>
+            <description>1.0.6+94: 1.0.6+93: Fixed some inaccuracies with the econ chart, now you can filter based on which data by clicking on the legend!</description>
+            <pubDate>Mon, 08 Jul 2024 05:33:29 +0000</pubDate>
+            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+94" sparkle:shortVersionString="1.0.6+94" sparkle:os="ios" />
         </item>
     </channel>
 </rss>
