@@ -42,6 +42,20 @@ class _RoundEconomySectionState extends State<RoundEconomySection> {
         type: RoundEconomyChartType.player,
         selectionState: selectionState,
       ),
+      RoundEconomyChart(
+        matchDetail: widget.matchDetail,
+        puuid: widget.puuid,
+        roundIndex: widget.roundIndex,
+        type: RoundEconomyChartType.team,
+        selectionState: selectionState,
+      ),
+      RoundEconomyChart(
+        matchDetail: widget.matchDetail,
+        puuid: widget.puuid,
+        roundIndex: widget.roundIndex,
+        type: RoundEconomyChartType.enemy,
+        selectionState: selectionState,
+      ),
       RoundEconomyLegendSection(
         selectionState: selectionState,
         setSelected: setSelected,
