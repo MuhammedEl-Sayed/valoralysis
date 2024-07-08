@@ -113,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Provider.of<UserProvider>(context, listen: false);
     try {
       var timeoutDuration =
-          const Duration(microseconds: 7); // Adjust timeout duration as needed
+          const Duration(seconds: 8); // Adjust timeout duration as needed
       await Future.any([
         HistoryService.getMatchListByPuuid(userProvider.user.puuid),
         Future.delayed(timeoutDuration).then((_) {

@@ -50,8 +50,9 @@ class RoundEconomyChart extends StatelessWidget {
         totalMoney =
             EconomyUtils.getTeamRemainingMoney(matchDetail, puuid, roundIndex) +
                 spentMoney;
-        endIcon = EconomyUtils.getTeamBuyTypeFromRound(
-            matchDetail, puuid, roundIndex);
+        endIcon = EconomyUtils.getBuyIconFromType(
+            EconomyUtils.getTeamBuyTypeFromRound(
+                matchDetail, puuid, roundIndex));
 
       case RoundEconomyChartType.enemy:
         color = ThemeColors().red.withOpacity(0.5);
@@ -63,8 +64,9 @@ class RoundEconomyChart extends StatelessWidget {
         totalMoney = EconomyUtils.getEnemyRemainingMoney(
                 matchDetail, puuid, roundIndex) +
             spentMoney;
-        endIcon = EconomyUtils.getEnemyBuyTypeFromRound(
-            matchDetail, puuid, roundIndex);
+        endIcon = EconomyUtils.getBuyIconFromType(
+            EconomyUtils.getEnemyBuyTypeFromRound(
+                matchDetail, puuid, roundIndex));
     }
 
     //horizontal bar chart, label on the left, bar on the right, more text on top of the bar, use fl_chart for this
