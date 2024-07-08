@@ -10,6 +10,7 @@ import 'package:valoralysis/widgets/ui/agent_carousel_selector/agent_carousel_se
 import 'package:valoralysis/widgets/ui/category_selector/category_selector.dart';
 import 'package:valoralysis/widgets/ui/expandable_section/expandable_section.dart';
 import 'package:valoralysis/widgets/ui/history_list/performance/performance_chart/performance_chart.dart';
+import 'package:valoralysis/widgets/ui/history_list/performance/round_economy_section/round_economy_section.dart';
 import 'package:valoralysis/widgets/ui/history_list/performance/round_kill_feed/round_kill_feed.dart';
 import 'package:valoralysis/widgets/ui/history_list/round_history/round_history.dart';
 import 'package:valoralysis/widgets/ui/team_details_table/team_details_table.dart';
@@ -193,6 +194,10 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                             roundIndex: selectedRound,
                             matchDetail: widget.matchDetail)
                       ])),
+            RoundEconomySection(
+                matchDetail: widget.matchDetail,
+                puuid: widget.puuid,
+                roundIndex: selectedRound),
           ],
         ),
       ),

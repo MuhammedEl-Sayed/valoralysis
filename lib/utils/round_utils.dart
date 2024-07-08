@@ -7,7 +7,6 @@ import 'package:valoralysis/utils/agent_utils.dart';
 import 'package:valoralysis/utils/economy_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/widgets/ui/agent_tag/agent_icon.dart';
-import 'package:valoralysis/widgets/ui/history_list/performance/round_economy_chart/round_economy_chart.dart';
 import 'package:valoralysis/widgets/ui/marquee_text/marquee_text.dart';
 import 'package:valoralysis/widgets/ui/weapon_silhouette_image/weapon_silhouette_image.dart';
 
@@ -25,8 +24,7 @@ class RoundUtils {
     final killer = AgentUtils.extractAgentIdByPUUID(matchDetail, kill.killer);
     final damageType = kill.finishingDamage.damageType;
     final damageItem = kill.finishingDamage.damageItem;
-    print('damageType: $damageType');
-    print('damageItem: $damageItem');
+
     String damageItemId = kill.finishingDamage.damageItem;
 
     if (damageType == 'Bomb') {
@@ -78,7 +76,6 @@ class RoundUtils {
     final imageUrl = HistoryUtils.getSilhouetteImageFromId(
             HistoryUtils.getKillGunId(kill), weapons) ??
         '';
-    print('imageUrl: $imageUrl');
     return WeaponSilhouetteImage(
       imageUrl: imageUrl,
       height: 30,
@@ -181,24 +178,6 @@ class RoundUtils {
                   weapons, agents, roundIndex);
             }).toList(),
             const SizedBox(height: 10),
-            RoundEconomyChart(
-                matchDetail: matchDetail,
-                puuid: puuid,
-                roundIndex: roundIndex,
-                type: RoundEconomyChartType.player),
-            RoundEconomyChart(
-                matchDetail: matchDetail,
-                puuid: puuid,
-                roundIndex: roundIndex,
-                type: RoundEconomyChartType.team),
-            RoundEconomyChart(
-                matchDetail: matchDetail,
-                puuid: puuid,
-                roundIndex: roundIndex,
-                type: RoundEconomyChartType.enemy),
-            EconomyUtils.buildBuyColorLegend(
-                RoundEconomyChartType.player, context),
-            EconomyUtils.buildBuyTypeLegend()
           ],
         ),
       ),

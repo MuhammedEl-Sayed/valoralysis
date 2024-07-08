@@ -197,6 +197,15 @@ class HistoryUtils {
     return puuidsToKillListMap;
   }
 
+  //did playerDieInRound
+
+  static bool didPlayerDieInRound(
+      MatchDto matchDto, String puuid, int roundIndex) {
+    List<KillDto> deaths =
+        extractRoundDeathsByPUUID(matchDto, puuid)[roundIndex]!;
+    return deaths.isNotEmpty;
+  }
+
   static Map<int, List<KillDto>> getPlayerTrades(
       MatchDto matchDto, String puuid) {
     List<String> playerteamPUUIDs = extractPlayerTeamPUUIDs(matchDto, puuid);
@@ -379,6 +388,7 @@ class HistoryUtils {
       MatchDto matchDto, String puuid, int roundIndex) {
     RoundResultDto roundResult = getRoundResults(matchDto)[roundIndex];
     String playerTeamId = extractTeamIdFromPUUID(matchDto, puuid);
+
     return roundResult.winningTeam == playerTeamId;
   }
 

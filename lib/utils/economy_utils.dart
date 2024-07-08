@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/history_utils.dart';
-import 'package:valoralysis/widgets/ui/history_list/performance/round_economy_chart/round_economy_chart.dart';
 
 enum BuyType { fullBuy, halfBuy, forceBuy, eco, bonus, unknown }
 
@@ -94,109 +92,8 @@ class EconomyUtils {
     }
   }
 
-  static Widget buildBuyTypeLegend() {
-    return SizedBox(
-      height: 50,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: BuyType.values.map((type) {
-          if (type == BuyType.unknown) return const SizedBox.shrink();
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SizedBox(
-                height: 30, // Set a fixed height for the icons
-                child: EconomyUtils.getBuyIconFromType(type),
-              ),
-              Text(
-                buyTypeToStringMap[type]!,
-                style: const TextStyle(fontSize: 12),
-              ),
-            ],
-          );
-        }).toList(),
-      ),
-    );
-  }
-
-  static Widget buildBuyColorLegend(
-      RoundEconomyChartType type, BuildContext context) {
-    Color baseColor;
-
-    switch (type) {
-      case RoundEconomyChartType.player:
-        baseColor = Theme.of(context).colorScheme.primary;
-        break;
-      case RoundEconomyChartType.team:
-        baseColor = ThemeColors().green;
-        break;
-      case RoundEconomyChartType.enemy:
-        baseColor = ThemeColors().red;
-        break;
-      default:
-        baseColor = Colors.grey; // Fallback color
-    }
-
-    return Padding(
-      padding: const EdgeInsets.all(2),
-      child: SizedBox(
-        height: 30,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            // Light opacity
-            Column(
-              children: [
-                Container(
-                  width: 10,
-                  height: 10,
-                  decoration: ShapeDecoration(
-                    shape: const CircleBorder(),
-                    color: baseColor.withOpacity(0.1),
-                  ),
-                ),
-                const Text('Total Credits', style: TextStyle(fontSize: 12)),
-              ],
-            ),
-            // Medium opacity
-            Column(
-              children: [
-                Container(
-                    width: 10,
-                    height: 10,
-                    decoration: ShapeDecoration(
-                      shape: const CircleBorder(),
-                      color: baseColor.withOpacity(0.5),
-                    )),
-                const Text('Loadout Value', style: TextStyle(fontSize: 12)),
-              ],
-            ),
-            // Full opacity
-            Column(
-              children: [
-                Container(
-                    width: 10,
-                    height: 10,
-                    decoration: ShapeDecoration(
-                      shape: const CircleBorder(),
-                      color: baseColor,
-                    )),
-                const Text('Spent Credits', style: TextStyle(fontSize: 12)),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   static BuyType getBuyTypeFromMoney(
       int userSpentMoney, int userFutureMoney, int userLoadoutValue) {
-    /*
-    print('-------------------');
-    print('User spent money: $userSpentMoney');
-    print('User future money: $userFutureMoney');
-    print('User loadout value: $userLoadoutValue');*/
     //Trying to see if we save (you can buy sheriff round 1 and bonus round 2), but also if you have a full loadout
     if ((userLoadoutValue > 1000 && userSpentMoney < 1000) ||
         (userLoadoutValue >= 3900 && userSpentMoney < 3900)) {
@@ -231,21 +128,26 @@ class EconomyUtils {
 
   static int getLossStreakMoney(
       MatchDto matchDto, String puuid, int roundIndex) {
+    if (HistoryUtils.didPlayerWinRound(matchDto, puuid, roundIndex)) {
+      return 3000;
+    } else if (!HistoryUtils.didPlayerDieInRound(matchDto, puuid, roundIndex)) {
+      return 1000;
+    }
     int numLosses = 0;
     int currIndex = roundIndex;
-    for (int i = 1; i < 4; i++) {
+
+    for (int i = 1; i <= 4; i++) {
       // This modulus needs to change per game mode
       if (currIndex == 0 || currIndex == 12 || numLosses == 3) {
         break;
       }
       currIndex--;
-      if (HistoryUtils.didPlayerWinRound(matchDto, puuid, currIndex)) {
+      if (!HistoryUtils.didPlayerWinRound(matchDto, puuid, currIndex)) {
         numLosses++;
       } else {
         break;
       }
     }
-    print('Loss streak: ${lossStreakMap[numLosses]}');
     return lossStreakMap[numLosses];
   }
 
@@ -314,10 +216,21 @@ class EconomyUtils {
         teamPUUIDs.length;
   }
 
+  static getTeamFutureMoney(MatchDto matchDto, String puuid, int roundIndex) {
+    List<String> teamPUUIDs =
+        HistoryUtils.extractPlayerTeamPUUIDs(matchDto, puuid);
+    //average the future money of the team
+    return teamPUUIDs
+            .map((teamPUUID) =>
+                getUserFutureMoney(matchDto, teamPUUID, roundIndex))
+            .reduce((value, element) => value + element) ~/
+        teamPUUIDs.length;
+  }
+
   static getTeamBuyTypeFromRound(
       MatchDto matchDto, String puuid, int roundIndex) {
     int teamSpentMoney = getTeamSpentMoney(matchDto, puuid, roundIndex);
-    int teamFutureMoney = getTeamRemainingMoney(matchDto, puuid, roundIndex);
+    int teamFutureMoney = getTeamFutureMoney(matchDto, puuid, roundIndex);
     int teamLoadoutValue = getTeamLoadoutValue(matchDto, puuid, roundIndex);
 
     return getBuyTypeFromMoney(
@@ -358,10 +271,21 @@ class EconomyUtils {
         enemyPUUIDs.length;
   }
 
+  static getEnemyFutureMoney(MatchDto matchDto, String puuid, int roundIndex) {
+    List<String> enemyPUUIDs =
+        HistoryUtils.extractEnemyTeamPUUIDs(matchDto, puuid);
+    //average the future money of the enemy
+    return enemyPUUIDs
+            .map((enemyPUUID) =>
+                getUserFutureMoney(matchDto, enemyPUUID, roundIndex))
+            .reduce((value, element) => value + element) ~/
+        enemyPUUIDs.length;
+  }
+
   static getEnemyBuyTypeFromRound(
       MatchDto matchDto, String puuid, int roundIndex) {
     int enemySpentMoney = getEnemySpentMoney(matchDto, puuid, roundIndex);
-    int enemyFutureMoney = getEnemyRemainingMoney(matchDto, puuid, roundIndex);
+    int enemyFutureMoney = getEnemyFutureMoney(matchDto, puuid, roundIndex);
     int enemyLoadoutValue = getEnemyLoadoutValue(matchDto, puuid, roundIndex);
 
     return getBuyTypeFromMoney(
