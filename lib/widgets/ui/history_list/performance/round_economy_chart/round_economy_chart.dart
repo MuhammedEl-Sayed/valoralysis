@@ -11,7 +11,6 @@ class RoundEconomyChart extends StatelessWidget {
   final String puuid;
   final int roundIndex;
   final RoundEconomyChartType type;
-  final Map<String, bool> selectionState;
 
   const RoundEconomyChart({
     Key? key,
@@ -19,7 +18,6 @@ class RoundEconomyChart extends StatelessWidget {
     required this.puuid,
     required this.roundIndex,
     required this.type,
-    required this.selectionState,
   }) : super(key: key);
 
   @override
@@ -27,7 +25,6 @@ class RoundEconomyChart extends StatelessWidget {
     Color color = Colors.red;
     String labelText = '';
     int spentMoney = 0;
-    int loadoutValue = 0;
     int totalMoney = 0;
     Widget endIcon;
     switch (type) {
@@ -36,8 +33,7 @@ class RoundEconomyChart extends StatelessWidget {
         labelText = 'You';
         spentMoney =
             EconomyUtils.getUserSpentMoney(matchDetail, puuid, roundIndex);
-        loadoutValue =
-            EconomyUtils.getUserLoadoutValue(matchDetail, puuid, roundIndex);
+
         totalMoney =
             EconomyUtils.getUserRemainingMoney(matchDetail, puuid, roundIndex) +
                 spentMoney;
@@ -49,8 +45,7 @@ class RoundEconomyChart extends StatelessWidget {
         labelText = 'Team';
         spentMoney =
             EconomyUtils.getTeamSpentMoney(matchDetail, puuid, roundIndex);
-        loadoutValue =
-            EconomyUtils.getTeamLoadoutValue(matchDetail, puuid, roundIndex);
+
         totalMoney =
             EconomyUtils.getTeamRemainingMoney(matchDetail, puuid, roundIndex) +
                 spentMoney;
@@ -63,8 +58,7 @@ class RoundEconomyChart extends StatelessWidget {
         labelText = 'Enemy';
         spentMoney =
             EconomyUtils.getEnemySpentMoney(matchDetail, puuid, roundIndex);
-        loadoutValue =
-            EconomyUtils.getEnemyLoadoutValue(matchDetail, puuid, roundIndex);
+
         totalMoney = EconomyUtils.getEnemyRemainingMoney(
                 matchDetail, puuid, roundIndex) +
             spentMoney;
@@ -72,64 +66,6 @@ class RoundEconomyChart extends StatelessWidget {
             EconomyUtils.getEnemyBuyTypeFromRound(
                 matchDetail, puuid, roundIndex));
         break;
-    }
-
-    // Calculate bar values based on selection state
-    List<double> values = [];
-    List<Color> colors = [];
-    String comparisonText = '';
-
-    if (selectionState['totalCredits'] == true) {
-      values.add(totalMoney.toDouble());
-      colors.add(color.withOpacity(0.1));
-      comparisonText = 'Total';
-    }
-    if (selectionState['loadoutValue'] == true) {
-      values.add(loadoutValue.toDouble());
-      colors.add(color.withOpacity(0.5));
-      comparisonText =
-          comparisonText.isEmpty ? 'Loadout' : '$comparisonText vs Loadout';
-    }
-    if (selectionState['spentCredits'] == true) {
-      values.add(spentMoney.toDouble());
-      colors.add(color);
-      comparisonText =
-          comparisonText.isEmpty ? 'Spent' : '$comparisonText vs Spent';
-    }
-
-    // If none are selected, show all
-    if (values.isEmpty) {
-      values = [
-        totalMoney.toDouble(),
-        loadoutValue.toDouble(),
-        spentMoney.toDouble()
-      ];
-      colors = [color.withOpacity(0.1), color.withOpacity(0.5), color];
-      comparisonText = 'Total vs Loadout vs Spent';
-    }
-
-    double bar1Value = values[0];
-    double bar2Value = values.length > 1 ? values[1] : 0;
-    double bar3Value = values.length > 2 ? values[2] : 0;
-
-    Color bar1Color = colors[0];
-    Color bar2Color = colors.length > 1 ? colors[1] : color.withOpacity(0.1);
-    Color bar3Color = colors.length > 2 ? colors[2] : color.withOpacity(0.1);
-
-    if (bar2Value > bar1Value) {
-      double tempValue = bar1Value;
-      Color tempColor = bar1Color;
-      bar1Value = bar2Value;
-      bar1Color = bar2Color;
-      bar2Value = tempValue;
-      bar2Color = tempColor;
-    }
-
-    double maxValue = bar1Value;
-
-    String topText = '$spentMoney/${maxValue.toInt()}';
-    if (loadoutValue > totalMoney && roundIndex != 0 && roundIndex != 12) {
-      topText = 'Bonus, $topText';
     }
 
     return Container(
@@ -143,7 +79,7 @@ class RoundEconomyChart extends StatelessWidget {
         child: BarChart(
           BarChartData(
             alignment: BarChartAlignment.spaceAround,
-            maxY: maxValue,
+            maxY: totalMoney.toDouble(),
             minY: 0,
             groupsSpace: 10,
             gridData: const FlGridData(show: false),
@@ -178,7 +114,7 @@ class RoundEconomyChart extends StatelessWidget {
               ),
               leftTitles: AxisTitles(
                 axisNameWidget: Text(
-                  topText,
+                  '${spentMoney.toString()}/${totalMoney.toString()}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 14,
@@ -204,13 +140,10 @@ class RoundEconomyChart extends StatelessWidget {
                 x: 0,
                 barRods: [
                   BarChartRodData(
-                    toY: bar1Value,
-                    color: bar1Color,
+                    toY: totalMoney.toDouble(),
+                    color: color.withOpacity(0.3),
                     rodStackItems: [
-                      if (bar2Value > 0)
-                        BarChartRodStackItem(0, bar2Value, bar2Color),
-                      if (bar3Value > 0)
-                        BarChartRodStackItem(0, bar3Value, bar3Color),
+                      BarChartRodStackItem(0, spentMoney.toDouble(), color),
                     ],
                   ),
                 ],

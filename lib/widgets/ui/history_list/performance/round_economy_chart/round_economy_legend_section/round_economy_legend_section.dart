@@ -3,33 +3,23 @@ import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/utils/economy_utils.dart';
 import 'package:valoralysis/widgets/ui/history_list/performance/round_economy_chart/round_economy_chart.dart';
 
-class SelectableContainer extends StatelessWidget {
-  final bool isSelected;
+class LegendContainer extends StatelessWidget {
   final Widget child;
-  final VoidCallback onTap;
-
-  const SelectableContainer({
+  const LegendContainer({
     Key? key,
-    required this.isSelected,
     required this.child,
-    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(7),
-          color: isSelected
-              ? Theme.of(context).colorScheme.primary.withOpacity(0.2)
-              : Theme.of(context).colorScheme.surfaceVariant,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(5),
-          child: child,
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        color: Theme.of(context).colorScheme.surfaceVariant,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(5),
+        child: child,
       ),
     );
   }
@@ -71,48 +61,7 @@ class RoundEconomyLegendSection extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SelectableContainer(
-                isSelected: selectionState['totalCredits'] ?? false,
-                onTap: () => setSelected(
-                    'totalCredits', !(selectionState['totalCredits'] ?? false)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      width: 10,
-                      height: 10,
-                      decoration: ShapeDecoration(
-                        shape: const CircleBorder(),
-                        color: baseColor.withOpacity(0.1),
-                      ),
-                    ),
-                    const Text('Total Credits', style: TextStyle(fontSize: 12)),
-                  ],
-                ),
-              ),
-              SelectableContainer(
-                isSelected: selectionState['loadoutValue'] ?? false,
-                onTap: () => setSelected(
-                    'loadoutValue', !(selectionState['loadoutValue'] ?? false)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      width: 10,
-                      height: 10,
-                      decoration: ShapeDecoration(
-                        shape: const CircleBorder(),
-                        color: baseColor.withOpacity(0.5),
-                      ),
-                    ),
-                    const Text('Loadout Value', style: TextStyle(fontSize: 12)),
-                  ],
-                ),
-              ),
-              SelectableContainer(
-                isSelected: selectionState['spentCredits'] ?? false,
-                onTap: () => setSelected(
-                    'spentCredits', !(selectionState['spentCredits'] ?? false)),
+              LegendContainer(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -125,6 +74,22 @@ class RoundEconomyLegendSection extends StatelessWidget {
                       ),
                     ),
                     const Text('Spent Credits', style: TextStyle(fontSize: 12)),
+                  ],
+                ),
+              ),
+              LegendContainer(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      width: 10,
+                      height: 10,
+                      decoration: ShapeDecoration(
+                        shape: const CircleBorder(),
+                        color: baseColor.withOpacity(0.1),
+                      ),
+                    ),
+                    const Text('Total Credits', style: TextStyle(fontSize: 12)),
                   ],
                 ),
               ),
