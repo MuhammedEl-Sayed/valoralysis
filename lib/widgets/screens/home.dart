@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:valoralysis/api/services/history_service.dart';
@@ -29,9 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoadingMore = false;
   int _currentBatch = 1;
   List<MatchHistory> matchList = [];
-  bool showToast = false;
-  String toastMessage = '';
-  ToastTypes toastType = ToastTypes.info;
 
   @override
   void initState() {
@@ -53,16 +51,32 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _showToast(String message, ToastTypes type) {
-    setState(() {
-      showToast = true;
-      toastMessage = message;
-      toastType = type;
-    });
-    Timer(const Duration(seconds: 2), () {
-      setState(() {
-        showToast = false;
-      });
-    });
+    Color backgroundColor;
+    Color textColor;
+
+    switch (type) {
+      case ToastTypes.error:
+        backgroundColor = Colors.red;
+        textColor = Colors.white;
+        break;
+      case ToastTypes.success:
+        backgroundColor = Colors.green;
+        textColor = Colors.white;
+        break;
+      case ToastTypes.info:
+        backgroundColor = Colors.blue;
+        textColor = Colors.white;
+        break;
+    }
+
+    Fluttertoast.showToast(
+      msg: message,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 4,
+      backgroundColor: backgroundColor,
+      textColor: textColor,
+      fontSize: 16.0,
+    );
   }
 
   Future<void> _loadData() async {
@@ -92,10 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
       await userProvider.updateName(HistoryUtils.extractPlayerNameByPUUID(
           userProvider.user.matchDetailsMap.values.first,
           userProvider.user.puuid));
-//Added $end new matches to your history. ToastTypes.success;
       _showToast('Added $end new matches to your history.', ToastTypes.success);
     } catch (e) {
-      //Unable to load matches. Either you have no matches or there was an error. Try again later.';
       _showToast(
           'Unable to load matches. Either you have no matches or there was an error. Try again later.',
           ToastTypes.error);
@@ -138,7 +150,6 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {
             _isLoadingMore = false;
           });
-          //No more matches to load.
           _showToast('No more matches to load.', ToastTypes.info);
           return;
         }
@@ -211,33 +222,24 @@ class _HomeScreenState extends State<HomeScreen> {
                           constraints: BoxConstraints(
                             maxHeight: MediaQuery.of(context).size.height,
                           ),
-                          child: Stack(children: [
-                            Column(
-                              children: [
-                                const Padding(
-                                    padding: EdgeInsets.only(top: 20)),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width *
-                                        0.05,
-                                  ),
-                                  child: const AgentTag(),
+                          child: Column(
+                            children: [
+                              const Padding(padding: EdgeInsets.only(top: 20)),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.05,
                                 ),
-                                const Padding(
-                                    padding: EdgeInsets.only(top: 20)),
-                                HistoryList(
-                                  onScroll: _loadMoreData,
-                                  isLoadingMore: _isLoadingMore,
-                                  onRefresh: _loadData,
-                                ),
-                              ],
-                            ),
-                            Toast(
-                              toastMessage: toastMessage,
-                              show: showToast,
-                              type: toastType,
-                            ),
-                          ])));
+                                child: const AgentTag(),
+                              ),
+                              const Padding(padding: EdgeInsets.only(top: 20)),
+                              HistoryList(
+                                onScroll: _loadMoreData,
+                                isLoadingMore: _isLoadingMore,
+                                onRefresh: _loadData,
+                              ),
+                            ],
+                          )));
                 },
               ),
             );
