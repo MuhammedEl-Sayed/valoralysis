@@ -84,16 +84,67 @@ class TableUtils {
       ContentItem playerRank =
           RankUtils.getPlayerRank(matchDto, content.ranks, puuid);
       rows.add([
-        buildPlayerProfileCell(matchDto, PlayerDto(puuid: puuid), content.ranks,
-            content.agents, false, false),
         TeamTableCell.content(
-            backgroundColor: const Color(0xff2e1515),
-            child: Text(killsDeaths.item1.toString())),
+          backgroundColor: const Color(0xff2e1515),
+          Column(
+            children: //player agent Icon and then their name
+                [
+              CachedImage(
+                imageUrl: AgentUtils.getImageFromId(
+                        matchDto, puuid, content.agents) ??
+                    '',
+                width: 25,
+                height: 25,
+              ),
+              ClipRect(
+                child: SizedBox(
+                  width: 80, // Set your desired width here
+                  child: MarqueeText(
+                      direction: Axis.horizontal,
+                      child: Text(
+                        playerName,
+                        style: const TextStyle(fontSize: 13),
+                      )),
+                ),
+              ),
+            ],
+          ),
+        ),
+        //trhen put k-d with k green and d red, make backgroudn more red if more deaths than kills
         TeamTableCell.content(
-            backgroundColor: const Color(0xff2e1515),
-            child: Text(killsDeaths.item2.toString())),
+          backgroundColor: const Color(0xff2e1515),
+          Row(
+            children: [
+              Text(
+                '${killsDeaths.item1}',
+                style: const TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13),
+              ),
+              const Text(
+                '-',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13),
+              ),
+              Text(
+                '${killsDeaths.item2}',
+                style: TextStyle(
+                    color: killsDeaths.item2 > killsDeaths.item1
+                        ? Colors.red
+                        : Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13),
+              ),
+            ],
+          ),
+        ),
       ]);
     }
+
+    return rows;
   }
 
   static List<List<Widget>> buildPlayerDataRows(MatchDto matchDetail,

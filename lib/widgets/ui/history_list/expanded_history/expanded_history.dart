@@ -9,6 +9,7 @@ import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/widgets/ui/agent_carousel_selector/agent_carousel_selector.dart';
 import 'package:valoralysis/widgets/ui/category_selector/category_selector.dart';
 import 'package:valoralysis/widgets/ui/expandable_section/expandable_section.dart';
+import 'package:valoralysis/widgets/ui/history_list/gunfights/gunfights.dart';
 import 'package:valoralysis/widgets/ui/history_list/performance/performance_chart/performance_chart.dart';
 import 'package:valoralysis/widgets/ui/history_list/performance/round_economy_section/round_economy_section.dart';
 import 'package:valoralysis/widgets/ui/history_list/performance/round_kill_feed/round_kill_feed.dart';
@@ -173,27 +174,33 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                               isUserTeam: false),
                         ],
                       )
-                    : Column(children: [
-                        PerformanceChart(
-                            puuid: selectedPUUID,
-                            matchDetail: widget.matchDetail,
-                            selectedRound: selectedRound,
-                            onSelectedRoundChanged: (int round) {
-                              setState(() {
-                                selectedRound = round;
-                              });
-                            }), //
-                        RoundKillFeed(
-                            puuid: selectedPUUID,
-                            kills: HistoryUtils.extractPlayerKills(
-                                widget.matchDetail,
-                                selectedPUUID)[selectedRound] as List<KillDto>,
-                            deaths: HistoryUtils.extractRoundDeathsByPUUID(
-                                widget.matchDetail,
-                                selectedPUUID)[selectedRound] as List<KillDto>,
-                            roundIndex: selectedRound,
-                            matchDetail: widget.matchDetail)
-                      ])),
+                    : selectedCategory.realValue == 'performance'
+                        ? Column(children: [
+                            PerformanceChart(
+                                puuid: selectedPUUID,
+                                matchDetail: widget.matchDetail,
+                                selectedRound: selectedRound,
+                                onSelectedRoundChanged: (int round) {
+                                  setState(() {
+                                    selectedRound = round;
+                                  });
+                                }), //
+                            RoundKillFeed(
+                                puuid: selectedPUUID,
+                                kills: HistoryUtils.extractPlayerKills(
+                                        widget.matchDetail,
+                                        selectedPUUID)[selectedRound]
+                                    as List<KillDto>,
+                                deaths: HistoryUtils.extractRoundDeathsByPUUID(
+                                        widget.matchDetail,
+                                        selectedPUUID)[selectedRound]
+                                    as List<KillDto>,
+                                roundIndex: selectedRound,
+                                matchDetail: widget.matchDetail)
+                          ])
+                        : Gunfights(
+                            puuid: widget.puuid,
+                            matchDetail: widget.matchDetail)),
             RoundEconomySection(
                 matchDetail: widget.matchDetail,
                 puuid: widget.puuid,
