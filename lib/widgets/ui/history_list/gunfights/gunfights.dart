@@ -1,32 +1,23 @@
-import 'package:flutter/material.dart' hide DataColumn, DataRow, DataTable;
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
 import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/providers/content_provider.dart';
-import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/utils/table_utils.dart';
 import 'package:valoralysis/widgets/ui/team_details_table/team_table_cell.dart';
 
-class TeamDetailsTable extends StatelessWidget {
+class Gunfights extends StatelessWidget {
   final String puuid;
   final MatchDto matchDetail;
-  final bool isUserTeam;
 
-  const TeamDetailsTable(
-      {super.key,
-      required this.puuid,
-      required this.matchDetail,
-      required this.isUserTeam});
+  const Gunfights({Key? key, required this.puuid, required this.matchDetail})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     ContentProvider contentProvider = Provider.of<ContentProvider>(context);
-    UserProvider userProvider = Provider.of<UserProvider>(context);
-    List<List<Widget>> playerDataRows = TableUtils.buildPlayerDataRows(
-        matchDetail,
-        puuid,
-        contentProvider.content,
-        isUserTeam,
-        userProvider.user.puuid);
+    List<List<Widget>> playerDataRows = TableUtils.buildGunfightDataRows(
+        matchDetail, puuid, contentProvider.content);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return ClipRect(

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart'
     hide DataColumn, DataCell, DataRow, DataTable;
 import 'package:table_sticky_headers/table_sticky_headers.dart';
+import 'package:tuple/tuple.dart';
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/match_details.dart';
+import 'package:valoralysis/models/player_round_stats.dart';
 import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
 import 'package:valoralysis/utils/analysis/match_analysis.dart';
@@ -15,6 +17,85 @@ import 'package:valoralysis/widgets/ui/marquee_text/marquee_text.dart';
 import 'package:valoralysis/widgets/ui/team_details_table/team_table_cell.dart';
 
 class TableUtils {
+  static List<List<Widget>> buildGunfightDataRows(
+      MatchDto matchDto, String puuid, Content content) {
+    // To do this. We get enemy team. We put themin a table. Icon + name in one column. alternate background color. K/D vs that player. make it clickable but do nothing for now.
+    // We need to get player stats for all rounds, and do the same for the rest. then we can keep count of how many times they killed each other.
+    /*  HistoryUtils.extractEnemyTeamPUUIDs(matchDetail, puuid)
+            .map((enemy) =>
+                HistoryUtils.extractPlayerRoundStats(matchDetail, enemy))
+            .toList();*/
+    //us that to get the stats, map it to the string
+    Map<String, List<PlayerRoundStats>> enemies = HistoryUtils
+            .extractEnemyTeamPUUIDs(matchDto, puuid)
+        .map((enemy) => HistoryUtils.extractPlayerRoundStats(matchDto, enemy))
+        .toList()
+        .fold({}, (Map<String, List<PlayerRoundStats>> previousValue, element) {
+      previousValue[element[0].puuid] = element;
+      return previousValue;
+    });
+
+    Map<int, List<KillDto>> playerDeaths =
+        HistoryUtils.extractRoundDeathsByPUUID(matchDto, puuid);
+    Map<int, List<KillDto>> playerKills =
+        HistoryUtils.extractPlayerKills(matchDto, puuid);
+    List<List<Widget>> rows = [];
+    //Map<String, to a tuple>
+    Map<String, Tuple2<int, int>> playerGunfights = {};
+    //Go through kills and use index to check deaths and kills each round, stack up the puuids in the map
+    for (int i = 0; i < playerKills.length; i++) {
+      List<KillDto> kills = playerKills[i] ?? [];
+      List<KillDto> deaths = playerDeaths[i] ?? [];
+      for (KillDto kill in kills) {
+        String killedPUUID = kill.victim;
+        if (playerGunfights.containsKey(killedPUUID)) {
+          Tuple2<int, int> killsDeaths = playerGunfights[killedPUUID]!;
+          playerGunfights[killedPUUID] =
+              Tuple2(killsDeaths.item1 + 1, killsDeaths.item2);
+        } else {
+          playerGunfights[killedPUUID] = const Tuple2(1, 0);
+        }
+      }
+      for (KillDto death in deaths) {
+        String killerPUUID = death.killer;
+        if (playerGunfights.containsKey(killerPUUID)) {
+          Tuple2<int, int> killsDeaths = playerGunfights[killerPUUID]!;
+          playerGunfights[killerPUUID] =
+              Tuple2(killsDeaths.item1, killsDeaths.item2 + 1);
+        } else {
+          playerGunfights[killerPUUID] = const Tuple2(0, 1);
+        }
+      }
+    }
+
+    //Now we have the data, we can sort it by kills
+    List<MapEntry<String, Tuple2<int, int>>> sortedGunfights =
+        playerGunfights.entries.toList();
+    sortedGunfights.sort((a, b) {
+      return b.value.item1.compareTo(a.value.item1);
+    });
+
+    //NOW we can build the rows, get icon and name for one, and then put the kills and deaths in the other
+    for (var entry in sortedGunfights) {
+      String puuid = entry.key;
+      Tuple2<int, int> killsDeaths = entry.value;
+      String playerName =
+          HistoryUtils.extractPlayerNameByPUUID(matchDto, puuid);
+      ContentItem playerRank =
+          RankUtils.getPlayerRank(matchDto, content.ranks, puuid);
+      rows.add([
+        buildPlayerProfileCell(matchDto, PlayerDto(puuid: puuid), content.ranks,
+            content.agents, false, false),
+        TeamTableCell.content(
+            backgroundColor: const Color(0xff2e1515),
+            child: Text(killsDeaths.item1.toString())),
+        TeamTableCell.content(
+            backgroundColor: const Color(0xff2e1515),
+            child: Text(killsDeaths.item2.toString())),
+      ]);
+    }
+  }
+
   static List<List<Widget>> buildPlayerDataRows(MatchDto matchDetail,
       String puuid, Content content, bool isUserTeam, String userPUUID) {
     List<PlayerDto> players = [];
