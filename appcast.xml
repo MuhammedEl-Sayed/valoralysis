@@ -3,16 +3,16 @@
     <channel>
         <title>Valoralysis App - Appcast</title>
         <item>
-            <title>Version 1.0.6+98</title>
-            <description>1.0.6+98: trying new toast system</description>
-            <pubDate>Fri, 12 Jul 2024 00:08:24 +0000</pubDate>
-            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+98" sparkle:shortVersionString="1.0.6+98" sparkle:os="android"/>
+            <title>Version 1.0.6+99</title>
+            <description>1.0.6+99: First jab at gunfights table, expect it to be ugly/crash!</description>
+            <pubDate>Sun, 14 Jul 2024 03:54:34 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+99" sparkle:shortVersionString="1.0.6+99" sparkle:os="android"/>
         </item>
            <item>
-            <title>Version 1.0.6+98</title>
-            <description>1.0.6+98: trying new toast system</description>
-            <pubDate>Fri, 12 Jul 2024 00:08:24 +0000</pubDate>
-            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+98" sparkle:shortVersionString="1.0.6+98" sparkle:os="ios" />
+            <title>Version 1.0.6+99</title>
+            <description>1.0.6+99: First jab at gunfights table, expect it to be ugly/crash!</description>
+            <pubDate>Sun, 14 Jul 2024 03:54:34 +0000</pubDate>
+            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+99" sparkle:shortVersionString="1.0.6+99" sparkle:os="ios" />
         </item>
     </channel>
 </rss>
