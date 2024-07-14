@@ -3,16 +3,16 @@
     <channel>
         <title>Valoralysis App - Appcast</title>
         <item>
-            <title>Version 1.0.6+99</title>
-            <description>1.0.6+99: First jab at gunfights table, expect it to be ugly/crash!</description>
-            <pubDate>Sun, 14 Jul 2024 03:54:34 +0000</pubDate>
-            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+99" sparkle:shortVersionString="1.0.6+99" sparkle:os="android"/>
+            <title>Version 1.0.6+100</title>
+            <description>1.0.6+100: gunfight table is now working, boy is it an ugly motherfucker</description>
+            <pubDate>Sun, 14 Jul 2024 04:57:05 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+100" sparkle:shortVersionString="1.0.6+100" sparkle:os="android"/>
         </item>
            <item>
-            <title>Version 1.0.6+99</title>
-            <description>1.0.6+99: First jab at gunfights table, expect it to be ugly/crash!</description>
-            <pubDate>Sun, 14 Jul 2024 03:54:34 +0000</pubDate>
-            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+99" sparkle:shortVersionString="1.0.6+99" sparkle:os="ios" />
+            <title>Version 1.0.6+100</title>
+            <description>1.0.6+100: gunfight table is now working, boy is it an ugly motherfucker</description>
+            <pubDate>Sun, 14 Jul 2024 04:57:05 +0000</pubDate>
+            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+100" sparkle:shortVersionString="1.0.6+100" sparkle:os="ios" />
         </item>
     </channel>
 </rss>
