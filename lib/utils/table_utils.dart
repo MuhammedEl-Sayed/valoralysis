@@ -85,6 +85,7 @@ class TableUtils {
           RankUtils.getPlayerRank(matchDto, content.ranks, puuid);
       rows.add([
         TeamTableCell.content(
+          hasBorder: false,
           backgroundColor: const Color(0xff2e1515),
           Column(
             children: //player agent Icon and then their name
@@ -112,6 +113,7 @@ class TableUtils {
         ),
         //trhen put k-d with k green and d red, make backgroudn more red if more deaths than kills
         TeamTableCell.content(
+          hasBorder: false,
           backgroundColor: const Color(0xff2e1515),
           Row(
             children: [

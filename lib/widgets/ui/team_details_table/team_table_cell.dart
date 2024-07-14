@@ -8,12 +8,13 @@ class TeamTableCell extends StatelessWidget {
     this.textStyle,
     this.cellDimensions = CellDimensions.base,
     this.onTap,
+    bool? hasBorder = true,
     this.backgroundColor,
     this.intermediateWidget,
   })  : cellWidth = cellDimensions.contentCellWidth,
         cellHeight = cellDimensions.contentCellHeight,
         _padding = EdgeInsets.zero,
-        hasBorder = true,
+        hasBorder = hasBorder ?? true,
         super(key: key);
 
   TeamTableCell.legend(
@@ -22,12 +23,13 @@ class TeamTableCell extends StatelessWidget {
     this.textStyle,
     this.cellDimensions = CellDimensions.base,
     this.onTap,
+    bool? hasBorder = true,
     this.backgroundColor,
     this.intermediateWidget,
   })  : cellWidth = cellDimensions.stickyLegendWidth,
         cellHeight = cellDimensions.stickyLegendHeight,
         _padding = EdgeInsets.zero,
-        hasBorder = true,
+        hasBorder = hasBorder ?? true,
         super(key: key);
 
   TeamTableCell.stickyRow(

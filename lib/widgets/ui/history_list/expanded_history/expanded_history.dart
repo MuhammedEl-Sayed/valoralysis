@@ -196,15 +196,15 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                                         selectedPUUID)[selectedRound]
                                     as List<KillDto>,
                                 roundIndex: selectedRound,
-                                matchDetail: widget.matchDetail)
+                                matchDetail: widget.matchDetail),
+                            RoundEconomySection(
+                                matchDetail: widget.matchDetail,
+                                puuid: widget.puuid,
+                                roundIndex: selectedRound),
                           ])
                         : Gunfights(
                             puuid: widget.puuid,
                             matchDetail: widget.matchDetail)),
-            RoundEconomySection(
-                matchDetail: widget.matchDetail,
-                puuid: widget.puuid,
-                roundIndex: selectedRound),
           ],
         ),
       ),
