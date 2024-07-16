@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'package:valoralysis/utils/weapons_utils.dart';
-import 'package:valoralysis/utils/formatting_utils.dart';
-import 'package:valoralysis/widgets/ui/surface/surface.dart';
-import 'package:valoralysis/providers/user_data_provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
+import 'package:valoralysis/providers/user_provider.dart';
+import 'package:valoralysis/utils/formatting_utils.dart';
+import 'package:valoralysis/utils/weapons_utils.dart';
+import 'package:valoralysis/widgets/ui/surface/surface.dart';
 import 'package:valoralysis/widgets/ui/text_underlined/text_underlined.dart';
 
 class HeadshotTile extends StatelessWidget {
+  const HeadshotTile({super.key});
+
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider =

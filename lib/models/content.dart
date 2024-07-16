@@ -5,29 +5,26 @@ import 'package:valoralysis/models/abilities.dart';
 class ContentItem {
   String name;
   String uuid;
-  String hash;
   String? iconUrl;
   String? assetUrl;
   String? silhouetteUrl;
   Abilities? abilities;
 
-  ContentItem(this.name, this.uuid, this.hash,
+  ContentItem(this.name, this.uuid,
       {this.iconUrl, this.assetUrl, this.silhouetteUrl, this.abilities});
 
-  factory ContentItem.fromJson(Map<String, dynamic> json, String hash,
-      {String? iconUrl}) {
+  factory ContentItem.fromJson(Map<String, dynamic> json, {String? iconUrl}) {
     if (json['displayName'] == null || json['uuid'] == null) {
       throw ArgumentError('Invalid JSON: $json');
     }
     return ContentItem(
       json['displayName'] ?? 'Unknown',
       json['uuid'].toString().toLowerCase(),
-      hash,
       iconUrl: iconUrl ?? json['displayIcon'],
     );
   }
 
-  factory ContentItem.fromJsonAgents(Map<String, dynamic> json, String hash,
+  factory ContentItem.fromJsonAgents(Map<String, dynamic> json,
       {String? iconUrl, Map<String, File?>? abilityImages}) {
     if (json['displayName'] == null || json['uuid'] == null) {
       throw ArgumentError('Invalid JSON: $json');
@@ -36,7 +33,6 @@ class ContentItem {
     return ContentItem(
       json['displayName'] ?? 'Unknown',
       json['uuid'].toString().toLowerCase(),
-      hash,
       iconUrl: iconUrl ?? json['displayIcon'],
       abilities: Abilities(
           ability1: Ability.fromJson(
@@ -58,18 +54,17 @@ class ContentItem {
     );
   }
 
-  factory ContentItem.fromJsonMap(Map<String, dynamic> json, String hash,
+  factory ContentItem.fromJsonMap(Map<String, dynamic> json,
       {String? iconUrl}) {
     return ContentItem(
       json['displayName'] ?? json['name'] ?? 'Unknown',
       json['uuid'].toString().toLowerCase(),
-      hash,
       iconUrl: iconUrl ?? json['iconUrl'],
       assetUrl: json['mapUrl'],
     );
   }
 
-  factory ContentItem.fromJsonRanks(Map<String, dynamic> json, String hash,
+  factory ContentItem.fromJsonRanks(Map<String, dynamic> json,
       {String? iconUrl}) {
     if (json['tierName'] == null || json['tier'] == null) {
       throw ArgumentError('Invalid JSON: $json');
@@ -77,18 +72,17 @@ class ContentItem {
     return ContentItem(
       json['tierName'] ?? 'Unknown',
       json['tier'].toString(),
-      hash,
       iconUrl: iconUrl ?? json['smallIcon'],
     );
   }
 
-  factory ContentItem.fromJsonWeapon(Map<String, dynamic> json, String hash,
+  factory ContentItem.fromJsonWeapon(Map<String, dynamic> json,
       {String? iconUrl, String? silhouetteUrl}) {
     if (json['displayName'] == null || json['uuid'] == null) {
       throw ArgumentError('Invalid JSON: $json');
     }
-    return ContentItem(json['displayName'] ?? 'Unknown',
-        json['uuid'].toString().toLowerCase(), hash,
+    return ContentItem(
+        json['displayName'] ?? 'Unknown', json['uuid'].toString().toLowerCase(),
         iconUrl: iconUrl ?? json['displayIcon'],
         silhouetteUrl: silhouetteUrl ?? json['killStreamIcon']);
   }
@@ -99,7 +93,6 @@ class ContentItem {
       'uuid': uuid,
       'iconUrl': iconUrl,
       'assetUrl': assetUrl,
-      'hash': hash,
       'silhouetteUrl': silhouetteUrl,
       'abilities': abilities?.toJson(),
     };
@@ -127,7 +120,6 @@ class Content {
           .map((item) => ContentItem(
                 item['name'],
                 item['uuid'],
-                item['hash'],
                 iconUrl: item['iconUrl'] ?? '',
                 assetUrl: item['assetUrl'] ?? '',
               ))
@@ -136,7 +128,6 @@ class Content {
           .map((item) => ContentItem(
                 item['name'],
                 item['uuid'],
-                item['hash'],
                 iconUrl: item['iconUrl'] ?? '',
                 assetUrl: item['assetUrl'] ?? '',
                 abilities: Abilities.fromJson(item['abilities']),
@@ -146,7 +137,6 @@ class Content {
           .map((item) => ContentItem(
                 item['name'],
                 item['uuid'],
-                item['hash'],
                 iconUrl: item['iconUrl'] ?? '',
                 assetUrl: item['assetUrl'] ?? '',
               ))
@@ -155,7 +145,6 @@ class Content {
           .map((item) => ContentItem(
                 item['name'],
                 item['uuid'],
-                item['hash'],
                 iconUrl: item['iconUrl'] ?? '',
                 assetUrl: item['assetUrl'] ?? '',
               ))
@@ -164,7 +153,6 @@ class Content {
           .map((item) => ContentItem(
                 item['name'],
                 item['uuid'],
-                item['hash'],
                 iconUrl: item['iconUrl'] ?? '',
                 assetUrl: item['assetUrl'] ?? '',
               ))
@@ -173,7 +161,6 @@ class Content {
           .map((item) => ContentItem(
                 item['name'],
                 item['uuid'],
-                item['hash'],
                 iconUrl: item['iconUrl'] ?? '',
                 assetUrl: item['assetUrl'] ?? '',
                 silhouetteUrl: item['silhouetteUrl'] ?? '',

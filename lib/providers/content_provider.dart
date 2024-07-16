@@ -61,7 +61,7 @@ class ContentProvider with ChangeNotifier {
   Future<void> updateContent() async {
     print('Updating content');
     Content newContent = await ContentService.fetchContent();
-    if (ContentUtils.isContentOld(newContent, _content)) {
+    if (await ContentUtils.isContentOld()) {
       print('Content is old, updating');
       _content = newContent;
       await FileUtils.writeImageMap(_content);

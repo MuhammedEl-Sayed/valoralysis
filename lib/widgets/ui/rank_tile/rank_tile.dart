@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:valoralysis/consts/theme.dart';
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/providers/content_provider.dart';
-import 'package:valoralysis/providers/user_data_provider.dart';
+import 'package:valoralysis/providers/user_provider.dart';
 import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/rank_utils.dart';
 import 'package:valoralysis/widgets/ui/cached_image/cached_image.dart';

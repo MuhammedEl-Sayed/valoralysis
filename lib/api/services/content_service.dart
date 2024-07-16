@@ -68,14 +68,13 @@ class ContentService {
       try {
         for (var i = 0; i < images.length; i++) {
           if (images[i] != null) {
-            String hash = ImageCacheUtils.generateImageHash(images[i]!);
-
             Map<String, File?> abilityImages =
                 await ImageCacheUtils.downloadAbilityFiles(
                     abilityUrls[i], response.data['data'][i]['uuid']);
             contentItems.add(ContentItem.fromJsonAgents(
-                response.data['data'][i], hash,
-                iconUrl: images[i]!.path, abilityImages: abilityImages));
+                response.data['data'][i],
+                iconUrl: images[i]!.path,
+                abilityImages: abilityImages));
           }
         }
         stopwatch.stop();
@@ -117,8 +116,7 @@ class ContentService {
 
       for (var i = 0; i < images.length; i++) {
         if (images[i] != null && urls[i] != '') {
-          String hash = ImageCacheUtils.generateImageHash(images[i]!);
-          ranks.add(ContentItem.fromJsonRanks(lastDataObject['tiers'][i], hash,
+          ranks.add(ContentItem.fromJsonRanks(lastDataObject['tiers'][i],
               iconUrl: images[i]!.path));
         }
       }
@@ -162,9 +160,8 @@ class ContentService {
         List<File?> silhouetteImages = results[1];
         for (var i = 0; i < iconImages.length; i++) {
           if (silhouetteImages[i] != null && iconImages[i] != null) {
-            String hash = ImageCacheUtils.generateImageHash(iconImages[i]!);
             contentItems.add(ContentItem.fromJsonWeapon(
-                response.data['data'][i], hash,
+                response.data['data'][i],
                 iconUrl: iconImages[i]!.path,
                 silhouetteUrl: silhouetteImages[i]!.path));
           }
@@ -203,9 +200,7 @@ class ContentService {
       List<File?> images = await ImageCacheUtils.downloadImageFiles(urls, ids);
       for (var i = 0; i < images.length; i++) {
         if (images[i] != null) {
-          String hash = ImageCacheUtils.generateImageHash(images[i]!);
-          contentItems.add(ContentItem.fromJsonMap(
-              response.data['data'][i], hash,
+          contentItems.add(ContentItem.fromJsonMap(response.data['data'][i],
               iconUrl: images[i]!.path));
         }
       }
@@ -242,8 +237,7 @@ class ContentService {
       List<File?> images = await ImageCacheUtils.downloadImageFiles(urls, ids);
       for (var i = 0; i < images.length; i++) {
         if (images[i] != null) {
-          String hash = ImageCacheUtils.generateImageHash(images[i]!);
-          contentItems.add(ContentItem.fromJson(response.data['data'][i], hash,
+          contentItems.add(ContentItem.fromJson(response.data['data'][i],
               iconUrl: images[i]!.path));
         }
       }
