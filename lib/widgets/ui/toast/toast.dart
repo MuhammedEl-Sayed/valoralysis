@@ -17,30 +17,26 @@ class Toast {
   void showToast() {
     if (show) {
       Color backgroundColor;
-      Icon leadingIcon;
       Color textColor;
 
       switch (type) {
         case ToastTypes.error:
           backgroundColor = Colors.red;
-          leadingIcon = const Icon(Icons.error, color: Colors.white);
           textColor = Colors.white;
           break;
         case ToastTypes.success:
           backgroundColor = Colors.green;
-          leadingIcon = const Icon(Icons.check_circle, color: Colors.white);
           textColor = Colors.white;
           break;
         case ToastTypes.info:
           backgroundColor = Colors.blue;
-          leadingIcon = const Icon(Icons.info, color: Colors.white);
           textColor = Colors.white;
           break;
       }
 
       Fluttertoast.showToast(
         msg: toastMessage,
-        gravity: ToastGravity.BOTTOM,
+        gravity: ToastGravity.TOP,
         timeInSecForIosWeb: 4,
         backgroundColor: backgroundColor,
         textColor: textColor,

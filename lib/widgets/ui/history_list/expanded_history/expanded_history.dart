@@ -154,8 +154,11 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                                 puuid: selectedPUUID,
                               )
                             : const SizedBox()),
-                    RoundHistory(
-                        puuid: widget.puuid, matchDetail: widget.matchDetail),
+                    selectedCategory.realValue != 'gunfights'
+                        ? RoundHistory(
+                            puuid: widget.puuid,
+                            matchDetail: widget.matchDetail)
+                        : const SizedBox.shrink(),
                   ],
                 )),
             Visibility(
