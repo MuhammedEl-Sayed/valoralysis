@@ -3,16 +3,16 @@
     <channel>
         <title>Valoralysis App - Appcast</title>
         <item>
-            <title>Version 1.0.6+101</title>
-            <description>1.0.6+101: Toast now comes from the top. Also changed out when to fetch new content!</description>
-            <pubDate>Tue, 16 Jul 2024 23:54:12 +0000</pubDate>
-            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+101" sparkle:shortVersionString="1.0.6+101" sparkle:os="android"/>
+            <title>Version 1.0.6+102</title>
+            <description>1.0.6+102: Toast now comes from the top. Also changed out when to fetch new content!</description>
+            <pubDate>Wed, 17 Jul 2024 01:23:04 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+102" sparkle:shortVersionString="1.0.6+102" sparkle:os="android"/>
         </item>
            <item>
-            <title>Version 1.0.6+101</title>
-            <description>1.0.6+101: Toast now comes from the top. Also changed out when to fetch new content!</description>
-            <pubDate>Tue, 16 Jul 2024 23:54:12 +0000</pubDate>
-            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+101" sparkle:shortVersionString="1.0.6+101" sparkle:os="ios" />
+            <title>Version 1.0.6+102</title>
+            <description>1.0.6+102: Toast now comes from the top. Also changed out when to fetch new content!</description>
+            <pubDate>Wed, 17 Jul 2024 01:23:04 +0000</pubDate>
+            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+102" sparkle:shortVersionString="1.0.6+102" sparkle:os="ios" />
         </item>
     </channel>
 </rss>
