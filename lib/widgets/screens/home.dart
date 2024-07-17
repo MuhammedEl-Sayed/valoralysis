@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     Fluttertoast.showToast(
       msg: message,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.TOP,
       timeInSecForIosWeb: 4,
       backgroundColor: backgroundColor,
       textColor: textColor,
