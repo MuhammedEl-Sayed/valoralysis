@@ -876,14 +876,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.4.0"
-  valorant_client:
-    dependency: "direct main"
-    description:
-      name: valorant_client
-      sha256: "7157c84cef6454c90c403ba33fbb1aad880aaf99dcd0b1584362b22fa9031326"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.4"
   vector_graphics:
     dependency: transitive
     description:
