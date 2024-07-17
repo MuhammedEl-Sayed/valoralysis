@@ -20,12 +20,12 @@ class Toast {
       Color textColor;
 
       switch (type) {
-        case ToastTypes.error:
-          backgroundColor = Colors.red;
-          textColor = Colors.white;
-          break;
         case ToastTypes.success:
           backgroundColor = Colors.green;
+          textColor = Colors.white;
+          break;
+        case ToastTypes.error:
+          backgroundColor = Colors.red;
           textColor = Colors.white;
           break;
         case ToastTypes.info:
