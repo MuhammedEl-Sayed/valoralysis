@@ -6,7 +6,7 @@ import 'package:valoralysis/consts/images.dart';
 import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/models/user.dart';
 import 'package:valoralysis/providers/navigation_provider.dart';
-import 'package:valoralysis/providers/user_data_provider.dart';
+import 'package:valoralysis/providers/user_provider.dart';
 import 'package:valoralysis/utils/pick_random.dart';
 import 'package:valoralysis/widgets/ui/flashing_text/flashing_text.dart';
 import 'package:valoralysis/widgets/ui/login_search_bar/login_search_bar.dart';

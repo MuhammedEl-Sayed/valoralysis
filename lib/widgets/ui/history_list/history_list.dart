@@ -6,7 +6,7 @@ import 'package:valoralysis/consts/mock_data.dart';
 import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/providers/mode_provider.dart';
-import 'package:valoralysis/providers/user_data_provider.dart';
+import 'package:valoralysis/providers/user_provider.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/utils/time.dart';
 import 'package:valoralysis/widgets/ui/history_list/history_section_title/history_section_title.dart';

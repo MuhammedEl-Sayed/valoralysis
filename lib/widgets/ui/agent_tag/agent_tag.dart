@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
-import 'package:valoralysis/providers/user_data_provider.dart';
+import 'package:valoralysis/providers/user_provider.dart';
 import 'package:valoralysis/utils/analysis/agent_analysis.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/widgets/ui/agent_tag/agent_icon.dart';

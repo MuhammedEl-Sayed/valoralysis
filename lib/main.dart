@@ -10,7 +10,7 @@ import 'package:valoralysis/providers/category_provider.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/mode_provider.dart';
 import 'package:valoralysis/providers/navigation_provider.dart';
-import 'package:valoralysis/providers/user_data_provider.dart';
+import 'package:valoralysis/providers/user_provider.dart';
 import 'package:valoralysis/widgets/screens/home.dart';
 import 'package:valoralysis/widgets/screens/initial_sign_in.dart';
 import 'package:valoralysis/widgets/screens/settings.dart';

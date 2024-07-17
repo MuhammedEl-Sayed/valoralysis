@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:valoralysis/providers/user_data_provider.dart';
+import 'package:valoralysis/providers/user_provider.dart';
 
 class LoginSearchBar extends StatefulWidget {
   final ValueChanged<String> onUserNameChanged;

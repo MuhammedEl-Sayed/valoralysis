@@ -6,7 +6,7 @@ import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/providers/content_provider.dart';
 import 'package:valoralysis/providers/mode_provider.dart';
-import 'package:valoralysis/providers/user_data_provider.dart';
+import 'package:valoralysis/providers/user_provider.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
 import 'package:valoralysis/utils/formatting_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';

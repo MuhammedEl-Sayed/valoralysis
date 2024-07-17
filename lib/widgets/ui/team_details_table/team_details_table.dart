@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
 import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/providers/content_provider.dart';
-import 'package:valoralysis/providers/user_data_provider.dart';
+import 'package:valoralysis/providers/user_provider.dart';
 import 'package:valoralysis/utils/table_utils.dart';
 import 'package:valoralysis/widgets/ui/team_details_table/team_table_cell.dart';
 
