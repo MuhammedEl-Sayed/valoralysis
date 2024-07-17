@@ -39,7 +39,6 @@ dependencies:
 
   provider: ^6.1.1
   cookie_jar: ^3.0.1
-  valorant_client: ^1.1.4
   jwt_decoder: ^2.0.1
   shared_preferences: ^2.2.2
   dio_cookie_manager: ^2.0.0
@@ -61,7 +60,7 @@ dependencies:
   crypto: ^3.0.3
   table_sticky_headers: ^2.0.5
   fl_chart: ^0.68.0
-  upgrader: 
+  upgrader:
     path: ./upgrader-10.3.0
   shimmer: ^3.0.0
   liquid_pull_to_refresh: ^3.0.1
