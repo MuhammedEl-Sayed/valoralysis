@@ -23,11 +23,19 @@ Map buyTypeToStringMap = {
 
 class EconomyUtils {
   static int fullBuyValue = 3900;
-  /*
-   We are changing the approach.
-   To determine buy type:
-   1. Look at load
-  */
+
+  static int getEconScoreFromRound(
+      MatchDto matchDto, String puuid, int roundIndex) {
+    //damage dealt / (credits spent / 1000)
+    int damageDealt =
+        HistoryUtils.extractPlayerDamagePerRound(matchDto, puuid, roundIndex)
+            .map((e) => e.damage)
+            .reduce((value, element) => value + element);
+    int creditsSpent = getUserSpentMoney(matchDto, puuid, roundIndex);
+
+    return damageDealt ~/ (creditsSpent / 1000);
+  }
+
   static Widget getBuyIconFromRound(
       MatchDto matchDto, String puuid, int roundIndex) {
     BuyType buyType = getBuyTypeFromRound(matchDto, puuid, roundIndex);

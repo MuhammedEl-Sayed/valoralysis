@@ -5,6 +5,7 @@ import 'package:valoralysis/consts/margins.dart';
 import 'package:valoralysis/models/item.dart';
 import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
+import 'package:valoralysis/utils/economy_utils.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 import 'package:valoralysis/widgets/ui/agent_carousel_selector/agent_carousel_selector.dart';
 import 'package:valoralysis/widgets/ui/category_selector/category_selector.dart';
@@ -200,6 +201,9 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                                     as List<KillDto>,
                                 roundIndex: selectedRound,
                                 matchDetail: widget.matchDetail),
+                            Text(
+                              'Econ Score: ${EconomyUtils.getEconScoreFromRound(widget.matchDetail, selectedPUUID, selectedRound)}',
+                            ),
                             RoundEconomySection(
                                 matchDetail: widget.matchDetail,
                                 puuid: widget.puuid,
