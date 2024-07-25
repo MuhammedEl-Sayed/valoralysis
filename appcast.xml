@@ -3,16 +3,16 @@
     <channel>
         <title>Valoralysis App - Appcast</title>
         <item>
-            <title>Version 1.0.6+105</title>
-            <description>1.0.6+105: Added basic econ score</description>
-            <pubDate>Thu, 25 Jul 2024 20:22:29 +0000</pubDate>
-            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+105" sparkle:shortVersionString="1.0.6+105" sparkle:os="android"/>
+            <title>Version 1.0.6+106</title>
+            <description>1.0.6+106: Added basic econ score</description>
+            <pubDate>Thu, 25 Jul 2024 20:48:59 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+106" sparkle:shortVersionString="1.0.6+106" sparkle:os="android"/>
         </item>
            <item>
-            <title>Version 1.0.6+105</title>
-            <description>1.0.6+105: Added basic econ score</description>
-            <pubDate>Thu, 25 Jul 2024 20:22:29 +0000</pubDate>
-            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+105" sparkle:shortVersionString="1.0.6+105" sparkle:os="ios" />
+            <title>Version 1.0.6+106</title>
+            <description>1.0.6+106: Added basic econ score</description>
+            <pubDate>Thu, 25 Jul 2024 20:48:59 +0000</pubDate>
+            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+106" sparkle:shortVersionString="1.0.6+106" sparkle:os="ios" />
         </item>
     </channel>
 </rss>
