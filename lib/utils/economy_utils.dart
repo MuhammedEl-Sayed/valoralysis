@@ -26,7 +26,6 @@ class EconomyUtils {
 
   static int getEconScoreFromRound(
       MatchDto matchDto, String puuid, int roundIndex) {
-    //damage dealt / (credits spent / 1000)
     int damageDealt =
         HistoryUtils.extractPlayerDamagePerRound(matchDto, puuid, roundIndex)
             .map((e) => e.damage)
