@@ -24,15 +24,30 @@ Map buyTypeToStringMap = {
 class EconomyUtils {
   static int fullBuyValue = 3900;
 
-  static int getEconScoreFromRound(
+  static int? getEconScoreFromRound(
       MatchDto matchDto, String puuid, int roundIndex) {
-    int damageDealt =
-        HistoryUtils.extractPlayerDamagePerRound(matchDto, puuid, roundIndex)
-            .map((e) => e.damage)
-            .reduce((value, element) => value + element);
-    int creditsSpent = getUserSpentMoney(matchDto, puuid, roundIndex);
-
-    return damageDealt ~/ (creditsSpent / 1000);
+    try {
+      List<DamageDto> damageDealtList =
+          HistoryUtils.extractPlayerDamagePerRound(matchDto, puuid, roundIndex);
+      if (damageDealtList.isEmpty) {
+        return null;
+      }
+      int damageDealt = damageDealtList
+          .map((e) => e.damage)
+          .reduce((value, element) => value + element);
+      if (damageDealt == 0) {
+        return null;
+      }
+      int creditsSpent = getUserSpentMoney(matchDto, puuid, roundIndex);
+      print(
+          'Damage dealt: $damageDealt, Credits spent: $creditsSpent, Econ score: ${damageDealt ~/ (creditsSpent / 1000)}');
+      print(
+          'damageDealt ~/ (creditsSpent / 1000) = ${damageDealt ~/ (creditsSpent / 1000)}');
+      return damageDealt ~/ (creditsSpent / 1000);
+    } catch (e) {
+      print('Failed to get econ score from round');
+      return null;
+    }
   }
 
   static Widget getBuyIconFromRound(

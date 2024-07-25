@@ -87,9 +87,11 @@ class HistoryUtils {
 
   static List<DamageDto> extractPlayerDamagePerRound(
       MatchDto matchDto, String puuid, int roundIndex) {
-    return extractPlayerDamage(matchDto, puuid)[roundIndex]!
-        .where((damage) => damage.receiver != puuid)
-        .toList();
+    //extractPlayerDamage(matchDto, puuid)[roundIndex] but only the damage where the receiver is not the player and return null if the list is empty
+    return extractPlayerDamage(matchDto, puuid)[roundIndex]
+            ?.where((damage) => damage.receiver != puuid)
+            .toList() ??
+        [];
   }
 
   static Map<int, List<KillDto>> extractPlayerKills(

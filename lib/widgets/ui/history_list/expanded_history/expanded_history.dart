@@ -94,6 +94,8 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
         ),
       ),
     );
+    int? econScore = EconomyUtils.getEconScoreFromRound(
+        widget.matchDetail, selectedPUUID, selectedRound);
     return ExpandableSection(
       expanded: widget.opened,
       child: Container(
@@ -201,9 +203,11 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
                                     as List<KillDto>,
                                 roundIndex: selectedRound,
                                 matchDetail: widget.matchDetail),
-                            Text(
-                              'Econ Score: ${EconomyUtils.getEconScoreFromRound(widget.matchDetail, selectedPUUID, selectedRound)}',
-                            ),
+                            econScore != null
+                                ? Text(
+                                    'Econ Score: $econScore',
+                                  )
+                                : const SizedBox.shrink(),
                             RoundEconomySection(
                                 matchDetail: widget.matchDetail,
                                 puuid: widget.puuid,
