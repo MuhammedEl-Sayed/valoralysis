@@ -21,47 +21,39 @@ class Gunfights extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return Center(
-            child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 300,
-                child: Center(
-                    child: SizedBox(
-                  width: 200,
-                  child: StickyHeadersTable(
-                    cellAlignments:
-                        const CellAlignments.uniform(Alignment.center),
-                    showHorizontalScrollbar: false,
-                    showVerticalScrollbar: false,
-                    columnsLength: 1,
-                    rowsLength: 5,
-                    columnsTitleBuilder: (int index) {
-                      print(index);
-                      String title;
-                      switch (index) {
-                        case 0:
-                          title = 'K-D';
-                          break;
+        return SizedBox(
+            width: constraints.maxWidth,
+            height: 55 * 5.0 + 26.0,
+            child: StickyHeadersTable(
+              cellAlignments: const CellAlignments.uniform(Alignment.center),
+              showHorizontalScrollbar: false,
+              showVerticalScrollbar: false,
+              columnsLength: 1,
+              rowsLength: 5,
+              columnsTitleBuilder: (int index) {
+                print(index);
+                String title;
+                switch (index) {
+                  case 0:
+                    title = '';
+                    break;
 
-                        default:
-                          title = '';
-                      }
-                      return TeamTableCell.stickyColumn(
-                        hasBorder: false,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.surfaceVariant,
-                        Text(title),
-                      );
-                    },
-                    rowsTitleBuilder: (int index) {
-                      print(playerDataRows[index][0]);
-                      return playerDataRows[index][0];
-                    },
-                    contentCellBuilder: (int columnIndex, int rowIndex) {
-                      return playerDataRows[rowIndex][1];
-                    },
-                  ),
-                ))));
+                  default:
+                    title = '';
+                }
+                return TeamTableCell.stickyColumn(
+                  hasBorder: false,
+                  backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+                  Text(title),
+                );
+              },
+              rowsTitleBuilder: (int index) {
+                return playerDataRows[index][0];
+              },
+              contentCellBuilder: (int columnIndex, int rowIndex) {
+                return playerDataRows[rowIndex][1];
+              },
+            ));
       },
     );
   }

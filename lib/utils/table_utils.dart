@@ -76,8 +76,9 @@ class TableUtils {
       rows.add([
         TeamTableCell.content(
           hasBorder: false,
-          backgroundColor: const Color(0xff2e1515),
+          backgroundColor: const Color(0xff1F1A1C),
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: //player agent Icon and then their name
                 [
               CachedImage(
@@ -104,8 +105,9 @@ class TableUtils {
         //trhen put k-d with k green and d red, make backgroudn more red if more deaths than kills
         TeamTableCell.content(
           hasBorder: false,
-          backgroundColor: const Color(0xff2e1515),
+          backgroundColor: const Color(0xff1F1A1C),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 '${killsDeaths.item1}',
