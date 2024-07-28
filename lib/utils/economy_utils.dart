@@ -3,7 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:valoralysis/models/match_details.dart';
 import 'package:valoralysis/utils/history_utils.dart';
 
-enum BuyType { fullBuy, halfBuy, forceBuy, eco, bonus, unknown }
+enum BuyType {
+  unknown,
+  bonus,
+  eco,
+  forceBuy,
+  halfBuy,
+  fullBuy,
+}
 
 Map lossStreakMap = {
   0: 0,

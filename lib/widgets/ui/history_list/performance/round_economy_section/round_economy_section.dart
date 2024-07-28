@@ -34,29 +34,44 @@ class _RoundEconomySectionState extends State<RoundEconomySection> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      RoundEconomyChart(
-        matchDetail: widget.matchDetail,
-        puuid: widget.puuid,
-        roundIndex: widget.roundIndex,
-        type: RoundEconomyChartType.player,
-      ),
-      RoundEconomyChart(
-        matchDetail: widget.matchDetail,
-        puuid: widget.puuid,
-        roundIndex: widget.roundIndex,
-        type: RoundEconomyChartType.team,
-      ),
-      RoundEconomyChart(
-        matchDetail: widget.matchDetail,
-        puuid: widget.puuid,
-        roundIndex: widget.roundIndex,
-        type: RoundEconomyChartType.enemy,
-      ),
-      RoundEconomyLegendSection(
-        selectionState: selectionState,
-        setSelected: setSelected,
-      ),
-    ]);
+    return Center(
+        child: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Theme.of(context).canvasColor,
+                ),
+                child: Column(children: [
+                  const Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        'Economy',
+                        style: TextStyle(fontSize: 17),
+                      )),
+                  RoundEconomyChart(
+                    matchDetail: widget.matchDetail,
+                    puuid: widget.puuid,
+                    roundIndex: widget.roundIndex,
+                    type: RoundEconomyChartType.player,
+                  ),
+                  RoundEconomyChart(
+                    matchDetail: widget.matchDetail,
+                    puuid: widget.puuid,
+                    roundIndex: widget.roundIndex,
+                    type: RoundEconomyChartType.team,
+                  ),
+                  RoundEconomyChart(
+                    matchDetail: widget.matchDetail,
+                    puuid: widget.puuid,
+                    roundIndex: widget.roundIndex,
+                    type: RoundEconomyChartType.enemy,
+                  ),
+                  RoundEconomyLegendSection(
+                    selectionState: selectionState,
+                    setSelected: setSelected,
+                  ),
+                ]))));
   }
 }

@@ -34,6 +34,7 @@ final ThemeData darkTheme = ThemeData(
         onSecondary: ThemeColors.darkOnSurfaceVariant,
         onBackground: ThemeColors.darkOnSurfaceVariant,
         onError: ThemeColors.darkErrorContainer),
+    shadowColor: ThemeColors.darkError,
     appBarTheme: const AppBarTheme(
       color: ThemeColors.darkAppBarColor,
     ),

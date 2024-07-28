@@ -98,8 +98,11 @@ class _ExpandedHistoryState extends State<ExpandedHistory> {
       expanded: widget.opened,
       child: Container(
         margin: EdgeInsets.only(left: margin, right: margin),
-        decoration:
-            BoxDecoration(color: Theme.of(context).colorScheme.surfaceVariant),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceVariant,
+          borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
+        ),
         child: Column(
           children: [
             Divider(

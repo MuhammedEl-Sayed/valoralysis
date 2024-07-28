@@ -161,7 +161,6 @@ class RoundUtils {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
-        decoration: _buildContainerDecoration(context, false),
         child: Column(
           children: [
             const Padding(
@@ -205,10 +204,9 @@ class RoundUtils {
     return BoxDecoration(
       boxShadow: [
         BoxShadow(
-          color: Theme.of(context).colorScheme.surfaceVariant,
-          spreadRadius: 1,
-          blurRadius: 5,
-          offset: const Offset(0, 3),
+          color: Theme.of(context).shadowColor.withOpacity(0.4),
+          offset: const Offset(0, 2),
+          blurRadius: 4,
         ),
       ],
       color: isTile

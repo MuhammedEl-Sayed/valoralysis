@@ -16,6 +16,13 @@ class LegendContainer extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7),
         color: Theme.of(context).colorScheme.surfaceVariant,
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).shadowColor.withOpacity(0.4),
+            offset: const Offset(0, 2),
+            blurRadius: 4,
+          ),
+        ],
       ),
       child: Padding(
         padding: const EdgeInsets.all(5),
@@ -97,33 +104,47 @@ class RoundEconomyLegendSection extends StatelessWidget {
           ),
         ),
       ),
-      SizedBox(
-        height: 55,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: BuyType.values.map((type) {
-            if (type == BuyType.unknown) return const SizedBox.shrink();
-            return Padding(
-                padding: const EdgeInsets.only(
-                  right: 5,
-                  left: 5,
+      Padding(
+          padding: const EdgeInsets.all(5),
+          child: Container(
+            height: 60,
+            width: MediaQuery.of(context).size.width * 0.7,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Theme.of(context).colorScheme.surfaceVariant,
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).shadowColor.withOpacity(0.4),
+                  offset: const Offset(0, 2),
+                  blurRadius: 4,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                      height: 30, // Set a fixed height for the icons
-                      child: EconomyUtils.getBuyIconFromType(type),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: BuyType.values.map((type) {
+                if (type == BuyType.unknown) return const SizedBox.shrink();
+                return Padding(
+                    padding: const EdgeInsets.only(
+                      right: 5,
+                      left: 5,
                     ),
-                    Text(
-                      buyTypeToStringMap[type]!,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ));
-          }).toList(),
-        ),
-      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 30, // Set a fixed height for the icons
+                          child: EconomyUtils.getBuyIconFromType(type),
+                        ),
+                        Text(
+                          buyTypeToStringMap[type]!,
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ));
+              }).toList(),
+            ),
+          )),
       const SizedBox(height: 10),
     ]);
   }

@@ -199,8 +199,8 @@ class TableUtils {
       List<Widget> row = [
         profile,
         wrapWithTeamTableCellContent(Text(stats.kills.toString())),
-        wrapWithTeamTableCellContent(Text(stats.assists.toString())),
         wrapWithTeamTableCellContent(Text(stats.deaths.toString())),
+        wrapWithTeamTableCellContent(Text(stats.assists.toString())),
         wrapWithTeamTableCellContent(Text(hs)),
         wrapWithTeamTableCellContent(Text(stats.kd.toString())),
         wrapWithTeamTableCellContent(Text('$kast%')),
