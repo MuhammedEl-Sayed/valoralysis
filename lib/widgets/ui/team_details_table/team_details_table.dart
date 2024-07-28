@@ -57,28 +57,28 @@ class TeamDetailsTable extends StatelessWidget {
                     String title;
                     switch (index) {
                       case 0:
-                        title = 'KAST';
-                        break;
-                      case 1:
-                        title = 'KD';
-                        break;
-                      case 2:
                         title = 'K';
                         break;
-                      case 3:
+                      case 1:
                         title = 'D';
                         break;
-                      case 4:
+                      case 2:
                         title = 'A';
                         break;
+                      case 3:
+                        title = 'HS%';
+                        break;
+                      case 4:
+                        title = 'KD';
+                        break;
                       case 5:
-                        title = 'T';
+                        title = 'KAST';
                         break;
                       case 6:
-                        title = 'ADR';
+                        title = 'T';
                         break;
                       case 7:
-                        title = 'HS%';
+                        title = 'ADR';
                         break;
                       default:
                         title = '';

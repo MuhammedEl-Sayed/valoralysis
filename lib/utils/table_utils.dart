@@ -4,7 +4,6 @@ import 'package:table_sticky_headers/table_sticky_headers.dart';
 import 'package:tuple/tuple.dart';
 import 'package:valoralysis/models/content.dart';
 import 'package:valoralysis/models/match_details.dart';
-import 'package:valoralysis/models/player_round_stats.dart';
 import 'package:valoralysis/models/player_stats.dart';
 import 'package:valoralysis/utils/agent_utils.dart';
 import 'package:valoralysis/utils/analysis/match_analysis.dart';
@@ -25,15 +24,6 @@ class TableUtils {
             .map((enemy) =>
                 HistoryUtils.extractPlayerRoundStats(matchDetail, enemy))
             .toList();*/
-    //us that to get the stats, map it to the string
-    Map<String, List<PlayerRoundStats>> enemies = HistoryUtils
-            .extractEnemyTeamPUUIDs(matchDto, puuid)
-        .map((enemy) => HistoryUtils.extractPlayerRoundStats(matchDto, enemy))
-        .toList()
-        .fold({}, (Map<String, List<PlayerRoundStats>> previousValue, element) {
-      previousValue[element[0].puuid] = element;
-      return previousValue;
-    });
 
     Map<int, List<KillDto>> playerDeaths =
         HistoryUtils.extractRoundDeathsByPUUID(matchDto, puuid);
@@ -208,14 +198,14 @@ class TableUtils {
 
       List<Widget> row = [
         profile,
-        wrapWithTeamTableCellContent(Text('$kast%')),
-        wrapWithTeamTableCellContent(Text(stats.kd.toString())),
         wrapWithTeamTableCellContent(Text(stats.kills.toString())),
-        wrapWithTeamTableCellContent(Text(stats.deaths.toString())),
         wrapWithTeamTableCellContent(Text(stats.assists.toString())),
+        wrapWithTeamTableCellContent(Text(stats.deaths.toString())),
+        wrapWithTeamTableCellContent(Text(hs)),
+        wrapWithTeamTableCellContent(Text(stats.kd.toString())),
+        wrapWithTeamTableCellContent(Text('$kast%')),
         wrapWithTeamTableCellContent(Text(numTrades.toString())),
         wrapWithTeamTableCellContent(Text(adr.toString())),
-        wrapWithTeamTableCellContent(Text(hs)),
       ];
       rows.add(row);
     }
