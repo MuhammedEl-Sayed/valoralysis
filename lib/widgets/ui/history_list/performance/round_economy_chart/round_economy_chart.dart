@@ -72,7 +72,8 @@ class RoundEconomyChart extends StatelessWidget {
 
     return Column(children: [
       Container(
-        padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
+        padding:
+            const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
         constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width,
           maxHeight: 50,

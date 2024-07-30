@@ -105,7 +105,7 @@ class RoundEconomyLegendSection extends StatelessWidget {
         ),
       ),
       Padding(
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(8),
           child: Container(
             height: 60,
             width: MediaQuery.of(context).size.width * 0.7,
