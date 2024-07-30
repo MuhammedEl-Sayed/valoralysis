@@ -3,16 +3,16 @@
     <channel>
         <title>Valoralysis App - Appcast</title>
         <item>
-            <title>Version 1.0.6+108</title>
-            <description>1.0.6+108: Removed Econ Score, Re-arranged table to have K/D/A first, cleaner design on kill feed page.</description>
-            <pubDate>Sun, 28 Jul 2024 23:00:41 +0000</pubDate>
-            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+108" sparkle:shortVersionString="1.0.6+108" sparkle:os="android"/>
+            <title>Version 1.0.6+109</title>
+            <description>1.0.6+109: Better padding</description>
+            <pubDate>Tue, 30 Jul 2024 01:05:57 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.melsayed.valoralysis" sparkle:version="1.0.6+109" sparkle:shortVersionString="1.0.6+109" sparkle:os="android"/>
         </item>
            <item>
-            <title>Version 1.0.6+108</title>
-            <description>1.0.6+108: Removed Econ Score, Re-arranged table to have K/D/A first, cleaner design on kill feed page.</description>
-            <pubDate>Sun, 28 Jul 2024 23:00:41 +0000</pubDate>
-            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+108" sparkle:shortVersionString="1.0.6+108" sparkle:os="ios" />
+            <title>Version 1.0.6+109</title>
+            <description>1.0.6+109: Better padding</description>
+            <pubDate>Tue, 30 Jul 2024 01:05:57 +0000</pubDate>
+            <enclosure url="https://testflight.apple.com/join/GvMIafzD"  sparkle:version="1.0.6+109" sparkle:shortVersionString="1.0.6+109" sparkle:os="ios" />
         </item>
     </channel>
 </rss>
